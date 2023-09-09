@@ -1,0 +1,150 @@
+title: "Home"
+path: "home"
+
+cards:
+  - type: "custom:button-card"
+    template: "card_esh_welcome"
+    triggers_update: "input_boolean.minimalist_dropdown"
+    variables:
+      ulm_card_esh_welcome_collapse: input_boolean.minimalist_dropdown
+      ulm_weather: "weather.forecast_tegel_home"
+      entity_1:
+        nav: "house"
+        icon: "mdi:home"
+        name: "House"
+        color: "blue"
+      entity_2:
+        nav: "lights"
+        icon: "mdi:lightbulb"
+        name: "Lights"
+        color: "yellow"
+      entity_3:
+        nav: "security"
+        icon: "mdi:shield"
+        name: Secure
+        color: "green"
+      entity_4:
+        nav: "server"
+        icon: "mdi:nas"
+        name: Lab
+        color: "purple"
+      entity_5:
+        nav: "network"
+        icon: "mdi:network"
+        name: Net
+        color: "red"
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Rooms
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - red_on
+        name: Living Room
+        entity: light.livingroom
+        icon: mdi:sofa
+        tap_action:
+          action: navigate
+          navigation_path: "living_room"
+        variables:
+          ulm_custom_card_esh_room_light_entity: light.livingroom
+          ulm_card_dynamic_color: true
+        label: >
+          [[[
+            return "🌡️ " + states['sensor.c_livingroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_livingroom_humidity'].state + " %"
+          ]]]
+
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - red_on
+        name: Kitchen
+        entity: switch.0x54ef4410007df222_right
+        icon: mdi:sofa
+        tap_action:
+          action: navigate
+          navigation_path: "kitchen"
+        variables:
+          ulm_custom_card_esh_room_light_entity: switch.0x54ef4410007df222_right
+          ulm_card_dynamic_color: true
+        label: >
+          [[[
+            return "🌡️ " + states['sensor.c_livingroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_livingroom_humidity'].state + " %"
+          ]]]
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - yellow_on
+        name: Bedroom
+        entity: switch.0x54ef441000410c67
+        icon: mdi:bed-king-outline
+        tap_action:
+          action: navigate
+          navigation_path: "bedroom"
+        variables:
+          ulm_custom_card_esh_room_light_entity: switch.0x54ef441000410c67
+          ulm_card_dynamic_color: true
+        label: >
+          [[[
+            return "🌡️ " + states['sensor.c_bedroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_bedroom_humidity'].state + " %"
+          ]]]
+
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - green_on
+        name: Kidsroom
+        entity: switch.0x54ef441000413c72
+        icon: mdi:teddy-bear
+        tap_action:
+          action: navigate
+          navigation_path: "kidsroom"
+        variables:
+          ulm_custom_card_esh_room_light_entity: switch.0x54ef441000413c72
+          ulm_card_dynamic_color: true
+        label: >
+          [[[
+            return "🌡️ " + states['sensor.c_kidsroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_kidsroom_humidity'].state + " %"
+          ]]]
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - blue_on
+        name: Bathroom
+        entity: light.c_bathroom
+        icon: mdi:shower
+        tap_action:
+          action: navigate
+          navigation_path: "bathroom"
+        variables:
+          ulm_custom_card_esh_room_light_entity: light.c_bathroom
+          ulm_card_dynamic_color: true
+        label: >
+          [[[
+            return "🌡️ " + states['sensor.c_bathroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_bathroom_humidity'].state + " %"
+          ]]]
+
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+          - red_on
+        name: Hallway
+        entity: light.hallway
+        icon: mdi:door
+        tap_action:
+          action: navigate
+          navigation_path: "hallway"
+        variables:
+          ulm_custom_card_esh_room_light_entity: light.hallway
+          ulm_card_dynamic_color: true
+        label: '[[[ return "🚪 " + states["binary_sensor.0x00158d0008a9e22e_contact"].state ]]]'

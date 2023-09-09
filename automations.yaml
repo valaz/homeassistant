@@ -1,0 +1,108 @@
+- id: "1661885649543"
+  alias: Aqara Magic Cube Zigbee2MQTT - 2022-05-05
+  description: ""
+  use_blueprint:
+    path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
+    input:
+      remote: sensor.0x00158d00052fa079_action
+      rotate_cw_face_2:
+        - type: turn_on
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x04cf8cdf3c8eb0f3
+          domain: switch
+      rotate_ccw_face_2:
+        - type: turn_off
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x04cf8cdf3c8eb0f3
+          domain: switch
+      doubletap_face_2:
+        - type: toggle
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x04cf8cdf3c8eb0f3
+          domain: switch
+      rotate_cw_face_1:
+        - type: turn_on
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x54ef441000410c67
+          domain: switch
+      rotate_ccw_face_1:
+        - type: turn_off
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x54ef441000410c67
+          domain: switch
+      doubletap_face_1:
+        - type: toggle
+          device_id: 0cedb0a84c067aee51bb847da7027c7f
+          entity_id: switch.0x54ef441000410c67
+          domain: switch
+- id: "1662222854749"
+  alias: Aqara Magic Cube - WiFi Control
+  description: ""
+  use_blueprint:
+    path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
+    input:
+      remote: sensor.0x00158d00052fa079_action
+      rotate_cw_face_4:
+        - type: turn_on
+          device_id: 7814b542e63f3d5fe9a0fb9ed74057c0
+          entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_2_4ghz
+          domain: switch
+      rotate_ccw_face_4:
+        - type: turn_off
+          device_id: 7814b542e63f3d5fe9a0fb9ed74057c0
+          entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_2_4ghz
+          domain: switch
+      slide_face_4:
+        - type: turn_off
+          device_id: 7814b542e63f3d5fe9a0fb9ed74057c0
+          entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
+          domain: switch
+      doubletap_face_4:
+        - type: turn_on
+          device_id: 7814b542e63f3d5fe9a0fb9ed74057c0
+          entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
+          domain: switch
+- id: "1679757233074"
+  alias: Aqara Magic Cube - Covers Control
+  description: ""
+  use_blueprint:
+    path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
+    input:
+      remote: sensor.0x00158d00052fa079_action
+      slide_face_3:
+        - service: cover.stop_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      doubletap_face_3:
+        - service: cover.stop_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      rotate_cw_face_3:
+        - service: cover.close_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      rotate_ccw_face_3:
+        - service: cover.open_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+- id: "1679781150922"
+  alias: Low battery level detection & notification
+  description: ""
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      threshold: 20
+      exclude:
+        entity_id:
+          - sensor.iphone_12_az_battery_level
+          - sensor.ipad_6_battery_level
+          - sensor.h5075_66f8_battery
+      actions:
+        - service: notify.tg_valaz # notify.mobile_app_iphone_12_az
+          data:
+            message: "Замени батареи: {{sensors}}"
+            title: Низкий уровень заряда

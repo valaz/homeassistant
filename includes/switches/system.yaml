@@ -1,0 +1,12 @@
+- platform: template
+  switches:
+    c_server:
+      value_template: "{{ states('sensor.online') != None }}"
+      turn_on:
+        service: script.run
+        target:
+          entity_id: script.host_reboot
+      turn_off:
+        service: script.run
+        target:
+          entity_id: script.host_reboot

@@ -1,0 +1,7 @@
+# bathroom_light:
+#   duration: "00:03:00"
+
+pihole:
+  duration: "00:05:00"
+# entrance_light:
+#   duration: '00:02:00'

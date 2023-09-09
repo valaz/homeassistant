@@ -1,0 +1,11 @@
+- platform: template
+  sensors:
+    c_hacs_has_updates:
+      friendly_name: "HACS has updates"
+      value_template: >-
+        {{states.sensor.hacs.state | int > 0 }}
+
+- platform: ping
+  name: c_hass_wifi_connected
+  host: 192.168.178.5
+  scan_interval: 10

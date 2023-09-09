@@ -1,0 +1,185 @@
+bathroom_lights:
+  timer:
+    bathroom_light_turn_off:
+      name: "Свет в ванной выключится через "
+      duration: "00:03:00"
+
+  sensor:
+    - platform: template
+      sensors:
+        c_bathroom_light_brightness_schedule:
+          friendly_name: "Яркость лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% if 5 <= hour and hour < 21 %}
+              230
+            {% elif 21 <= hour and hour < 23 %}
+              192
+            {% else %}
+              99
+            {% endif %}
+
+        c_bathroom_light_color_temp_schedule:
+          friendly_name: "Температура лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% set min_temp = state_attr('light.c_bathroom', 'min_mireds') %}
+            {% set max_temp = state_attr('light.c_bathroom', 'max_mireds') %}
+            {% if 5 <= hour and hour < 21 %}
+              {{ 0.5 * (max_temp  - min_temp) + min_temp }}
+            {% elif 21 <= hour and hour < 23 %}
+              {{ 0.7 * (max_temp  - min_temp) + min_temp }}
+            {% else %}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+            {% endif %}
+
+  switch:
+    - platform: template
+      switches:
+        c_bathroom_light_auto_off:
+          friendly_name: "Light Auto OFF"
+          value_template: "{{is_state('automation.bathroom_lights_turn_off_light_if_there_is_no_movements', 'on')}}"
+          turn_on:
+            - service: automation.turn_on
+              target:
+                entity_id: automation.bathroom_lights_turn_off_light_if_there_is_no_movements
+          turn_off:
+            - service: automation.turn_off
+              target:
+                entity_id: automation.bathroom_lights_turn_off_light_if_there_is_no_movements
+
+  light:
+    - platform: template
+      lights:
+        c_bathroom:
+          friendly_name: "Bathroom Light"
+          value_template: "{{ is_state('switch.0x04cf8cdf3c8eb0f3', 'on') and is_state('light.0x00158d00052b3ad9', 'on') }}"
+          level_template: "{{ state_attr('light.0x00158d00052b3ad9', 'brightness') }}"
+          temperature_template: "{{ state_attr('light.0x00158d00052b3ad9', 'color_temp') }}"
+          supports_transition_template: True
+          min_mireds_template: "{{ state_attr('light.0x00158d00052b3ad9', 'min_mireds') }}"
+          max_mireds_template: "{{ state_attr('light.0x00158d00052b3ad9', 'max_mireds') }}"
+          turn_on:
+            - service: switch.turn_on
+              data:
+                entity_id: switch.0x04cf8cdf3c8eb0f3
+            - service: light.turn_on
+              data:
+                entity_id: light.0x00158d00052b3ad9
+          turn_off:
+            - service: light.turn_off
+              data:
+                entity_id: light.0x00158d00052b3ad9
+            - service: switch.turn_off
+              data:
+                entity_id: switch.0x04cf8cdf3c8eb0f3
+          set_level:
+            service: light.turn_on
+            target:
+              entity_id: light.0x00158d00052b3ad9
+            data_template:
+              brightness: "{{ brightness }}"
+          set_temperature:
+            service: light.turn_on
+            target:
+              entity_id: light.0x00158d00052b3ad9
+            data_template:
+              color_temp: "{{ color_temp }}"
+
+  automation:
+    - alias: "[Bathroom Lights] Turn on light if there is movement"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.0x54ef4410006dc3dd_occupancy
+          to: "on"
+      condition:
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 30
+      action:
+        - service: light.turn_on
+          target:
+            entity_id: light.c_bathroom
+
+    - alias: "[Bathroom Lights] Turn off light if there is no movements"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.0x54ef4410006dc3dd_occupancy
+          to: "off"
+          for: "00:01:00"
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.bathroom_light_turn_off
+      # condition:
+      #   condition: state
+      #   entity_id: binary_sensor.0x00158d0006e4e280_contact
+      #   state: "on"
+      action:
+        - service: light.turn_off
+          target:
+            entity_id: light.c_bathroom
+
+    - alias: "[Bathroom Lights] Start timer if light turned on manually"
+      trigger:
+        - platform: state
+          entity_id: light.c_bathroom
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.0x54ef4410006dc3dd_occupancy
+        state: "off"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.bathroom_light_turn_off
+        - service: timer.start
+          target:
+            entity_id: timer.bathroom_light_turn_off
+
+    - alias: "[Bathroom Lights] Cancel timer if there is movement"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.0x54ef4410006dc3dd_occupancy
+          to: "on"
+        - platform: state
+          entity_id: light.c_bathroom
+          to: "off"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.bathroom_light_turn_off
+
+    - alias: "[Bathroom Lights] Fix Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "normal"
+        - platform: state
+          entity_id: light.c_bathroom
+          to: "on"
+        - platform: state
+          entity_id: sensor.c_bathroom_light_brightness_schedule
+        - platform: state
+          entity_id: sensor.c_bathroom_light_color_temp_schedule
+        - platform: time_pattern
+          minutes: "/10"
+      condition:
+        - condition: state
+          entity_id: light.c_bathroom
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "normal"
+      action:
+        - service: light.turn_on
+          entity_id: light.0x00158d00052b3ad9
+          data_template:
+            brightness: >
+              {{ states('sensor.c_bathroom_light_brightness_schedule') }}
+            color_temp: >
+              {{ states('sensor.c_bathroom_light_color_temp_schedule') }}
+            transition: 10

@@ -1,0 +1,138 @@
+hallway_lights:
+  timer:
+    hallway_light_turn_off:
+      name: "Входной свет выключится через "
+      duration: "00:02:00"
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_hallway_carpet_usage:
+          friendly_name: "Hallway Carpet Usage"
+          device_class: motion
+          delay_off:
+            seconds: 10
+          value_template: >-
+            {{states('binary_sensor.0x00158d00076a7e3e_contact') == 'off'}}
+
+  sensor:
+    - platform: template
+      sensors:
+        c_hallway_light_brightness_schedule:
+          friendly_name: "Яркость лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% if 5 <= hour and hour < 21 %}
+              230
+            {% elif 21 <= hour and hour < 23 %}
+              192
+            {% else %}
+              123
+            {% endif %}
+
+        c_hallway_light_color_temp_schedule:
+          friendly_name: "Температура лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% set min_temp = state_attr('light.hallway', 'min_mireds') %}
+            {% set max_temp = state_attr('light.hallway', 'max_mireds') %}
+            {% if 5 <= hour and hour < 21 %}
+              {{ 0.5 * (max_temp  - min_temp) + min_temp }}
+            {% elif 21 <= hour and hour < 23 %}
+              {{ 0.7 * (max_temp  - min_temp) + min_temp }}
+            {% else %}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+            {% endif %}
+
+  automation:
+    - alias: "[Hallway Lights] Fix Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "normal"
+        - platform: state
+          entity_id: light.hallway
+          to: "on"
+        - platform: state
+          entity_id: sensor.c_hallway_light_brightness_schedule
+        - platform: state
+          entity_id: sensor.c_hallway_light_color_temp_schedule
+        - platform: time_pattern
+          minutes: "/10"
+      condition:
+        - condition: state
+          entity_id: light.hallway
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "normal"
+      action:
+        - service: light.turn_on
+          entity_id: light.hallway
+          data_template:
+            brightness: >
+              {{ states('sensor.c_hallway_light_brightness_schedule') }}
+            color_temp: >
+              {{ states('sensor.c_hallway_light_color_temp_schedule') }}
+            transition: 10
+
+    - alias: "[Hallway Lights] Turn on light when door is open"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.0x00158d0008a9e22e_contact
+          to: "on"
+        - platform: state
+          entity_id: binary_sensor.0x00158d00076a7e3e_contact
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: light.hallway
+          state: "off"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.hallway_light_turn_off
+        - service: timer.start
+          target:
+            entity_id: timer.hallway_light_turn_off
+        - service: light.turn_on
+          target:
+            entity_id: light.hallway
+
+    - alias: "[Hallway Lights] Turn off light when timer is finished"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.hallway_light_turn_off
+      condition:
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "normal"
+      action:
+        - service: light.turn_off
+          target:
+            entity_id: light.hallway
+
+    - alias: "[Hallway Lights] Turn on in the evening"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: -3
+      condition:
+        - condition: state
+          entity_id: light.hallway
+          state: "off"
+      action:
+        - service: light.turn_on
+          target:
+            entity_id: light.hallway

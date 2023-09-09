@@ -1,0 +1,138 @@
+livingroom_lights:
+  input_select:
+    c_livingroom_light_mode:
+      name: Режим освещения
+      options:
+        - "normal"
+        - "saloon"
+        - "relax"
+        - "cinema"
+        - "games"
+
+  sensor:
+    - platform: template
+      sensors:
+        c_livingroom_light_brightness_schedule:
+          friendly_name: "Яркость лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% if 5 <= hour and hour < 21 %}
+              230
+            {% elif 21 <= hour and hour < 23 %}
+              192
+            {% else %}
+              123
+            {% endif %}
+
+        c_livingroom_light_color_temp_schedule:
+          friendly_name: "Температура лампы Aqara в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% set min_temp = state_attr('light.livingroom', 'min_mireds') %}
+            {% set max_temp = state_attr('light.livingroom', 'max_mireds') %}
+            {% if 5 <= hour and hour < 21 %}
+              {{ 0.5 * (max_temp  - min_temp) + min_temp }}
+            {% elif 21 <= hour and hour < 23 %}
+              {{ 0.7 * (max_temp  - min_temp) + min_temp }}
+            {% else %}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+            {% endif %}
+
+  automation:
+    - alias: "[Livingroom Lights] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.0x54ef44100088155f_action
+          to: "single_left"
+      action:
+        - service: light.toggle
+          entity_id: light.livingroom
+
+    - alias: "[Livingroom Lights] Toggle Ambilight + Hue"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.0x54ef44100088155f_action
+          to: "single_right"
+      action:
+        - service: switch.toggle
+          entity_id: switch.c_65oled936_12_ambilight_hue
+
+    - alias: "[Livingroom Lights] Fix Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "normal"
+        - platform: state
+          entity_id: light.livingroom
+          to: "on"
+        - platform: state
+          entity_id: sensor.c_livingroom_light_brightness_schedule
+        - platform: state
+          entity_id: sensor.c_livingroom_light_color_temp_schedule
+        - platform: time_pattern
+          minutes: "/10"
+      condition:
+        - condition: state
+          entity_id: light.livingroom
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "normal"
+      action:
+        - service: light.turn_on
+          entity_id: light.livingroom
+          data_template:
+            brightness: >
+              {{ states('sensor.c_livingroom_light_brightness_schedule') }}
+            color_temp: >
+              {{ states('sensor.c_livingroom_light_color_temp_schedule') }}
+            transition: 10
+
+    - alias: "[Livingroom Lights] Turn ON saloon mode"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.0x54ef44100088155f_action
+          to: "double_left"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: saloon
+
+    - alias: "[Livingroom Lights] Turn ON relax mode"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.0x54ef44100088155f_action
+          to: "double_right"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: relax
+
+    - alias: "[Livingroom Lights] Turn ON normal mode"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: light.livingroom
+          to: "off"
+          for: "00:00:10"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: normal

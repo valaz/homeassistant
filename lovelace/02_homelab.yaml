@@ -1,0 +1,358 @@
+title: Homelab
+icon: mdi:server-network
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        style: |
+          ha-card {
+            font-size: 26px;
+          }
+        content: >
+          **Home Assistant**
+      - type: custom:vertical-stack-in-card
+        title: HomeAssistant
+        cards:
+          - type: entities
+            entities:
+              - script.homeassistant_restart
+              - sensor.online_custom
+
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.c_hacs_has_updates
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - type: divider
+                - sensor.hacs
+
+          - type: conditional
+            conditions:
+              - entity: update.home_assistant_core_update
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - type: divider
+                - update.home_assistant_core_update
+                - script.homeassistant_core_update
+                - entity: update.home_assistant_core_update
+                  type: custom:multiple-entity-row
+                  name: Versions
+                  show_state: false
+                  entities:
+                    - attribute: installed_version
+                      name: Установлено
+                    - attribute: latest_version
+                      name: Последняя
+
+          - type: conditional
+            conditions:
+              - entity: update.home_assistant_supervisor_update
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - type: divider
+                - update.home_assistant_supervisor_update
+                - script.homeassistant_supervisor_update
+                - entity: update.home_assistant_supervisor_update
+                  type: custom:multiple-entity-row
+                  name: Versions
+                  show_state: false
+                  entities:
+                    - attribute: installed_version
+                      name: Установлено
+                    - attribute: latest_version
+                      name: Последняя
+
+          - type: history-graph
+            entities:
+              - entity: sensor.maria_db_size
+                name: Maria DB
+
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        style: |
+          ha-card {
+            font-size: 26px;
+          }
+        content: >
+          **Server**
+      - type: custom:vertical-stack-in-card
+        title: Hulk
+        cards:
+          - type: entities
+            entities:
+              - sensor.local_ip
+              - script.host_reboot
+              - sensor.last_boot_custom
+              - script.bluetooth_restart
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                entities:
+                  - entity: sensor.glances_package_id_0_temperature
+                name: "CPU Temperature"
+                animate: true
+                hour24: true
+                color_thresholds:
+                  - value: 60
+                    color: "#539652"
+                  - value: 80
+                    color: "#f39c12"
+                  - value: 90
+                    color: "#c0392b"
+                hours_to_show: 1
+                points_per_hour: 60
+                update_interval: 10
+              - type: gauge
+                name: CPU Used
+                unit: "%"
+                entity: sensor.glances_cpu_used
+                severity:
+                  green: 0
+                  yellow: 50
+                  red: 85
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                name: RAM Used
+                unit: "%"
+                entity: sensor.glances_ram_used_percent
+                severity:
+                  green: 0
+                  yellow: 80
+                  red: 95
+              - type: gauge
+                name: Disk Used
+                unit: "%"
+                entity: sensor.glances_used_percent
+                severity:
+                  green: 0
+                  yellow: 50
+                  red: 85
+
+          - type: horizontal-stack
+            cards:
+              - type: custom:history-explorer-card
+                header: hide
+                defaultTimeRange: 24h
+                lineMode: curves
+                decimation: true
+                uimode: dark
+                recordedEntitiesOnly: true
+                labelsVisible: false
+                uiColors:
+                  gridlines: rgb(100,100,100)
+                uiLayout:
+                  toolbar: hide
+                  selector: hide
+                graphs:
+                  - type: line
+                    entities:
+                      - entity: sensor.glances_used
+                        color: rgb(127, 186, 192)
+                        fill: rgba(217, 240, 235, 0.5)
+
+          - type: glance
+            show_name: false
+            entities:
+              - sensor.speedtest_ping
+              - sensor.speedtest_download
+              - sensor.speedtest_upload
+          - type: entities
+            entities:
+              - entity: sensor.u5elrlu_media_downloads_movies_media_downloads_movies
+                type: custom:multiple-entity-row
+                name: "Downloads/Movies"
+                state_color: true
+                entities:
+                  - entity: sensor.hulk_sync_downloads_movies
+                    name: false
+
+      - type: custom:vertical-stack-in-card
+        title: Falcon
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.hvd6662_iqeus_eeskc_games
+                type: custom:multiple-entity-row
+                name: "Games"
+                state_color: true
+                entities:
+                  - entity: sensor.falcon_sync_games
+                    name: false
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - name: "c_hulk_docker_*"
+        sort:
+          method: name
+        show_empty: true
+
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        style: |
+          ha-card {
+            font-size: 26px;
+          }
+        content: >
+          **Network**
+      - type: custom:vertical-stack-in-card
+        title: "FRITZ!Box"
+        cards:
+          - type: entities
+            entities:
+              - type: weblink
+                name: "FFRITZ!Box Admin Panel"
+                url: http://192.168.178.1/
+                icon: mdi:router-wireless-settings
+              - entity: switch.fritz_box_6660_cable_wi_fi_aeki_g
+                type: custom:multiple-entity-row
+                name: Wi-Fi
+                state_header: Guest
+                toggle: true
+                state_color: true
+                entities:
+                  - entity: switch.fritz_box_6660_cable_wi_fi_aeki_2
+                    name: 2.4 Ghz
+                    toggle: true
+                  - entity: switch.fritz_box_6660_cable_wi_fi_aeki
+                    name: 5 Ghz
+                    toggle: true
+          - type: divider
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: "Скорость загрузки"
+                animate: true
+                hour24: true
+                color_thresholds:
+                  - value: 100
+                    color: "#539652"
+                  - value: 500
+                    color: "#f39c12"
+                  - value: 800
+                    color: "#c0392b"
+                hours_to_show: 1
+                points_per_hour: 60
+                update_interval: 10
+                entities:
+                  - entity: sensor.c_fritz_box_6660_cable_download_throughput_mbs
+              - type: custom:mini-graph-card
+                name: "Скорость выгрузки"
+                animate: true
+                hour24: true
+                color_thresholds:
+                  - value: 100
+                    color: "#ffba08"
+                  - value: 500
+                    color: "#f48c06"
+                  - value: 800
+                    color: "#d00000"
+                hours_to_show: 1
+                points_per_hour: 60
+                update_interval: 10
+                entities:
+                  - entity: sensor.c_fritz_box_6660_cable_upload_throughput_mbs
+          - type: conditional
+            conditions:
+              - entity: update.update.fritz_box_6660_cable_fritz_os
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - entity: update.fritz_box_6660_cable_fritz_os
+                - entity: update.fritz_box_6660_cable_fritz_os
+                  type: custom:multiple-entity-row
+                  name: Versions
+                  show_state: false
+                  entities:
+                    - attribute: installed_version
+                      name: Установлено
+                    - attribute: latest_version
+                      name: Последняя
+                - button.fritz_box_6660_cable_firmware_update
+                - type: divider
+          - type: entities
+            entities:
+              - button.fritz_box_6660_cable_reboot
+              - button.fritz_box_6660_cable_reconnect
+
+      - type: custom:vertical-stack-in-card
+        title: "Pi-hole"
+        cards:
+          - type: entities
+            entities:
+              - type: weblink
+                name: "Pi-hole Panel"
+                url: http://192.168.178.7/admin/index.php
+                icon: mdi:pi-hole
+              - entity: switch.pi_hole
+                name: Вкл/Выкл
+              - entity: timer.pihole
+                name: Таймер
+              - type: divider
+          - type: glance
+            columns: 3
+            # title: 'Статистика'
+            show_name: false
+            entities:
+              - entity: sensor.pi_hole_dns_queries_today
+                name: "Всего запросов"
+              - entity: sensor.pi_hole_ads_blocked_today
+                name: "Заблокированых запросов"
+              - entity: sensor.pi_hole_ads_percentage_blocked_today
+                name: "Процент блокировки"
+              - entity: sensor.pi_hole_domains_blocked
+                name: "Заблокированных доменов"
+              - entity: sensor.pi_hole_seen_clients
+                name: "Всего клиентов"
+              - entity: sensor.pi_hole_dns_unique_clients
+                name: "Уникальных клиентов"
+          - type: conditional
+            conditions:
+              - entity: update.update.pi_hole_core_update_available
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - type: divider
+                - update.pi_hole_core_update_available
+                - entity: update.pi_hole_core_update_available
+                  type: custom:multiple-entity-row
+                  name: Versions
+                  show_state: false
+                  entities:
+                    - attribute: installed_version
+                      name: Установлено
+                    - attribute: latest_version
+                      name: Последняя
+
+          - type: conditional
+            conditions:
+              - entity: update.update.pi_hole_web_update_available
+                state: "on"
+            card:
+              type: entities
+              entities:
+                - type: divider
+                - update.pi_hole_web_update_available
+                - entity: update.pi_hole_web_update_available
+                  type: custom:multiple-entity-row
+                  name: Versions
+                  show_state: false
+                  entities:
+                    - attribute: installed_version
+                      name: Установлено
+                    - attribute: latest_version
+                      name: Последняя

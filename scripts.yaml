@@ -1,0 +1,14 @@
+"1679826687505":
+  alias: Checking for home keys
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: 13ca11509f7efae93feefd0a925afa71
+      title: Уходишь?
+      message: Ключи взял?
+      confirm_text: Взял
+      dismiss_text: Ой, забыл
+      dismiss_action:
+        - service: notify.persistent_notification
+          data:
+            message: Азат забыл кючи

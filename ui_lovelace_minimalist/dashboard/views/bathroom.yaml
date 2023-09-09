@@ -1,0 +1,108 @@
+title: "Bathroom"
+path: "bathroom"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Bathroom
+      - type: "custom:button-card"
+        color_type: blank-card
+      - type: "custom:button-card"
+        template: chip_mdi_icon_state
+        variables:
+          ulm_chip_mdi_icon_state_entity: alert.leak_bathroom
+          ulm_chip_mdi_icon_state_icon: mdi:water-alert
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bathroom_temperature
+        variables:
+          ulm_card_graph_color: "orange"
+          ulm_card_graph_name: Temperature
+          ulm_card_graph_entity: sensor.c_bathroom_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bathroom_humidity
+        variables:
+          ulm_card_graph_color: "blue"
+          ulm_card_graph_name: Humidity
+          ulm_card_graph_entity: sensor.c_bathroom_humidity
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: horizontal-stack
+    cards:
+      # - type: "custom:button-card"
+      #   template: card_light
+      #   entity: switch.0x04cf8cdf3c8eb0f3
+      #   variables:
+      #     ulm_card_light_name: Light Switch
+      #     ulm_card_light_enable_slider: false
+      #     ulm_card_light_enable_color: false
+      #     ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.c_bathroom
+        variables:
+          ulm_card_light_name: Light
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_bathroom_light_auto_off
+        variables:
+          # ulm_card_light_name: Light Switch
+          ulm_card_light_force_background_color: false
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Sensors
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_binary_sensor
+        variables:
+          ulm_card_binary_sensor_alert: true
+          ulm_show_last_changed: true
+          ulm_card_binary_sensor_name: Occupancy
+        entity: binary_sensor.0x00158d0006bed661_occupancy
+
+      - type: "custom:button-card"
+        template: card_generic_swap
+        entity: binary_sensor.0x00158d0006e4e280_contact
+        variables:
+          ulm_card_generic_swap_name: Door
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_generic_swap
+        entity: sensor.0x00158d0006bed661_illuminance_lux
+        variables:
+          ulm_card_generic_swap_name: Illuminance
+      - type: "custom:button-card"
+        template: card_binary_sensor_alert
+        variables:
+          ulm_card_binary_sensor_alert: true
+          ulm_show_last_changed: true
+          ulm_card_binary_sensor_alert_name: Water
+        entity: binary_sensor.0x00158d0007bf1dd5_water_leak

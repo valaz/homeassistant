@@ -1,0 +1,143 @@
+##################   Автоматика
+title: Вся автоматика
+icon: mdi:script
+cards:
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Автоматизации Lights
+        filter:
+          include:
+            - domain: automation
+              name: "*Lights*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+        exclude:
+          - state: "off"
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Автоматизации Other
+        filter:
+          include:
+            - domain: automation
+              not:
+                name: "*Lights*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: automation
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+          exclude:
+            - state: "on"
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Скрипты
+        filter:
+          include:
+            - domain: script
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: attribute
+                attribute: last_triggered
+                reverse: true
+          sort:
+            method: entity_id
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Сцены
+        filter:
+          include:
+            - domain: scene
+              sort:
+                method: name
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Battery Low
+        filter:
+          include:
+            - attributes:
+                device_class: battery
+              state: <= 40
+          exclude:
+            - name: /[Ll]ow/
+            - name: /[Ll]evel/
+            - name: /[Ss]tate/
+            - name: Lux*
+        sort:
+          method: state
+          numeric: true
+        show_empty: true
+
+  # - type: vertical-stack
+  #   cards:
+  #     - type: custom:auto-entities
+  #       show_empty: false
+  #       card:
+  #         type: entities
+  #         show_header_toggle: false
+  #         title: Shell команды
+  #       filter:
+  #         include:
+  #           - domain: shell_command
+  #             options:
+  #               secondary_info: last-triggered
+  #             sort:
+  #               method: attribute
+  #               attribute: last_triggered
+  #               reverse: true
+  #         sort:
+  #           method: entity_id
+
+  # - type: vertical-stack
+  #   cards:
+  #     - type: custom:auto-entities
+  #       show_empty: false
+  #       card:
+  #         type: entities
+  #         show_header_toggle: false
+  #         title: Группы
+  #       filter:
+  #         include:
+  #           - domain: group
+  #             sort:
+  #               method: name

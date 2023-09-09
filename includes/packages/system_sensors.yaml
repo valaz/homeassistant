@@ -1,0 +1,131 @@
+system_sensors:
+  recorder:
+    db_url: !secret db_link
+    #   db_url: sqlite:////config/home-assistant_v2.db
+    purge_keep_days: 7
+    auto_purge: true
+    exclude:
+      domains:
+        - camera
+  #   include:
+  #     entities:
+  #       - binary_sensor.rpi_power_status
+  #       - sensor.processor_use
+  #       - sensor.disk_use_percent
+  #       - sensor.memory_use_percent
+  #       - sensor.disk_free
+  #       - sensor.processor_temperature
+  #       - sensor.home_assistant_v2_db
+  #       - sensor.maria_db
+
+  homeassistant:
+    customize:
+      sensor.processor_use:
+        friendly_name: Загрузка процессора
+      sensor.disk_use_percent:
+        friendly_name: Использование диска
+      sensor.disk_free:
+        friendly_name: Свободно на диске
+      sensor.processor_temperature:
+        friendly_name: Температура процессора
+      sensor.memory_use_percent:
+        friendly_name: Использование ОЗУ
+      sensor.home_assistant_v2_db:
+        friendly_name: Объем базы HA
+      sensor.maria_db:
+        friendly_name: Объем базы Maria DB
+      sensor.online_custom:
+        friendly_name: Home Assistant в онлайне
+      sensor.last_boot_custom:
+        friendly_name: Сервер в онлайне
+      sensor.custom_time:
+        friendly_name: Текущее время
+
+  sensor:
+    - platform: systemmonitor
+      resources:
+        - type: processor_use
+        - type: disk_use_percent
+          arg: /
+        - type: memory_use_percent
+        - type: last_boot
+        - type: disk_free
+          arg: /
+        - type: processor_temperature
+
+    # Платформа перенесена в UI
+    # - platform: filesize
+    #   file_paths:
+    #     - /config/home-assistant_v2.db
+
+    # - platform: sql
+    #   db_url: !secret db_link
+    #   queries:
+    #     - name: maria_db
+    #       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+    #       column: 'value'
+    #       unit_of_measurement: MB
+
+    # - platform: uptime
+    #   name: online
+
+    - platform: time_date
+      display_options:
+        - "time"
+        - "date"
+        - "date_time"
+        - "time_date"
+
+  template:
+    - trigger:
+        - platform: time_pattern
+          seconds: "/30"
+      sensor:
+        - name: time_1_sec
+          state: "{{ as_timestamp(now()) | round(default=0)}}"
+
+    - sensor:
+        - name: custom_time
+          state: >
+            {{states("sensor.time_1_sec") | int | timestamp_custom("%H:%M:%S") }}
+        # Время с последней перезагрузки Home Assistant
+        - name: online_custom
+          state: >
+            {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.online')) | int) %}
+            {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+          #   {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.online')) | int %}
+          #   {% set minutes = (( uptime % 3600) / 60) | int %}
+          #   {% set hours = ((uptime % 86400) / 3600) | int %}
+          #   {% set days = (uptime / 86400) | int %}
+
+          #      {% if uptime < 60 %}
+          #       Меньше минуты
+          #      {% else %}
+          #       {% if days > 0 %}
+          #          {{ days }} д.
+          #       {% endif %}
+          #       {% if hours > 0 %}
+          #          {% if days > 0 %}
+          #           {{ ' ' }}
+          #          {% endif %}
+          #          {{ hours }} ч.
+          #       {% endif %}
+          #       {% if minutes > 0 %}
+          #          {% if days > 0 or hours > 0 %}
+          #           {{ ' ' }}
+          #          {% endif %}
+          #           {{ minutes }} мин.
+          #       {% endif %}
+          #      {% endif %}
+          # icon: mdi:clock
+
+        # Время с последней перезагрузки сервера
+        - name: last_boot_custom
+          state: >
+            {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
+            {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+
+        - name: "Hulk Sync Downloads_Movies"
+          unique_id: c_hulk_downloads_movies
+          unit_of_measurement: "%"
+          state: "{{(state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'in_sync_bytes') / state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'global_bytes') | float * 100) |  round(2) }}"

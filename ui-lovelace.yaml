@@ -1,0 +1,5 @@
+title: Home Assistant Tegel
+views:
+  - !include lovelace/01_home.yaml
+  - !include lovelace/02_homelab.yaml
+  - !include lovelace/31_automation.yaml

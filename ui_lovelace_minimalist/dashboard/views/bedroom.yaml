@@ -1,0 +1,116 @@
+title: "Bedroom"
+path: "bedroom"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Bedroom
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bedroom_temperature
+        variables:
+          ulm_card_graph_color: "orange"
+          ulm_card_graph_name: Temperature
+          ulm_card_graph_entity: sensor.c_bedroom_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bedroom_humidity
+        variables:
+          ulm_card_graph_color: "blue"
+          ulm_card_graph_name: Humidity
+          ulm_card_graph_entity: sensor.c_bedroom_humidity
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bedroom_co2_density
+        variables:
+          ulm_card_graph_color: "green"
+          ulm_card_graph_name: CO2
+          ulm_card_graph_icon: mdi:molecule-co2
+          ulm_card_graph_entity: sensor.c_bedroom_co2_density
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 2
+          ulm_card_graph_points: 6
+          # ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_bedroom_pm25_density
+        variables:
+          ulm_card_graph_color: "purple"
+          ulm_card_graph_name: pm25
+          ulm_card_graph_icon: mdi:google-circles-extended
+          ulm_card_graph_entity: sensor.c_bedroom_pm25_density
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x54ef441000410c67
+        variables:
+          ulm_card_light_name: Light
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x04cf8cdf3c764d02
+        variables:
+          ulm_card_light_name: Working Desk
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: false
+
+  - type: "custom:shutter-card"
+    # title: My shutters
+    entities:
+      - entity: cover.bedroom_cover_group
+        # name: Bedtoom shutter
+        buttons_position: left
+        title_position: top
+
+  - type: "custom:button-card"
+    template: custom_card_damix48_power_details
+    entity: sensor.0x04cf8cdf3c764d02_power
+    variables:
+      ulm_card_power_details_name: Working Desk Power
+      ulm_card_power_details_entity: sensor.0x04cf8cdf3c764d02_power
+      ulm_card_power_details_hours: 5
+      ulm_card_power_details_24hour: true
+      ulm_card_power_details_thresholds:
+        - value: 0
+          color: "#43A047"
+        - value: 300
+          color: "#FFA600"
+        - value: 500
+          color: "#DB4437"
+
+  # - type: "custom:button-card"
+  #   template: card_cover
+  #   entity: cover.bedroom_cover_group
+  #   variables:
+  #     ulm_card_cover_enable_controls: true
+  #     ulm_card_cover_enable_slider: true
+  # ulm_card_cover_enable_horizontal: true

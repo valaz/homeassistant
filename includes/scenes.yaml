@@ -1,0 +1,38 @@
+- name: Movies
+  icon: "mdi:filmstrip"
+  entities:
+    light.hallway: "off"
+    light.livingroom: "off"
+    light.65oled936_12_ambilight: "on"
+    switch.c_65oled936_12_ambilight_hue: "on"
+
+# - name: Saloon
+#   icon: "mdi:hair-dryer"
+#   entities:
+#     switch.c_65oled936_12_ambilight_hue: "off"
+#     light.hallway:
+#       state: "on"
+#       brightness: 255
+#       color_mode: "color_temp"
+#       xy_color: [0.396, 0.357]
+#       color_temp: 225
+#     light.livingroom:
+#       state: "on"
+#       brightness: 255
+#       color_mode: "color_temp"
+#       xy_color: [0.396, 0.357]
+#       color_temp: 225
+    # automation.livingroom_lights_fix_main_light: "off"
+    # automation.hallway_lights_fix_main_light: "off"
+    # automation.bathroom_lights_fix_main_light: "off"
+
+- name: TV Gaming
+  icon: "mdi:controller"
+  entities:
+    light.hallway: "off"
+    light.livingroom: "off"
+    light.65oled936_12_ambilight: "on"
+    switch.c_65oled936_12_ambilight_hue: "off"
+    media_player.65oled936_12_2:
+      state: "on"
+      source: HDMI 1

@@ -1,0 +1,6 @@
+- platform: template
+  sensors:
+    c_bathroom_moisture:
+      friendly_name: "Bathroom Moisture"
+      value_template: >-
+        {{states.sensor.c_bathroom_humidity.state | float >= 60 and states.sensor.c_bathroom_humidity.state | float > states.sensor.c_weather_humidity.state | float}}

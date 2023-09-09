@@ -1,0 +1,7 @@
+falcon:
+  template:
+    sensor:
+      - name: "Falcon Sync Games"
+        unique_id: c_falcon_sync_games
+        unit_of_measurement: "%"
+        state: "{{(state_attr('sensor.hvd6662_iqeus_eeskc_games', 'in_sync_bytes') / state_attr('sensor.hvd6662_iqeus_eeskc_games', 'global_bytes') | float * 100) |  round(2) }}"

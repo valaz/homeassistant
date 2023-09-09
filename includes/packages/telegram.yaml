@@ -1,0 +1,174 @@
+telegram:
+  sensor:
+    - platform: template
+      sensors:
+        unavailable_now_light:
+          friendly_name: "Всего недоступных светильников - "
+          value_template: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+          icon_template: mdi:counter
+
+        unavailable_now_switch:
+          friendly_name: "Всего недоступных реле - "
+          value_template: "{{states.switch | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+          icon_template: mdi:counter
+
+        unavailable_now_sensor:
+          friendly_name: "Всего недоступных сенсоров - "
+          value_template: "{{states.sensor | selectattr ('state', 'equalto', 'unavailable') | list | length - 1 }}"
+          icon_template: mdi:counter
+
+        unavailable_now_binary_sensor:
+          friendly_name: "Всего недоступных бинарных сенсоров - "
+          value_template: "{{states.binary_sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+          icon_template: mdi:counter
+
+  script:
+    tg_simple_message:
+      alias: Отправка через сервис уведомлений
+      sequence:
+        - service: notify.tg_valaz
+          data:
+            message: "Текущее время - {{ states('sensor.time') }} . Все в порядке"
+
+    tg_system_report:
+      alias: Отправка отчета о состоянии системы
+      sequence:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F4BB"}} Состояние системы
+              {{"\U0001F567"}} Отчет за {{ states('sensor.time_date') }}
+              {{"\U0001F4A1"}} Светильников недоступно - {{ states('sensor.unavailable_now_light') }} 
+              {{"\U0001F50C"}} Свичей недоступно - {{ states('sensor.unavailable_now_switch') }} 
+              {{"\U0001F321"}} Сенсоров недоступно - {{ states('sensor.unavailable_now_sensor') }} 
+              {{"\U0001F51F"}} Бинарных сенсоров недоступно - {{ states('sensor.unavailable_now_binary_sensor') }}
+
+    tg_climate_report:
+      alias: Отправка отчета о состоянии климата
+      sequence:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F333"}} Климат в квартире
+              {{"\U0001F567"}} Отчет за {{ states('sensor.time_date') }}
+              {{"\U0001F4FA"}} Гостиная - {{ states('sensor.c_livingroom_temperature') }} °C, {{ states('sensor.c_livingroom_humidity') }} %
+              {{"\U0001F468"}} Спальня - {{ states('sensor.c_bedroom_temperature') }} °C, {{ states('sensor.c_bedroom_humidity') }} %
+              {{"\U0001F476"}} Детская - {{ states('sensor.c_kidsroom_temperature') }} °C, {{ states('sensor.c_kidsroom_humidity') }} %
+              {{"\U0001F487"}} Ванная - {{ states('sensor.c_bathroom_temperature') }} °C, {{ states('sensor.c_bathroom_humidity') }} %
+
+    tg_homelab_report:
+      alias: Отправка отчета о состоянии homelab
+      sequence:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U00002699"}} Homelab
+              {{"\U0001F567"}} Отчет за {{ states('sensor.time_date') }}
+              {{"\U00002600"}} Hulk CPU Temp - {{ states('sensor.glances_package_id_0_temperature') }} °C
+
+    tg_people_report:
+      alias: Отправка отчета о состоянии people
+      sequence:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F3E0"}} Люди
+              {{"\U0001F468"}} {% if is_state('binary_sensor.azat_at_home', 'on') %}Азат дома{% else %}Азат НЕ дома{% endif %}
+              {{"\U0001F469"}} {% if is_state('binary_sensor.elia_at_home', 'on') %}Элия дома{% else %}Элия НЕ дома{% endif %}
+  # https://apps.timwhitlock.info/emoji/tables/unicode
+  automation:
+    - alias: "[Telegram] Клавиатура телеграмм бота"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/start"
+      action:
+        - service: notify.tg_valaz
+          data:
+            message: "commands"
+            data:
+              keyboard:
+                - "/report, /homelab"
+                - "/climate, /people"
+
+    - alias: "[Telegram] Report"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/report"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_system_report
+
+    - alias: "[Telegram] Climate"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/climate"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_climate_report
+
+    - alias: "[Telegram] Homelab"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/homelab"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_homelab_report
+
+    - alias: "[Telegram] People Report"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/people"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_people_report
+
+    - alias: "[Telegram] Roborock начал уборку"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: vacuum.roborock_s5
+          from: "docked"
+          to: "cleaning"
+      action:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F9F9"}} Пылесос начал уборку.
+
+    - alias: "[Telegram] Roborock завершил уборку"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: vacuum.roborock_s5
+          from: "returning"
+          to: "docked"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_s5_map_to_telegram
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F9F9"}} Пылесос завершил уборку.
+              {{"\U0001F3E0"}} Площадь уборки - {{ states('sensor.roborock_s5_last_clean_area') }} m2.
+              {{"\U000023F1"}} Время уборки - {{ states('sensor.c_roborock_s5_last_clean_duration') }} мин.
+              {{"\U0001F50B"}} Уровень заряда - {{ states('sensor.c_roborock_s5_battery') }} %.

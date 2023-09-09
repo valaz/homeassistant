@@ -1,0 +1,14 @@
+livingroom_cinema:
+  automation:
+    - alias: "[Cinema] On Start"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "cinema"
+      action:
+        - service: switch.turn_on
+          data: {}
+          target:
+            entity_id: switch.c_65oled936_12_ambilight_hue

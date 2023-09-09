@@ -1,0 +1,14 @@
+livingroom_relax:
+  automation:
+    - alias: "[Relax] On Start"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "relax"
+      action:
+        - service: scene.turn_on
+          data: {}
+          target:
+            entity_id: scene.gostinaia_maiami

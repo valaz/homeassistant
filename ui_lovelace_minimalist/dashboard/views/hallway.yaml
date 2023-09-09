@@ -1,0 +1,72 @@
+title: "Hallway"
+path: "hallway"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Hallway
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.hallway
+        variables:
+          ulm_card_light_name: Light
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Sensors
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_binary_sensor_alert
+        variables:
+          ulm_card_binary_sensor_alert: true
+          ulm_show_last_changed: false
+          ulm_card_binary_sensor_alert_name: Door
+        entity: binary_sensor.0x00158d0008a9e22e_contact
+      - type: "custom:button-card"
+        template: card_binary_sensor
+        variables:
+          ulm_card_binary_sensor_alert: true
+          ulm_show_last_changed: true
+          ulm_card_binary_sensor_name: Occupancy
+        entity: binary_sensor.0x00158d00054cd813_occupancy
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_generic_swap
+        entity: sensor.0x00158d00054cd813_illuminance_lux
+        variables:
+          ulm_card_generic_swap_name: Illuminance
+
+  - type: "custom:logbook-card"
+    entity: binary_sensor.0x00158d0008a9e22e_contact
+    attributes:
+      - value: app_name
+        label: App
+      - value: media_title
+        label: Title
+    title: "Door History"
+    hidden_state:
+      - "off"
+    max_items: 15
+    show:
+      end_date: false
+      start_date: true

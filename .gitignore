@@ -1,0 +1,10 @@
+secrets.yaml
+known_devices.yaml
+home-assistant.*
+home-assistant_v2.db
+zigbee2mqtt/*
+tts/*
+node-red/*
+.storage/*
+custom_components/*
+www/*

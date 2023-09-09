@@ -1,0 +1,136 @@
+title: "Lights"
+path: "lights"
+
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Lights
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Гостинная
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.livingroom
+        variables:
+          ulm_card_light_name: Гостиная
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    label: TV
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.65oled936_12_ambilight
+        variables:
+          ulm_card_light_name: Ambilight
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_65oled936_12_screen_state
+        variables:
+          ulm_card_light_name: TV Screen
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_65oled936_12_ambilight_hue
+        variables:
+          ulm_card_light_name: Ambilight + Hue
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Кухня
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x54ef4410007df222_right
+        variables:
+          ulm_card_light_name: Кухня
+          ulm_card_light_enable_collapse: false
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Вход
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.hallway
+        variables:
+          ulm_card_light_name: Вход
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Ванная
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.c_bathroom
+        variables:
+          ulm_card_light_name: Люстра
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Спальня
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x54ef441000410c67
+        variables:
+          ulm_card_light_name: Люстра
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_title
+    name: Детская
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x54ef441000413c72
+        variables:
+          ulm_card_light_name: Луна
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true

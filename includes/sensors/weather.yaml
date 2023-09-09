@@ -1,0 +1,6 @@
+- platform: template
+  sensors:
+    c_weather_humidity:
+      friendly_name: "Влажность на улице"
+      value_template: "{{ state_attr('weather.forecast_tegel_home', 'humidity') | round(0) }}"
+      unit_of_measurement: "%"

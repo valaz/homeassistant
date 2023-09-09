@@ -1,0 +1,60 @@
+- platform: template
+  sensors:
+    c_roborock_s5_battery:
+      friendly_name: "Уровень заряда"
+      value_template: "{{ state_attr('vacuum.roborock_s5', 'battery_level') | round(0) }}"
+      unit_of_measurement: "%"
+
+    c_roborock_s5_status:
+      friendly_name: "Статус пылесоса"
+      value_template: "{{ state_attr('vacuum.roborock_s5', 'status') }}"
+
+    c_roborock_s5_last_clean_duration:
+      icon_template: mdi:texture-box
+      unit_of_measurement: "мин"
+      friendly_name: "Продолжительность последней уборки"
+      value_template: >
+        {{ (states('sensor.roborock_s5_last_clean_duration') | float / 60) | round(2) }}
+    c_roborock_s5_current_clean_duration:
+      icon_template: mdi:timer-sand
+      unit_of_measurement: "мин"
+      friendly_name: "Продолжительность текущей уборки"
+      value_template: >
+        {{ (states('sensor.roborock_s5_current_clean_duration') | float / 60) | round(2) }}
+
+    c_last_clean_custom:
+      friendly_name: "Последняя уборка"
+      value_template: >
+        {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.roborock_s5_last_clean_end')) | int %}
+        {% set minutes = (( uptime % 3600) / 60) | int %}
+        {% set hours = ((uptime % 86400) / 3600) | int %}
+        {% set days = (uptime / 86400) | int %}
+            {% if uptime < 1 %}
+            Меньше минуты
+            {% else %}
+            {% if days > 0 %}
+                {{ days }} д.
+            {% endif %}
+            {% if hours > 0 %}
+                {% if days > 0 %}
+                {{ ' ' }}
+                {% endif %}
+                {{ hours }} ч.
+            {% endif %}
+            {% if minutes > 0 %}
+                {% if days > 0 or hours > 0 %}
+                {{ ' ' }}
+                {% endif %}
+                {{ minutes }} мин.
+            {% endif %}
+            {% endif %}
+      icon_template: mdi:clock
+
+    c_roborock_s5_filter_left_hours:
+      value_template: "{{ (states('sensor.roborock_s5_filter_left') | float / 3600) | round(0) }}"
+    c_roborock_s5_side_brush_left_hours:
+      value_template: "{{ (states('sensor.roborock_s5_side_brush_left') | float / 3600) | round(0) }}"
+    c_roborock_s5_main_brush_left_hours:
+      value_template: "{{ (states('sensor.roborock_s5_main_brush_left') | float / 3600) | round(0) }}"
+    c_roborock_s5_sensor_dirty_left_hours:
+      value_template: "{{ (states('sensor.roborock_s5_sensor_dirty_left') | float / 3600) | round(0) }}"

@@ -1,0 +1,154 @@
+title: "Living Room"
+path: "living_room"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Living Room
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_livingroom_temperature
+        variables:
+          ulm_card_graph_color: "orange"
+          ulm_card_graph_name: Temperature
+          ulm_card_graph_entity: sensor.c_livingroom_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_livingroom_humidity
+        variables:
+          ulm_card_graph_color: "blue"
+          ulm_card_graph_name: Humidity
+          ulm_card_graph_entity: sensor.c_livingroom_humidity
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      # - type: "custom:button-card"
+      #   template: card_graph
+      #   entity: sensor.c_livingroom_pm25_density
+      #   variables:
+      #     ulm_card_graph_color: "purple"
+      #     ulm_card_graph_name: pm25
+      #     ulm_card_graph_icon: mdi:google-circles-extended
+      #     ulm_card_graph_entity: sensor.c_bedroom_pm25_density
+      #     ulm_card_graph_type: fill
+      #     ulm_card_graph_hours: 24
+      #     ulm_card_graph_group_by: interval
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.livingroom
+        variables:
+          ulm_card_light_name: Light
+          ulm_card_light_enable_collapse: true
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.65oled936_12_ambilight
+        variables:
+          ulm_card_light_name: Ambilight
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_65oled936_12_screen_state
+        variables:
+          ulm_card_light_name: TV Screen
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_65oled936_12_ambilight_hue
+        variables:
+          ulm_card_light_name: Ambilight + Hue
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.65oled936_12_2
+    variables:
+      ulm_card_media_player_name: Philips TV
+      ulm_card_media_player_enable_art: false
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_enable_volume_slider: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: true
+  - type: "custom:button-card"
+    template: card_media_player
+    entity: media_player.apple_tv_4k
+    variables:
+      ulm_card_media_player_name: Apple TV
+      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_controls: true
+      ulm_card_media_player_collapsible: true
+      ulm_card_media_player_more_info: true
+      ulm_card_media_player_power_button: true
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_binary_sensor
+        variables:
+          ulm_card_binary_sensor_alert: true
+          ulm_show_last_changed: true
+          ulm_card_binary_sensor_name: Saloon Seat
+        entity: binary_sensor.saloon_seat_usage
+
+  - type: "custom:button-card"
+    template: "card_vacuum"
+    entity: "vacuum.roborock_s5"
+
+  - type: "custom:button-card"
+    template: card_title
+    label: History
+
+  - type: "custom:logbook-card"
+    entity: media_player.apple_tv_4k
+    attributes:
+      - value: app_name
+        label: App
+      - value: media_title
+        label: Title
+    title: "Apple TV History"
+    hidden_state:
+      - idle
+      - standby
+    state_map:
+      - label: Paused
+        icon: mdi:pause
+        value: paused
+      - label: Playing
+        icon: mdi:play-outline
+        value: playing
+      - label: Idle
+        value: idle
+    max_items: 50
+    show:
+      end_date: false
+      start_date: true

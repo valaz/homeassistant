@@ -1,0 +1,97 @@
+tv_time_tracker:
+  timer:
+    tv_rescan:
+      name: "Проверка телевизора через через "
+      duration: "00:01:00"
+
+  input_number:
+    tv_duration_today:
+      name: TV Duration today
+      initial: 0
+      min: 0
+      max: 1440
+      step: 1
+      unit_of_measurement: min
+    tv_duration_current:
+      name: TV Duration current
+      initial: 0
+      min: 0
+      max: 1440
+      step: 1
+      unit_of_measurement: min
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_tv_plex:
+          friendly_name: "Plex on TV"
+          device_class: running
+          value_template: >-
+            {{state_attr('media_player.apple_tv_4k', 'app_name') == 'Plex'}}
+
+  sensor:
+    - platform: template
+      sensors:
+        c_tv_duration_today:
+          friendly_name: "TV Duration Today"
+          value_template: "{{ states('input_number.tv_duration_today') }}"
+          unit_of_measurement: min
+        c_tv_duration_current:
+          friendly_name: "TV Duration Current"
+          value_template: "{{ states('input_number.tv_duration_current') }}"
+          unit_of_measurement: min
+
+  automation:
+    - alias: "[TV Time] Refresh Duration"
+      trigger:
+        - platform: state
+          entity_id: media_player.philips_tv
+          to: "on"
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.tv_rescan
+      condition:
+        - condition: state
+          entity_id: media_player.philips_tv
+          state: "on"
+      action:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.tv_duration_today
+          data:
+            value: "{{ states('sensor.c_tv_duration_today') | int + 1 }}"
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.tv_duration_current
+          data:
+            value: "{{ states('sensor.c_tv_duration_current') | int + 1 }}"
+        - service: timer.start
+          target:
+            entity_id: timer.tv_rescan
+
+    - alias: "[TV Time] Reset Current Duration"
+      trigger:
+        - platform: state
+          entity_id: media_player.philips_tv
+          to: "off"
+      action:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.tv_duration_current
+          data:
+            value: "{{ 0 }}"
+        - service: timer.cancel
+          target:
+            entity_id: timer.tv_rescan
+
+    - alias: "[TV Time] Reset Today Duration"
+      trigger:
+        - platform: time
+          at: "00:00:00"
+      action:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.tv_duration_today
+          data:
+            value: "{{ 0 }}"

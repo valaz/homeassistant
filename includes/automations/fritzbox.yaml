@@ -1,0 +1,38 @@
+- alias: "[FRITZ!Box] Nightly Restart"
+  trigger:
+    platform: time
+    at: "04:00:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
+  action:
+    - service: button.press
+      target:
+        entity_id: button.fritz_box_6660_cable_reboot
+
+- alias: "[FRITZ!Box] Switch Wi-Fi if unavailable"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.c_hass_wifi_connected
+      to: "off"
+      for: "00:00:05"
+  action:
+    - service: switch.turn_off
+      target:
+        entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_5ghz
+    - service: switch.turn_off
+      target:
+        entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
+    - service: switch.turn_on
+      target:
+        entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_5ghz
+    - service: switch.turn_on
+      target:
+        entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g

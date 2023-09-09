@@ -1,0 +1,527 @@
+title: Home
+icon: mdi:home-assistant
+cards:
+  - type: vertical-stack
+    cards:
+      - type: weather-forecast
+        entity: weather.forecast_tegel_home
+
+      - type: "custom:sun-card"
+        language: ru
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-person-card
+            entity: device_tracker.iphone_12_az
+            name: Azat
+            icon: mdi:face-man
+            secondary_info: last-changed
+          - type: custom:mushroom-person-card
+            entity: device_tracker.iphone_elia
+            name: Eliia
+            icon: mdi:face-woman
+            secondary_info: last-changed
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.tapo_c210_ping
+            state: "on"
+        card:
+          - type: picture-glance
+            title: C210
+            camera_image: camera.tapo_c210_hd
+            camera_view: live
+            entities:
+              - light.hallway
+              - binary_sensor.0x00158d0008a9e22e_contact
+
+      - type: custom:mini-graph-card
+        entities:
+          - input_number.c_rescuetime_efficiency_percent
+        color_thresholds:
+          - value: 33
+            color: "#ff0000"
+          - value: 45
+            color: "#FFB300"
+          - value: 50
+            color: "#00ff09"
+
+      - type: custom:mini-graph-card
+        entities:
+          - sensor.0x04cf8cdf3c764d02_power
+        color_thresholds:
+          - value: 500
+            color: "#DB4437"
+          - value: 300
+            color: "#FFA600"
+          - value: 100
+            color: "#43A047"
+
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Спальня #######   Спальня   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bedroom_temperature
+                    primary_info: state
+                    icon_color: orange
+                    name: Temperature
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bedroom_humidity
+                    name: Humidity
+                    primary_info: state
+                    secondary_info: name
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bedroom_co2_density
+                    name: CO2
+                    primary_info: state
+                    icon_color: green
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bedroom_pm25_density
+                    name: pm25
+                    primary_info: state
+                    icon_color: purple
+                    secondary_info: name
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: switch.0x54ef441000410c67
+                    name: Люстра
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: false
+                    show_color_temp_control: false
+                    show_color_control: false
+                    use_light_color: true
+                  - type: custom:mushroom-entity-card
+                    entity: binary_sensor.wardrobe_usage
+                    name: Движение
+                    primary_info: state
+                    secondary_info: last-changed
+
+              - type: custom:mushroom-cover-card
+                entity: cover.bedroom_cover_group
+                show_buttons_control: true
+                show_position_control: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Детская #######   Детская   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_kidsroom_temperature
+                    primary_info: state
+                    icon_color: orange
+                    name: Temperature
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_kidsroom_humidity
+                    name: Humidity
+                    primary_info: state
+                    secondary_info: name
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: switch.0x54ef441000413c72
+                    name: Луна
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: false
+                    show_color_temp_control: false
+                    show_color_control: false
+                    use_light_color: true
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Кухня #######   Кухня   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: switch.0x54ef4410007df222_right
+                    name: Люстра
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: false
+                    show_color_temp_control: false
+                    show_color_control: false
+                    use_light_color: true
+                  - type: custom:mushroom-light-card
+                    entity: switch.0x04cf8cdf3c764d02
+                    name: Раковина
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: false
+                    show_color_temp_control: false
+                    show_color_control: false
+                    use_light_color: true
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: binary_sensor.0x00158d0006bed661_occupancy
+                    name: Движение
+                    primary_info: state
+                    secondary_info: last-changed
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.0x00158d0006bed661_illuminance_lux
+                    name: Уровень освещения
+                    # primary_info: state
+                    # secondary_info: last-changed
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Корридор #######   Корридор   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.hallway
+                    name: Люстра
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: true
+                    show_color_temp_control: true
+                    show_color_control: true
+                    use_light_color: true
+                  - type: custom:vertical-stack-in-card
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: binary_sensor.0x00158d0008a9e22e_contact
+                        name: Входная Дверь
+                        primary_info: state
+                        secondary_info: last-changed
+                      - type: custom:mushroom-entity-card
+                        entity: binary_sensor.c_hallway_carpet_usage
+                        name: Входной коврик
+                        primary_info: state
+                        secondary_info: last-changed
+
+  - type: vertical-stack
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Ванная #######   Ванная   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bathroom_temperature
+                    primary_info: state
+                    icon_color: orange
+                    name: Temperature
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bathroom_humidity
+                    name: Humidity
+                    primary_info: state
+                    secondary_info: name
+
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.c_bathroom
+                    name: Люстра
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: true
+                    show_color_temp_control: true
+                    show_color_control: false
+                    use_light_color: true
+                  - type: custom:vertical-stack-in-card
+                    cards:
+                      - type: custom:mushroom-entity-card
+                        entity: binary_sensor.0x54ef4410006dc3dd_occupancy
+                        name: Движение
+                        primary_info: state
+                        secondary_info: last-changed
+                      - type: custom:mushroom-entity-card
+                        entity: binary_sensor.0x00158d0006e4e280_contact
+                        name: Дверь
+                        primary_info: state
+                        secondary_info: last-changed
+
+                  # - type: custom:mushroom-light-card
+                  #   entity: switch.c_bathroom_light_auto_off
+                  #   name: Автовыключение
+                  #   fill_container: false
+                  #   collapsible_controls: false
+                  #   show_brightness_control: false
+                  #   show_color_temp_control: false
+                  #   show_color_control: false
+                  #   use_light_color: false
+
+              - type: entities
+                entities:
+                  # - alert.moisture_bathroom
+                  - binary_sensor.0x00158d0007bf1dd5_water_leak
+                  - timer.bathroom_light_turn_off
+                  # - binary_sensor.0x54ef4410006dc3dd_occupancy
+                  # - select.0x54ef4410006dc3dd_motion_sensitivity
+                  # - number.0x54ef4410006dc3dd_detection_interval
+
+      # - type: vertical-stack
+      #   cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:vertical-stack-in-card
+            title: Гостиная #######   Гостиная   #######
+            cards:
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_livingroom_temperature
+                    primary_info: state
+                    icon_color: orange
+                    name: Temperature
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_livingroom_humidity
+                    name: Humidity
+                    primary_info: state
+                    secondary_info: name
+
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.livingroom
+                    name: Люстра
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: true
+                    show_color_temp_control: true
+                    show_color_control: true
+                    use_light_color: true
+                  - type: custom:mushroom-select-card
+                    entity: input_select.c_livingroom_light_mode
+                    icon_color: orange
+                    # name: Light Mode
+                    primary_info: name
+                    secondary_info: last-changed
+                  # - type: custom:mushroom-entity-card
+                  #   entity: binary_sensor.saloon_works
+                  #   icon_color: green
+                  #   name: Saloon Works
+                  #   primary_info: state
+                  #   secondary_info: last-changed
+
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_tv_duration_current
+                    primary_info: state
+                    icon_color: green
+                    name: TV now
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_tv_duration_today
+                    name: TV today
+                    primary_info: state
+                    icon_color: blue
+                    secondary_info: name
+
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-media-player-card
+                    entity: media_player.philips_tv
+                    fill_container: true
+                    show_volume_level: true
+                    collapsible_controls: false
+                    media_controls: [on_off, play_pause_stop]
+                    volume_controls: [volume_buttons]
+                  - type: custom:mushroom-media-player-card
+                    entity: media_player.apple_tv_4k
+                    fill_container: true
+                    show_volume_level: true
+                    collapsible_controls: false
+                    media_controls: [on_off, play_pause_stop]
+
+              # - type: entities
+              #   entities:
+              # - timer.hallway_light_turn_off
+              # - input_select.c_livingroom_light_mode
+              # - binary_sensor.saloon_works
+              # - timer.tv_rescan
+
+              - type: entities
+                entities:
+                  # - media_player.philips_tv
+                  - entity: light.65oled936_12_ambilight
+                    type: custom:multiple-entity-row
+                    name: Ambilight
+                    state_header: ambilight
+                    toggle: true
+                    state_color: true
+                    entities:
+                      - entity: switch.c_65oled936_12_screen_state
+                        name: screen
+                        toggle: true
+                      - entity: switch.c_65oled936_12_ambilight_hue
+                        name: ambilight+hue
+                        toggle: true
+                  # - media_player.apple_tv_4k
+                  # - entity: fan.air_purifier_2s
+                  #   secondary_info:
+                  #     attribute: preset_mode
+                  #   type: custom:multiple-entity-row
+                  #   toggle: true
+                  #   state_color: true
+                  #   entities:
+                  #     - entity: number.air_purifier_2s_favorite_level
+                  #       name: level
+                  - entity: vacuum.roborock_s5
+                    type: custom:multiple-entity-row
+                    secondary_info:
+                      attribute: battery_level
+                      name: Заряд
+                      unit: "%"
+                    show_state: true
+                  - entity: sensor.c_last_clean_custom
+                    type: custom:multiple-entity-row
+                    secondary_info:
+                      entity: sensor.c_last_clean_custom
+                      name: " "
+                      unit: "назад"
+                    show_state: false
+                    entities:
+                      - entity: sensor.roborock_s5_last_clean_area
+                        name: площадь
+                      - entity: sensor.c_roborock_s5_last_clean_duration
+                        name: длительность
+
+              - type: "custom:vacuum-card"
+                entity: vacuum.roborock_s5
+                # actions:
+                #   start:
+                #     service: xiaomi_miio.vacuum_clean_segment
+                #     service_data:
+                #       entity_id: vacuum.robot_vacuum
+                #       segments: [16, 20]
+                stats:
+                  default:
+                    - entity_id: sensor.roborock_s5_filter_left
+                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
+                      unit: hours
+                      subtitle: Filter
+                    - entity_id: sensor.roborock_s5_side_brush_left
+                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
+                      unit: hours
+                      subtitle: Side brush
+                    - entity_id: sensor.roborock_s5_main_brush_left
+                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
+                      unit: hours
+                      subtitle: Main brush
+                    - entity_id: sensor.roborock_s5_sensor_dirty_left
+                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
+                      unit: hours
+                      subtitle: Sensors
+                  cleaning:
+                    - entity_id: sensor.roborock_s5_current_clean_area
+                      value_template: "{{ (value | float(0) / 1) | round(1) }}"
+                      unit: m2
+                      subtitle: Cleaning area
+                    - entity_id: sensor.roborock_s5_current_clean_duration
+                      value_template: "{{ (value | float(0) / 60) | round(1) }}"
+                      unit: minutes
+                      subtitle: Cleaning time
+
+              - type: conditional
+                conditions:
+                  - entity: vacuum.roborock_s5
+                    state: "cleaning"
+                card:
+                  type: picture-entity
+                  entity: camera.roborock_s5
+                  camera_image: camera.roborock_s5
+                  camera_view: live
+                  show_state: false
+                  show_name: false
+                  aspect_ratio: "135x115"
+
+                # shortcuts:
+                #   - name: Clean living room
+                #     service: script.clean_living_room
+                #     icon: 'mdi:sofa'
+                #   - name: Clean bedroom
+                #     service: script.clean_bedroom
+                #     icon: 'mdi:bed-empty'
+                #   - name: Clean kitchen
+                #     service: script.clean_kitchen
+                #     icon: 'mdi:silverware-fork-knife'
+
+                # - type: custom:history-explorer-card
+                #   header: hide
+                #   defaultTimeRange: 24h
+                #   lineMode: curves
+                #   decimation: true
+                #   uimode: dark
+                #   recordedEntitiesOnly: true
+                #   labelsVisible: false
+                #   uiColors:
+                #     gridlines: rgb(100,100,100)
+                #   uiLayout:
+                #     toolbar: hide
+                #     selector: hide
+                #   graphs:
+                #     - type: line
+                #       entities:
+                #         - entity: sensor.0x04cf8cdf3c764d02_power
+                #           color: rgb(127, 186, 192)
+                #           fill: rgba(217, 240, 235, 0.5)
+
+              # - type: "custom:logbook-card"
+              #   entity: media_player.65oled936_12_2
+              #   attributes:
+              #     - value: app_name
+              #       label: App
+              #     - value: media_title
+              #       label: Title
+              #   title: "Philips TV History"
+              #   state_map:
+              #     - label: Paused
+              #       icon: mdi:pause
+              #       value: paused
+              #     - label: Playing
+              #       icon: mdi:play-outline
+              #       value: playing
+              #     - label: Idle
+              #       value: idle
+              #   max_items: 50
+              #   show:
+              #     end_date: false
+              #     start_date: true
+              # - type: "custom:logbook-card"
+              #   entity: media_player.apple_tv_4k
+              #   attributes:
+              #     - value: app_name
+              #       label: App
+              #     - value: media_title
+              #       label: Title
+              #   title: "Apple TV History"
+              #   state_map:
+              #     - label: Paused
+              #       icon: mdi:pause
+              #       value: paused
+              #     - label: Playing
+              #       icon: mdi:play-outline
+              #       value: playing
+              #     - label: Idle
+              #       value: idle
+              #   max_items: 50
+              #   show:
+              #     end_date: false
+              #     start_date: true

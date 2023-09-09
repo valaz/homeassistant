@@ -1,0 +1,136 @@
+title: "House"
+path: "house"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: House
+
+  - type: "custom:button-card"
+    template: "card_scenes_welcome"
+    variables:
+      entity_1:
+        entity_id: scene.movies
+        icon: "mdi:filmstrip" #OPTIONAL
+        # name: "Movies" #OPTIONAL
+        color: "purple"
+      entity_2:
+        entity_id: scene.tv_gaming
+        icon: "mdi:controller" #OPTIONAL
+        # name: "TV Gaming" #OPTIONAL
+        color: "blue"
+      # entity_3:
+      #   entity_id: input_boolean.saloon_mode
+      #   icon: "mdi:hair-dryer" #OPTIONAL
+      #   # name: "Saloon" #OPTIONAL
+      #   color: "green"
+
+  # - type: horizontal-stack
+  #   cards:
+  #     - type: "custom:button-card"
+  #       template: custom_card_imswel_person
+  #       variables:
+  #         ulm_card_imswel_person_entity: person.azat
+  #         ulm_card_imswel_person_wifi_tracker: device_tracker.iphone_12_az
+  #         ulm_card_imswel_person_gps_tracker: sensor.iphone_12_az_geocoded_location
+  #         ulm_card_imswel_person_use_entity_picture: true
+
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-person-card
+        entity: device_tracker.iphone_12_az
+        name: Azat
+        icon: mdi:face-man
+        secondary_info: last-changed
+      - type: custom:mushroom-person-card
+        entity: device_tracker.iphone_elia
+        name: Eliia
+        icon: mdi:face-woman
+        secondary_info: last-changed
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_person
+        entity: person.username
+        variables:
+          ulm_card_person_entity: person.azat
+          ulm_card_person_use_entity_picture: true
+          ulm_card_person_icon: mdi:face-man
+          ulm_card_person_battery: sensor.iphone_12_az_battery_level
+          ulm_address: sensor.iphone_12_az_geocoded_location
+
+  - type: custom:auto-entities
+    show_empty: false
+    card:
+      type: entities
+      show_header_toggle: false
+      title: Автоматизации
+    filter:
+      include:
+        - domain: automation
+          options:
+            secondary_info: last-triggered
+          sort:
+            method: name
+    exclude:
+      - state: "off"
+
+  - type: custom:auto-entities
+    show_empty: false
+    card:
+      type: entities
+      show_header_toggle: false
+      title: Скрипты
+    filter:
+      include:
+        - domain: script
+          options:
+            secondary_info: last-triggered
+          sort:
+            method: attribute
+            attribute: last_triggered
+            reverse: true
+      sort:
+        method: entity_id
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Сцены
+        filter:
+          include:
+            - domain: scene
+              sort:
+                method: name
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Battery Low
+        filter:
+          include:
+            - attributes:
+                device_class: battery
+              state: <= 40
+          exclude:
+            - name: /[Ll]ow/
+            - name: /[Ll]evel/
+            - name: /[Ss]tate/
+            - name: Lux*
+        sort:
+          method: state
+          numeric: true
+        show_empty: true

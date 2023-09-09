@@ -1,0 +1,11 @@
+kidsroom_lights:
+  automation:
+    - alias: "[Kidsroom Lights] Turn Off on Sunrise"
+      trigger:
+        - platform: sun
+          event: sunrise
+          offset: "00:30:00"
+      action:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.0x54ef441000413c72

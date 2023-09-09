@@ -1,0 +1,14 @@
+- platform: template
+  sensors:
+    c_fritz_box_6660_cable_upload_throughput_mbs:
+      icon_template: mdi:upload
+      unit_of_measurement: "Mbit/s"
+      friendly_name: FRITZ!Box 6660 Cable Upload Throughput
+      value_template: >
+        {{ (states('sensor.fritz_box_6660_cable_upload_throughput') | float / 125) | round(2) }}
+    c_fritz_box_6660_cable_download_throughput_mbs:
+      icon_template: mdi:download
+      unit_of_measurement: "Mbit/s"
+      friendly_name: FRITZ!Box 6660 Cable Download Throughput
+      value_template: >
+        {{ (states('sensor.fritz_box_6660_cable_download_throughput') | float / 125) | round(2) }}

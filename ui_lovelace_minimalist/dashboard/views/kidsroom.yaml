@@ -1,0 +1,50 @@
+title: "Kidsroom"
+path: "kidsroom"
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: chip_back
+        variables:
+          ulm_chip_back_path: home
+      - type: "custom:button-card"
+        template: card_title
+        name: Kidsroom
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_kidsroom_temperature
+        variables:
+          ulm_card_graph_color: "orange"
+          ulm_card_graph_name: Temperature
+          ulm_card_graph_entity: sensor.c_kidsroom_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_kidsroom_humidity
+        variables:
+          ulm_card_graph_color: "blue"
+          ulm_card_graph_name: Humidity
+          ulm_card_graph_entity: sensor.c_kidsroom_humidity
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.0x54ef441000413c72
+        variables:
+          ulm_card_light_name: Light
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true

@@ -1,0 +1,40 @@
+tv_ambilight:
+  switch:
+    - platform: template
+      switches:
+        c_65oled936_12_ambilight_hue:
+          friendly_name: "TV Ambilight + Hue"
+          value_template: >-
+            {% if is_state("switch.65oled936_12_ambilight_hue", "on") or is_state("switch.65oled936_12_ambilight_hue", "off") -%}
+              {{states("switch.65oled936_12_ambilight_hue")}}
+            {%- else -%}
+              {{states("switch.c_65oled936_12_ambilight_hue")}}
+            {%- endif %}
+          turn_on:
+            - service: switch.turn_on
+              data:
+                entity_id: switch.0x54ef44100088155f_left
+            - service: switch.turn_on
+              target:
+                entity_id: switch.65oled936_12_ambilight_hue
+          turn_off:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.65oled936_12_ambilight_hue
+
+        c_65oled936_12_screen_state:
+          friendly_name: "TV Screen State"
+          value_template: >-
+            {% if is_state("switch.65oled936_12_screen_state", "on") or is_state("switch.65oled936_12_screen_state", "off") -%}
+              {{states("switch.65oled936_12_screen_state")}}
+            {%- else -%}
+              {{states("switch.c_65oled936_12_screen_state")}}
+            {%- endif %}
+          turn_on:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.65oled936_12_screen_state
+          turn_off:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.65oled936_12_screen_state

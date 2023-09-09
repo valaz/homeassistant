@@ -1,0 +1,143 @@
+saloon_package:
+  template:
+    binary_sensor:
+      - name: "Saloon Seat Usage"
+        unique_id: "saloon_seat_usage"
+        state: "{{states('binary_sensor.0x00158d00076a7e3e_contact') == 'off'}}"
+        delay_off:
+          seconds: 10
+        device_class: motion
+
+      - name: "Saloon Works"
+        unique_id: "saloon_works"
+        state: "{{states('input_select.c_livingroom_light_mode') == 'saloon'}}"
+        device_class: running
+
+  scene:
+    - name: Saloon
+      icon: "mdi:hair-dryer"
+      entities:
+        switch.c_65oled936_12_ambilight_hue: "off"
+        light.hallway:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          xy_color: [0.396, 0.357]
+          color_temp: 225
+        light.livingroom:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          xy_color: [0.396, 0.357]
+          color_temp: 225
+        # automation.livingroom_lights_fix_main_light: "off"
+        # automation.hallway_lights_fix_main_light: "off"
+        # automation.bathroom_lights_fix_main_light: "off"
+
+  automation:
+    - alias: "[Saloon] Start scene when saloon is working"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.saloon_works
+          to: "on"
+      action:
+        # - service: scene.create
+        #   data:
+        #     scene_id: before_saloon
+        #     snapshot_entities:
+        #       - light.hallway
+        #       - light.livingroom
+        #       - switch.c_65oled936_12_ambilight_hue
+        #     entities:
+        #       automation.livingroom_lights_fix_main_light: "on"
+        #       automation.hallway_lights_fix_main_light: "on"
+        #       automation.bathroom_lights_fix_main_light: "on"
+        - service: scene.turn_on
+          target:
+            entity_id: scene.saloon
+          data:
+            transition: 2.5
+
+    - alias: "[Saloon] Fix bathroom light"
+      trigger:
+        - platform: state
+          entity_id: light.0x00158d00052b3ad9
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        service: light.turn_on
+        target:
+          entity_id: light.0x00158d00052b3ad9
+        data:
+          brightness: 255
+          color_temp: 168
+
+    - alias: "[Saloon] Fix livingroom light"
+      trigger:
+        - platform: state
+          entity_id: light.livingroom
+          to: "on"
+        - platform: state
+          entity_id: switch.c_65oled936_12_ambilight_hue
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        - service: light.turn_on
+          target:
+            entity_id: light.livingroom
+          data:
+            brightness: 255
+            color_temp: 225
+        - service: switch.turn_off
+          target:
+            entity_id: switch.c_65oled936_12_ambilight_hue
+
+    - alias: "[Saloon] Fix hallway light"
+      trigger:
+        - platform: state
+          entity_id: light.hallway
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        service: light.turn_on
+        target:
+          entity_id: light.hallway
+        data:
+          brightness: 255
+          color_temp: 225
+
+    # - alias: "[Saloon] Stop scene when saloon is finished"
+    #   trigger:
+    #     - platform: state
+    #       entity_id: binary_sensor.saloon_works
+    #       to: "off"
+    #   action:
+    # - service: scene.turn_on
+    #   target:
+    #     entity_id: scene.before_saloon
+    # data:
+    #   transition: 2.5
+
+    - alias: "[Livingroom Lights] Turn Off saloon mode by time"
+      trigger:
+        - platform: time
+          at: "21:00:00"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: normal
