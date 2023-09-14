@@ -46,16 +46,16 @@ cards:
           - value: 50
             color: "#00ff09"
 
-      - type: custom:mini-graph-card
-        entities:
-          - sensor.0x04cf8cdf3c764d02_power
-        color_thresholds:
-          - value: 500
-            color: "#DB4437"
-          - value: 300
-            color: "#FFA600"
-          - value: 100
-            color: "#43A047"
+      # - type: custom:mini-graph-card
+      #   entities:
+      #     - sensor.0x04cf8cdf3c764d02_power
+      #   color_thresholds:
+      #     - value: 500
+      #       color: "#DB4437"
+      #     - value: 300
+      #       color: "#FFA600"
+      #     - value: 100
+      #       color: "#43A047"
 
   - type: vertical-stack
     cards:
@@ -102,6 +102,32 @@ cards:
                     show_color_temp_control: false
                     show_color_control: false
                     use_light_color: true
+                  - type: custom:mushroom-light-card
+                    entity: switch.0xa4c1386f1ce92e1c
+                    name: Монитор
+                    fill_container: true
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-light-card
+                    entity: light.yeelight_lamp15_0x1c03268c
+                    name: Лампа
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: true
+                    show_color_temp_control: true
+                    show_color_control: true
+                    use_light_color: true
+                  - type: custom:mushroom-light-card
+                    entity: light.yeelight_lamp15_0x1c03268c_ambilight
+                    name: Подсветка
+                    fill_container: true
+                    collapsible_controls: false
+                    show_brightness_control: true
+                    show_color_temp_control: true
+                    show_color_control: true
+                    use_light_color: true
+              - type: horizontal-stack
+                cards:
                   - type: custom:mushroom-entity-card
                     entity: binary_sensor.wardrobe_usage
                     name: Движение
@@ -254,6 +280,25 @@ cards:
                         name: Дверь
                         primary_info: state
                         secondary_info: last-changed
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bathroom_lx_prediction
+                    primary_info: state
+                    icon_color: yellow
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_sun_elevation
+                    primary_info: state
+                    icon_color: green
+                    secondary_info: name
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_bathroom_lx_func
+                    primary_info: state
+                    icon_color: yellow
+                    secondary_info: name
 
                   # - type: custom:mushroom-light-card
                   #   entity: switch.c_bathroom_light_auto_off

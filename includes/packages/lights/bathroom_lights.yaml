@@ -33,6 +33,71 @@ bathroom_lights:
               {{ 0.9 * (max_temp  - min_temp) + min_temp }}
             {% endif %}
 
+        c_bathroom_lr_log_prediction:
+          value_template: >
+            {{ state_attr('sun.sun','elevation') | float * 0.01441 + 3.65051 }}
+
+        c_bathroom_log_correction:
+          value_template: >
+            {% if state_attr('sun.sun','elevation') <= 13.745 %}
+              -1.083 
+            {% else %}
+              {% if state_attr('sun.sun','azimuth') <= 135.287 %}
+                -0.085 
+              {% elif state_attr('sun.sun','elevation') <= 49.553 %}
+                0.216 
+              {% else %}
+                -0.055 
+              {% endif %}            
+            {% endif %}
+
+        c_bathroom_lx_prediction:
+          friendly_name: "Bathroom Illuminance AI v1"
+          value_template: >
+            {% if state_attr('sun.sun','elevation') <= 0 %}
+              0 
+            {% else %}
+              {{ e**(states('sensor.c_bathroom_lr_log_prediction')|float + states('sensor.c_bathroom_log_correction')|float) - 1 }}          
+            {% endif %}
+          unit_of_measurement: lx
+          device_class: illuminance
+
+        c_bathroom_lx_func:
+          friendly_name: "Bathroom Illuminance func AI v2"
+          value_template: >
+            {% set elevation_value = state_attr('sun.sun','elevation') %}
+            {% set elevation_index = -0.28256257505674626 %}
+            {% set azimuth_value = state_attr('sun.sun','azimuth') %}
+            {% set azimuth_index = -0.012541141050843814 %}
+            {% set cloud_coverage_value = state_attr('weather.forecast_tegel_home','cloud_coverage') %}
+            {% set cloud_coverage_index = 0.029587416540465414 %}
+            {% set door_value = 0 %}
+            {% set door_index = 0.09654319664050931 %}
+            {% set cloudy_value = 0 %}
+            {% set cloudy_index = -0.758920253038008 %}
+            {% set partlycloudy_value = 0 %}
+            {% set partlycloudy_index = 0 %}
+            {% set rainy_value = 0 %}
+            {% set rainy_index = 1.1918680896075657 %}
+            {% set sunny_value = 0 %}
+            {% set sunny_index = 1.0671404452982214 %}
+            {% set free_value = 1 %}
+            {% set free_index = 3.8438701283568815 %}
+            {% if states('binary_sensor.0x00158d0006e4e280_contact') == 'on' %}
+              {% set door_value = 1 %}
+            {% endif %}
+            {% if states('weather.forecast_tegel_home') == 'cloudy' %}
+              {% set cloudy_value = 1 %}
+            {% elif states('weather.forecast_tegel_home') == 'partlycloudy' %}
+              {% set partlycloudy_value = 1 %}
+            {% elif states('weather.forecast_tegel_home') == 'rainy' %}
+              {% set rainy_value = 1 %}
+            {% elif states('weather.forecast_tegel_home') == 'sunny' %}
+              {% set sunny_value = 1 %}
+            {% endif %}
+            {% set x =  elevation_value * elevation_index +  azimuth_value * azimuth_index + cloud_coverage_value*cloud_coverage_index + door_value * door_index + cloudy_value * cloudy_index + partlycloudy_value * partlycloudy_index + rainy_value * rainy_index + sunny_value * sunny_index + free_value * free_index %}
+            {{ 1/(1 + e** (-1 * x)) }}
+
   switch:
     - platform: template
       switches:
@@ -94,9 +159,12 @@ bathroom_lights:
           to: "on"
       condition:
         - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 30
+          entity_id: sensor.c_bathroom_lx_func
+          above: 55
+        # - condition: numeric_state
+        #   entity_id: sun.sun
+        #   attribute: elevation
+        #   below: 25
       action:
         - service: light.turn_on
           target:

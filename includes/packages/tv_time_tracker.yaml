@@ -7,14 +7,12 @@ tv_time_tracker:
   input_number:
     tv_duration_today:
       name: TV Duration today
-      initial: 0
       min: 0
       max: 1440
       step: 1
       unit_of_measurement: min
     tv_duration_current:
       name: TV Duration current
-      initial: 0
       min: 0
       max: 1440
       step: 1

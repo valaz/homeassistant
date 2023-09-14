@@ -1,26 +1,11 @@
 - id: "1661885649543"
-  alias: Aqara Magic Cube Zigbee2MQTT - 2022-05-05
+  alias: "[Aqara Cube] Bedroom"
   description: ""
   use_blueprint:
     path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
     input:
       remote: sensor.0x00158d00052fa079_action
-      rotate_cw_face_2:
-        - type: turn_on
-          device_id: 0cedb0a84c067aee51bb847da7027c7f
-          entity_id: switch.0x04cf8cdf3c8eb0f3
-          domain: switch
-      rotate_ccw_face_2:
-        - type: turn_off
-          device_id: 0cedb0a84c067aee51bb847da7027c7f
-          entity_id: switch.0x04cf8cdf3c8eb0f3
-          domain: switch
-      doubletap_face_2:
-        - type: toggle
-          device_id: 0cedb0a84c067aee51bb847da7027c7f
-          entity_id: switch.0x04cf8cdf3c8eb0f3
-          domain: switch
-      rotate_cw_face_1:
+      rotate_cw_face_1: # Bedroom Light
         - type: turn_on
           device_id: 0cedb0a84c067aee51bb847da7027c7f
           entity_id: switch.0x54ef441000410c67
@@ -35,8 +20,40 @@
           device_id: 0cedb0a84c067aee51bb847da7027c7f
           entity_id: switch.0x54ef441000410c67
           domain: switch
+      rotate_cw_face_2: # Bedroom Monitor
+        - service: switch.turn_on
+          target:
+            entity_id: switch.0xa4c1386f1ce92e1c
+      rotate_ccw_face_2:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.0xa4c1386f1ce92e1c
+      doubletap_face_2:
+        - service: switch.toggle
+          target:
+            entity_id: switch.0xa4c1386f1ce92e1c
+      slide_face_3: # Bedroom Covers
+        - service: cover.stop_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      doubletap_face_3:
+        - service: cover.stop_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      rotate_cw_face_3:
+        - service: cover.close_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
+      rotate_ccw_face_3:
+        - service: cover.open_cover
+          data: {}
+          target:
+            entity_id: cover.bedroom_cover_group
 - id: "1662222854749"
-  alias: Aqara Magic Cube - WiFi Control
+  alias: "[Aqara Cube] - WiFi Control"
   description: ""
   use_blueprint:
     path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
@@ -62,33 +79,6 @@
           device_id: 7814b542e63f3d5fe9a0fb9ed74057c0
           entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
           domain: switch
-- id: "1679757233074"
-  alias: Aqara Magic Cube - Covers Control
-  description: ""
-  use_blueprint:
-    path: SirGoodenough/Zigbee2MQTT - Xiaomi Cube Controller.yaml
-    input:
-      remote: sensor.0x00158d00052fa079_action
-      slide_face_3:
-        - service: cover.stop_cover
-          data: {}
-          target:
-            entity_id: cover.bedroom_cover_group
-      doubletap_face_3:
-        - service: cover.stop_cover
-          data: {}
-          target:
-            entity_id: cover.bedroom_cover_group
-      rotate_cw_face_3:
-        - service: cover.close_cover
-          data: {}
-          target:
-            entity_id: cover.bedroom_cover_group
-      rotate_ccw_face_3:
-        - service: cover.open_cover
-          data: {}
-          target:
-            entity_id: cover.bedroom_cover_group
 - id: "1679781150922"
   alias: Low battery level detection & notification
   description: ""

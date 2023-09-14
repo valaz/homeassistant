@@ -34,6 +34,18 @@ saloon_package:
         # automation.hallway_lights_fix_main_light: "off"
         # automation.bathroom_lights_fix_main_light: "off"
 
+  script:
+    saloon_zone_cleanup:
+      alias: Уборка салона
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 3
+            zone:
+              - [23350, 21720, 25170, 24000]
+
   automation:
     - alias: "[Saloon] Start scene when saloon is working"
       trigger:
@@ -57,6 +69,18 @@ saloon_package:
             entity_id: scene.saloon
           data:
             transition: 2.5
+
+    - alias: "[Saloon] Start zone cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.0x54ef44100088155f_action
+          to: "single_both"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.saloon_zone_cleanup
 
     - alias: "[Saloon] Fix bathroom light"
       trigger:
