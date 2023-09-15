@@ -1,0 +1,139 @@
+bedroom_lights:
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_bedroom_monitor_display:
+          friendly_name: "Bedroom Monitor"
+          device_class: opening
+          value_template: >-
+            {{states('sensor.0xa4c1386f1ce92e1c_power')|float > 20}}
+
+  sensor:
+    - platform: template
+      sensors:
+        c_bedroom_monitor_light_brightness_schedule:
+          friendly_name: "Яркость лампы монитора в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% if 5 <= hour and hour < 21 %}
+              234
+            {% elif 21 <= hour and hour < 23 %}
+              210
+            {% else %}
+              123
+            {% endif %}
+
+        c_bedroom_monitor_light_color_temp_schedule:
+          friendly_name: "Температура лампы монитора в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% set min_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'min_mireds') %}
+            {% set max_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'max_mireds') %}
+            {% if 5 <= hour and hour < 20 %}
+              {{ 0.3 * (max_temp  - min_temp) + min_temp }}
+            {% elif 20 <= hour and hour < 22 %}
+              {{ 0.6 * (max_temp  - min_temp) + min_temp }}
+            {% else %}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+            {% endif %}
+
+        c_bedroom_monitor_ambilight_brightness_schedule:
+          friendly_name: "Яркость лампы монитора в спальне"
+          value_template: >
+            {% set hour = now().hour %}
+            {% if 5 <= hour and hour < 21 %}
+              255
+            {% elif 21 <= hour and hour < 23 %}
+              210
+            {% else %}
+              149
+            {% endif %}
+
+        c_bedroom_monitor_ambilight_rgb_calc:
+          friendly_name: "Температура лампы монитора в спальне"
+          value_template: >
+            {% if states('input_number.c_rescuetime_efficiency_percent')|float < 50 %}
+              [214,24,0]
+            {% else %}
+              [110,224,62] 
+            {% endif %}
+
+  automation:
+    - alias: "[Bedroom Lights] Turn Off Monitor Lamp"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.c_bedroom_monitor_display
+          to: "off"
+          for: "00:00:10"
+      action:
+        - service: light.turn_off
+          entity_id: light.yeelight_lamp15_0x1c03268c
+        - service: light.turn_off
+          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+
+    - alias: "[Bedroom Lights] Turn On Monitor Lamp"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.c_bedroom_monitor_display
+          to: "on"
+      action:
+        - service: light.turn_on
+          entity_id: light.yeelight_lamp15_0x1c03268c
+
+    - alias: "[Bedroom Lights] Fix Monitor Lamp Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: light.yeelight_lamp15_0x1c03268c
+          to: "on"
+        - platform: state
+          entity_id: sensor.c_bedroom_monitor_light_brightness_schedule
+        - platform: state
+          entity_id: sensor.c_bedroom_monitor_light_color_temp_schedule
+        - platform: time_pattern
+          minutes: "/5"
+      condition:
+        - condition: state
+          entity_id: light.yeelight_lamp15_0x1c03268c
+          state: "on"
+      action:
+        - service: light.turn_on
+          entity_id: light.yeelight_lamp15_0x1c03268c
+          data_template:
+            brightness: >
+              {{ states('sensor.c_bedroom_monitor_light_brightness_schedule') }}
+            color_temp: >
+              {{ states('sensor.c_bedroom_monitor_light_color_temp_schedule') }}
+            transition: 5
+
+    - alias: "[Bedroom Lights] Fix Monitor Lamp Ambilight"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          to: "on"
+        - platform: state
+          entity_id: sensor.c_bedroom_monitor_ambilight_brightness_schedule
+        - platform: state
+          entity_id: sensor.c_bedroom_monitor_ambilight_rgb_calc
+        - platform: time_pattern
+          minutes: "/5"
+      condition:
+        - condition: state
+          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          state: "on"
+      action:
+        - service: light.turn_on
+          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          data_template:
+            brightness: >
+              {{ states('sensor.c_bedroom_monitor_ambilight_brightness_schedule') }}
+            rgb_color: >
+              {{ states('sensor.c_bedroom_monitor_ambilight_rgb_calc') }}
+            transition: 5
