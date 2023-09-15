@@ -160,7 +160,7 @@ bathroom_lights:
       condition:
         - condition: numeric_state
           entity_id: sensor.c_bathroom_lx_func
-          above: 55
+          above: 0.55
         # - condition: numeric_state
         #   entity_id: sun.sun
         #   attribute: elevation
