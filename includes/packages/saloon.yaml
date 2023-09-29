@@ -103,12 +103,6 @@ saloon_package:
         - platform: state
           entity_id: switch.c_65oled936_12_ambilight_hue
           to: "on"
-        - platform: numeric_state
-          entity_id: light.livingroom
-          attribute: color_temp
-        - platform: numeric_state
-          entity_id: light.livingroom
-          attribute: brightness
       condition:
         condition: state
         entity_id: binary_sensor.saloon_works
@@ -129,12 +123,6 @@ saloon_package:
         - platform: state
           entity_id: light.hallway
           to: "on"
-        - platform: numeric_state
-          entity_id: light.hallway
-          attribute: color_temp
-        - platform: numeric_state
-          entity_id: light.hallway
-          attribute: brightness
       condition:
         condition: state
         entity_id: binary_sensor.saloon_works
