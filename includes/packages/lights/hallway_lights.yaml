@@ -13,7 +13,7 @@ hallway_lights:
           delay_off:
             seconds: 10
           value_template: >-
-            {{states('binary_sensor.0x00158d00076a7e3e_contact') == 'off'}}
+            {{states('binary_sensor.hallway_push_sensor_contact') == 'off'}}
 
   sensor:
     - platform: template
@@ -83,10 +83,10 @@ hallway_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: binary_sensor.0x00158d0008a9e22e_contact
+          entity_id: binary_sensor.hallway_door_sensor_contact
           to: "on"
         - platform: state
-          entity_id: binary_sensor.0x00158d00076a7e3e_contact
+          entity_id: sensor.c_hallway_carpet_usage
           to: "on"
       condition:
         - condition: state

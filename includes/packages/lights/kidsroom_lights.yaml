@@ -8,4 +8,4 @@ kidsroom_lights:
       action:
         - service: switch.turn_off
           target:
-            entity_id: switch.0x54ef441000413c72
+            entity_id: switch.kidsroom_light_switch

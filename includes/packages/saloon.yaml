@@ -1,13 +1,6 @@
 saloon_package:
   template:
     binary_sensor:
-      - name: "Saloon Seat Usage"
-        unique_id: "saloon_seat_usage"
-        state: "{{states('binary_sensor.0x00158d00076a7e3e_contact') == 'off'}}"
-        delay_off:
-          seconds: 10
-        device_class: motion
-
       - name: "Saloon Works"
         unique_id: "saloon_works"
         state: "{{states('input_select.c_livingroom_light_mode') == 'saloon'}}"
@@ -75,8 +68,11 @@ saloon_package:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef44100088155f_action
+          entity_id: sensor.livingroom_light_switch_action
           to: "single_both"
+        - platform: state
+          entity_id: sensor.livingroom_light_switch_action
+          to: "double_both"
       action:
         - service: script.turn_on
           entity_id:
@@ -85,7 +81,7 @@ saloon_package:
     - alias: "[Saloon] Fix bathroom light"
       trigger:
         - platform: state
-          entity_id: light.0x00158d00052b3ad9
+          entity_id: light.bathroom_lamp
           to: "on"
       condition:
         condition: state
@@ -94,7 +90,7 @@ saloon_package:
       action:
         service: light.turn_on
         target:
-          entity_id: light.0x00158d00052b3ad9
+          entity_id: light.bathroom_lamp
         data:
           brightness: 255
           color_temp: 168

@@ -44,7 +44,7 @@ livingroom_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef44100088155f_action
+          entity_id: sensor.livingroom_light_switch_action
           to: "single_left"
       action:
         - service: light.toggle
@@ -55,7 +55,7 @@ livingroom_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef44100088155f_action
+          entity_id: sensor.livingroom_light_switch_action
           to: "single_right"
       action:
         - service: switch.toggle
@@ -99,7 +99,7 @@ livingroom_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef44100088155f_action
+          entity_id: sensor.livingroom_light_switch_action
           to: "double_left"
       action:
         - service: input_select.select_option
@@ -113,7 +113,7 @@ livingroom_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef44100088155f_action
+          entity_id: sensor.livingroom_light_switch_action
           to: "double_right"
       action:
         - service: input_select.select_option

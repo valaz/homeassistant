@@ -1,7 +1,7 @@
 - alias: "[Bedroom] Turn Off all lights on charge"
   trigger:
     - platform: numeric_state
-      entity_id: sensor.0x04cf8cdf3c777c79_power
+      entity_id: sensor.bedroom_charging_dock_plug_power
       above: 2
   condition:
     - condition: numeric_state
@@ -17,10 +17,10 @@
         entity_id: light.livingroom
     - service: switch.turn_off
       target:
-        entity_id: switch.0x54ef4410007df222_right
+        entity_id: switch.kitchen_light_switch_right
     - service: switch.turn_off
       target:
-        entity_id: switch.0xa4c1386f1ce92e1c
+        entity_id: switch.bedroom_monitor_plug
 
 - alias: "[Bedroom] Turn on Monitor on sunrise"
   trigger:
@@ -30,4 +30,4 @@
   action:
     - service: switch.turn_on
       target:
-        entity_id: switch.0xa4c1386f1ce92e1c
+        entity_id: switch.bedroom_monitor_plug

@@ -5,30 +5,30 @@ kitchen_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: sensor.0x54ef4410007df222_action
+          entity_id: sensor.kitchen_light_switch_action
           to: "single_left"
       action:
         - service: switch.toggle
-          entity_id: switch.0x04cf8cdf3c764d02
+          entity_id: switch.kitchen_sink_plug
 
     - alias: "[Kitchen Lights] Turn on sink light if there is movement"
       trigger:
         - platform: state
-          entity_id: binary_sensor.0x00158d0006bed661_occupancy
+          entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           to: "on"
       condition:
         - condition: numeric_state
-          entity_id: "sensor.0x00158d0006bed661_illuminance_lux"
+          entity_id: "sensor.kitchen_motion_sensor_illuminance_lux"
           below: 100
       action:
         - service: switch.turn_on
           target:
-            entity_id: switch.0x04cf8cdf3c764d02
+            entity_id: switch.kitchen_sink_plug
 
     - alias: "[Kitchen Lights] Turn off sink light if there is no movements"
       trigger:
         - platform: state
-          entity_id: binary_sensor.0x00158d0006bed661_occupancy
+          entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           to: "off"
           # for: "00:00:10"
         - platform: event
@@ -38,4 +38,4 @@ kitchen_lights:
       action:
         - service: switch.turn_off
           target:
-            entity_id: switch.0x04cf8cdf3c764d02
+            entity_id: switch.kitchen_sink_plug

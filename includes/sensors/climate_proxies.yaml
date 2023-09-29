@@ -40,14 +40,14 @@
     c_kidsroom_temperature:
       friendly_name: "Kidsroom Temeperature"
       value_template: >
-        {{ states('sensor.0x00158d0006ed6b85_temperature') }}
+        {{ states('sensor.kidsroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
 
     c_kidsroom_humidity:
       friendly_name: "Kidsroom Humidity"
       value_template: >
-        {{ states('sensor.0x00158d0006ed6b85_humidity') }}
+        {{ states('sensor.kidsroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
 
@@ -55,14 +55,14 @@
     c_bathroom_temperature:
       friendly_name: "Bathroom Temeperature"
       value_template: >
-        {{ states('sensor.0x00158d000586695c_temperature') }}
+        {{ states('sensor.bathroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
 
     c_bathroom_humidity:
       friendly_name: "Bathroom Humidity"
       value_template: >
-        {{ states('sensor.0x00158d000586695c_humidity') }}
+        {{ states('sensor.bathroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
 
@@ -70,14 +70,14 @@
     c_livingroom_temperature:
       friendly_name: "Livingroom Temeperature"
       value_template: >
-        {{ states('sensor.0x00158d0005800735_temperature') }}
+        {{ states('sensor.livingroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
 
     c_livingroom_humidity:
       friendly_name: "Livingroom Humidity"
       value_template: >
-        {{ states('sensor.0x00158d0005800735_humidity') }}
+        {{ states('sensor.livingroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
 

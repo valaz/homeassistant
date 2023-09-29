@@ -94,7 +94,7 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-light-card
-                    entity: switch.0x54ef441000410c67
+                    entity: switch.bedroom_light_switch
                     name: Люстра
                     fill_container: true
                     collapsible_controls: false
@@ -103,7 +103,7 @@ cards:
                     show_color_control: false
                     use_light_color: true
                   - type: custom:mushroom-light-card
-                    entity: switch.0xa4c1386f1ce92e1c
+                    entity: switch.bedroom_monitor_plug
                     name: Монитор
                     fill_container: true
               - type: horizontal-stack
@@ -129,7 +129,7 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: binary_sensor.wardrobe_usage
+                    entity: binary_sensor.c_bedroom_closet_usage
                     name: Движение
                     primary_info: state
                     secondary_info: last-changed
@@ -147,20 +147,20 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_kidsroom_temperature
+                    entity: sensor.kidsroom_air_sensor_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_kidsroom_humidity
+                    entity: sensor.kidsroom_air_sensor_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-light-card
-                    entity: switch.0x54ef441000413c72
+                    entity: switch.kidsroom_light_switch
                     name: Луна
                     fill_container: true
                     collapsible_controls: false
@@ -177,7 +177,7 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-light-card
-                    entity: switch.0x54ef4410007df222_right
+                    entity: switch.kitchen_light_switch_right
                     name: Люстра
                     fill_container: true
                     collapsible_controls: false
@@ -186,7 +186,7 @@ cards:
                     show_color_control: false
                     use_light_color: true
                   - type: custom:mushroom-light-card
-                    entity: switch.0x04cf8cdf3c764d02
+                    entity: switch.kitchen_sink_plug
                     name: Раковина
                     fill_container: true
                     collapsible_controls: false
@@ -197,12 +197,12 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: binary_sensor.0x00158d0006bed661_occupancy
+                    entity: binary_sensor.kitchen_motion_sensor_occupancy
                     name: Движение
                     primary_info: state
                     secondary_info: last-changed
                   - type: custom:mushroom-entity-card
-                    entity: sensor.0x00158d0006bed661_illuminance_lux
+                    entity: sensor.kitchen_motion_sensor_illuminance_lux
                     name: Уровень освещения
                     # primary_info: state
                     # secondary_info: last-changed
@@ -226,7 +226,7 @@ cards:
                   - type: custom:vertical-stack-in-card
                     cards:
                       - type: custom:mushroom-entity-card
-                        entity: binary_sensor.0x00158d0008a9e22e_contact
+                        entity: binary_sensor.hallway_door_sensor_contact
                         name: Входная Дверь
                         primary_info: state
                         secondary_info: last-changed
@@ -246,13 +246,13 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_bathroom_temperature
+                    entity: sensor.bathroom_air_sensor_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_bathroom_humidity
+                    entity: sensor.bathroom_air_sensor_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name
@@ -271,12 +271,12 @@ cards:
                   - type: custom:vertical-stack-in-card
                     cards:
                       - type: custom:mushroom-entity-card
-                        entity: binary_sensor.0x54ef4410006dc3dd_occupancy
+                        entity: binary_sensor.bathroom_presence_sensor_occupancy
                         name: Движение
                         primary_info: state
                         secondary_info: last-changed
                       - type: custom:mushroom-entity-card
-                        entity: binary_sensor.0x00158d0006e4e280_contact
+                        entity: binary_sensor.bathroom_door_sensor_contact
                         name: Дверь
                         primary_info: state
                         secondary_info: last-changed
@@ -313,7 +313,7 @@ cards:
               - type: entities
                 entities:
                   # - alert.moisture_bathroom
-                  - binary_sensor.0x00158d0007bf1dd5_water_leak
+                  - binary_sensor.bathroom_water_leak_sensor_water_leak
                   - timer.bathroom_light_turn_off
                   # - binary_sensor.0x54ef4410006dc3dd_occupancy
                   # - select.0x54ef4410006dc3dd_motion_sensitivity
@@ -329,13 +329,13 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_livingroom_temperature
+                    entity: sensor.livingroom_air_sensor_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_livingroom_humidity
+                    entity: sensor.livingroom_air_sensor_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name

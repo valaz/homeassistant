@@ -6,7 +6,7 @@ bedroom_lights:
           friendly_name: "Bedroom Monitor"
           device_class: opening
           value_template: >-
-            {{states('sensor.0xa4c1386f1ce92e1c_power')|float > 20}}
+            {{states('sensor.bedroom_monitor_plug_power')|float > 20}}
 
   sensor:
     - platform: template
@@ -83,6 +83,22 @@ bedroom_lights:
       action:
         - service: light.turn_on
           entity_id: light.yeelight_lamp15_0x1c03268c
+
+    - alias: "[Bedroom Lights] Turn On Monitor Ambilight"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: light.yeelight_lamp15_0x1c03268c
+          to: "on"
+      condition:
+        - condition: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 0
+      action:
+        - service: light.turn_on
+          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
 
     - alias: "[Bedroom Lights] Fix Monitor Lamp Light"
       mode: restart
