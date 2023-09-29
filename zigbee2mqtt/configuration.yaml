@@ -1,0 +1,79 @@
+homeassistant: true
+mqtt:
+  server: mqtt://core-mosquitto:1883
+  user: mqtt
+  password: ttmq
+serial:
+  port: /dev/ttyUSB0
+frontend:
+  port: 8099
+devices:
+  '0x00158d000586695c':
+    friendly_name: Bathroom Air Sensor
+  '0x00158d0006ed6b85':
+    friendly_name: Kidsroom Air Sensor
+  '0x00158d0006bed661':
+    friendly_name: Kitchen Motion Sensor
+  '0x00158d00054cd813':
+    friendly_name: Bedroom Closet Motion Sensor
+  '0x00158d0006e4e280':
+    friendly_name: Bathroom Door Sensor
+  '0x04cf8cdf3c777c79':
+    friendly_name: Bedroom Charging Dock Plug
+  '0x04cf8cdf3c764d02':
+    friendly_name: Kitchen Sink Plug
+  '0x00158d00052fa079':
+    friendly_name: Bedroom Aqara Cube
+  '0x00158d0007bf1dd5':
+    friendly_name: Bathroom Water Leak Sensor
+  '0x00158d0005800735':
+    friendly_name: Livingroom Air Sensor
+  '0x04cf8cdf3c8eb0f3':
+    friendly_name: Bathroom Light Switch
+    state_action: true
+  '0x00158d0008a9e22e':
+    friendly_name: Hallway Door Sensor
+  '0x54ef4410006ba559':
+    friendly_name: Bedroom Left Cover
+  '0x54ef4410006b96f2':
+    friendly_name: Bedroom Right Cover
+  '0x54ef441000410c67':
+    friendly_name: Bedroom Light Switch
+    state_action: true
+  '0x54ef441000413c72':
+    friendly_name: Kidsroom Light Switch
+    state_action: true
+  '0x00158d00076a7e3e':
+    friendly_name: Hallway Push Sensor
+  '0x00158d00052b3ad9':
+    friendly_name: Bathroom Lamp
+  '0x54ef4410006dc3dd':
+    friendly_name: Bathroom Presence Sensor
+  '0x54ef44100088155f':
+    friendly_name: Livingroom Light Switch
+    state_action: true
+  '0xa4c138f4eb101032':
+    friendly_name: Remote Control 1
+  '0x54ef4410007df222':
+    friendly_name: Kitchen Light Switch
+    state_action: true
+  '0xa4c1386f1ce92e1c':
+    friendly_name: Bedroom Monitor Plug
+advanced:
+  log_level: info
+  log_syslog:
+    app_name: Zigbee2MQTT
+    eol: /n
+    host: localhost
+    localhost: localhost
+    path: /dev/log
+    pid: process.pid
+    port: 514
+    protocol: udp4
+    type: '5424'
+  channel: 24
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+device_options:
+  legacy: false

@@ -3,6 +3,7 @@ known_devices.yaml
 home-assistant.*
 home-assistant_v2.db
 zigbee2mqtt/*
+!zigbee2mqtt/configuration.yaml
 tts/*
 node-red/*
 .storage/*
