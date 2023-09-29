@@ -2,7 +2,7 @@ leak_bathroom:
   name: "Утечка воды в ванной"
   message: '{{"\U000026A0"}} ОБНАРУЖЕНА УТЕЧКА ВОДЫ В ВАННОЙ'
   done_message: '{{"\U0001F197"}} Утечка воды в ванной устранена'
-  entity_id: binary_sensor.0x00158d0007bf1dd5_water_leak
+  entity_id: binary_sensor.bathroom_water_leak_sensor_water_leak
   state: "on"
   repeat: 1
   can_acknowledge: true
