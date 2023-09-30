@@ -1,0 +1,176 @@
+roborock:
+  script:
+    roborock_saloon_zone_cleanup:
+      alias: "[Roborock] Уборка салона"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 3
+            zone:
+              - [23350, 21720, 25170, 24000]
+
+    roborock_bathroom_cleanup:
+      alias: "[Roborock] Уборка в ванной"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [27000, 22000, 29500, 24000]
+
+    roborock_livingroom_kitchen_cleanup:
+      alias: "[Roborock] Уборка в гостиной и на кухне"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [20550, 21720, 27000, 24200]
+              - [22100, 24200, 26100, 28000]
+
+    roborock_livingroom_cleanup:
+      alias: "[Roborock] Уборка в гостиной"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [20550, 21720, 27000, 24200]
+
+    roborock_kitchen_cleanup:
+      alias: "[Roborock] Уборка на кухне"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [22100, 24200, 26100, 28000]
+
+    roborock_kitchen_table_cleanup:
+      alias: "[Roborock] Уборка на кухне под столом"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 2
+            zone:
+              - [22200, 24500, 24100, 26500]
+
+    roborock_bedroom_cleanup:
+      alias: "[Roborock] Уборка в спальне"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [26200, 24200, 30300, 28600]
+
+    roborock_kidsroom_cleanup:
+      alias: "[Roborock] Уборка в детской"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 1
+            zone:
+              - [20550, 18720, 25200, 21700]
+
+  automation:
+    - alias: "[Roborock] Return To Base"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "1_hold"
+      action:
+        - service: vacuum.return_to_base
+          data: {}
+          target:
+            entity_id: vacuum.roborock_s5
+
+    - alias: "[Roborock] Start Kitchen cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "1_single"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_kitchen_cleanup
+
+    - alias: "[Roborock] Start Kitchen Table cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "1_double"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_kitchen_table_cleanup
+
+    - alias: "[Roborock] Start Livingroom cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "2_single"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_livingroom_cleanup
+
+    - alias: "[Roborock] Start Kitchen and Livingroom cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "2_hold"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_livingroom_kitchen_cleanup
+
+    - alias: "[Roborock] Start Kidsroom cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "3_single"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_kidsroom_cleanup
+
+    - alias: "[Roborock] Start Bedroom cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "4_single"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_bedroom_cleanup

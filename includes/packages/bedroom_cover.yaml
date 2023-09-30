@@ -63,23 +63,6 @@ bedroom_cover_group:
           data:
             position: "{{position}}"
 
-    # bedroom_cover_group_refresh:
-    #   mode: restart
-    #   sequence:
-    #     - alias: "Refresh covers states"
-    #       repeat:
-    #         count: "{{count | default(1)}}"
-    #         sequence:
-    #           - service: mqtt.publish
-    #             data:
-    #               topic: "zigbee2mqtt/{{state_attr('cover.bedroom_left_cover','friendly_name')}}/get"
-    #               payload: '{"position":""}'
-    #           - service: mqtt.publish
-    #             data:
-    #               topic: "zigbee2mqtt/{{state_attr('cover.bedroom_right_cover','friendly_name')}}/get"
-    #               payload: '{"position":""}'
-    #           - delay: "00:00:05"
-
     bedroom_cover_open_smoothly:
       mode: restart
       variables:
@@ -100,36 +83,6 @@ bedroom_cover_group:
               - delay: "00:01:00"
 
   automation:
-    # - alias: "[Bedroom Covers] Refresh state"
-    #   mode: restart
-    #   trigger:
-    #     - platform: state
-    #       entity_id: binary_sensor.bedroom_left_cover_running
-    #       to: off
-    #     - platform: state
-    #       entity_id: binary_sensor.bedroom_right_cover_running
-    #       to: off
-    #     - platform: time_pattern
-    #       minutes: /5
-    #     # - platform: mqtt
-    #     #   topic: "zigbee2mqtt/Bedroom Left Cover/set"
-    #     # - platform: mqtt
-    #     #   topic: "zigbee2mqtt/Bedroom Right Cover/set"
-    #   action:
-    #     - delay: "00:00:05"
-    #     - service: script.bedroom_cover_group_refresh
-    #       data:
-    #         count: 2
-
-    # - alias: "[Bedroom Covers] Auto Refresh state"
-    #   trigger:
-    #     - platform: time_pattern
-    #       minutes: /5
-    #   action:
-    #     - service: script.bedroom_cover_group_refresh
-    #       data:
-    #         count: 1
-
     - alias: "[Bedroom Covers] Close after Sunset"
       trigger:
         - platform: sun

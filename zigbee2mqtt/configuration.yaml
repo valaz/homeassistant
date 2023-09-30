@@ -53,7 +53,7 @@ devices:
     friendly_name: Livingroom Light Switch
     state_action: true
   '0xa4c138f4eb101032':
-    friendly_name: Remote Control 1
+    friendly_name: Roborock Remote Control
   '0x54ef4410007df222':
     friendly_name: Kitchen Light Switch
     state_action: true
