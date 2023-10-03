@@ -147,13 +147,13 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.kidsroom_air_sensor_temperature
+                    entity: sensor.c_kidsroom_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.kidsroom_air_sensor_humidity
+                    entity: sensor.c_kidsroom_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name
@@ -246,13 +246,13 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.bathroom_air_sensor_temperature
+                    entity: sensor.c_bathroom_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.bathroom_air_sensor_humidity
+                    entity: sensor.c_bathroom_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name
@@ -329,13 +329,13 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-entity-card
-                    entity: sensor.livingroom_air_sensor_temperature
+                    entity: sensor.c_livingroom_temperature
                     primary_info: state
                     icon_color: orange
                     name: Temperature
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.livingroom_air_sensor_humidity
+                    entity: sensor.c_livingroom_humidity
                     name: Humidity
                     primary_info: state
                     secondary_info: name

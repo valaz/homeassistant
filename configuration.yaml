@@ -22,6 +22,9 @@ http:
     - 192.168.178.6
     - 10.13.13.1
 
+
+homekit: !include includes/homekit.yaml
+
 lovelace:
   mode: yaml
   resources:

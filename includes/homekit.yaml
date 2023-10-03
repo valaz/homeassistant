@@ -1,0 +1,108 @@
+- name: "Hass Home"
+  port: 21065
+  filter:
+    include_domains:
+      - cover
+      - light
+      - vacuum
+    include_entities:
+      - sensor.c_bedroom_pm25_density
+      - switch.bedroom_light_switch
+      - switch.bedroom_monitor_plug
+      - switch.kidsroom_light_switch
+      - switch.kitchen_light_switch_right
+      - switch.kitchen_sink_plug
+      - binary_sensor.c_bedroom_closet_usage
+      - binary_sensor.kitchen_motion_sensor_occupancy
+      - sensor.kitchen_motion_sensor_illuminance_lux
+      - binary_sensor.c_hallway_carpet_usage
+      - switch.c_65oled936_12_screen_state
+      - switch.c_65oled936_12_ambilight_hue
+      - switch.fritz_box_6660_cable_wi_fi_aeki_2
+      - switch.fritz_box_6660_cable_wi_fi_aeki
+      - switch.fritz_box_6660_cable_wi_fi_aeki_g
+    include_entity_globs:
+      - binary_sensor.*_water_leak
+      - binary_sensor.*_door_sensor_contact
+      - binary_sensor.*_presence_sensor_occupancy
+      - sensor.c_*_co2_density
+      - sensor.c_*_temperature
+      - sensor.c_*_humidity
+    exclude_entities:
+      - cover.bedroom_left_cover
+      - cover.bedroom_right_cover
+      - light.bathroom_lamp
+      - light.gostinaia
+  entity_config:
+    cover.bedroom_cover_group:
+      name: "Шторы"
+    light.c_bathroom:
+      name: "Люстра"
+    light.hallway:
+      name: "Люстра"
+    light.livingroom:
+      name: "Люстра"
+    light.yeelight_lamp15_0x1c03268c:
+      name: "Лампа для мониора"
+    light.yeelight_lamp15_0x1c03268c_ambilight:
+      name: "Подсветка для мониора"
+    vacuum.roborock_s5:
+      name: "Пылесос"
+    binary_sensor.bathroom_water_leak_sensor_water_leak:
+      name: "Протечка в ванной"
+    sensor.c_bedroom_co2_density:
+      name: "Углекислый газ"
+    sensor.c_bedroom_temperature:
+      name: "Температура"
+    sensor.c_kidsroom_temperature:
+      name: "Температура"
+    sensor.c_bathroom_temperature:
+      name: "Температура"
+    sensor.c_livingroom_temperature:
+      name: "Температура"
+    sensor.c_bedroom_humidity:
+      name: "Влажность"
+    sensor.c_kidsroom_humidity:
+      name: "Влажность"
+    sensor.c_bathroom_humidity:
+      name: "Влажность"
+    sensor.c_livingroom_humidity:
+      name: "Влажность"
+    sensor.c_bedroom_pm25_density:
+      name: "pm2.5"
+    switch.bedroom_light_switch:
+      name: "Люстра"
+    switch.bedroom_monitor_plug:
+      name: "Монитор"
+    switch.kidsroom_light_switch:
+      name: "Люстра"
+    switch.kitchen_light_switch_right:
+      name: "Люстра"
+    switch.kitchen_sink_plug:
+      name: "Раковина"
+    binary_sensor.c_bedroom_closet_usage:
+      name: "Шкаф"
+    binary_sensor.kitchen_motion_sensor_occupancy:
+      name: "Движение"
+    sensor.kitchen_motion_sensor_illuminance_lux:
+      name: "Освещенность"
+    binary_sensor.bathroom_door_sensor_contact:
+      name: "Дверь"
+    binary_sensor.hallway_door_sensor_contact:
+      name: "Дверь"
+    binary_sensor.bathroom_presence_sensor_occupancy:
+      name: "Движение"
+    light.65oled936_12_ambilight:
+      name: "Подсветка телевизора"
+    switch.c_65oled936_12_screen_state:
+      name: "Экран телевизора"
+    switch.c_65oled936_12_ambilight_hue:
+      name: "Дополнительная подсветка телевизора"
+    switch.fritz_box_6660_cable_wi_fi_aeki_2:
+      name: "Wi-Fi 2.4"
+    switch.fritz_box_6660_cable_wi_fi_aeki:
+      name: "Wi-Fi 5"
+    switch.fritz_box_6660_cable_wi_fi_aeki_g:
+      name: "Wi-Fi Гостевой"
+    binary_sensor.c_hallway_carpet_usage:
+      name: "Ковёр"
