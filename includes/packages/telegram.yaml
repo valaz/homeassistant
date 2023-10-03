@@ -152,7 +152,7 @@ telegram:
         - service: notify.tg_valaz
           data:
             message: |
-              {{"\U0001F9F9"}} Пылесос начал уборку.
+              {{"\U0001F9F9"}} Пылесос начал уборку ({{state_attr('vacuum.roborock_s5', 'status')}}).
 
     - alias: "[Telegram] Roborock завершил уборку"
       initial_state: true

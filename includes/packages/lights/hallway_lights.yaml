@@ -127,7 +127,7 @@ hallway_lights:
         - platform: numeric_state
           entity_id: sun.sun
           attribute: elevation
-          below: -3
+          below: 2
       condition:
         - condition: state
           entity_id: light.hallway
