@@ -395,13 +395,6 @@ cards:
                     collapsible_controls: false
                     media_controls: [on_off, play_pause_stop]
 
-              # - type: entities
-              #   entities:
-              # - timer.hallway_light_turn_off
-              # - input_select.c_livingroom_light_mode
-              # - binary_sensor.saloon_works
-              # - timer.tv_rescan
-
               - type: entities
                 entities:
                   # - media_player.philips_tv
@@ -418,7 +411,6 @@ cards:
                       - entity: switch.c_65oled936_12_ambilight_hue
                         name: ambilight+hue
                         toggle: true
-                  # - media_player.apple_tv_4k
                   # - entity: fan.air_purifier_2s
                   #   secondary_info:
                   #     attribute: preset_mode
@@ -428,145 +420,48 @@ cards:
                   #   entities:
                   #     - entity: number.air_purifier_2s_favorite_level
                   #       name: level
-                  - entity: vacuum.roborock_s5
-                    type: custom:multiple-entity-row
-                    secondary_info:
-                      attribute: battery_level
-                      name: Заряд
-                      unit: "%"
-                    show_state: true
-                  - entity: sensor.c_last_clean_custom
-                    type: custom:multiple-entity-row
-                    secondary_info:
-                      entity: sensor.c_last_clean_custom
-                      name: " "
-                      unit: "назад"
-                    show_state: false
-                    entities:
-                      - entity: sensor.roborock_s5_last_clean_area
-                        name: площадь
-                      - entity: sensor.c_roborock_s5_last_clean_duration
-                        name: длительность
 
-              - type: "custom:vacuum-card"
+              - type: custom:mushroom-vacuum-card
                 entity: vacuum.roborock_s5
-                # actions:
-                #   start:
-                #     service: xiaomi_miio.vacuum_clean_segment
-                #     service_data:
-                #       entity_id: vacuum.robot_vacuum
-                #       segments: [16, 20]
-                stats:
-                  default:
-                    - entity_id: sensor.roborock_s5_filter_left
-                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
-                      unit: hours
-                      subtitle: Filter
-                    - entity_id: sensor.roborock_s5_side_brush_left
-                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
-                      unit: hours
-                      subtitle: Side brush
-                    - entity_id: sensor.roborock_s5_main_brush_left
-                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
-                      unit: hours
-                      subtitle: Main brush
-                    - entity_id: sensor.roborock_s5_sensor_dirty_left
-                      value_template: "{{ (value | float(0) / 3600) | round(1) }}"
-                      unit: hours
-                      subtitle: Sensors
-                  cleaning:
-                    - entity_id: sensor.roborock_s5_current_clean_area
-                      value_template: "{{ (value | float(0) / 1) | round(1) }}"
-                      unit: m2
-                      subtitle: Cleaning area
-                    - entity_id: sensor.roborock_s5_current_clean_duration
-                      value_template: "{{ (value | float(0) / 60) | round(1) }}"
-                      unit: minutes
-                      subtitle: Cleaning time
+                icon_animation: true
+                fill_container: true
+                commands: [start_pause, stop, return_home]
+
+              - type: custom:mushroom-chips-card
+                alignment: center
+                chips:
+                  - type: entity
+                    entity: sensor.c_roborock_s5_battery
+                    icon_color: green
+                  - type: entity
+                    entity: sensor.c_last_clean_custom
+                    icon_color: blue
+                  - type: entity
+                    entity: sensor.roborock_s5_last_clean_area
+                    icon_color: orange
+                  - type: entity
+                    entity: sensor.c_roborock_s5_last_clean_duration
+                    icon_color: orange
 
               - type: conditional
                 conditions:
                   - entity: vacuum.roborock_s5
                     state: "cleaning"
                 card:
-                  type: picture-entity
-                  entity: camera.roborock_s5
-                  camera_image: camera.roborock_s5
-                  camera_view: live
-                  show_state: false
+                  type: glance
                   show_name: false
-                  aspect_ratio: "135x115"
+                  entities:
+                    - sensor.roborock_s5_current_clean_area
+                    - sensor.c_roborock_s5_current_clean_duration
 
-                # shortcuts:
-                #   - name: Clean living room
-                #     service: script.clean_living_room
-                #     icon: 'mdi:sofa'
-                #   - name: Clean bedroom
-                #     service: script.clean_bedroom
-                #     icon: 'mdi:bed-empty'
-                #   - name: Clean kitchen
-                #     service: script.clean_kitchen
-                #     icon: 'mdi:silverware-fork-knife'
-
-                # - type: custom:history-explorer-card
-                #   header: hide
-                #   defaultTimeRange: 24h
-                #   lineMode: curves
-                #   decimation: true
-                #   uimode: dark
-                #   recordedEntitiesOnly: true
-                #   labelsVisible: false
-                #   uiColors:
-                #     gridlines: rgb(100,100,100)
-                #   uiLayout:
-                #     toolbar: hide
-                #     selector: hide
-                #   graphs:
-                #     - type: line
-                #       entities:
-                #         - entity: sensor.0x04cf8cdf3c764d02_power
-                #           color: rgb(127, 186, 192)
-                #           fill: rgba(217, 240, 235, 0.5)
-
-              # - type: "custom:logbook-card"
-              #   entity: media_player.65oled936_12_2
-              #   attributes:
-              #     - value: app_name
-              #       label: App
-              #     - value: media_title
-              #       label: Title
-              #   title: "Philips TV History"
-              #   state_map:
-              #     - label: Paused
-              #       icon: mdi:pause
-              #       value: paused
-              #     - label: Playing
-              #       icon: mdi:play-outline
-              #       value: playing
-              #     - label: Idle
-              #       value: idle
-              #   max_items: 50
-              #   show:
-              #     end_date: false
-              #     start_date: true
-              # - type: "custom:logbook-card"
-              #   entity: media_player.apple_tv_4k
-              #   attributes:
-              #     - value: app_name
-              #       label: App
-              #     - value: media_title
-              #       label: Title
-              #   title: "Apple TV History"
-              #   state_map:
-              #     - label: Paused
-              #       icon: mdi:pause
-              #       value: paused
-              #     - label: Playing
-              #       icon: mdi:play-outline
-              #       value: playing
-              #     - label: Idle
-              #       value: idle
-              #   max_items: 50
-              #   show:
-              #     end_date: false
-              #     start_date: true
+              - type: conditional
+                conditions:
+                  - entity: vacuum.roborock_s5
+                    state_not: "cleaning"
+                card:
+                  type: glance
+                  entities:
+                    - sensor.c_roborock_s5_filter_left_hours
+                    - sensor.c_roborock_s5_side_brush_left_hours
+                    - sensor.c_roborock_s5_main_brush_left_hours
+                    - entity: sensor.c_roborock_s5_sensor_dirty_left_hours

@@ -172,3 +172,16 @@ telegram:
               {{"\U0001F3E0"}} Площадь уборки - {{ states('sensor.roborock_s5_last_clean_area') }} m2.
               {{"\U000023F1"}} Время уборки - {{ states('sensor.c_roborock_s5_last_clean_duration') }} мин.
               {{"\U0001F50B"}} Уровень заряда - {{ states('sensor.c_roborock_s5_battery') }} %.
+
+    - alias: "[Telegram] Roborock ошибка при уборке"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: vacuum.roborock_s5
+          to: "error"
+      action:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F9F9"}} Ошибка при уборке.
+              {{"\U000026A0"}} {{state_attr('vacuum.roborock_s5', 'error')}}

@@ -1,6 +1,7 @@
 - platform: template
   sensors:
     c_roborock_s5_battery:
+      icon_template: mdi:battery
       friendly_name: "Уровень заряда"
       value_template: "{{ state_attr('vacuum.roborock_s5', 'battery_level') | round(0) }}"
       unit_of_measurement: "%"
@@ -15,7 +16,7 @@
       friendly_name: "Продолжительность последней уборки"
       value_template: >
         {{ (states('sensor.roborock_s5_last_clean_duration') | float / 60) | round(2) }}
-        
+
     c_roborock_s5_current_clean_duration:
       icon_template: mdi:timer-sand
       unit_of_measurement: "мин"
@@ -52,10 +53,22 @@
       icon_template: mdi:clock
 
     c_roborock_s5_filter_left_hours:
-      value_template: "{{ (states('sensor.roborock_s5_filter_left') | float / 3600) | round(0) }}"
+      value_template: "{{ (states('sensor.roborock_s5_filter_left') | float / 3600) | round(1) }}"
+      unit_of_measurement: "hours"
+      friendly_name: "Filter"
+      icon_template: mdi:air-filter
     c_roborock_s5_side_brush_left_hours:
-      value_template: "{{ (states('sensor.roborock_s5_side_brush_left') | float / 3600) | round(0) }}"
+      value_template: "{{ (states('sensor.roborock_s5_side_brush_left') | float / 3600) | round(1) }}"
+      unit_of_measurement: "hours"
+      friendly_name: "Side brush"
+      icon_template: mdi:brush
     c_roborock_s5_main_brush_left_hours:
-      value_template: "{{ (states('sensor.roborock_s5_main_brush_left') | float / 3600) | round(0) }}"
+      value_template: "{{ (states('sensor.roborock_s5_main_brush_left') | float / 3600) | round(1) }}"
+      unit_of_measurement: "hours"
+      friendly_name: "Main brush"
+      icon_template: mdi:brush
     c_roborock_s5_sensor_dirty_left_hours:
-      value_template: "{{ (states('sensor.roborock_s5_sensor_dirty_left') | float / 3600) | round(0) }}"
+      value_template: "{{ (states('sensor.roborock_s5_sensor_dirty_left') | float / 3600) | round(1) }}"
+      unit_of_measurement: "hours"
+      friendly_name: "Sensors"
+      icon_template: mdi:eye-outline
