@@ -168,6 +168,9 @@ cards:
                     show_color_temp_control: false
                     show_color_control: false
                     use_light_color: true
+                  - type: custom:mushroom-light-card
+                    entity: switch.c_kidsroom_sleep_mode
+                    fill_container: true
 
       - type: horizontal-stack
         cards:
@@ -354,15 +357,8 @@ cards:
                   - type: custom:mushroom-select-card
                     entity: input_select.c_livingroom_light_mode
                     icon_color: orange
-                    # name: Light Mode
                     primary_info: name
                     secondary_info: last-changed
-                  # - type: custom:mushroom-entity-card
-                  #   entity: binary_sensor.saloon_works
-                  #   icon_color: green
-                  #   name: Saloon Works
-                  #   primary_info: state
-                  #   secondary_info: last-changed
 
               - type: horizontal-stack
                 cards:

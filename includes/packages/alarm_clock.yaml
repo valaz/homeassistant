@@ -13,6 +13,7 @@ alarm_clock_sync:
       name: Bedroom Pre Alarm Time
       has_date: false
       has_time: true
+      
   automation:
     - alias: "[Bedroom] Sync Alarm"
       trigger:

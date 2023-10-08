@@ -1,4 +1,42 @@
 kidsroom_lights:
+  input_select:
+    c_kidsroom_light_mode:
+      name: Режим освещения
+      options:
+        - "full"
+        - "sleep"
+
+  switch:
+    - platform: template
+      switches:
+        c_kidsroom_sleep_mode:
+          friendly_name: "Ночной режим"
+          icon_template: mdi:sleep
+          value_template: "{{is_state('input_select.c_kidsroom_light_mode', 'sleep')}}"
+          turn_on:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_kidsroom_light_mode
+              data:
+                option: sleep
+          turn_off:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_kidsroom_light_mode
+              data:
+                option: full
+
+  script:
+    kidsroom_light_send_command:
+      alias: "[Kidsroom Lights] Send Command"
+      mode: restart
+      sequence:
+        - service: remote.send_command
+          data:
+            entity_id: remote.rm4_mini
+            device: kidsroom_light
+            command: "{{command}}"
+
   automation:
     - alias: "[Kidsroom Lights] Turn Off on Sunrise"
       trigger:
@@ -9,3 +47,24 @@ kidsroom_lights:
         - service: switch.turn_off
           target:
             entity_id: switch.kidsroom_light_switch
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_kidsroom_light_mode
+          data:
+            option: full
+
+    - alias: "[Kidsroom Lights] Fix Main Light"
+      trigger:
+        - platform: state
+          entity_id: input_select.c_kidsroom_light_mode
+        - platform: state
+          entity_id: switch.kidsroom_light_switch
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: switch.kidsroom_light_switch
+          state: "on"
+      action:
+        - service: script.kidsroom_light_send_command
+          data:
+            command: "{{ states('input_select.c_kidsroom_light_mode') }}"
