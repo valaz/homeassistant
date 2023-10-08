@@ -18,6 +18,7 @@
       - binary_sensor.c_hallway_carpet_usage
       - switch.c_65oled936_12_screen_state
       - switch.c_65oled936_12_ambilight_hue
+      - switch.c_65oled936_12_ambilight
       - switch.fritz_box_6660_cable_wi_fi_aeki_2
       - switch.fritz_box_6660_cable_wi_fi_aeki
       - switch.fritz_box_6660_cable_wi_fi_aeki_g
@@ -33,6 +34,7 @@
       - cover.bedroom_right_cover
       - light.bathroom_lamp
       - light.gostinaia
+      - light.65oled936_12_ambilight
   entity_config:
     cover.bedroom_cover_group:
       name: "Шторы"
@@ -92,7 +94,7 @@
       name: "Дверь"
     binary_sensor.bathroom_presence_sensor_occupancy:
       name: "Движение"
-    light.65oled936_12_ambilight:
+    switch.c_65oled936_12_ambilight:
       name: "Подсветка телевизора"
     switch.c_65oled936_12_screen_state:
       name: "Экран телевизора"
