@@ -59,6 +59,28 @@ bedroom_lights:
             {% endif %}
 
   automation:
+    - alias: "[Bedroom Lights] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_light_switch_action
+          to: "single"
+      action:
+        - service: switch.toggle
+          entity_id: switch.bedroom_light_switch
+
+    - alias: "[Bedroom Lights] Toggle Desk Lamp"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_light_switch_action
+          to: "double"
+      action:
+        - service: light.toggle
+          entity_id: light.yeelight_lamp15_0x1c03268c
+
     - alias: "[Bedroom Lights] Turn Off Monitor Lamp"
       mode: restart
       initial_state: true

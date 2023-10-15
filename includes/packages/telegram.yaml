@@ -162,9 +162,7 @@ telegram:
           from: "returning"
           to: "docked"
       action:
-        - service: script.turn_on
-          entity_id:
-            - script.roborock_s5_map_to_telegram
+        - service: script.roborock_s5_map_to_telegram
         - service: notify.tg_valaz
           data:
             message: |

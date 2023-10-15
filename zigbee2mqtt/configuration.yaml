@@ -59,6 +59,8 @@ devices:
     state_action: true
   '0xa4c1386f1ce92e1c':
     friendly_name: Bedroom Monitor Plug
+  '0xa4c138e6cbe81d2a':
+    friendly_name: Bedroom Remote Control
 advanced:
   log_level: info
   log_syslog:

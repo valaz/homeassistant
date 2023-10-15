@@ -110,4 +110,4 @@
     binary_sensor.c_hallway_carpet_usage:
       name: "Ковёр"
     switch.c_kidsroom_sleep_mode:
-      name: "Ночной Режим"
+      name: "Лунный свет"
