@@ -133,6 +133,9 @@ cards:
                     name: Движение
                     primary_info: state
                     secondary_info: last-changed
+              - type: entities
+                entities:
+                  - alert.bedroom_co_level
 
               - type: custom:mushroom-cover-card
                 entity: cover.bedroom_cover_group

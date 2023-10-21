@@ -1,2 +1,28 @@
 switch.c_65oled936_12_ambilight_hue:
   optimistic: true
+
+sensor.c_bedroom_temperature:
+  room: "Bedroom"
+sensor.c_bedroom_humidity:
+  room: "Bedroom"
+sensor.c_bedroom_pm25_density:
+  room: "Bedroom"
+sensor.c_bedroom_pm10_density:
+  room: "Bedroom"
+sensor.c_bedroom_co2_density:
+  room: "Bedroom"
+
+sensor.c_kidsroom_temperature:
+  room: "Kidsroom"
+sensor.c_kidsroom_humidity:
+  room: "Kidsroom"
+
+sensor.c_bathroom_temperature:
+  room: "Bathroom"
+sensor.c_bathroom_humidity:
+  room: "Bathroom"
+
+sensor.c_livingroom_temperature:
+  room: "Livingroom"
+sensor.c_livingroom_humidity:
+  room: "Livingroom"

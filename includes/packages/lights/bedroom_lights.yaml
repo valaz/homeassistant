@@ -30,11 +30,11 @@ bedroom_lights:
             {% set min_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'min_mireds') %}
             {% set max_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'max_mireds') %}
             {% if 5 <= hour and hour < 20 %}
-              {{ 0.3 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.3 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% elif 20 <= hour and hour < 22 %}
-              {{ 0.6 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.6 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% else %}
-              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% endif %}
 
         c_bedroom_monitor_ambilight_brightness_schedule:

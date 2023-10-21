@@ -37,11 +37,11 @@ hallway_lights:
             {% set min_temp = state_attr('light.hallway', 'min_mireds') %}
             {% set max_temp = state_attr('light.hallway', 'max_mireds') %}
             {% if 5 <= hour and hour < 21 %}
-              {{ 0.5 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.5 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% elif 21 <= hour and hour < 23 %}
-              {{ 0.7 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.7 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% else %}
-              {{ 0.9 * (max_temp  - min_temp) + min_temp }}
+              {{ 0.9 * (max_temp  - min_temp) + min_temp | round(0) }}
             {% endif %}
 
   automation:

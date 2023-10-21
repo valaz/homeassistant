@@ -7,6 +7,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_temperature')  | round(2) }}
       unit_of_measurement: "°C"
       device_class: temperature
+      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_temperature')) }}"
 
     c_bedroom_humidity:
       friendly_name: "Bedroom Humidity"
@@ -14,6 +15,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_humidity')) }}"
 
     c_bedroom_pm25_density:
       friendly_name: "Bedroom pm2.5 Density"
@@ -21,6 +23,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_pm25_density') }}
       unit_of_measurement: "µg/m³"
       device_class: pm25
+      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_pm25_density')) }}"
 
     c_bedroom_pm10_density:
       friendly_name: "Bedroom pm10 Density"
@@ -28,6 +31,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_pm10_density') }}
       unit_of_measurement: "µg/m³"
       device_class: pm10
+      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_pm10_density')) }}"
 
     c_bedroom_co2_density:
       friendly_name: "Bedroom CO2 Density"
@@ -35,6 +39,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_co2_density') }}
       unit_of_measurement: "ppm"
       device_class: carbon_dioxide
+      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_co2_density')) }}"
 
     # KIDSROOM CLIMATE
     c_kidsroom_temperature:
@@ -43,6 +48,7 @@
         {{ states('sensor.kidsroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_temperature')) }}"
 
     c_kidsroom_humidity:
       friendly_name: "Kidsroom Humidity"
@@ -50,6 +56,7 @@
         {{ states('sensor.kidsroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_humidity')) }}"
 
     # BATHROOM CLIMATE
     c_bathroom_temperature:
@@ -58,6 +65,7 @@
         {{ states('sensor.bathroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_temperature')) }}"
 
     c_bathroom_humidity:
       friendly_name: "Bathroom Humidity"
@@ -65,6 +73,7 @@
         {{ states('sensor.bathroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_humidity')) }}"
 
     # LIVING_ROOM CLIMATE
     c_livingroom_temperature:
@@ -73,6 +82,7 @@
         {{ states('sensor.livingroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      availability_template: "{{ is_number(states('sensor.livingroom_air_sensor_temperature')) }}"
 
     c_livingroom_humidity:
       friendly_name: "Livingroom Humidity"
@@ -80,6 +90,7 @@
         {{ states('sensor.livingroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      availability_template: "{{ is_number(states('sensor.livingroom_air_sensor_humidity')) }}"
 
     c_livingroom_pm25_density:
       friendly_name: "Livingroom pm2.5 Density"
@@ -87,3 +98,4 @@
         {{ states('sensor.air_purifier_2s_pm2_5') }}
       unit_of_measurement: "µg/m³"
       device_class: pm25
+      availability_template: "{{ is_number(states('sensor.air_purifier_2s_pm2_5')) }}"

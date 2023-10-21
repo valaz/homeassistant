@@ -8,7 +8,7 @@ leak_bathroom:
   can_acknowledge: true
   skip_first: false
   notifiers:
-    # - mobile_app_iphone_12_az
+    - mobile_app_iphone_12_az
     - tg_valaz
 
 moisture_bathroom:
@@ -24,5 +24,5 @@ moisture_bathroom:
   can_acknowledge: true
   skip_first: true
   notifiers:
-    # - mobile_app_iphone_12_az
+    # - notify.mobile_app_iphone_12_az
     - tg_valaz
