@@ -133,9 +133,10 @@ cards:
                     name: Движение
                     primary_info: state
                     secondary_info: last-changed
-              - type: entities
-                entities:
-                  - alert.bedroom_co_level
+                  - type: custom:mushroom-light-card
+                    entity: switch.bedroom_recuperator_plug
+                    name: Рекуператор
+                    fill_container: true
 
               - type: custom:mushroom-cover-card
                 entity: cover.bedroom_cover_group

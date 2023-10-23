@@ -8,10 +8,8 @@
     include_entities:
       - sensor.c_bedroom_pm25_density
       - switch.bedroom_light_switch
-      - switch.bedroom_monitor_plug
       - switch.kidsroom_light_switch
       - switch.kitchen_light_switch_right
-      - switch.kitchen_sink_plug
       - binary_sensor.c_bedroom_closet_usage
       - binary_sensor.kitchen_motion_sensor_occupancy
       - sensor.kitchen_motion_sensor_illuminance_lux
@@ -30,6 +28,7 @@
       - sensor.c_*_co2_density
       - sensor.c_*_temperature
       - sensor.c_*_humidity
+      - switch.*_plug
     exclude_entities:
       - cover.bedroom_left_cover
       - cover.bedroom_right_cover
@@ -111,3 +110,5 @@
       name: "Ковёр"
     switch.c_kidsroom_sleep_mode:
       name: "Лунный свет"
+    switch.bedroom_recuperator_plug:
+      name: "Рекуператор"

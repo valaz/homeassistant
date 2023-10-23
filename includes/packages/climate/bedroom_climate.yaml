@@ -1,0 +1,55 @@
+bedroom_climate:
+  
+  alert:
+    bedroom_co_level:
+      name: "Высокий уровень углекислого газа"
+      message: '{{"\U000026A0"}} Обнаружен высокий уровень CO2 в спальне'
+      done_message: '{{"\U0001F197"}} Уровень CO2 в спальне в норме'
+      entity_id: binary_sensor.c_bedroom_high_co2
+      state: "on"
+      repeat:
+        - 5
+        - 15
+        - 30
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - tg_valaz
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_bedroom_high_co2:
+          friendly_name: "Bedroom High CO2 level"
+          value_template: >-
+            {{states('sensor.c_bedroom_co2_density') | float >= 700 }}
+
+  automation:
+    - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.c_bedroom_co2_density
+          above: 650
+      condition:
+        - condition: state
+          entity_id: switch.bedroom_recuperator_plug
+          state: "off"
+      action:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.bedroom_recuperator_plug
+
+    - alias: "[Bedroom Climate] Turn off Recuperator on low CO2"
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.c_bedroom_co2_density
+          below: 500
+          for: "00:10:00"
+      condition:
+        - condition: state
+          entity_id: switch.bedroom_recuperator_plug
+          state: "on"
+      action:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_recuperator_plug
