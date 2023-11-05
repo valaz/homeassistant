@@ -397,6 +397,7 @@ cards:
 
               - type: entities
                 entities:
+                  - switch.c_livingroom_power
                   # - media_player.philips_tv
                   - entity: light.65oled936_12_ambilight
                     type: custom:multiple-entity-row
