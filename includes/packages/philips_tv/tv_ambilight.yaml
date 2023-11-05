@@ -32,9 +32,6 @@ tv_ambilight:
             {%- endif %}
           turn_on:
             - service: switch.turn_on
-              data:
-                entity_id: switch.0x54ef44100088155f_left
-            - service: switch.turn_on
               target:
                 entity_id: switch.65oled936_12_ambilight_hue
           turn_off:

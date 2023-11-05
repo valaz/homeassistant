@@ -3,8 +3,8 @@ kidsroom_lights:
     c_kidsroom_light_mode:
       name: Режим освещения
       options:
-        - "full"
-        - "sleep"
+        - full
+        - sleep
 
   switch:
     - platform: template
@@ -33,7 +33,7 @@ kidsroom_lights:
       sequence:
         - service: remote.send_command
           data:
-            entity_id: remote.rm4_mini
+            entity_id: remote.kidsroom_rm4_mini
             device: kidsroom_light
             command: "{{command}}"
 
