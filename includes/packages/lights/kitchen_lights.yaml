@@ -18,8 +18,8 @@ kitchen_lights:
           to: "on"
       condition:
         - condition: numeric_state
-          entity_id: "sensor.kitchen_motion_sensor_illuminance_lux"
-          below: 1500
+          entity_id: "sensor.kitchen_motion_sensor_illuminance"
+          below: 2000
       action:
         - service: switch.turn_on
           target:
