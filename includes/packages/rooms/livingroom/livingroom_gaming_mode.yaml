@@ -1,0 +1,54 @@
+livingroom_gaming_mode:
+  scene:
+    - name: TV Gaming
+      icon: "mdi:controller"
+      entities:
+        switch.c_livingroom_power: "on"
+        light.livingroom: "off"
+        light.65oled936_12_ambilight: "on"
+        switch.c_65oled936_12_ambilight_hue: "off"
+        media_player.philips_tv:
+          state: "on"
+          source: HDMI 1
+
+  automation:
+    - alias: "[Livingroom Gaming] On Start"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "gaming"
+      action:
+        - service: script.livingroom_philips_tv_power_on
+        - service: light.turn_off
+          target:
+            entity_id: light.livingroom
+        - service: script.livingroom_philips_tv_wait_until_on
+        - service: light.turn_on
+          target:
+            entity_id: light.65oled936_12_ambilight
+        - service: switch.turn_off
+          target:
+            entity_id: switch.c_65oled936_12_ambilight_hue
+        - service: scene.turn_on
+          data:
+            transition: 5
+          target:
+            entity_id: scene.tv_gaming
+
+    - alias: "[Livingroom Gaming] Start mode on PC start"
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.livingroom_pc_plug_power
+          above: 20
+      condition:
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "normal"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: gaming

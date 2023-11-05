@@ -2,7 +2,7 @@ rm4_mini_learn_kidsroom_light:
   sequence:
     - service: remote.learn_command
       data:
-        entity_id: remote.rm4_mini
+        entity_id: remote.kidsroom_rm4_mini
         device: kidsroom_light
         command:
           - brt_down
@@ -13,3 +13,11 @@ rm4_mini_learn_kidsroom_light:
           - sleep
           - power
 
+livingroom_rm4_mini_learn_livingroom_philips_tv:
+  sequence:
+    - service: remote.learn_command
+      data:
+        entity_id: remote.livingroom_rm4_mini
+        device: livingroom_philips_tv
+        command:
+          - power

@@ -1,0 +1,41 @@
+tv_control:
+  script:
+    livingroom_philips_tv_toggle_power:
+      alias: "[Livingroom TV] Toggle Power"
+      mode: restart
+      sequence:
+        - service: remote.send_command
+          data:
+            entity_id: remote.livingroom_rm4_mini
+            device: livingroom_philips_tv
+            command: "power"
+
+    livingroom_philips_tv_power_on:
+      alias: "[Livingroom TV] Power On"
+      mode: restart
+      sequence:
+        - if: "{{is_state('media_player.philips_tv', 'off')}}"
+          then:
+            - service: script.livingroom_philips_tv_toggle_power
+
+    livingroom_philips_tv_wait_until_on:
+      alias: "[Livingroom TV] Wait Until On"
+      mode: restart
+      sequence:
+        - wait_template: "{{ is_state('media_player.philips_tv', 'on') }}"
+          timeout: "00:01:00"
+
+  switch:
+    - platform: template
+      switches:
+        c_livingroom_power:
+          friendly_name: "Телевизор"
+          icon_template: mdi:television
+          value_template: "{{is_state('media_player.philips_tv', 'on')}}"
+          turn_on:
+            - service: script.livingroom_philips_tv_power_on
+            - service: script.livingroom_philips_tv_wait_until_on
+          turn_off:
+            - service: media_player.turn_off
+              target:
+                entity_id: media_player.philips_tv
