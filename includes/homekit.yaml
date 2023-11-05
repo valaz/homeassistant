@@ -35,6 +35,7 @@
       - light.bathroom_lamp
       - light.gostinaia
       - light.65oled936_12_ambilight
+      - switch.livingroom_pc_plug
   entity_config:
     cover.bedroom_cover_group:
       name: "Шторы"
@@ -112,3 +113,5 @@
       name: "Лунный свет"
     switch.bedroom_recuperator_plug:
       name: "Рекуператор"
+    switch.bedroom_charging_dock_plug:
+      name: "Зарядка"

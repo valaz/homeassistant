@@ -68,3 +68,14 @@ kidsroom_lights:
         - service: script.kidsroom_light_send_command
           data:
             command: "{{ states('input_select.c_kidsroom_light_mode') }}"
+
+    - alias: "[Kidsroom Lights] Turn On Sleep Mode"
+      trigger:
+        - platform: time
+          at: "21:00:00"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_kidsroom_light_mode
+          data:
+            option: sleep

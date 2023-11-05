@@ -13,13 +13,13 @@ devices:
   '0x00158d0006ed6b85':
     friendly_name: Kidsroom Air Sensor
   '0x00158d0006bed661':
-    friendly_name: Kitchen Motion Sensor
+    friendly_name: Bathroom Motion Sensor
   '0x00158d00054cd813':
     friendly_name: Bedroom Closet Motion Sensor
   '0x00158d0006e4e280':
     friendly_name: Bathroom Door Sensor
   '0x04cf8cdf3c777c79':
-    friendly_name: Bedroom Recuperator Plug
+    friendly_name: Bedroom Charging Dock Plug
   '0x04cf8cdf3c764d02':
     friendly_name: Kitchen Sink Plug
   '0x00158d00052fa079':
@@ -61,6 +61,12 @@ devices:
     friendly_name: Bedroom Monitor Plug
   '0xa4c138e6cbe81d2a':
     friendly_name: Bedroom Remote Control
+  '0xa4c1385d220cdc03':
+    friendly_name: Kitchen Motion Sensor
+  '0xa4c138756ba0746d':
+    friendly_name: Livingroom PC Plug
+  '0xa4c1387ee874ae6f':
+    friendly_name: Bedroom Recuperator Plug
 advanced:
   log_level: info
   log_syslog:

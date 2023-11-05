@@ -19,7 +19,7 @@ kitchen_lights:
       condition:
         - condition: numeric_state
           entity_id: "sensor.kitchen_motion_sensor_illuminance_lux"
-          below: 100
+          below: 1500
       action:
         - service: switch.turn_on
           target:
@@ -30,7 +30,7 @@ kitchen_lights:
         - platform: state
           entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           to: "off"
-          # for: "00:00:10"
+          for: "00:01:00"
         - platform: event
           event_type: timer.finished
           event_data:

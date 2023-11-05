@@ -36,10 +36,14 @@
     c_bedroom_co2_density:
       friendly_name: "Bedroom CO2 Density"
       value_template: >
-        {{ states('sensor.cgllc_cgd1st_c37c_co2_density') }}
+        {% if is_number(states('sensor.cgllc_cgd1st_c37c_co2_density')) %}
+          {{ states('sensor.cgllc_cgd1st_c37c_co2_density') }}
+        {% else %}
+          {{ states('sensor.c_bedroom_co2_density') }}
+        {% endif %}
       unit_of_measurement: "ppm"
       device_class: carbon_dioxide
-      availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_co2_density')) }}"
+      # availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_co2_density')) }}"
 
     # KIDSROOM CLIMATE
     c_kidsroom_temperature:

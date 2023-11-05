@@ -209,7 +209,7 @@ cards:
                     primary_info: state
                     secondary_info: last-changed
                   - type: custom:mushroom-entity-card
-                    entity: sensor.kitchen_motion_sensor_illuminance_lux
+                    entity: sensor.kitchen_motion_sensor_illuminance
                     name: Уровень освещения
                     # primary_info: state
                     # secondary_info: last-changed
