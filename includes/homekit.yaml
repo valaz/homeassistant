@@ -21,6 +21,8 @@
       - switch.fritz_box_6660_cable_wi_fi_aeki
       - switch.fritz_box_6660_cable_wi_fi_aeki_g
       - switch.c_kidsroom_sleep_mode
+      - scene.tv_gaming
+      - scene.movies
     include_entity_globs:
       - binary_sensor.*_water_leak
       - binary_sensor.*_door_sensor_contact
@@ -115,3 +117,7 @@
       name: "Рекуператор"
     switch.bedroom_charging_dock_plug:
       name: "Зарядка"
+    scene.tv_gaming:
+      name: "Игровой режим"
+    scene.movies:
+      name: "Кинотеатр"
