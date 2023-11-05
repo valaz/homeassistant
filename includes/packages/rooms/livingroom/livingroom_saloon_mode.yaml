@@ -1,0 +1,125 @@
+livingroom_saloon_mode:
+  template:
+    binary_sensor:
+      - name: "Saloon Works"
+        unique_id: "saloon_works"
+        state: "{{states('input_select.c_livingroom_light_mode') == 'saloon'}}"
+        device_class: running
+
+  scene:
+    - name: Saloon
+      icon: "mdi:hair-dryer"
+      entities:
+        switch.c_65oled936_12_ambilight_hue: "off"
+        light.hallway:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          xy_color: [0.396, 0.357]
+          color_temp: 225
+        light.livingroom:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          xy_color: [0.396, 0.357]
+          color_temp: 225
+
+  automation:
+    - alias: "[Saloon] Start scene when saloon is working"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.saloon_works
+          to: "on"
+      action:
+        - service: scene.turn_on
+          target:
+            entity_id: scene.saloon
+          data:
+            transition: 2.5
+
+    - alias: "[Saloon] Start zone cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.livingroom_light_switch_action
+          to: "single_both"
+        - platform: state
+          entity_id: sensor.livingroom_light_switch_action
+          to: "double_both"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_saloon_zone_cleanup
+
+    - alias: "[Saloon] Fix bathroom light"
+      trigger:
+        - platform: state
+          entity_id: light.bathroom_lamp
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        service: light.turn_on
+        target:
+          entity_id: light.bathroom_lamp
+        data:
+          brightness: 255
+          color_temp: 168
+
+    - alias: "[Saloon] Fix livingroom light"
+      trigger:
+        - platform: state
+          entity_id: light.livingroom
+          to: "on"
+        - platform: state
+          entity_id: switch.c_65oled936_12_ambilight_hue
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        - service: light.turn_on
+          target:
+            entity_id: light.livingroom
+          data:
+            brightness: 255
+            color_temp: 225
+        - service: switch.turn_off
+          target:
+            entity_id: switch.c_65oled936_12_ambilight_hue
+
+    - alias: "[Saloon] Fix hallway light"
+      trigger:
+        - platform: state
+          entity_id: light.hallway
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        service: light.turn_on
+        target:
+          entity_id: light.hallway
+        data:
+          brightness: 255
+          color_temp: 225
+
+    - alias: "[Livingroom Lights] Turn Off saloon mode by time"
+      trigger:
+        - platform: time
+          at: "21:00:00"
+      condition:
+        condition: state
+        entity_id: binary_sensor.saloon_works
+        state: "on"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: normal
