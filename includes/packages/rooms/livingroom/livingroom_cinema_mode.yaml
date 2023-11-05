@@ -1,4 +1,14 @@
 livingroom_cinema:
+  scene:
+    - name: TV Cinema
+      icon: "mdi:filmstrip"
+      entities:
+        switch.c_livingroom_power: "on"
+        light.hallway: "off"
+        light.livingroom: "off"
+        light.65oled936_12_ambilight: "on"
+        switch.c_65oled936_12_ambilight_hue: "on"
+
   automation:
     - alias: "[Cinema] On Start"
       mode: restart
@@ -8,7 +18,8 @@ livingroom_cinema:
           entity_id: input_select.c_livingroom_light_mode
           to: "cinema"
       action:
-        - service: switch.turn_on
-          data: {}
+        - service: scene.turn_on
+          data:
+            transition: 5
           target:
-            entity_id: switch.c_65oled936_12_ambilight_hue
+            entity_id: scene.tv_cinema
