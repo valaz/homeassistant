@@ -133,8 +133,8 @@ cards:
                     name: Движение
                     primary_info: state
                     secondary_info: last-changed
-                  - type: custom:mushroom-light-card
-                    entity: switch.bedroom_recuperator_plug
+                  - type: custom:mushroom-fan-card
+                    entity: fan.bedroom_input_fan
                     name: Рекуператор
                     fill_container: true
 

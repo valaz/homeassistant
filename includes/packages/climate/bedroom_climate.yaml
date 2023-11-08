@@ -23,6 +23,22 @@ bedroom_climate:
           friendly_name: "Bedroom High CO2 level"
           value_template: >-
             {{states('sensor.c_bedroom_co2_density') | float >= 700 }}
+  
+  fan:
+  - platform: template
+    fans:
+      bedroom_input_fan:
+        friendly_name: "Bedroom Input Fan"
+        value_template: "{{ states('switch.bedroom_recuperator_plug') }}"
+        percentage_template: "{{ states('sensor.bedroom_recuperator_plug_power') | float /0.06 }}"
+        turn_on:
+          service: switch.turn_on
+          target:
+            entity_id: switch.bedroom_recuperator_plug
+        turn_off:
+          service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_recuperator_plug
 
   automation:
     - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
