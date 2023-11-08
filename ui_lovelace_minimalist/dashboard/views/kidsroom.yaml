@@ -42,9 +42,18 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x54ef441000413c72
+        entity: switch.kidsroom_light_switch
         variables:
           ulm_card_light_name: Light
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_kidsroom_sleep_mode
+        variables:
+          ulm_card_light_name: Sleep Mode
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_color: blue
           ulm_card_light_force_background_color: true

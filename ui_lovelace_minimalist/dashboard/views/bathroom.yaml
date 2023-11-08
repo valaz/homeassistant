@@ -47,14 +47,6 @@ cards:
 
   - type: horizontal-stack
     cards:
-      # - type: "custom:button-card"
-      #   template: card_light
-      #   entity: switch.0x04cf8cdf3c8eb0f3
-      #   variables:
-      #     ulm_card_light_name: Light Switch
-      #     ulm_card_light_enable_slider: false
-      #     ulm_card_light_enable_color: false
-      #     ulm_card_light_force_background_color: true
       - type: "custom:button-card"
         template: card_light
         entity: light.c_bathroom
@@ -82,13 +74,13 @@ cards:
         template: card_binary_sensor
         variables:
           ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: true
+          ulm_show_last_changed: false
           ulm_card_binary_sensor_name: Occupancy
-        entity: binary_sensor.0x00158d0006bed661_occupancy
+        entity: binary_sensor.bathroom_presence_sensor_occupancy
 
       - type: "custom:button-card"
         template: card_generic_swap
-        entity: binary_sensor.0x00158d0006e4e280_contact
+        entity: binary_sensor.bathroom_door_sensor_contact
         variables:
           ulm_card_generic_swap_name: Door
 
@@ -96,13 +88,13 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_generic_swap
-        entity: sensor.0x00158d0006bed661_illuminance_lux
+        entity: sensor.c_bathroom_lx_prediction
         variables:
-          ulm_card_generic_swap_name: Illuminance
+          ulm_card_generic_swap_name: Illuminance AI
       - type: "custom:button-card"
         template: card_binary_sensor_alert
         variables:
           ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: true
+          ulm_show_last_changed: false
           ulm_card_binary_sensor_alert_name: Water
-        entity: binary_sensor.0x00158d0007bf1dd5_water_leak
+        entity: binary_sensor.bathroom_water_leak_sensor_water_leak

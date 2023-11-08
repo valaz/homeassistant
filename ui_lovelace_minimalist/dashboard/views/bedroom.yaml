@@ -10,6 +10,13 @@ cards:
       - type: "custom:button-card"
         template: card_title
         name: Bedroom
+      - type: "custom:button-card"
+        color_type: blank-card
+      - type: "custom:button-card"
+        template: chip_mdi_icon_state
+        variables:
+          ulm_chip_mdi_icon_state_entity: alert.bedroom_co_level
+          ulm_chip_mdi_icon_state_icon: mdi:molecule-co2
 
   - type: horizontal-stack
     cards:
@@ -62,13 +69,13 @@ cards:
 
   - type: "custom:button-card"
     template: card_title
-    label: Devices
+    label: Lights
 
   - type: horizontal-stack
     cards:
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x54ef441000410c67
+        entity: switch.bedroom_light_switch
         variables:
           ulm_card_light_name: Light
           ulm_card_light_enable_slider: false
@@ -76,12 +83,57 @@ cards:
           ulm_card_light_force_background_color: true
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x04cf8cdf3c764d02
+        entity: switch.bedroom_monitor_plug
         variables:
-          ulm_card_light_name: Working Desk
+          ulm_card_light_name: Monitor
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
           ulm_card_light_force_background_color: false
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.yeelight_lamp15_0x1c03268c
+        variables:
+          ulm_card_light_name: Monitor Lamp
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+          ulm_card_light_enable_collapse: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.yeelight_lamp15_0x1c03268c_ambilight
+        variables:
+          ulm_card_light_name: Monitor Ambilight
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+          ulm_card_light_enable_collapse: true
+
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
+
+  - type: "custom:button-card"
+    template: card_fan
+    entity: fan.bedroom_input_fan
+    variables:
+      ulm_card_fan_name: Fan
+      ulm_card_fan_enable_slider: true
+      ulm_card_fan_color: "blue"
+      ulm_card_fan_force_background_color: true
+      ulm_card_fan_enable_horizontal: true
+
+  # - type: "custom:button-card"
+  #   template: card_cover
+  #   entity: cover.bedroom_cover_group
+  #   variables:
+  #     ulm_card_cover_name: Cover
+  #     ulm_card_cover_enable_controls: true
+  #     ulm_card_cover_enable_slider: true
+  #     ulm_card_cover_color: "green"
 
   - type: "custom:shutter-card"
     # title: My shutters
@@ -91,12 +143,17 @@ cards:
         buttons_position: left
         title_position: top
 
+
+  - type: "custom:button-card"
+    template: card_title
+    label: Desk
+
   - type: "custom:button-card"
     template: custom_card_damix48_power_details
-    entity: sensor.0x04cf8cdf3c764d02_power
+    entity: sensor.bedroom_monitor_plug_power
     variables:
       ulm_card_power_details_name: Working Desk Power
-      ulm_card_power_details_entity: sensor.0x04cf8cdf3c764d02_power
+      ulm_card_power_details_entity: sensor.bedroom_monitor_plug_power
       ulm_card_power_details_hours: 5
       ulm_card_power_details_24hour: true
       ulm_card_power_details_thresholds:

@@ -39,25 +39,25 @@ cards:
           ulm_card_binary_sensor_alert: true
           ulm_show_last_changed: false
           ulm_card_binary_sensor_alert_name: Door
-        entity: binary_sensor.0x00158d0008a9e22e_contact
+        entity: binary_sensor.hallway_door_sensor_contact
       - type: "custom:button-card"
         template: card_binary_sensor
         variables:
           ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: true
-          ulm_card_binary_sensor_name: Occupancy
-        entity: binary_sensor.0x00158d00054cd813_occupancy
+          ulm_show_last_changed: false
+          ulm_card_binary_sensor_name: Carpet
+        entity: binary_sensor.c_hallway_carpet_usage
 
-  - type: horizontal-stack
-    cards:
-      - type: "custom:button-card"
-        template: card_generic_swap
-        entity: sensor.0x00158d00054cd813_illuminance_lux
-        variables:
-          ulm_card_generic_swap_name: Illuminance
+  # - type: horizontal-stack
+  #   cards:
+  #     - type: "custom:button-card"
+  #       template: card_generic_swap
+  #       entity: sensor.0x00158d00054cd813_illuminance_lux
+  #       variables:
+  #         ulm_card_generic_swap_name: Illuminance
 
   - type: "custom:logbook-card"
-    entity: binary_sensor.0x00158d0008a9e22e_contact
+    entity: binary_sensor.hallway_door_sensor_contact
     attributes:
       - value: app_name
         label: App
@@ -66,6 +66,8 @@ cards:
     title: "Door History"
     hidden_state:
       - "off"
+      - "unknown"
+      - "unavailable"
     max_items: 15
     show:
       end_date: false

@@ -15,7 +15,7 @@ cards:
     template: "card_scenes_welcome"
     variables:
       entity_1:
-        entity_id: scene.movies
+        entity_id: scene.tv_cinema
         icon: "mdi:filmstrip" #OPTIONAL
         # name: "Movies" #OPTIONAL
         color: "purple"
@@ -57,7 +57,7 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_person
-        entity: person.username
+        entity: person.azat
         variables:
           ulm_card_person_entity: person.azat
           ulm_card_person_use_entity_picture: true

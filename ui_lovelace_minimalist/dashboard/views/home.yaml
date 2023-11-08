@@ -63,13 +63,13 @@ cards:
           - card_esh_room
           - red_on
         name: Kitchen
-        entity: switch.0x54ef4410007df222_right
+        entity: switch.kitchen_light_switch_right
         icon: mdi:sofa
         tap_action:
           action: navigate
           navigation_path: "kitchen"
         variables:
-          ulm_custom_card_esh_room_light_entity: switch.0x54ef4410007df222_right
+          ulm_custom_card_esh_room_light_entity: switch.kitchen_light_switch_right
           ulm_card_dynamic_color: true
         label: >
           [[[
@@ -83,13 +83,13 @@ cards:
           - card_esh_room
           - yellow_on
         name: Bedroom
-        entity: switch.0x54ef441000410c67
+        entity: switch.bedroom_light_switch
         icon: mdi:bed-king-outline
         tap_action:
           action: navigate
           navigation_path: "bedroom"
         variables:
-          ulm_custom_card_esh_room_light_entity: switch.0x54ef441000410c67
+          ulm_custom_card_esh_room_light_entity: switch.bedroom_light_switch
           ulm_card_dynamic_color: true
         label: >
           [[[
@@ -101,13 +101,13 @@ cards:
           - card_esh_room
           - green_on
         name: Kidsroom
-        entity: switch.0x54ef441000413c72
+        entity: switch.kidsroom_light_switch
         icon: mdi:teddy-bear
         tap_action:
           action: navigate
           navigation_path: "kidsroom"
         variables:
-          ulm_custom_card_esh_room_light_entity: switch.0x54ef441000413c72
+          ulm_custom_card_esh_room_light_entity: switch.kidsroom_light_switch
           ulm_card_dynamic_color: true
         label: >
           [[[
@@ -147,4 +147,4 @@ cards:
         variables:
           ulm_custom_card_esh_room_light_entity: light.hallway
           ulm_card_dynamic_color: true
-        label: '[[[ return "🚪 " + states["binary_sensor.0x00158d0008a9e22e_contact"].state ]]]'
+        label: '[[[ return "🚪 " + states["binary_sensor.hallway_door_sensor_contact"].state ]]]'

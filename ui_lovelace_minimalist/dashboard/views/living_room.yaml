@@ -47,7 +47,7 @@ cards:
 
   - type: "custom:button-card"
     template: card_title
-    label: Devices
+    label: Light
 
   - type: horizontal-stack
     cards:
@@ -89,8 +89,12 @@ cards:
           ulm_card_light_force_background_color: true
 
   - type: "custom:button-card"
+    template: card_title
+    label: TV
+
+  - type: "custom:button-card"
     template: card_media_player
-    entity: media_player.65oled936_12_2
+    entity: media_player.philips_tv
     variables:
       ulm_card_media_player_name: Philips TV
       ulm_card_media_player_enable_art: false
@@ -99,26 +103,21 @@ cards:
       ulm_card_media_player_enable_volume_slider: true
       ulm_card_media_player_more_info: true
       ulm_card_media_player_power_button: true
+
   - type: "custom:button-card"
     template: card_media_player
     entity: media_player.apple_tv_4k
     variables:
       ulm_card_media_player_name: Apple TV
-      ulm_card_media_player_enable_art: true
+      ulm_card_media_player_enable_art: false
       ulm_card_media_player_enable_controls: true
       ulm_card_media_player_collapsible: true
       ulm_card_media_player_more_info: true
       ulm_card_media_player_power_button: true
 
-  - type: horizontal-stack
-    cards:
-      - type: "custom:button-card"
-        template: card_binary_sensor
-        variables:
-          ulm_card_binary_sensor_alert: true
-          ulm_show_last_changed: true
-          ulm_card_binary_sensor_name: Saloon Seat
-        entity: binary_sensor.saloon_seat_usage
+  - type: "custom:button-card"
+    template: card_title
+    label: Devices
 
   - type: "custom:button-card"
     template: "card_vacuum"

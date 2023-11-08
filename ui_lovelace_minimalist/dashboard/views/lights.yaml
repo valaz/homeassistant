@@ -68,17 +68,24 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x54ef4410007df222_right
+        entity: switch.kitchen_light_switch_right
         variables:
-          ulm_card_light_name: Кухня
-          ulm_card_light_enable_collapse: false
+          ulm_card_light_name: Light
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.kitchen_sink_plug
+        variables:
+          ulm_card_light_name: Sink Light
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
           ulm_card_light_force_background_color: true
 
   - type: "custom:button-card"
     template: card_title
-    name: Вход
+    name: Прихожая
   - type: horizontal-stack
     cards:
       - type: "custom:button-card"
@@ -114,11 +121,38 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x54ef441000410c67
+        entity: switch.bedroom_light_switch
         variables:
-          ulm_card_light_name: Люстра
+          ulm_card_light_name: Light
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.bedroom_monitor_plug
+        variables:
+          ulm_card_light_name: Monitor
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: false
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.yeelight_lamp15_0x1c03268c
+        variables:
+          ulm_card_light_name: Monitor Lamp
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: light.yeelight_lamp15_0x1c03268c_ambilight
+        variables:
+          ulm_card_light_name: Monitor Ambilight
+          ulm_card_light_enable_slider: true
+          ulm_card_light_enable_color: true
           ulm_card_light_force_background_color: true
 
   - type: "custom:button-card"
@@ -128,9 +162,18 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_light
-        entity: switch.0x54ef441000413c72
+        entity: switch.kidsroom_light_switch
         variables:
-          ulm_card_light_name: Луна
+          ulm_card_light_name: Light
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: switch.c_kidsroom_sleep_mode
+        variables:
+          ulm_card_light_name: Sleep Mode
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_color: blue
           ulm_card_light_force_background_color: true
