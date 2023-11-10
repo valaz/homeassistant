@@ -49,7 +49,7 @@ bedroom_cover_group:
         - service: "cover.{{modus}}_cover"
           target:
             entity_id:
-              # - cover.bedroom_left_cover
+              - cover.bedroom_left_cover
               - cover.bedroom_right_cover
 
     bedroom_cover_group_position:
@@ -58,7 +58,7 @@ bedroom_cover_group:
         - service: cover.set_cover_position
           target:
             entity_id:
-              # - cover.bedroom_left_cover
+              - cover.bedroom_left_cover
               - cover.bedroom_right_cover
           data:
             position: "{{position}}"
