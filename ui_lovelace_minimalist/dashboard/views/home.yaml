@@ -19,9 +19,9 @@ cards:
         name: "Lights"
         color: "yellow"
       entity_3:
-        nav: "security"
-        icon: "mdi:shield"
-        name: Secure
+        nav: "energy"
+        icon: "mdi:lightning-bolt"
+        name: Energy
         color: "green"
       entity_4:
         nav: "server"
@@ -64,7 +64,7 @@ cards:
           - red_on
         name: Kitchen
         entity: switch.kitchen_light_switch_right
-        icon: mdi:sofa
+        icon: mdi:fridge
         tap_action:
           action: navigate
           navigation_path: "kitchen"
@@ -93,7 +93,7 @@ cards:
           ulm_card_dynamic_color: true
         label: >
           [[[
-            return "🌡️ " + states['sensor.c_bedroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_bedroom_humidity'].state + " %"
+            return "🌡️ " + states['sensor.c_bedroom_temperature'].state + " °C" + " 🌬️ " + states['sensor.c_bedroom_co2_density'].state + " ppm"
           ]]]
 
       - type: "custom:button-card"

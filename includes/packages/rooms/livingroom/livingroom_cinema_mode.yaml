@@ -10,7 +10,7 @@ livingroom_cinema:
         switch.c_65oled936_12_ambilight_hue: "on"
 
   automation:
-    - alias: "[Cinema] On Start"
+    - alias: "[Livingroom Cinema] On Start"
       mode: restart
       initial_state: true
       trigger:
@@ -23,3 +23,19 @@ livingroom_cinema:
             transition: 5
           target:
             entity_id: scene.tv_cinema
+
+    - alias: "[Livingroom Cinema] Turn Off cinema mode by TV state"
+      trigger:
+        - platform: state
+          entity_id: media_player.philips_tv
+          to: "off"
+      condition:
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "cinema"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: normal

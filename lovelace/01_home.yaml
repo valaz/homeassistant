@@ -295,9 +295,9 @@ cards:
                     icon_color: yellow
                     secondary_info: name
                   - type: custom:mushroom-entity-card
-                    entity: sensor.c_sun_elevation
+                    entity: sensor.bathroom_motion_sensor_illuminance_lux
                     primary_info: state
-                    icon_color: green
+                    icon_color: yellow
                     secondary_info: name
               - type: horizontal-stack
                 cards:
@@ -305,6 +305,11 @@ cards:
                     entity: sensor.c_bathroom_lx_func
                     primary_info: state
                     icon_color: yellow
+                    secondary_info: name
+                  - type: custom:mushroom-entity-card
+                    entity: sensor.c_sun_elevation
+                    primary_info: state
+                    icon_color: green
                     secondary_info: name
 
                   # - type: custom:mushroom-light-card

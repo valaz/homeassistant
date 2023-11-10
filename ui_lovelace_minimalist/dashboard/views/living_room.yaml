@@ -49,6 +49,12 @@ cards:
     template: card_title
     label: Light
 
+  - type: custom:mushroom-select-card
+    entity: input_select.c_livingroom_light_mode
+    icon_color: orange
+    primary_info: name
+    secondary_info: last-changed
+
   - type: horizontal-stack
     cards:
       - type: "custom:button-card"

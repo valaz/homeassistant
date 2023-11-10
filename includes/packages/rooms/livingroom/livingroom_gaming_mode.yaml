@@ -52,3 +52,19 @@ livingroom_gaming_mode:
             entity_id: input_select.c_livingroom_light_mode
           data:
             option: gaming
+
+    - alias: "[Livingroom Gaming] Turn Off gaming mode by TV state"
+      trigger:
+        - platform: state
+          entity_id: media_player.philips_tv
+          to: "off"
+      condition:
+        - condition: state
+          entity_id: input_select.c_livingroom_light_mode
+          state: "gaming"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_livingroom_light_mode
+          data:
+            option: normal

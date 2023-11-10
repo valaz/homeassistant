@@ -12,6 +12,7 @@ views:
   - !include views/hallway.yaml
   - !include views/server.yaml
   - !include views/lights.yaml
+  - !include views/energy.yaml
   - !include views/network.yaml
   - !include views/house.yaml
   - !include views/kitchen.yaml
