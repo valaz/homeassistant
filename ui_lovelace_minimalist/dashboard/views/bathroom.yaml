@@ -88,9 +88,9 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_generic_swap
-        entity: sensor.c_bathroom_lx_prediction
+        entity: sensor.bathroom_motion_sensor_illuminance_lux
         variables:
-          ulm_card_generic_swap_name: Illuminance AI
+          ulm_card_generic_swap_name: Illuminance
       - type: "custom:button-card"
         template: card_binary_sensor_alert
         variables:
