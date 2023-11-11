@@ -17,7 +17,7 @@ kitchen_lights:
           entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           to: "on"
       action:
-        - wait_template: "{{ states('sensor.kitchen_motion_sensor_illuminance') | float  < 2000 }}"
+        - wait_template: "{{ states('sensor.kitchen_motion_sensor_illuminance') | float  < 3000 }}"
           timeout: "00:00:10"
         - if:
             - "{{ wait.completed }}"
