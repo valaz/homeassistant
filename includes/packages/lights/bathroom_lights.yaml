@@ -157,14 +157,13 @@ bathroom_lights:
         - platform: state
           entity_id: binary_sensor.bathroom_presence_sensor_occupancy
           to: "on"
+        - platform: state
+          entity_id: binary_sensor.bathroom_motion_sensor_occupancy
+          to: "on"
       condition:
         - condition: numeric_state
           entity_id: sensor.bathroom_motion_sensor_illuminance_lux
-          below: 35
-        # - condition: numeric_state
-        #   entity_id: sun.sun
-        #   attribute: elevation
-        #   below: 25
+          below: 45
       action:
         - service: light.turn_on
           target:
@@ -176,14 +175,21 @@ bathroom_lights:
           entity_id: binary_sensor.bathroom_presence_sensor_occupancy
           to: "off"
           for: "00:01:00"
+        - platform: state
+          entity_id: binary_sensor.bathroom_motion_sensor_occupancy
+          to: "off"
+          for: "00:00:00"
         - platform: event
           event_type: timer.finished
           event_data:
             entity_id: timer.bathroom_light_turn_off
-      # condition:
-      #   condition: state
-      #   entity_id: binary_sensor.0x00158d0006e4e280_contact
-      #   state: "on"
+      condition:
+        - condition: state
+          entity_id: binary_sensor.bathroom_presence_sensor_occupancy
+          state: "off"
+        - condition: state
+          entity_id: binary_sensor.bathroom_motion_sensor_occupancy
+          state: "off"
       action:
         - service: light.turn_off
           target:
@@ -210,6 +216,9 @@ bathroom_lights:
       trigger:
         - platform: state
           entity_id: binary_sensor.bathroom_presence_sensor_occupancy
+          to: "on"
+        - platform: state
+          entity_id: binary_sensor.bathroom_motion_sensor_occupancy
           to: "on"
         - platform: state
           entity_id: light.c_bathroom
@@ -239,9 +248,11 @@ bathroom_lights:
         - condition: state
           entity_id: light.c_bathroom
           state: "on"
-        - condition: state
-          entity_id: input_select.c_livingroom_light_mode
-          state: "normal"
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: input_select.c_livingroom_light_mode
+              state: "saloon"
       action:
         - service: light.turn_on
           entity_id: light.bathroom_lamp

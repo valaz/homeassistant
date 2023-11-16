@@ -52,7 +52,7 @@ telegram:
               {{"\U0001F333"}} Климат в квартире
               {{"\U0001F567"}} Отчет за {{ states('sensor.time_date') }}
               {{"\U0001F4FA"}} Гостиная - {{ states('sensor.c_livingroom_temperature') }} °C, {{ states('sensor.c_livingroom_humidity') }} %
-              {{"\U0001F468"}} Спальня - {{ states('sensor.c_bedroom_temperature') }} °C, {{ states('sensor.c_bedroom_humidity') }} %
+              {{"\U0001F468"}} Спальня - {{ states('sensor.c_bedroom_temperature') }} °C, {{ states('sensor.c_bedroom_humidity') }} %, {{ states('sensor.c_bedroom_co2_density') }} ppm
               {{"\U0001F476"}} Детская - {{ states('sensor.c_kidsroom_temperature') }} °C, {{ states('sensor.c_kidsroom_humidity') }} %
               {{"\U0001F487"}} Ванная - {{ states('sensor.c_bathroom_temperature') }} °C, {{ states('sensor.c_bathroom_humidity') }} %
 

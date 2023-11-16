@@ -30,7 +30,7 @@ bedroom_climate:
       bedroom_input_fan:
         friendly_name: "Bedroom Input Fan"
         value_template: "{{ states('switch.bedroom_recuperator_plug') }}"
-        percentage_template: "{{ states('sensor.bedroom_recuperator_plug_power') | float /0.06 }}"
+        percentage_template: "{{ states('sensor.bedroom_recuperator_plug_power') | float /0.14 }}"
         turn_on:
           service: switch.turn_on
           target:
