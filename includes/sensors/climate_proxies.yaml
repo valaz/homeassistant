@@ -96,10 +96,10 @@
       device_class: humidity
       availability_template: "{{ is_number(states('sensor.livingroom_air_sensor_humidity')) }}"
 
-    c_livingroom_pm25_density:
-      friendly_name: "Livingroom pm2.5 Density"
-      value_template: >
-        {{ states('sensor.air_purifier_2s_pm2_5') }}
-      unit_of_measurement: "µg/m³"
-      device_class: pm25
-      availability_template: "{{ is_number(states('sensor.air_purifier_2s_pm2_5')) }}"
+    # c_livingroom_pm25_density:
+    #   friendly_name: "Livingroom pm2.5 Density"
+    #   value_template: >
+    #     {{ states('sensor.air_purifier_2s_pm2_5') }}
+    #   unit_of_measurement: "µg/m³"
+    #   device_class: pm25
+    #   availability_template: "{{ is_number(states('sensor.air_purifier_2s_pm2_5')) }}"

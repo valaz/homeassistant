@@ -1,5 +1,16 @@
 kitchen_lights:
   automation:
+    - alias: "[Kitchen Lights] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.kitchen_button_action
+          to: "single"
+      action:
+        - service: switch.toggle
+          entity_id: switch.kitchen_light_switch_right
+
     - alias: "[Kitchen Lights] Toggle Sink Light"
       mode: restart
       initial_state: true
@@ -7,6 +18,9 @@ kitchen_lights:
         - platform: state
           entity_id: sensor.kitchen_light_switch_action
           to: "single_left"
+        - platform: state
+          entity_id: sensor.kitchen_button_action
+          to: "double"
       action:
         - service: switch.toggle
           entity_id: switch.kitchen_sink_plug
