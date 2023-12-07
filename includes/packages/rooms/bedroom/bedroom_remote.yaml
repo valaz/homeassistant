@@ -1,0 +1,119 @@
+bedroom_remote:
+  automation:
+    ####### Button 1
+    - alias: "[Bedroom Remote] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "1_single"
+      action:
+        - service: switch.toggle
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+
+    - alias: "[Bedroom Remote] Enable Main Dark Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "1_double"
+      action:
+        - service: switch.turn_off
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+        - delay: "00:00:01"
+        - service: switch.turn_on
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+        - delay: "00:00:01"
+        - service: switch.turn_off
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+        - delay: "00:00:01"
+        - service: switch.turn_on
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+
+    - alias: "[Bedroom Remote] Turn Off All Lights"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "1_hold"
+      action:
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
+        - service: light.turn_off
+          data: {}
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+        - service: switch.turn_off
+          data: {}
+          target:
+            entity_id: switch.bedroom_light_switch
+
+    ####### Button 2
+    - alias: "[Bedroom Remote] Toggle Monitor Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "2_single"
+      action:
+        - service: light.toggle
+          data: {}
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
+
+    - alias: "[Bedroom Remote] Toggle Monitor Ambilight"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "2_double"
+      action:
+        - service: light.toggle
+          data: {}
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+
+    ####### Button 3
+    - alias: "[Bedroom Remote] Toggle Recuperator"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "3_single"
+      action:
+        - service: fan.toggle
+          data: {}
+          target:
+            entity_id: fan.bedroom_input_fan
+
+    ####### Button 4
+    - alias: "[Bedroom Remote] Toggle Monitor Plug"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "4_single"
+      action:
+        - service: switch.toggle
+          data: {}
+          target:
+            entity_id: switch.bedroom_monitor_plug
