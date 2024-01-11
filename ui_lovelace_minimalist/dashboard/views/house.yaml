@@ -43,7 +43,7 @@ cards:
   - type: horizontal-stack
     cards:
       - type: custom:mushroom-person-card
-        entity: device_tracker.iphone_12_az
+        entity: device_tracker.iphone_15_az
         name: Azat
         icon: mdi:face-man
         secondary_info: last-changed
@@ -70,16 +70,33 @@ cards:
     card:
       type: entities
       show_header_toggle: false
-      title: Автоматизации
+      title: Автоматизации Lights
     filter:
       include:
         - domain: automation
+          name: "*Lights*"
           options:
             secondary_info: last-triggered
           sort:
             method: name
     exclude:
       - state: "off"
+
+  - type: custom:auto-entities
+    show_empty: false
+    card:
+      type: entities
+      show_header_toggle: false
+      title: Автоматизации Other
+    filter:
+      include:
+        - domain: automation
+          not:
+            name: "*Lights*"
+          options:
+            secondary_info: last-triggered
+          sort:
+            method: name
 
   - type: custom:auto-entities
     show_empty: false
@@ -132,5 +149,33 @@ cards:
             - name: Lux*
         sort:
           method: state
+          numeric: true
+        show_empty: true
+
+  - type: vertical-stack
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: Stale Environmental Sensors
+          show_header_toggle: false
+          state_color: true
+        filter:
+          include:
+            - entity_id: sensor.*_temperature
+              last_changed: "> 3h ago"
+              options:
+                secondary_info: last-changed
+            - entity_id: sensor.*_humidity
+              last_changed: "> 3h ago"
+              options:
+                secondary_info: last-changed
+          exclude:
+            - entity_id: "*_device_temperature"
+            - entity_id: "glances_*"
+            - entity_id: "*processor_temperature*"
+            - name: "*Glances*"
+        sort:
+          method: name
           numeric: true
         show_empty: true

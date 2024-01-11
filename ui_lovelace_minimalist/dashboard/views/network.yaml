@@ -56,9 +56,9 @@ cards:
           ulm_card_light_force_background_color: true
       - type: "custom:button-card"
         template: card_light
-        entity: button.fritz_box_6660_cable_reboot
+        entity: button.fritz_box_6660_cable_restart
         variables:
-          ulm_card_light_name: Reboot
+          ulm_card_light_name: Restart
           ulm_card_light_icon: "mdi:restart"
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
