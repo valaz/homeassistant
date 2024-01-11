@@ -35,6 +35,11 @@ kidsroom_lights:
           data:
             entity_id: remote.kidsroom_rm4_mini
             device: kidsroom_light
+            command: "warm"
+        - service: remote.send_command
+          data:
+            entity_id: remote.kidsroom_rm4_mini
+            device: kidsroom_light
             command: "{{command}}"
 
   automation:

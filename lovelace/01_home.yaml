@@ -33,7 +33,7 @@ cards:
             camera_view: live
             entities:
               - light.hallway
-              - binary_sensor.0x00158d0008a9e22e_contact
+              - binary_sensor.hallway_door_sensor_contact
 
       - type: custom:mini-graph-card
         entities:

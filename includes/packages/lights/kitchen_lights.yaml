@@ -30,15 +30,27 @@ kitchen_lights:
         - platform: state
           entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           to: "on"
+        - platform: state
+          entity_id: sensor.kitchen_motion_sensor_illuminance
+      condition:
+        - condition: numeric_state
+          entity_id: sensor.kitchen_motion_sensor_illuminance
+          below: 2600
+        - condition: state
+          entity_id: binary_sensor.kitchen_motion_sensor_occupancy
+          state: "on"
       action:
-        - wait_template: "{{ states('sensor.kitchen_motion_sensor_illuminance') | float  < 2600 }}"
-          timeout: "00:00:10"
-        - if:
-            - "{{ wait.completed }}"
-          then:
-            - service: switch.turn_on
-              target:
-                entity_id: switch.kitchen_sink_plug
+        - service: switch.turn_on
+          target:
+            entity_id: switch.kitchen_sink_plug
+          # - wait_template: "{{ states('sensor.kitchen_motion_sensor_illuminance') | float  < 2600 }}"
+          #   timeout: "00:00:10"
+          # - if:
+          #     - "{{ wait.completed }}"
+          #   then:
+          #     - service: switch.turn_on
+          #       target:
+          #         entity_id: switch.kitchen_sink_plug
 
     - alias: "[Kitchen Lights] Turn off sink light if there is no movements"
       trigger:

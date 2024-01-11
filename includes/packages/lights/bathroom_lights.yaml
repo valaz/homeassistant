@@ -160,10 +160,20 @@ bathroom_lights:
         - platform: state
           entity_id: binary_sensor.bathroom_motion_sensor_occupancy
           to: "on"
+        - platform: state
+          entity_id: sensor.bathroom_motion_sensor_illuminance_lux
       condition:
         - condition: numeric_state
           entity_id: sensor.bathroom_motion_sensor_illuminance_lux
-          below: 45
+          below: 50
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: binary_sensor.bathroom_presence_sensor_occupancy
+              state: "on"
+            - condition: state
+              entity_id: binary_sensor.bathroom_motion_sensor_occupancy
+              state: "on"
       action:
         - service: light.turn_on
           target:
@@ -261,4 +271,4 @@ bathroom_lights:
               {{ states('sensor.c_bathroom_light_brightness_schedule') }}
             color_temp: >
               {{ states('sensor.c_bathroom_light_color_temp_schedule') }}
-            transition: 10
+            # transition: 10
