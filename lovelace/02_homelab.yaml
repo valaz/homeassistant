@@ -285,7 +285,7 @@ cards:
                 - type: divider
           - type: entities
             entities:
-              - button.fritz_box_6660_cable_reboot
+              - button.fritz_box_6660_cable_restart
               - button.fritz_box_6660_cable_reconnect
 
       - type: custom:vertical-stack-in-card
