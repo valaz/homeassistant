@@ -1,16 +1,16 @@
 - platform: template
   sensors:
-    azat_iphone_12_at_home:
-      friendly_name: "iPhone 12 Азата"
+    azat_iphone_at_home:
+      friendly_name: "iPhone 15 Азата"
       value_template: >-
-        {{states.device_tracker | selectattr ('attributes.host_name', 'eq', 'iPhone-12-AZ') | selectattr ('state', 'eq', 'home') | list | length | float > 0 }}
+        {{states.device_tracker | selectattr ('attributes.host_name', 'eq', 'iPhone-15-AZ') | selectattr ('state', 'eq', 'home') | list | length | float > 0 }}
     azat_apple_watch_6_at_home:
       friendly_name: "Apple Watch 6 Азата"
       value_template: >-
         {{states.device_tracker | selectattr ('attributes.host_name', 'eq', 'AppleWatch-S6') | selectattr ('state', 'eq', 'home') | list | length | float > 0 }}
 
-    elia_iphone_12_at_home:
-      friendly_name: "iPhone 12 Элии"
+    elia_iphone_at_home:
+      friendly_name: "iPhone Элии"
       value_template: >-
         {{states.device_tracker | selectattr ('attributes.host_name', 'eq', 'iPhone-Elia') | selectattr ('state', 'eq', 'home') | list | length | float > 0 }}
     elia_apple_watch_at_home:
@@ -21,11 +21,11 @@
     azat_at_home:
       friendly_name: "Азат"
       value_template: >
-        {{ is_state('binary_sensor.azat_iphone_12_at_home', 'on')}}
+        {{ is_state('binary_sensor.azat_iphone_at_home', 'on')}}
     elia_at_home:
       friendly_name: "Элия"
       value_template: >
-        {{ is_state('binary_sensor.elia_iphone_12_at_home', 'on')}}
+        {{ is_state('binary_sensor.elia_iphone_at_home', 'on')}}
     people_at_home:
       friendly_name: "Люди дома"
       value_template: >

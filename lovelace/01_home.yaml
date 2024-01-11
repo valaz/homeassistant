@@ -12,7 +12,7 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-person-card
-            entity: device_tracker.iphone_12_az
+            entity: device_tracker.iphone_15_az
             name: Azat
             icon: mdi:face-man
             secondary_info: last-changed
