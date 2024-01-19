@@ -3,7 +3,7 @@ livingroom_cinema:
     - name: TV Cinema
       icon: "mdi:filmstrip"
       entities:
-        switch.c_livingroom_power: "on"
+        switch.c_livingroom_tv_power: "on"
         light.hallway: "off"
         light.livingroom: "off"
         light.65oled936_12_ambilight: "on"

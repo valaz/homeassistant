@@ -165,8 +165,30 @@ cards:
               - sensor.speedtest_ping
               - sensor.speedtest_download
               - sensor.speedtest_upload
+
           - type: entities
             entities:
+              - entity: sensor.glances_used_percent
+                type: custom:multiple-entity-row
+                name: "Boot"
+                state_color: true
+                state_header: "/ %"
+                entities:
+                  - entity: sensor.glances_used
+                    name: "used"
+                  - entity: sensor.glances_free
+                    name: "free"
+              - entity: sensor.glances_mnt_wd_yellow_used_percent
+                type: custom:multiple-entity-row
+                name: "WD Yellow"
+                state_color: true
+                state_header: "used %"
+                entities:
+                  - entity: sensor.glances_mnt_wd_yellow_used
+                    name: "used"
+                  - entity: sensor.glances_mnt_wd_yellow_free
+                    name: "free"
+
               - entity: sensor.u5elrlu_media_downloads_movies_media_downloads_movies
                 type: custom:multiple-entity-row
                 name: "Downloads/Movies"

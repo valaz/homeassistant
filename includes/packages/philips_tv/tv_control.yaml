@@ -28,7 +28,7 @@ tv_control:
   switch:
     - platform: template
       switches:
-        c_livingroom_power:
+        c_livingroom_tv_power:
           friendly_name: "Телевизор"
           icon_template: mdi:television
           value_template: "{{is_state('media_player.philips_tv', 'on')}}"

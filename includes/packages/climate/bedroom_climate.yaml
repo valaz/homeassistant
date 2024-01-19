@@ -2,12 +2,12 @@ bedroom_climate:
   alert:
     bedroom_co_level:
       name: "Высокий уровень углекислого газа"
-      message: '{{"\U000026A0"}} Обнаружен высокий уровень CO2 в спальне'
-      done_message: '{{"\U0001F197"}} Уровень CO2 в спальне в норме'
+      message: "😮‍💨 Высокий уровень CO2 в спальне: {{states('sensor.c_bedroom_co2_density')}}"
+      done_message: "✅ Уровень CO2 в спальне в норме: {{states('sensor.c_bedroom_co2_density')}}"
       entity_id: binary_sensor.c_bedroom_high_co2
       state: "on"
       repeat:
-        - 5
+        - 1
         - 15
         - 30
       can_acknowledge: true
