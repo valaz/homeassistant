@@ -70,7 +70,7 @@ devices:
   '0xa4c1381eddafd03a':
     friendly_name: Kitchen Button
   '0xa4c1384d2b081bbd':
-    friendly_name: '0xa4c1384d2b081bbd'
+    friendly_name: Hallway Button
 advanced:
   log_level: info
   log_syslog:

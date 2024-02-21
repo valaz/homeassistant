@@ -163,3 +163,14 @@ hallway_lights:
         - service: light.turn_off
           target:
             entity_id: light.hallway
+
+    - alias: "[Hallway Lights] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.hallway_button_action
+          to: "single"
+      action:
+        - service: light.toggle
+          entity_id: light.hallway
