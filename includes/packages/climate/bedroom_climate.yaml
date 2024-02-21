@@ -42,9 +42,12 @@ bedroom_climate:
   automation:
     - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
       trigger:
+        - platform: state
+          entity_id: binary_sensor.people_at_home
+          to: "on"
         - platform: numeric_state
           entity_id: sensor.c_bedroom_co2_density
-          above: 550
+          above: 500
       condition:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
