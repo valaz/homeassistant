@@ -183,3 +183,20 @@ telegram:
             message: |
               {{"\U0001F9F9"}} Ошибка при уборке.
               {{"\U000026A0"}} {{state_attr('vacuum.roborock_s5', 'error')}}
+
+    - alias: "[Telegram] Macbook Pro 15 Network State Alert"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.macbook_pro_15_ping
+          from: "on"
+          to: "off"
+        - platform: state
+          entity_id: binary_sensor.macbook_pro_15_ping
+          from: "off"
+          to: "on"
+      action:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              {{"\U0001F4BB"}} {{ states('sensor.time_date') }} Состояние Macbook Pro 15 в сети: {{states('binary_sensor.macbook_pro_15_ping')}}.
