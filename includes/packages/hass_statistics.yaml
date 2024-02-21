@@ -1,0 +1,30 @@
+hass_statistics:
+  input_number:
+    automations_triggers_counter:
+      name: Automations Triggers Counter
+      min: 0
+      max: 999999
+      step: 1
+
+  automation:
+    - alias: "[HASS] Count Automation Trigger"
+      trigger:
+        - platform: event
+          event_type: automation_triggered
+      action:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.automations_triggers_counter
+          data:
+            value: "{{ states('input_number.automations_triggers_counter') | int + 1 }}"
+
+    - alias: "[HASS] Reset Automation Trigger Counter"
+      trigger:
+        - platform: time
+          at: "00:00:00"
+      action:
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.automations_triggers_counter
+          data:
+            value: "{{ 0 }}"
