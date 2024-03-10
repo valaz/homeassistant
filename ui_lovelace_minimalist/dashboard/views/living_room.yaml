@@ -33,17 +33,19 @@ cards:
           ulm_card_graph_type: fill
           ulm_card_graph_hours: 24
           ulm_card_graph_group_by: interval
-      # - type: "custom:button-card"
-      #   template: card_graph
-      #   entity: sensor.c_livingroom_pm25_density
-      #   variables:
-      #     ulm_card_graph_color: "purple"
-      #     ulm_card_graph_name: pm25
-      #     ulm_card_graph_icon: mdi:google-circles-extended
-      #     ulm_card_graph_entity: sensor.c_bedroom_pm25_density
-      #     ulm_card_graph_type: fill
-      #     ulm_card_graph_hours: 24
-      #     ulm_card_graph_group_by: interval
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_livingroom_pm25_density
+        variables:
+          ulm_card_graph_color: "purple"
+          ulm_card_graph_name: pm25
+          ulm_card_graph_icon: mdi:google-circles-extended
+          ulm_card_graph_entity: sensor.c_bedroom_pm25_density
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
 
   - type: "custom:button-card"
     template: card_title

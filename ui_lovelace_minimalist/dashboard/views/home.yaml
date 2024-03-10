@@ -73,7 +73,7 @@ cards:
           ulm_card_dynamic_color: true
         label: >
           [[[
-            return "🌡️ " + states['sensor.c_livingroom_temperature'].state + " °C" + " 💧 " + states['sensor.c_livingroom_humidity'].state + " %"
+            return "🌡️ " + states['sensor.c_kitchen_temperature'].state + " °C" + " 💧 " + states['sensor.c_kitchen_humidity'].state + " %"
           ]]]
 
   - type: horizontal-stack

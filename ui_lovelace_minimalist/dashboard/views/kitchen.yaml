@@ -11,6 +11,29 @@ cards:
         template: card_title
         name: Kitchen
 
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_kitchen_temperature
+        variables:
+          ulm_card_graph_color: "orange"
+          ulm_card_graph_name: Temperature
+          ulm_card_graph_entity: sensor.c_kitchen_temperature
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+      - type: "custom:button-card"
+        template: card_graph
+        entity: sensor.c_kitchen_humidity
+        variables:
+          ulm_card_graph_color: "blue"
+          ulm_card_graph_name: Humidity
+          ulm_card_graph_entity: sensor.c_kitchen_humidity
+          ulm_card_graph_type: fill
+          ulm_card_graph_hours: 24
+          ulm_card_graph_group_by: interval
+
   - type: "custom:button-card"
     template: card_title
     label: Devices
