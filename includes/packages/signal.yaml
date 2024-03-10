@@ -1,0 +1,25 @@
+signal:
+  binary_sensor:
+    - platform: rest
+      name: c_signal_rocketleague_jubilee
+      resource: https://signal.valiev.one/rocketleague/jubilee
+      authentication: basic
+      username: !secret signal.username
+      password: !secret signal.password
+      icon: mdi:car
+      value_template: "{{ value_json is not none and value_json.active == true }}"
+      headers:
+        Content-Type: application/json
+
+  switch:
+    - platform: rest
+      name: c_signal_rocketleague_cyclops
+      resource: https://signal.valiev.one/rocketleague/cyclops
+      username: !secret signal.username
+      password: !secret signal.password
+      body_on: '{"active": true}'
+      body_off: '{"active": false}'
+      is_on_template: "{{ value_json is not none and value_json.active == true }}"
+      icon: mdi:car
+      headers:
+        Content-Type: application/json
