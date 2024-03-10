@@ -188,7 +188,6 @@ cards:
                     name: "used"
                   - entity: sensor.glances_mnt_wd_yellow_free
                     name: "free"
-
               - entity: sensor.u5elrlu_media_downloads_movies_media_downloads_movies
                 type: custom:multiple-entity-row
                 name: "Downloads/Movies"
@@ -200,15 +199,20 @@ cards:
       - type: custom:vertical-stack-in-card
         title: Falcon
         cards:
-          - type: entities
-            entities:
+          - type: conditional
+            conditions:
               - entity: sensor.hvd6662_iqeus_eeskc_games
-                type: custom:multiple-entity-row
-                name: "Games"
-                state_color: true
-                entities:
-                  - entity: sensor.falcon_sync_games
-                    name: false
+                state_not: "unavailable"
+            card:
+              type: entities
+              entities:
+                - entity: sensor.hvd6662_iqeus_eeskc_games
+                  type: custom:multiple-entity-row
+                  name: "Games"
+                  state_color: true
+                  entities:
+                    - entity: sensor.falcon_sync_games
+                      name: false
       - type: custom:auto-entities
         card:
           type: entities
