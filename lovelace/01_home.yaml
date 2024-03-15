@@ -247,6 +247,17 @@ cards:
                         name: Входной коврик
                         primary_info: state
                         secondary_info: last-changed
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-lock-card
+                    entity: lock.intercom_door
+                    name: Подъезд
+                    icon: mdi:door-sliding
+                    fill_container: true
+                    tap_action:
+                      service: lock.unlock
+                      target:
+                        entity_id: lock.intercom_door
 
   - type: vertical-stack
     cards:

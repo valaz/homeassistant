@@ -1,0 +1,25 @@
+hallway_locks:
+  timer:
+    hallway_intercom_state_timer:
+      name: "Запущено открытие подъезда"
+      duration: "00:00:02"
+
+  lock:
+    - platform: template
+      unique_id: c_hallway_intercom
+      name: Intercom door
+      value_template: "{{ is_state('timer.hallway_intercom_state_timer', 'idle') }}"
+      lock:
+        - service: timer.cancel
+          target:
+            entity_id: timer.hallway_intercom_state_timer
+      unlock:
+        - service: switch.toggle
+          target:
+            entity_id: switch.hallway_button_pusher
+        - service: timer.cancel
+          target:
+            entity_id: timer.hallway_intercom_state_timer
+        - service: timer.start
+          target:
+            entity_id: timer.hallway_intercom_state_timer

@@ -23,6 +23,7 @@
       - switch.c_kidsroom_sleep_mode
       - scene.tv_gaming
       - scene.movies
+      - lock.intercom_door
     include_entity_globs:
       - binary_sensor.*_water_leak
       - binary_sensor.*_door_sensor_contact
@@ -121,3 +122,5 @@
       name: "Игровой режим"
     scene.movies:
       name: "Кинотеатр"
+    lock.intercom_door:
+      name: "Подъезд"
