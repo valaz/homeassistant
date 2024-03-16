@@ -73,6 +73,24 @@ cards:
               - entity: sensor.maria_db_size
                 name: Maria DB
 
+      - type: custom:vertical-stack-in-card
+        title: Falcon
+        cards:
+          - type: conditional
+            conditions:
+              - entity: sensor.hvd6662_iqeus_eeskc_games
+                state_not: "unavailable"
+            card:
+              type: entities
+              entities:
+                - entity: sensor.hvd6662_iqeus_eeskc_games
+                  type: custom:multiple-entity-row
+                  name: "Games"
+                  state_color: true
+                  entities:
+                    - entity: sensor.falcon_sync_games
+                      name: false
+
   - type: vertical-stack
     cards:
       - type: markdown
@@ -159,13 +177,6 @@ cards:
                         color: rgb(127, 186, 192)
                         fill: rgba(217, 240, 235, 0.5)
 
-          - type: glance
-            show_name: false
-            entities:
-              - sensor.speedtest_ping
-              - sensor.speedtest_download
-              - sensor.speedtest_upload
-
           - type: entities
             entities:
               - entity: sensor.glances_used_percent
@@ -197,32 +208,21 @@ cards:
                     name: false
 
       - type: custom:vertical-stack-in-card
-        title: Falcon
+        title: Docker
         cards:
-          - type: conditional
-            conditions:
-              - entity: sensor.hvd6662_iqeus_eeskc_games
-                state_not: "unavailable"
+          - type: entities
+            entities:
+              - switch.c_hulk_with_portainer
+          - type: custom:auto-entities
             card:
               type: entities
-              entities:
-                - entity: sensor.hvd6662_iqeus_eeskc_games
-                  type: custom:multiple-entity-row
-                  name: "Games"
-                  state_color: true
-                  entities:
-                    - entity: sensor.falcon_sync_games
-                      name: false
-      - type: custom:auto-entities
-        card:
-          type: entities
-          show_header_toggle: false
-        filter:
-          include:
-            - name: "c_hulk_docker_*"
-        sort:
-          method: name
-        show_empty: true
+              show_header_toggle: false
+            filter:
+              include:
+                - name: "c_hulk_docker_*"
+            sort:
+              method: name
+            show_empty: true
 
   - type: vertical-stack
     cards:
@@ -313,6 +313,13 @@ cards:
             entities:
               - button.fritz_box_6660_cable_restart
               - button.fritz_box_6660_cable_reconnect
+
+          - type: glance
+            show_name: false
+            entities:
+              - sensor.speedtest_ping
+              - sensor.speedtest_download
+              - sensor.speedtest_upload
 
       - type: custom:vertical-stack-in-card
         title: "Pi-hole"

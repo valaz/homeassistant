@@ -1,3 +1,15 @@
+
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!.gitignore
+!*.md
+!includes/*
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+
 secrets.yaml
 known_devices.yaml
 home-assistant.*
@@ -9,3 +21,5 @@ node-red/*
 .storage/*
 custom_components/*
 www/*
+
+*.key
