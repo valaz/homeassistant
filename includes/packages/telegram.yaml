@@ -199,4 +199,16 @@ telegram:
         - service: notify.tg_valaz
           data:
             message: |
-              {{"\U0001F4BB"}} {{ states('sensor.time_date') }} Состояние Macbook Pro 15 в сети: {{states('binary_sensor.macbook_pro_15_ping')}}.
+              {{"\U0001F4BB"}} {{ states('sensor.time_date') }} Состояние Macbook Pro 15 в сети: {{states('binary_sensor.macbook_pro_15_ping')}}
+
+    - alias: "[Telegram] Jubilee is ready for Rocket League"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.c_signal_rocketleague_jubilee
+          to: "on"
+      action:
+        - service: notify.tg_valaz
+          data:
+            message: |
+              🏎️ Юбилей готов к РЛ!
