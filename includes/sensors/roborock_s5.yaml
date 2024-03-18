@@ -2,7 +2,7 @@
   sensors:
     c_roborock_s5_battery:
       icon_template: mdi:battery
-      friendly_name: "Уровень заряда"
+      friendly_name: "Roborock S5 Батарея"
       value_template: "{{ state_attr('vacuum.roborock_s5', 'battery_level') | round(0) }}"
       unit_of_measurement: "%"
 
