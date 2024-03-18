@@ -87,6 +87,7 @@ lovelace:
       type: module
 
 # Вынос во внешние файлы
+influxdb: !include includes/influxdb.yaml
 timer: !include includes/timer.yaml
 group: !include includes/groups.yaml
 scene: !include includes/scenes.yaml
@@ -118,35 +119,6 @@ frontend:
   themes: !include_dir_merge_named themes
   extra_module_url:
     - /hacsfiles/lovelace-card-mod/card-mod.js
-
-influxdb:
-  api_version: 2
-  ssl: false
-  host: localhost
-  port: 8086
-  token: !secret influxdb_token
-  organization: !secret influxdb_org
-  bucket: !secret influxdb_bucket
-  default_measurement: state
-  component_config_glob:
-    sensor.*humidity:
-      override_measurement: humidity
-    sensor.*temperature:
-      override_measurement: temperature
-    sensor.*battery*:
-      override_measurement: battery
-    sensor.*power*:
-      override_measurement: energy
-    sensor.*energy*:
-      override_measurement: energy
-    sensor.pi_hole*:
-      override_measurement: pi_hole
-  tags:
-    source: HA
-  tags_attributes:
-    - room
-    - device_class
-    - friendly_name
 
 telegram_bot:
   - platform: polling
