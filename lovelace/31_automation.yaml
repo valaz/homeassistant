@@ -128,7 +128,7 @@ cards:
                 secondary_info: last-changed
           exclude:
             - entity_id: "*_device_temperature"
-            - entity_id: "glances_*"
+            - entity_id: "sensor.glances_*"
             - entity_id: "*processor_temperature*"
             - name: "*Glances*"
         sort:
