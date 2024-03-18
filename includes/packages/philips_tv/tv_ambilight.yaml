@@ -42,7 +42,7 @@ tv_ambilight:
         c_65oled936_12_screen_state:
           friendly_name: "TV Screen State"
           value_template: >-
-            {% if is_state("switch.c_livingroom_power", "on") -%}
+            {% if is_state("switch.c_livingroom_tv_power", "on") -%}
               {% if is_state("switch.65oled936_12_screen_state", "on") or is_state("switch.65oled936_12_screen_state", "off") -%}
                 {{states("switch.65oled936_12_screen_state")}}
               {%- else -%}
@@ -54,7 +54,7 @@ tv_ambilight:
           turn_on:
             - service: switch.turn_on
               target:
-                entity_id: switch.c_livingroom_power
+                entity_id: switch.c_livingroom_tv_power
             - service: switch.turn_on
               target:
                 entity_id: switch.65oled936_12_screen_state
