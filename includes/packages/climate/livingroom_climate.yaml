@@ -1,0 +1,25 @@
+livingroom_climate:
+  automation:
+    - alias: "[Livingroom Climate] Turn on favorite mode on high pm2.5"
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.air_purifier_2s_pm2_5
+          above: 200
+      action:
+        - service: select.select_option
+          target:
+            entity_id: select.air_purifier_2s_mode
+          data:
+            option: favorite
+
+    - alias: "[Livingroom Climate] Turn on auto mode on low pm2.5"
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.air_purifier_2s_pm2_5
+          below: 50
+      action:
+        - service: select.select_option
+          target:
+            entity_id: select.air_purifier_2s_mode
+          data:
+            option: auto
