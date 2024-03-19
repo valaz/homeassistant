@@ -64,6 +64,7 @@ kidsroom_lights:
           entity_id: input_select.c_kidsroom_light_mode
         - platform: state
           entity_id: switch.kidsroom_light_switch
+          from: "off"
           to: "on"
       condition:
         - condition: state
