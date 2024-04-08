@@ -127,7 +127,7 @@ hallway_lights:
         - platform: numeric_state
           entity_id: sun.sun
           attribute: elevation
-          below: 2
+          below: 3
         - platform: state
           entity_id: input_select.c_livingroom_light_mode
           to: "normal"
@@ -135,7 +135,7 @@ hallway_lights:
         - condition: numeric_state
           entity_id: sun.sun
           attribute: elevation
-          below: 2
+          below: 3
         - condition: state
           entity_id: light.hallway
           state: "off"
