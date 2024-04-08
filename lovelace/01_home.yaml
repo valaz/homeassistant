@@ -27,13 +27,13 @@ cards:
           - entity: binary_sensor.tapo_c210_ping
             state: "on"
         card:
-          - type: picture-glance
-            title: C210
-            camera_image: camera.tapo_c210_hd
-            camera_view: live
-            entities:
-              - light.hallway
-              - binary_sensor.hallway_door_sensor_contact
+          type: picture-glance
+          title: C210
+          camera_image: camera.tapo_c210_hd
+          camera_view: live
+          entities:
+            - light.hallway
+            - binary_sensor.hallway_door_sensor_contact
 
       - type: custom:mini-graph-card
         entities:
@@ -258,6 +258,20 @@ cards:
                       service: lock.unlock
                       target:
                         entity_id: lock.intercom_door
+                  - type: custom:mushroom-lock-card
+                    entity: lock.main_door
+                    name: Дверь
+                    icon: mdi:door
+                    fill_container: true
+                    tap_action:
+                      service: lock.unlock
+                      target:
+                        entity_id: lock.main_door
+              - type: horizontal-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - binary_sensor.c_should_open_main_door
 
   - type: vertical-stack
     cards:

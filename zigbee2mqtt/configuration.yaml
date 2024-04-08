@@ -73,6 +73,7 @@ devices:
     friendly_name: Hallway Button
   '0xa4c1383084092912':
     friendly_name: Hallway Button Pusher
+    state_action: true
 advanced:
   log_level: info
   log_syslog:

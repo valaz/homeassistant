@@ -4,7 +4,67 @@ hallway_locks:
       name: "Запущено открытие подъезда"
       duration: "00:00:02"
 
+    hallway_door_pull_spring:
+      name: "Запущено открытие двери"
+      duration: "00:00:03"
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_should_open_main_door:
+          friendly_name: "Should pull spring"
+          value_template: >-
+            {{ is_state('binary_sensor.azat_at_home', 'on')
+              or (as_timestamp(now()) | int - as_timestamp(states.lock.intercom_door.last_changed) < 210)
+            }}
+
+  script:
+    main_door_try_unlock:
+      alias: "[Door Lock] Try to unlock"
+      sequence:
+        - if:
+            - condition: template
+              value_template: "{{ is_state('lock.lock_febb', 'locked')}}"
+          then:
+            - service: lock.unlock
+              target:
+                entity_id: lock.lock_febb
+
+    main_door_try_open:
+      alias: "[Door Lock] Try to open"
+      sequence:
+        - wait_template: "{{ is_state('lock.lock_febb', 'unlocked') }}"
+          timeout: 10
+          continue_on_timeout: false
+        - service: lock.open
+          target:
+            entity_id: lock.lock_febb
+
   lock:
+    - platform: template
+      unique_id: c_hallway_main_door
+      name: Main Door
+      value_template: "{{ is_state('lock.lock_febb', 'locked') or is_state('timer.hallway_door_pull_spring', 'idle') }}"
+      lock:
+        - service: lock.lock
+          target:
+            entity_id: lock.lock_febb
+      unlock:
+        - service: script.main_door_try_unlock
+        - if:
+            - condition: state
+              entity_id: binary_sensor.c_should_open_main_door
+              state: "on"
+          then:
+            - service: script.main_door_try_open
+          else:
+            - service: notify.mobile_app_iphone_15_az
+              data:
+                message: Дверь разблокирована, но не откроется
+        - service: timer.start
+          target:
+            entity_id: timer.hallway_door_pull_spring
+
     - platform: template
       unique_id: c_hallway_intercom
       name: Intercom door
@@ -17,9 +77,33 @@ hallway_locks:
         - service: switch.toggle
           target:
             entity_id: switch.hallway_button_pusher
+
+  automation:
+    - alias: "[Intercom Lock] Observe button push"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: switch.hallway_button_pusher
+      action:
         - service: timer.cancel
           target:
             entity_id: timer.hallway_intercom_state_timer
         - service: timer.start
           target:
             entity_id: timer.hallway_intercom_state_timer
+
+    - alias: "[Main Door Lock] Autolock if no people at home"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.people_at_home
+          to: "off"
+      action:
+        - service: lock.lock
+          target:
+            entity_id: lock.lock_febb
+        - service: notify.tg_valaz
+          data:
+            message: "🔒 Дверь закрывается, так как никого нет дома"

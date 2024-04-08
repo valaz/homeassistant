@@ -28,6 +28,37 @@ cards:
         triggers_update:
           - "sensor.hallway_button_pusher_battery"
 
+      - type: "custom:button-card"
+        template: custom_card_eraycetinay_lock
+        entity: lock.main_door
+        name: "Main Door"
+        variables:
+          ulm_custom_card_eraycetinay_lock_tap_control: true
+          ulm_custom_card_eraycetinay_lock_battery_level: sensor.lock_febb_battery
+          ulm_custom_card_eraycetinay_lock_only_open: false
+        triggers_update:
+          - "sensor.lock_febb_battery"
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: card_binary_sensor
+        variables:
+          ulm_card_binary_sensor_alert: false
+          ulm_show_last_changed: false
+          ulm_card_binary_sensor_name: Should Open
+        entity: binary_sensor.c_should_open_main_door
+      - type: "custom:button-card"
+        template: custom_card_eraycetinay_lock
+        entity: lock.lock_febb
+        name: "Tedee Lock"
+        variables:
+          ulm_custom_card_eraycetinay_lock_tap_control: true
+          ulm_custom_card_eraycetinay_lock_battery_level: sensor.lock_febb_battery
+          ulm_custom_card_eraycetinay_lock_only_open: false
+        triggers_update:
+          - "sensor.lock_febb_battery"
+
   - type: "custom:button-card"
     template: card_title
     label: Devices
@@ -64,14 +95,6 @@ cards:
           ulm_show_last_changed: false
           ulm_card_binary_sensor_name: Carpet
         entity: binary_sensor.c_hallway_carpet_usage
-
-  # - type: horizontal-stack
-  #   cards:
-  #     - type: "custom:button-card"
-  #       template: card_generic_swap
-  #       entity: sensor.0x00158d00054cd813_illuminance_lux
-  #       variables:
-  #         ulm_card_generic_swap_name: Illuminance
 
   - type: "custom:logbook-card"
     entity: binary_sensor.hallway_door_sensor_contact

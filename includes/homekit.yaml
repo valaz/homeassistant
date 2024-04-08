@@ -1,3 +1,23 @@
+- name: "Intercom Lock"
+  port: 21075
+  mode: accessory
+  filter:
+    include_entities:
+      - lock.intercom_door
+  entity_config:
+    lock.intercom_door:
+      name: "Подъезд"
+
+- name: "Main Door Lock"
+  port: 21076
+  mode: accessory
+  filter:
+    include_entities:
+      - lock.main_door
+  entity_config:
+    lock.main_door:
+      name: "Дверь"
+
 - name: "Hass Home"
   port: 21065
   filter:
@@ -23,7 +43,6 @@
       - switch.c_kidsroom_sleep_mode
       - scene.tv_gaming
       - scene.movies
-      - lock.intercom_door
     include_entity_globs:
       - binary_sensor.*_water_leak
       - binary_sensor.*_door_sensor_contact
@@ -122,5 +141,3 @@
       name: "Игровой режим"
     scene.movies:
       name: "Кинотеатр"
-    lock.intercom_door:
-      name: "Подъезд"

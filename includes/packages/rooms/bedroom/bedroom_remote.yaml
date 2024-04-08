@@ -91,7 +91,7 @@ bedroom_remote:
             entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
 
     ####### Button 3
-    - alias: "[Bedroom Remote] Toggle Recuperator"
+    - alias: "[Bedroom Remote] Unlock Intercom Door"
       mode: restart
       initial_state: true
       trigger:
@@ -99,10 +99,21 @@ bedroom_remote:
           entity_id: sensor.bedroom_remote_control_action
           to: "3_single"
       action:
-        - service: fan.toggle
-          data: {}
+        - service: lock.unlock
           target:
-            entity_id: fan.bedroom_input_fan
+            entity_id: lock.intercom_door
+
+    - alias: "[Bedroom Remote] Unlock Main Door"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "3_double"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.main_door
 
     ####### Button 4
     - alias: "[Bedroom Remote] Toggle Monitor Plug"
