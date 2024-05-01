@@ -492,7 +492,7 @@ cards:
               - type: conditional
                 conditions:
                   - entity: vacuum.roborock_s5
-                    state: "cleaning"
+                    state_not : "docked"
                 card:
                   type: picture-entity
                   entity: camera.roborock_s5
