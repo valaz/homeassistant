@@ -11,16 +11,16 @@ cards:
 
       - type: horizontal-stack
         cards:
-          - type: custom:mushroom-person-card
+          - type: tile
             entity: device_tracker.iphone_15_az
             name: Azat
             icon: mdi:face-man
-            secondary_info: last-changed
-          - type: custom:mushroom-person-card
+            state_content: last-changed
+          - type: tile
             entity: device_tracker.iphone_elia
             name: Eliia
             icon: mdi:face-woman
-            secondary_info: last-changed
+            state_content: last-changed
 
       - type: conditional
         conditions:
@@ -51,17 +51,6 @@ cards:
           - switch.c_signal_rocketleague_cyclops
           - binary_sensor.c_signal_rocketleague_jubilee
 
-      # - type: custom:mini-graph-card
-      #   entities:
-      #     - sensor.0x04cf8cdf3c764d02_power
-      #   color_thresholds:
-      #     - value: 500
-      #       color: "#DB4437"
-      #     - value: 300
-      #       color: "#FFA600"
-      #     - value: 100
-      #       color: "#43A047"
-
   - type: vertical-stack
     cards:
       - type: horizontal-stack
@@ -71,82 +60,65 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_bedroom_temperature
-                    primary_info: state
-                    icon_color: orange
+                    color: orange
                     name: Temperature
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_bedroom_humidity
                     name: Humidity
-                    primary_info: state
-                    secondary_info: name
+                    color: blue
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_bedroom_co2_density
                     name: CO2
-                    primary_info: state
-                    icon_color: green
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                    color: green
+                  - type: tile
                     entity: sensor.c_bedroom_pm25_density
                     name: pm25
-                    primary_info: state
-                    icon_color: purple
-                    secondary_info: name
+                    color: purple
+
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.bedroom_light_switch
                     name: Люстра
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: false
-                    show_color_temp_control: false
-                    show_color_control: false
-                    use_light_color: true
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.bedroom_monitor_plug
                     name: Монитор
-                    fill_container: true
+
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: light.yeelight_lamp15_0x1c03268c
                     name: Лампа
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: true
-                    show_color_temp_control: true
-                    show_color_control: true
-                    use_light_color: true
-                  - type: custom:mushroom-light-card
+                    features:
+                      - type: "light-brightness"
+                      # - type: "light-color-temp"
+                  - type: tile
                     entity: light.yeelight_lamp15_0x1c03268c_ambilight
                     name: Подсветка
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: true
-                    show_color_temp_control: true
-                    show_color_control: true
-                    use_light_color: true
+                    features:
+                      - type: "light-brightness"
+                      # - type: "light-color-temp"
+
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: binary_sensor.c_bedroom_closet_usage
                     name: Движение
                     primary_info: state
-                    secondary_info: last-changed
-                  - type: custom:mushroom-fan-card
+                    state_content: last-changed
+                  - type: tile
                     entity: fan.bedroom_input_fan
                     name: Рекуператор
                     fill_container: true
 
-              - type: custom:mushroom-cover-card
+              - type: tile
                 entity: cover.bedroom_cover_group
-                show_buttons_control: true
-                show_position_control: true
+                features:
+                  - type: "cover-open-close"
 
       - type: horizontal-stack
         cards:
@@ -155,31 +127,21 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_kidsroom_temperature
-                    primary_info: state
-                    icon_color: orange
+                    color: orange
                     name: Temperature
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_kidsroom_humidity
                     name: Humidity
-                    primary_info: state
-                    secondary_info: name
+                    color: blue
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.kidsroom_light_switch
                     name: Луна
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: false
-                    show_color_temp_control: false
-                    show_color_control: false
-                    use_light_color: true
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.c_kidsroom_sleep_mode
-                    fill_container: true
 
       - type: horizontal-stack
         cards:
@@ -188,36 +150,22 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.kitchen_light_switch_right
                     name: Люстра
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: false
-                    show_color_temp_control: false
-                    show_color_control: false
-                    use_light_color: true
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: switch.kitchen_sink_plug
                     name: Раковина
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: false
-                    show_color_temp_control: false
-                    show_color_control: false
-                    use_light_color: true
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: binary_sensor.kitchen_motion_sensor_occupancy
                     name: Движение
-                    primary_info: state
-                    secondary_info: last-changed
-                  - type: custom:mushroom-entity-card
+                    state_content: last-changed
+                  - type: tile
                     entity: sensor.kitchen_motion_sensor_illuminance
                     name: Уровень освещения
-                    # primary_info: state
-                    # secondary_info: last-changed
+                    color: yellow
 
       - type: horizontal-stack
         cards:
@@ -226,52 +174,53 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: light.hallway
                     name: Люстра
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: true
-                    show_color_temp_control: true
-                    show_color_control: true
-                    use_light_color: true
+                    features:
+                      - type: "light-brightness"
+                      # - type: "light-color-temp"
                   - type: custom:vertical-stack-in-card
                     cards:
-                      - type: custom:mushroom-entity-card
+                      - type: tile
                         entity: binary_sensor.hallway_door_sensor_contact
                         name: Входная Дверь
                         primary_info: state
-                        secondary_info: last-changed
-                      - type: custom:mushroom-entity-card
+                        state_content: last-changed
+                      - type: tile
                         entity: binary_sensor.c_hallway_carpet_usage
                         name: Входной коврик
                         primary_info: state
-                        secondary_info: last-changed
+                        state_content: last-changed
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-lock-card
+                  - type: tile
                     entity: lock.intercom_door
                     name: Подъезд
                     icon: mdi:door-sliding
-                    fill_container: true
-                    tap_action:
-                      service: lock.unlock
-                      target:
-                        entity_id: lock.intercom_door
-                  - type: custom:mushroom-lock-card
+                    features:
+                      - type: "lock-commands"
+                  - type: tile
                     entity: lock.main_door
                     name: Дверь
                     icon: mdi:door
-                    fill_container: true
-                    tap_action:
-                      service: lock.unlock
-                      target:
-                        entity_id: lock.main_door
+                    features:
+                      - type: "lock-commands"
+                      # - type: "lock-open-door"
               - type: horizontal-stack
                 cards:
-                  - type: entities
-                    entities:
-                      - binary_sensor.c_should_open_main_door
+                  - type: tile
+                    entity: binary_sensor.c_should_open_main_door
+                  - type: tile
+                    entity: lock.lock_febb
+                    name: Дверь
+                    icon: mdi:door
+                    features:
+                      - type: "lock-commands"
+                      - type: "lock-open-door"
+                  # - type: entities
+                  #   entities:
+                  #     - binary_sensor.c_should_open_main_door
 
   - type: vertical-stack
     cards:
@@ -282,62 +231,47 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_bathroom_temperature
-                    primary_info: state
-                    icon_color: orange
+                    color: orange
                     name: Temperature
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_bathroom_humidity
                     name: Humidity
-                    primary_info: state
-                    secondary_info: name
+                    color: blue
 
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
-                    entity: light.c_bathroom
-                    name: Люстра
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: true
-                    show_color_temp_control: true
-                    show_color_control: false
-                    use_light_color: true
                   - type: custom:vertical-stack-in-card
                     cards:
-                      - type: custom:mushroom-entity-card
+                      - type: tile
+                        entity: light.c_bathroom
+                        name: Люстра
+                      - type: tile
+                        entity: switch.c_bathroom_light_auto_off
+                        name: Автовыключение
+                  - type: custom:vertical-stack-in-card
+                    cards:
+                      - type: tile
                         entity: binary_sensor.bathroom_presence_sensor_occupancy
-                        name: Движение
-                        primary_info: state
-                        secondary_info: last-changed
-                      - type: custom:mushroom-entity-card
+                        name: Присутствие
+                        state_content: last-changed
+                      - type: tile
                         entity: binary_sensor.bathroom_motion_sensor_occupancy
                         name: Движение
-                        primary_info: state
-                        secondary_info: last-changed
+                        state_content: last-changed
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: binary_sensor.bathroom_door_sensor_contact
                     name: Дверь
-                    primary_info: state
-                    secondary_info: last-changed
-                  - type: custom:mushroom-entity-card
+                    color: black
+                    state_content: last-changed
+                  - type: tile
                     entity: sensor.bathroom_motion_sensor_illuminance_lux
-                    primary_info: state
-                    icon_color: yellow
-                    secondary_info: name
-                  # - type: custom:mushroom-light-card
-                  #   entity: switch.c_bathroom_light_auto_off
-                  #   name: Автовыключение
-                  #   fill_container: false
-                  #   collapsible_controls: false
-                  #   show_brightness_control: false
-                  #   show_color_temp_control: false
-                  #   show_color_control: false
-                  #   use_light_color: false
+                    name: Уровень освещения
+                    color: yellow
+                    state_content: name
 
               - type: entities
                 entities:
@@ -357,29 +291,22 @@ cards:
             cards:
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_livingroom_temperature
-                    primary_info: state
-                    icon_color: orange
+                    color: orange
                     name: Temperature
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_livingroom_humidity
                     name: Humidity
-                    primary_info: state
-                    secondary_info: name
+                    color: blue
 
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-light-card
+                  - type: tile
                     entity: light.livingroom
                     name: Люстра
-                    fill_container: true
-                    collapsible_controls: false
-                    show_brightness_control: true
-                    show_color_temp_control: true
-                    show_color_control: true
-                    use_light_color: true
+                    features:
+                      - "light-brightness"
                   - type: custom:mushroom-select-card
                     entity: input_select.c_livingroom_light_mode
                     icon_color: orange
@@ -388,18 +315,14 @@ cards:
 
               - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_tv_duration_current
-                    primary_info: state
-                    icon_color: green
+                    color: green
                     name: TV now
-                    secondary_info: name
-                  - type: custom:mushroom-entity-card
+                  - type: tile
                     entity: sensor.c_tv_duration_today
                     name: TV today
-                    primary_info: state
-                    icon_color: blue
-                    secondary_info: name
+                    color: blue
 
               - type: horizontal-stack
                 cards:
@@ -417,54 +340,43 @@ cards:
                     collapsible_controls: false
                     media_controls: [on_off, play_pause_stop]
 
-              - type: entities
-                entities:
-                  - switch.c_livingroom_tv_power
-                  # - media_player.philips_tv
-                  - entity: light.65oled936_12_ambilight
-                    type: custom:multiple-entity-row
-                    name: Ambilight
-                    state_header: ambilight
-                    toggle: true
-                    state_color: true
-                    entities:
-                      - entity: switch.c_65oled936_12_screen_state
-                        name: screen
-                        toggle: true
-                      - entity: switch.c_65oled936_12_ambilight_hue
-                        name: ambilight+hue
-                        toggle: true
-                  # - entity: fan.air_purifier_2s
-                  #   secondary_info:
-                  #     attribute: preset_mode
-                  #   type: custom:multiple-entity-row
-                  #   toggle: true
-                  #   state_color: true
-                  #   entities:
-                  #     - entity: number.air_purifier_2s_favorite_level
-                  #       name: level
+              - type: horizontal-stack
+                cards:
+                  - type: tile
+                    entity: switch.c_livingroom_tv_power
+                  - type: tile
+                    entity: switch.c_65oled936_12_screen_state
+                    name: screen
+                    icon: mdi:fit-to-screen
 
-              - type: custom:mushroom-vacuum-card
-                entity: vacuum.roborock_s5
-                icon_animation: true
-                fill_container: true
-                commands: [start_pause, stop, return_home]
+              - type: horizontal-stack
+                cards:
+                  - type: tile
+                    entity: light.65oled936_12_ambilight
+                    name: ambilight
+                  - type: tile
+                    entity: switch.c_65oled936_12_ambilight_hue
+                    name: ambilight+hue
+                    icon: mdi:wall-sconce-round
 
-              - type: custom:mushroom-chips-card
-                alignment: center
-                chips:
-                  - type: entity
-                    entity: sensor.c_roborock_s5_battery
-                    icon_color: green
-                  - type: entity
-                    entity: sensor.c_last_clean_custom
-                    icon_color: blue
-                  - type: entity
-                    entity: sensor.roborock_s5_last_clean_area
-                    icon_color: orange
-                  - type: entity
-                    entity: sensor.c_roborock_s5_last_clean_duration
-                    icon_color: orange
+              - type: horizontal-stack
+                cards:
+                  - type: tile
+                    entity: vacuum.roborock_s5
+                    features:
+                      - type: "vacuum-commands"
+                        commands:
+                          - start_pause
+                          - stop
+                          - locate
+                          - return_home
+                  - type: custom:vertical-stack-in-card
+                    cards:
+                      - type: tile
+                        entity: fan.air_purifier_2s
+                      - type: tile
+                        entity: number.air_purifier_2s_favorite_level
+                        name: Уровень Очистки
 
               - type: conditional
                 conditions:
@@ -492,7 +404,7 @@ cards:
               - type: conditional
                 conditions:
                   - entity: vacuum.roborock_s5
-                    state_not : "docked"
+                    state_not: "docked"
                 card:
                   type: picture-entity
                   entity: camera.roborock_s5
