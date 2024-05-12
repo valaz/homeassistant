@@ -65,3 +65,18 @@ cards:
             - entity_id: sensor.c_roborock_s5_current_clean_duration
               unit: minutes
               subtitle: Cleaning time
+      - type: custom:mushroom-chips-card
+        alignment: center
+        chips:
+          - type: entity
+            entity: sensor.c_roborock_s5_battery
+            icon_color: green
+          - type: entity
+            entity: sensor.c_last_clean_custom
+            icon_color: blue
+          - type: entity
+            entity: sensor.roborock_s5_last_clean_area
+            icon_color: orange
+          - type: entity
+            entity: sensor.c_roborock_s5_last_clean_duration
+            icon_color: orange
