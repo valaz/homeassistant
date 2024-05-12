@@ -1,5 +1,6 @@
 switch.c_65oled936_12_ambilight_hue:
   optimistic: true
+  icon: mdi:wall-sconce-round
 
 sensor.c_bedroom_temperature:
   room: "Bedroom"
