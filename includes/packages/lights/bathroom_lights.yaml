@@ -163,9 +163,14 @@ bathroom_lights:
         - platform: state
           entity_id: sensor.bathroom_motion_sensor_illuminance_lux
       condition:
-        - condition: numeric_state
-          entity_id: sensor.bathroom_motion_sensor_illuminance_lux
-          below: 50
+        - condition: or
+          conditions:
+            - condition: numeric_state
+              entity_id: sensor.bathroom_motion_sensor_illuminance_lux
+              below: 50
+            - condition: numeric_state
+              entity_id: sensor.c_sun_elevation
+              below: 2
         - condition: or
           conditions:
             - condition: state
