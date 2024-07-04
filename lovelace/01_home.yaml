@@ -209,8 +209,12 @@ cards:
                       # - type: "lock-open-door"
               - type: horizontal-stack
                 cards:
-                  - type: tile
-                    entity: binary_sensor.c_should_open_main_door
+                  - type: custom:vertical-stack-in-card
+                    cards:
+                      - type: tile
+                        entity: binary_sensor.c_should_open_main_door
+                      - type: tile
+                        entity: binary_sensor.c_should_warmup_intercom_door
                   - type: tile
                     entity: lock.lock_febb
                     name: Дверь

@@ -17,6 +17,12 @@ hallway_locks:
             {{ is_state('binary_sensor.azat_at_home', 'on')
               or (as_timestamp(now()) | int - as_timestamp(states.lock.intercom_door.last_changed) < 210)
             }}
+        c_should_warmup_intercom_door:
+          friendly_name: "Should warmup intercom door"
+          value_template: >-
+            {% set last_changed = states.lock.intercom_door.last_changed %}
+            {% set two_hours_ago = now() - timedelta(hours=24) %}
+            {{ last_changed <= two_hours_ago }}
 
   script:
     main_door_try_unlock:
@@ -39,6 +45,27 @@ hallway_locks:
         - service: lock.open
           target:
             entity_id: lock.lock_febb
+
+    intercom_door_try_warmup:
+      alias: "[Intercom Lock] Try to warmup"
+      sequence:
+        - if:
+            - condition: template
+              value_template: "{{ is_state('binary_sensor.c_should_warmup_intercom_door', 'on')}}"
+          then:
+            - service: script.intercom_door_single_warmup
+            - service: script.intercom_door_single_warmup
+            - service: script.intercom_door_single_warmup
+            - service: script.intercom_door_single_warmup
+            - service: script.intercom_door_single_warmup
+
+    intercom_door_single_warmup:
+      alias: "[Intercom Lock] Single warmup"
+      sequence:
+        - service: switch.toggle
+          target:
+            entity_id: switch.hallway_button_pusher
+        - delay: "00:00:03"
 
   lock:
     - platform: template
@@ -74,6 +101,7 @@ hallway_locks:
           target:
             entity_id: timer.hallway_intercom_state_timer
       unlock:
+        - service: script.intercom_door_try_warmup
         - service: switch.toggle
           target:
             entity_id: switch.hallway_button_pusher
@@ -92,6 +120,32 @@ hallway_locks:
         - service: timer.start
           target:
             entity_id: timer.hallway_intercom_state_timer
+
+    - alias: "[Intercom Lock] Unlock from mobile"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: ios.action_fired
+          event_data:
+            actionID: 4C4494D1-AB16-42AF-8B6B-5C5D998CC809
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.intercom_door
+
+    - alias: "[Main Door Lock] Unlock from mobile"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: ios.action_fired
+          event_data:
+            actionID: 19A87280-525B-4C18-90B3-8F1E39A347A7
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.main_door
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
