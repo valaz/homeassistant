@@ -92,6 +92,7 @@ telegram:
               keyboard:
                 - "/report, /homelab"
                 - "/climate, /people"
+                - "/open_intercom"
 
     - alias: "[Telegram] Report"
       initial_state: true
@@ -140,6 +141,18 @@ telegram:
         - service: script.turn_on
           entity_id:
             - script.tg_people_report
+
+    - alias: "[Telegram] Open Intercom"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/open_intercom"
+      action:
+        - service: lock.unlock
+          entity_id:
+            - lock.intercom_door
 
     - alias: "[Telegram] Roborock начал уборку"
       initial_state: true
