@@ -28,6 +28,13 @@ tv_time_tracker:
             {{state_attr('media_player.apple_tv_4k', 'app_name') == 'Plex'}}
 
   sensor:
+    - platform: history_stats
+      name: TV Enabled Today
+      entity_id: media_player.philips_tv
+      state: "on"
+      type: time
+      start: "{{ today_at() }}"
+      end: "{{ now() }}"
     - platform: template
       sensors:
         c_tv_duration_today:

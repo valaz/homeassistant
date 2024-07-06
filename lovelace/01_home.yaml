@@ -324,7 +324,7 @@ cards:
                     color: green
                     name: TV now
                   - type: tile
-                    entity: sensor.c_tv_duration_today
+                    entity: sensor.tv_enabled_today
                     name: TV today
                     color: blue
 
