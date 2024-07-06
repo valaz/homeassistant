@@ -1,3 +1,5 @@
+# https://community.home-assistant.io/t/howto-xiaomi-vacuum-zoned-cleaning/51293
+
 roborock:
   script:
     roborock_saloon_zone_cleanup:
@@ -44,6 +46,17 @@ roborock:
             repeats: 1
             zone:
               - [20550, 21720, 27000, 24200]
+
+    roborock_livingroom_entarance_cleanup:
+      alias: "[Roborock] Уборка в гостиной у входа"
+      mode: restart
+      sequence:
+        - service: xiaomi_miio.vacuum_clean_zone
+          data_template:
+            entity_id: vacuum.roborock_s5
+            repeats: 2
+            zone:
+              - [25200, 21700, 27000, 22950]
 
     roborock_kitchen_cleanup:
       alias: "[Roborock] Уборка на кухне"
@@ -138,6 +151,18 @@ roborock:
         - service: script.turn_on
           entity_id:
             - script.roborock_livingroom_cleanup
+
+    - alias: "[Roborock] Start Livingroom Enterance cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "2_double"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_livingroom_entarance_cleanup
 
     - alias: "[Roborock] Start Kitchen and Livingroom cleaning"
       mode: restart
