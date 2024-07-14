@@ -5,6 +5,15 @@ cards:
     cards:
       - type: conditional
         conditions:
+          - condition: numeric_state
+            entity: sensor.air_purifier_2s_filter_lifetime_remaining
+            below: 20
+        card:
+          type: markdown
+          content: |
+            <ha-alert alert-type="error">The filter lifetime remaining is below 20%!</ha-alert>
+      - type: conditional
+        conditions:
           - entity: fan.air_purifier_2s
             state: "on"
         card:
@@ -42,6 +51,43 @@ cards:
 
   - type: vertical-stack
     cards:
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: sensor.c_roborock_s5_filter_left_hours
+            below: 2
+        card:
+          type: markdown
+          content: |
+            <ha-alert alert-type="error">Roborock Filter left hours is less then 2h!</ha-alert>
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: sensor.c_roborock_s5_side_brush_left_hours
+            below: 2
+        card:
+          type: markdown
+          content: |
+            <ha-alert alert-type="error">Roborock Brush left hours is less then 1h!</ha-alert>
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: sensor.c_roborock_s5_main_brush_left_hours
+            below: 2
+        card:
+          type: markdown
+          content: |
+            <ha-alert alert-type="error">Roborock Main Brush left hours is less then 1h!</ha-alert>
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: sensor.c_roborock_s5_sensor_dirty_left_hours
+            below: 2
+        card:
+          type: markdown
+          content: |
+            <ha-alert alert-type="error">Roborock Sensors left hours is less then 1h!</ha-alert>
+
       - type: "custom:vacuum-card"
         entity: vacuum.roborock_s5
         stats:
@@ -80,3 +126,17 @@ cards:
           - type: entity
             entity: sensor.c_roborock_s5_last_clean_duration
             icon_color: orange
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+          title: Zones to clean
+        filter:
+          include:
+            - entity_id: input_boolean.*clean_*
+      - type: entities
+        entities:
+          - input_number.zones_clean_repeat
+          - script.roborock_start_zone_cleaning
+          - script.reset_zone_selection

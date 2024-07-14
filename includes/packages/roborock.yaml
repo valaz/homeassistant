@@ -1,106 +1,200 @@
 # https://community.home-assistant.io/t/howto-xiaomi-vacuum-zoned-cleaning/51293
 
 roborock:
+  input_number:
+    zones_clean_repeat:
+      name: Zone Clean Repeats
+      initial: 1
+      min: 1
+      max: 3
+      step: 1
+
+  input_boolean:
+    clean_saloon:
+      name: Clean Saloon
+    clean_bathroom:
+      name: Clean Bathroom
+    clean_livingroom:
+      name: Clean Livingroom
+    clean_livingroom_entrance:
+      name: Clean Livingroom Entrance
+    clean_kitchen:
+      name: Clean Kitchen
+    clean_kitchen_table:
+      name: Clean Kitchen Table
+    clean_bedroom:
+      name: Clean Bedroom
+    clean_kidsroom:
+      name: Clean Kidsroom
+
   script:
+    reset_zone_selection:
+      alias: "[Roborock] Reset Zone Selection"
+      sequence:
+        - service: input_boolean.turn_off
+          data:
+            entity_id: >
+              {% set entities = states.input_boolean | selectattr('attributes.zone_coordinates', 'defined') | map(attribute='entity_id') | list %}
+              {{ entities }}
+        - service: input_number.set_value
+          data:
+            entity_id: input_number.zones_clean_repeat
+            value: 1
+
+    roborock_start_zone_cleaning:
+      alias: "[Roborock] Start Zone Cleaning"
+      mode: restart
+      sequence:
+        - variables:
+            zones: >
+              {% set clean_data = namespace(zones=[], zone_names=[]) %}
+              {% for entity in states.input_boolean %}
+                {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
+                  {% set zone = entity.attributes.zone_coordinates %}
+                  {% set clean_data.zones = clean_data.zones + [zone]  %}
+                {% endif %}
+              {% endfor %}
+              {{ clean_data.zones }}
+            zone_names: >
+              {% set clean_data = namespace(zones=[], zone_names=[]) %}
+              {% for entity in states.input_boolean %}
+                {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
+                  {% set zone_name = entity.attributes.friendly_name.replace('Clean ', '') %}
+                  {% set clean_data.zone_names = clean_data.zone_names + [zone_name] %}
+                {% endif %}
+              {% endfor %}
+              {{ clean_data.zone_names }}
+            repeats: "{{ states('input_number.zones_clean_repeat') | int }}"
+        # - service: persistent_notification.create
+        #   data:
+        #     title: "Debug: Collected Zones"
+        #     message: "{{ zones }}"
+        - condition: template
+          value_template: "{{ zones | length > 0 }}"
+        - service: xiaomi_miio.vacuum_clean_zone
+          data:
+            entity_id: vacuum.roborock_s5
+            repeats: "{{ repeats }}"
+            zone: "{{ zones }}"
+        - service: notify.tg_valaz
+          data:
+            message: |
+              🤖🧹 Пылесос начал уборку этих зон: {{ zone_names }}.
+
     roborock_saloon_zone_cleanup:
       alias: "[Roborock] Уборка салона"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 3
-            zone:
-              - [23350, 21720, 25170, 24000]
+        - service: script.reset_zone_selection
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.zones_clean_repeat
+          data:
+            value: 3
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_saloon
+        - service: script.roborock_start_zone_cleaning
 
     roborock_bathroom_cleanup:
       alias: "[Roborock] Уборка в ванной"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [27000, 22000, 29500, 24000]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_bathroom
+        - service: script.roborock_start_zone_cleaning
 
     roborock_livingroom_kitchen_cleanup:
       alias: "[Roborock] Уборка в гостиной и на кухне"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [20550, 21720, 27000, 24200]
-              - [22100, 24200, 26100, 28000]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kitchen
+              - input_boolean.clean_livingroom
+        - service: script.roborock_start_zone_cleaning
 
     roborock_livingroom_cleanup:
       alias: "[Roborock] Уборка в гостиной"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [20550, 21720, 27000, 24200]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_livingroom
+        - service: script.roborock_start_zone_cleaning
 
     roborock_livingroom_entarance_cleanup:
       alias: "[Roborock] Уборка в гостиной у входа"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 2
-            zone:
-              - [25200, 21700, 27000, 22950]
+        - service: script.reset_zone_selection
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.zones_clean_repeat
+          data:
+            value: 2
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_livingroom_entrance
+        - service: script.roborock_start_zone_cleaning
 
     roborock_kitchen_cleanup:
       alias: "[Roborock] Уборка на кухне"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [22100, 24200, 26100, 28000]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kitchen
+        - service: script.roborock_start_zone_cleaning
 
     roborock_kitchen_table_cleanup:
       alias: "[Roborock] Уборка на кухне под столом"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 2
-            zone:
-              - [22200, 24500, 24100, 26500]
+        - service: script.reset_zone_selection
+        - service: input_number.set_value
+          target:
+            entity_id: input_number.zones_clean_repeat
+          data:
+            value: 2
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kitchen_table
+        - service: script.roborock_start_zone_cleaning
 
     roborock_bedroom_cleanup:
       alias: "[Roborock] Уборка в спальне"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [26200, 24200, 30300, 28600]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_bedroom
+        - service: script.roborock_start_zone_cleaning
 
     roborock_kidsroom_cleanup:
       alias: "[Roborock] Уборка в детской"
       mode: restart
       sequence:
-        - service: xiaomi_miio.vacuum_clean_zone
-          data_template:
-            entity_id: vacuum.roborock_s5
-            repeats: 1
-            zone:
-              - [20550, 18720, 25200, 21700]
+        - service: script.reset_zone_selection
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kidsroom
+        - service: script.roborock_start_zone_cleaning
 
   automation:
     - alias: "[Roborock] Return To Base"

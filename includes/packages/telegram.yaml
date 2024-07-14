@@ -176,6 +176,7 @@ telegram:
           to: "docked"
       action:
         - service: script.roborock_s5_map_to_telegram
+        - service: script.reset_zone_selection
         - service: notify.tg_valaz
           data:
             message: |
