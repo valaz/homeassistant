@@ -3,7 +3,7 @@ tv_ambilight:
     - platform: template
       switches:
         c_65oled936_12_ambilight:
-          friendly_name: "TV Ambilight + Hue"
+          friendly_name: "TV Ambilight"
           value_template: >-
             {% if is_state("light.65oled936_12_ambilight", "on") or is_state("light.65oled936_12_ambilight", "off") -%}
               {{states("light.65oled936_12_ambilight")}}
@@ -13,9 +13,6 @@ tv_ambilight:
           turn_on:
             - service: light.turn_on
               data:
-                entity_id: light.65oled936_12_ambilight
-            - service: light.turn_on
-              target:
                 entity_id: light.65oled936_12_ambilight
           turn_off:
             - service: light.turn_off

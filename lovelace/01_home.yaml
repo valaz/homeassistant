@@ -356,7 +356,7 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: tile
-                    entity: light.65oled936_12_ambilight
+                    entity: switch.c_65oled936_12_ambilight
                     name: ambilight
                   - type: tile
                     entity: switch.c_65oled936_12_ambilight_hue
