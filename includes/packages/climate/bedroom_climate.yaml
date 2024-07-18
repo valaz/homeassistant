@@ -23,6 +23,14 @@ bedroom_climate:
           value_template: >-
             {{states('sensor.c_bedroom_co2_density') | float >= 700 }}
 
+  input_select:
+    c_bedroom_fan_mode:
+      name: Режим вентилятора
+      options:
+        - "none"
+        - "recuperator"
+        - "air conditioner"
+
   fan:
     - platform: template
       fans:
@@ -52,6 +60,9 @@ bedroom_climate:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
           state: "off"
+        - condition: state
+          entity_id: input_select.c_bedroom_fan_mode
+          state: "recuperator"
       action:
         - service: switch.turn_on
           target:
@@ -67,6 +78,49 @@ bedroom_climate:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
           state: "on"
+        - condition: state
+          entity_id: input_select.c_bedroom_fan_mode
+          state: "recuperator"
+      action:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_recuperator_plug
+
+    - alias: "[Bedroom Climate] Turn on Recuperator on cool weather"
+      trigger:
+        - platform: state
+          entity_id: sensor.c_weather_temperature
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+      condition:
+        - condition: state
+          entity_id: switch.bedroom_recuperator_plug
+          state: "off"
+        - condition: state
+          entity_id: input_select.c_bedroom_fan_mode
+          state: "air conditioner"
+        - condition: template
+          value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
+      action:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.bedroom_recuperator_plug
+
+    - alias: "[Bedroom Climate] Turn off Recuperator on hot weather"
+      trigger:
+        - platform: state
+          entity_id: sensor.c_weather_temperature
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+      condition:
+        - condition: state
+          entity_id: switch.bedroom_recuperator_plug
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_bedroom_fan_mode
+          state: "air conditioner"
+        - condition: template
+          value_template: "{{ states('sensor.c_weather_temperature') > states('sensor.c_bedroom_temperature') }}"
       action:
         - service: switch.turn_off
           target:
