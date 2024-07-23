@@ -164,6 +164,16 @@ hallway_lights:
           target:
             entity_id: light.hallway
 
+    - alias: "[Hallway Lights] Turn Off on Sunrise"
+      trigger:
+        - platform: sun
+          event: sunrise
+          offset: "00:30:00"
+      action:
+        - service: light.turn_off
+          target:
+            entity_id: light.hallway
+
     - alias: "[Hallway Lights] Toggle Main Light"
       mode: restart
       initial_state: true
