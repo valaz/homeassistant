@@ -165,7 +165,11 @@ telegram:
         - service: notify.tg_valaz
           data:
             message: |
-              {{"\U0001F9F9"}} Пылесос начал уборку ({{state_attr('vacuum.roborock_s5', 'status')}}).
+              {% if is_state_attr('vacuum.roborock_s5', 'status', 'Zoned cleaning') -%}
+                🧹 Пылесос начал уборку этих зон: {{states('sensor.c_roborock_clean_zones_names')}} ({{states('input_number.zones_clean_repeats') | int}} {{ (states('input_number.zones_clean_repeats') | int  == 1) | iif('раз', 'раза') }}).
+              {%- else -%}
+                🧹 Пылесос начал общую уборку.
+              {%- endif -%}
 
     - alias: "[Telegram] Roborock завершил уборку"
       initial_state: true
