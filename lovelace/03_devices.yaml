@@ -16,6 +16,17 @@ cards:
           - entity: sensor.front_entrance_last_ding
         theme: default
         title: Ring Intercom
+      - type: "custom:logbook-card"
+        entity: binary_sensor.front_entrance_ding
+        title: "Ding History"
+        hidden_state:
+          - "off"
+          - "unknown"
+          - "unavailable"
+        max_items: 15
+        show:
+          end_date: false
+          start_date: true
 
   - type: vertical-stack
     cards:
@@ -105,9 +116,9 @@ cards:
             - entity_id: input_boolean.*clean_*
       - type: entities
         entities:
-          - input_number.zones_clean_repeat
+          - input_number.zones_clean_repeats
           - script.roborock_start_zone_cleaning
-          - script.reset_zone_selection
+          # - script.reset_zone_selection
 
   - type: vertical-stack
     cards:
