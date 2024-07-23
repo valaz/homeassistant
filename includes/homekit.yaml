@@ -18,6 +18,16 @@
     lock.main_door:
       name: "Дверь"
 
+- name: "Intercom"
+  port: 21077
+  mode: accessory
+  filter:
+    include_entities:
+      - lock.intercom
+  entity_config:
+    lock.intercom:
+      name: "Домофон"
+
 - name: "Hass Home"
   port: 21065
   filter:

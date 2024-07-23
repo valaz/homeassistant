@@ -16,6 +16,7 @@ hallway_locks:
           value_template: >-
             {{ is_state('binary_sensor.azat_at_home', 'on')
               or (as_timestamp(now()) | int - as_timestamp(states.lock.intercom_door.last_changed) < 210)
+              or (as_timestamp(now()) | int - as_timestamp(states.lock.intercom.last_changed) < 210)
             }}
         c_should_warmup_intercom_door:
           friendly_name: "Should warmup intercom door"
@@ -30,7 +31,7 @@ hallway_locks:
       sequence:
         - if:
             - condition: template
-              value_template: "{{ is_state('lock.lock_febb', 'locked')}}"
+              value_template: "{{ is_state('lock.lock_febb', 'locked') or is_state('binary_sensor.lock_febb_semi_locked', 'on')}}"
           then:
             - service: lock.unlock
               target:
@@ -39,8 +40,8 @@ hallway_locks:
     main_door_try_open:
       alias: "[Door Lock] Try to open"
       sequence:
-        - wait_template: "{{ is_state('lock.lock_febb', 'unlocked') }}"
-          timeout: 10
+        - wait_template: "{{ is_state('lock.lock_febb', 'unlocked') and is_state('binary_sensor.lock_febb_semi_locked', 'off') }}"
+          timeout: 5
           continue_on_timeout: false
         - service: lock.open
           target:
