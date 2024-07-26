@@ -85,3 +85,29 @@ kidsroom_lights:
             entity_id: input_select.c_kidsroom_light_mode
           data:
             option: sleep
+
+    - alias: "[Kidsroom Lights] Toggle Main Light"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.kidsroom_button_action
+          to: "single"
+      action:
+        - service: switch.toggle
+          entity_id: switch.kidsroom_light_switch
+
+    - alias: "[Kidsroom Lights] Toggle Sleep Mode"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.kidsroom_button_action
+          to: "double"
+      condition:
+        - condition: state
+          entity_id: switch.kidsroom_light_switch
+          state: "on"
+      action:
+        - service: switch.toggle
+          entity_id: switch.c_kidsroom_sleep_mode
