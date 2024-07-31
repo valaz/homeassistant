@@ -181,6 +181,9 @@ hallway_lights:
         - platform: state
           entity_id: sensor.hallway_button_action
           to: "single"
+        - platform: state
+          entity_id: sensor.hallway_light_switch_action
+          to: "single"
       action:
         - service: light.toggle
           entity_id: light.hallway

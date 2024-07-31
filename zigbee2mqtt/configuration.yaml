@@ -76,6 +76,9 @@ devices:
     state_action: true
   '0xa4c138443ed4b6bb':
     friendly_name: Kidsroom Button
+  '0x54ef4410009d5c25':
+    friendly_name: Hallway Light Switch
+    state_action: true
 advanced:
   log_level: info
   log_syslog:
