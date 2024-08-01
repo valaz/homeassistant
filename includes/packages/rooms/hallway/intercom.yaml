@@ -1,6 +1,6 @@
 intercom:
   timer:
-    hallway_intercom_auto_open_timer:
+    hallway_intercom_autoopen_timer:
       name: "Автооткрытие подъезда"
       duration: "00:05:00"
 
@@ -24,18 +24,21 @@ intercom:
         c_intercom_autoopen:
           friendly_name: "Intercom Autoopen"
           value_template: >-
-            {{ not is_state("timer.hallway_intercom_auto_open_timer", "idle") }}
+            {{ not is_state("timer.hallway_intercom_autoopen_timer", "idle") }}
           turn_on:
             - service: timer.cancel
               target:
-                entity_id: timer.hallway_intercom_auto_open_timer
+                entity_id: timer.hallway_intercom_autoopen_timer
             - service: timer.start
               target:
-                entity_id: timer.hallway_intercom_auto_open_timer
+                entity_id: timer.hallway_intercom_autoopen_timer
           turn_off:
+            - service: timer.start
+              target:
+                entity_id: timer.hallway_intercom_autoopen_timer
             - service: timer.cancel
               target:
-                entity_id: timer.hallway_intercom_auto_open_timer
+                entity_id: timer.hallway_intercom_autoopen_timer
 
   automation:
     - alias: "[Intercom] Autoopen"
@@ -63,3 +66,16 @@ intercom:
         - service: button.press
           target:
             entity_id: button.front_entrance_open_door
+
+    - alias: "[Intercom Lock] Unlock from mobile"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: ios.action_fired
+          event_data:
+            actionID: 4C4494D1-AB16-42AF-8B6B-5C5D998CC809
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.intercom
