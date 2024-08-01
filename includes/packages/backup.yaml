@@ -1,0 +1,32 @@
+backup:
+  script:
+    full_backup_to_hetzner:
+      alias: "[Hetzner] Full Backup"
+      sequence:
+        - service: hassio.backup_full
+          data:
+            name: Full_Backup_{{ now().strftime('%Y-%m-%d') }}
+            password: !secret backup_encryption_password
+            compressed: true
+            location: Hetzner
+        - service: notify.tg_valaz
+          data:
+            message: "{{ states('sensor.time') }} Full Backup to Hetzner is completed"
+
+  automation:
+    - alias: "[System] Nightly Full Backup"
+      trigger:
+        platform: time
+        at: "04:30:00"
+      condition:
+        condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+          - sat
+          - sun
+      action:
+        - service: script.full_backup_to_hetzner
