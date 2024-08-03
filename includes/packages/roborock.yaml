@@ -86,10 +86,6 @@ roborock:
             entity_id: vacuum.roborock_s5
             repeats: "{{ repeats }}"
             zone: "{{ zones }}"
-        # - service: notify.tg_valaz
-        #   data:
-        #     message: |
-        #       🤖🧹 Пылесос начал уборку этих зон: {{ zone_names }}.
 
     roborock_saloon_zone_cleanup:
       alias: "[Roborock] Уборка салона"
