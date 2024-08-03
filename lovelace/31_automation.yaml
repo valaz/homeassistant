@@ -136,6 +136,20 @@ cards:
           numeric: true
         show_empty: true
 
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          title: BLE Devices
+        filter:
+          include:
+            - attributes:
+                device_class: distance
+        sort:
+          method: state
+          numeric: true
+        show_empty: true
+
   # - type: vertical-stack
   #   cards:
   #     - type: custom:auto-entities

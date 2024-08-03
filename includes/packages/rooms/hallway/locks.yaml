@@ -114,6 +114,12 @@ hallway_locks:
       trigger:
         - platform: state
           entity_id: switch.hallway_button_pusher
+          from:
+            - "off"
+            - "on"
+          to:
+            - "off"
+            - "on"
       action:
         - service: timer.cancel
           target:
@@ -135,6 +141,28 @@ hallway_locks:
           target:
             entity_id: lock.main_door
 
+    - alias: "[Main Door Lock] Ask to Unlock"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: device_tracker.private_ble_device_00025d
+          from: "not_home"
+          to: "home"
+      action:
+        - service: script.ask_to_unlock_main_door
+
+    - alias: "[Main Door Lock] Ask to Lock"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: device_tracker.private_ble_device_00025d
+          from: "home"
+          to: "not_home"
+      action:
+        - service: script.ask_to_lock_main_door
+
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
       initial_state: true
@@ -148,5 +176,8 @@ hallway_locks:
           target:
             entity_id: lock.lock_febb
         - service: notify.tg_valaz
+          data:
+            message: "🔒 Дверь закрывается, так как никого нет дома"
+        - service: script.send_sms_to_azat
           data:
             message: "🔒 Дверь закрывается, так как никого нет дома"

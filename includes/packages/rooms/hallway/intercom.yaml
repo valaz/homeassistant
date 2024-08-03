@@ -79,3 +79,26 @@ intercom:
         - service: lock.unlock
           target:
             entity_id: lock.intercom
+
+    - alias: "[Intercom Lock] Unlock from sms"
+      trigger:
+        - platform: event
+          event_type: sms.incoming_sms
+      condition:
+        condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.phone == states('sensor.c_azat_phone_number') }}"
+          - condition: template
+            value_template: "{{ trigger.event.data.text == 'Intercom' }}"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.intercom
+        - service: lock.unlock
+          target:
+            entity_id: lock.intercom_door
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              🚪🔊 Intercom is unlocked

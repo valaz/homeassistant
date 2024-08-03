@@ -59,3 +59,11 @@ input_boolean.clean_bedroom:
 input_boolean.clean_kidsroom:
   zone_coordinates: [20550, 18720, 25200, 21700]
   icon: mdi:robot
+
+sensor.private_ble_device_00025d_estimated_distance:
+  friendly_name: "BLE iPhone 15 Pro Max"
+  icon: mdi:cellphone-wireless
+
+sensor.private_ble_device_2e2b6b_estimated_distance:
+  friendly_name: "BLE Apple Watch S6"
+  icon: mdi:watch-import-variant

@@ -3,7 +3,7 @@
   use_blueprint:
     path: homeassistant/confirmable_notification.yaml
     input:
-      notify_device: 13ca11509f7efae93feefd0a925afa71
+      notify_device: e1059bf66f01175a37b5027341c07e2a
       title: Уходишь?
       message: Ключи взял?
       confirm_text: Взял
@@ -12,3 +12,41 @@
         - service: notify.persistent_notification
           data:
             message: Азат забыл кючи
+
+ask_to_unlock_main_door:
+  alias: Ask to unlock Main Door
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: e1059bf66f01175a37b5027341c07e2a
+      title: Should unlock Main Door
+      message: Открыть основную дверь?
+      confirm_text: 🚪✅ Открыть
+      confirm_action:
+        - service: lock.unlock
+          metadata: {}
+          data: {}
+          target:
+            entity_id: lock.main_door
+      dismiss_text: 🚪❌ Нет
+  description: ""
+  icon: mdi:lock-open-alert-outline
+
+ask_to_lock_main_door:
+  alias: Ask to lock Main Door
+  use_blueprint:
+    path: homeassistant/confirmable_notification.yaml
+    input:
+      notify_device: e1059bf66f01175a37b5027341c07e2a
+      title: Should lock Main Door
+      message: Закрыть основную дверь?
+      confirm_text: 🔒✅ Закрыть
+      confirm_action:
+        - service: lock.lock
+          metadata: {}
+          data: {}
+          target:
+            entity_id: lock.main_door
+      dismiss_text: 🔒❌ Нет
+  description: ""
+  icon: mdi:lock-open-alert-outline

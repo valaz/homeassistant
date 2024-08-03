@@ -1,0 +1,50 @@
+sms:
+  sensor:
+    - platform: template
+      sensors:
+        c_azat_phone_number:
+          friendly_name: "Azat Phone Number"
+          value_template: !secret azat_phone_number
+
+  script:
+    send_sms_to_azat:
+      alias: "[SMS] Send Message to Azat"
+      fields:
+        message:
+          description: "Message"
+          example: "Any text"
+      sequence:
+        - service: notify.sms
+          data:
+            target: "{{ states('sensor.c_azat_phone_number') }}"
+            message: "{{message}}"
+
+  automation:
+    - alias: "[SMS] Log incoming"
+      trigger:
+        - platform: event
+          event_type: sms.incoming_sms
+      action:
+        - service: persistent_notification.create
+          data:
+            title: "Incoming SMS"
+            message: |
+              From: {{trigger.event.data.phone}}
+              Message: {{trigger.event.data.text}}
+
+    - alias: "[SMS] Ping"
+      trigger:
+        - platform: event
+          event_type: sms.incoming_sms
+      condition:
+        condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.phone == states('sensor.c_azat_phone_number') }}"
+          - condition: template
+            value_template: "{{ trigger.event.data.text == 'Ping' }}"
+      action:
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              Pong
