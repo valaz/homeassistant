@@ -46,7 +46,7 @@ ask_to_lock_main_door:
           metadata: {}
           data: {}
           target:
-            entity_id: lock.main_door
+            entity_id: lock.lock_febb
       dismiss_text: 🔒❌ Нет
   description: ""
   icon: mdi:lock-open-alert-outline

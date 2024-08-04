@@ -149,19 +149,11 @@ hallway_locks:
           entity_id: device_tracker.private_ble_device_00025d
           from: "not_home"
           to: "home"
+      condition:
+        - condition: template
+          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 600 }}"
       action:
         - service: script.ask_to_unlock_main_door
-
-    - alias: "[Main Door Lock] Ask to Lock"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: state
-          entity_id: device_tracker.private_ble_device_00025d
-          from: "home"
-          to: "not_home"
-      action:
-        - service: script.ask_to_lock_main_door
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
