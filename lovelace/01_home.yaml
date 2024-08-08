@@ -127,6 +127,10 @@ cards:
                 features:
                   - type: "cover-open-close"
 
+              - type: entities
+                entities:
+                  - timer.bedroom_sleep_mode_timer
+
       - type: horizontal-stack
         cards:
           - type: custom:vertical-stack-in-card
@@ -224,7 +228,7 @@ cards:
                   #       entity: binary_sensor.c_should_warmup_intercom_door
                   - type: tile
                     entity: lock.intercom
-                    name: Подъезд
+                    name: Домофон
                     icon: mdi:door-sliding
                     features:
                       - type: "lock-commands"

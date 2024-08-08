@@ -1,4 +1,9 @@
 bedroom_climate:
+  timer:
+    bedroom_sleep_mode_timer:
+      name: "Начат процесс засыпания"
+      duration: "01:00:10"
+
   alert:
     bedroom_co_level:
       name: "Высокий уровень углекислого газа"
@@ -30,6 +35,7 @@ bedroom_climate:
         - "none"
         - "recuperator"
         - "air conditioner"
+        - "sleep"
 
   fan:
     - platform: template
@@ -56,6 +62,8 @@ bedroom_climate:
         - platform: numeric_state
           entity_id: sensor.c_bedroom_co2_density
           above: 500
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
@@ -74,6 +82,8 @@ bedroom_climate:
           entity_id: sensor.c_bedroom_co2_density
           below: 450
           for: "00:10:00"
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
@@ -92,6 +102,8 @@ bedroom_climate:
           entity_id: sensor.c_weather_temperature
         - platform: state
           entity_id: sensor.c_bedroom_temperature
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
@@ -112,6 +124,8 @@ bedroom_climate:
           entity_id: sensor.c_weather_temperature
         - platform: state
           entity_id: sensor.c_bedroom_temperature
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
           entity_id: switch.bedroom_recuperator_plug
@@ -125,3 +139,41 @@ bedroom_climate:
         - service: switch.turn_off
           target:
             entity_id: switch.bedroom_recuperator_plug
+
+    - alias: "[Bedroom Climate] On Sleep Mode Started"
+      trigger:
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
+          to: "sleep"
+      action:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.bedroom_recuperator_plug
+        - service: timer.cancel
+          target:
+            entity_id: timer.bedroom_sleep_mode_timer
+        - service: timer.start
+          target:
+            entity_id: timer.bedroom_sleep_mode_timer
+
+    - alias: "[Bedroom Climate] AutoCancel timer"
+      trigger:
+        - platform: state
+          entity_id: input_select.c_bedroom_fan_mode
+          from: "sleep"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.bedroom_sleep_mode_timer
+
+    - alias: "[Bedroom Climate] On Sleep Mode Ended"
+      trigger:
+        - platform: state
+          entity_id: timer.bedroom_sleep_mode_timer
+          to: "idle"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_bedroom_fan_mode
+          data:
+            option: "air conditioner"
