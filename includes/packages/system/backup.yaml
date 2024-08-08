@@ -11,7 +11,7 @@ backup:
             location: Hetzner
         - service: notify.tg_valaz
           data:
-            message: "{{ states('sensor.time') }} Full Backup to Hetzner is completed"
+            message: "📦✅ {{ states('sensor.time') }} Full Backup to Hetzner is completed"
 
   automation:
     - alias: "[System] Nightly Full Backup"
