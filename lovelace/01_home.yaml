@@ -326,8 +326,10 @@ cards:
                   - type: tile
                     entity: light.livingroom
                     name: Люстра
+                    state_content:
+                      - last-changed
                     features:
-                      - "light-brightness"
+                      - type: "light-brightness"
                   - type: custom:mushroom-select-card
                     entity: input_select.c_livingroom_light_mode
                     icon_color: orange
