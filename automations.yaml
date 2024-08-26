@@ -10,6 +10,8 @@
           - sensor.iphone_12_az_battery_level
           - sensor.ipad_6_battery_level
           - sensor.h5075_66f8_battery
+          - sensor.iphone_15_az_battery_level
+          - sensor.ipad_m1_battery_level
       actions:
         - service: notify.tg_valaz # notify.mobile_app_iphone_12_az
           data:
