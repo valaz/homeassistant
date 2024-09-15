@@ -71,6 +71,7 @@ roborock:
       alias: "[Roborock] Start Zone Cleaning"
       mode: restart
       sequence:
+        - delay: "00:00:02"
         - variables:
             zones: "{{ states('sensor.c_roborock_clean_zones') }}"
             zone_names: "{{ states('sensor.c_roborock_clean_zones_names') }}"
@@ -78,7 +79,7 @@ roborock:
         # - service: persistent_notification.create
         #   data:
         #     title: "Debug: Collected Zones"
-        #     message: "{{ zones }}"
+        #     message: "{{zone_names}} ({{ zones }})"
         - condition: template
           value_template: "{{ zones | length > 0 }}"
         - service: xiaomi_miio.vacuum_clean_zone
