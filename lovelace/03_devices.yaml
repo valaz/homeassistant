@@ -3,33 +3,6 @@ icon: mdi:sitemap
 cards:
   - type: vertical-stack
     cards:
-      - type: entities
-        show_header_toggle: false
-        entities:
-          - entity: button.front_entrance_open_door
-          - entity: binary_sensor.front_entrance_ding
-          - entity: sensor.front_entrance_voice_volume
-          - entity: sensor.front_entrance_doorbell_volume
-          - entity: sensor.front_entrance_mic_volume
-          - entity: sensor.front_entrance_last_motion
-          - entity: sensor.front_entrance_last_activity
-          - entity: sensor.front_entrance_last_ding
-        theme: default
-        title: Ring Intercom
-      - type: "custom:logbook-card"
-        entity: binary_sensor.front_entrance_ding
-        title: "Ding History"
-        hidden_state:
-          - "off"
-          - "unknown"
-          - "unavailable"
-        max_items: 15
-        show:
-          end_date: false
-          start_date: true
-
-  - type: vertical-stack
-    cards:
       - type: conditional
         conditions:
           - condition: numeric_state
@@ -114,11 +87,42 @@ cards:
         filter:
           include:
             - entity_id: input_boolean.*clean_*
+        sort:
+          method: name
+          reverse: false
+          ignore_case: true
       - type: entities
         entities:
           - input_number.zones_clean_repeats
           - script.roborock_start_zone_cleaning
           # - script.reset_zone_selection
+
+  - type: vertical-stack
+    cards:
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - entity: button.front_entrance_open_door
+          - entity: binary_sensor.front_entrance_ding
+          - entity: sensor.front_entrance_voice_volume
+          - entity: sensor.front_entrance_doorbell_volume
+          - entity: sensor.front_entrance_mic_volume
+          - entity: sensor.front_entrance_last_motion
+          - entity: sensor.front_entrance_last_activity
+          - entity: sensor.front_entrance_last_ding
+        theme: default
+        title: Ring Intercom
+      - type: "custom:logbook-card"
+        entity: binary_sensor.front_entrance_ding
+        title: "Ding History"
+        hidden_state:
+          - "off"
+          - "unknown"
+          - "unavailable"
+        max_items: 15
+        show:
+          end_date: false
+          start_date: true
 
   - type: vertical-stack
     cards:
