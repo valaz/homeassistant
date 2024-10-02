@@ -150,6 +150,9 @@ hallway_locks:
           from: "not_home"
           to: "home"
       condition:
+        - condition: state
+          entity_id: binary_sensor.azat_at_home
+          state: "off"
         - condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 600 }}"
       action:
