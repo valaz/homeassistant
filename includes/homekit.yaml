@@ -3,10 +3,10 @@
   mode: accessory
   filter:
     include_entities:
-      - lock.intercom_door
+      - lock.z_intercom
   entity_config:
-    lock.intercom_door:
-      name: "Подъезд"
+    lock.z_intercom:
+      name: "Z Домофон"
 
 - name: "Main Door Lock"
   port: 21076
@@ -23,10 +23,10 @@
   mode: accessory
   filter:
     include_entities:
-      - lock.intercom
+      - lock.r_intercom
   entity_config:
-    lock.intercom:
-      name: "Домофон"
+    lock.r_intercom:
+      name: "R Домофон"
 
 - name: "Hass Home"
   port: 21065

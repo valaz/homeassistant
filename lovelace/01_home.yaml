@@ -17,7 +17,7 @@ cards:
             icon: mdi:face-man
             state_content: last-changed
           - type: tile
-            entity: device_tracker.iphone_elia
+            entity: device_tracker.pc_0e_bf_06_41_12_22
             name: Eliia
             icon: mdi:face-woman
             state_content: last-changed
@@ -206,8 +206,8 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: tile
-                    entity: lock.intercom_door
-                    name: Подъезд
+                    entity: lock.z_intercom
+                    name: Z Домофон
                     icon: mdi:door-sliding
                     features:
                       - type: "lock-commands"
@@ -227,8 +227,8 @@ cards:
                   #     - type: tile
                   #       entity: binary_sensor.c_should_warmup_intercom_door
                   - type: tile
-                    entity: lock.intercom
-                    name: Домофон
+                    entity: lock.r_intercom
+                    name: R Домофон
                     icon: mdi:door-sliding
                     features:
                       - type: "lock-commands"

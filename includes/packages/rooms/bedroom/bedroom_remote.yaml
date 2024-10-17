@@ -101,7 +101,7 @@ bedroom_remote:
       action:
         - service: lock.unlock
           target:
-            entity_id: lock.intercom_door
+            entity_id: lock.z_intercom
 
     - alias: "[Bedroom Remote] Unlock Main Door"
       mode: restart

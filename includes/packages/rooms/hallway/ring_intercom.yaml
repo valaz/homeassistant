@@ -1,13 +1,21 @@
-intercom:
+hallway_ring_intercom:
   timer:
     hallway_intercom_autoopen_timer:
       name: "Автооткрытие подъезда"
       duration: "00:05:00"
 
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_ring_intercom_ding:
+          friendly_name: "Ring Intercom Ding Detected"
+          value_template: >-
+            {{ (as_timestamp(now()) - as_timestamp(states('event.ring_intercom_ding'))) < 120 }}
+
   lock:
     - platform: template
-      unique_id: c_intercom
-      name: Intercom
+      unique_id: r_intercom
+      name: R Intercom
       value_template: "{{ is_state('switch.c_intercom_autoopen', 'off') }}"
       lock:
         - service: switch.turn_off
@@ -41,31 +49,27 @@ intercom:
                 entity_id: timer.hallway_intercom_autoopen_timer
 
   automation:
-    - alias: "[Intercom] Autoopen"
+    - alias: "[Ring Intercom] Autoopen"
       mode: restart
       initial_state: true
       trigger:
         - platform: state
-          entity_id: binary_sensor.front_entrance_ding
+          entity_id: binary_sensor.c_ring_intercom_ding
           to: "on"
         - platform: state
-          entity_id: lock.intercom
+          entity_id: lock.r_intercom
           to: "unlocked"
       condition:
         - condition: state
-          entity_id: lock.intercom
+          entity_id: lock.r_intercom
           state: "unlocked"
         - condition: state
-          entity_id: binary_sensor.front_entrance_ding
+          entity_id: binary_sensor.c_ring_intercom_ding
           state: "on"
       action:
-        - service: script.intercom_door_try_warmup
-        - service: switch.toggle
-          target:
-            entity_id: switch.hallway_button_pusher
         - service: button.press
           target:
-            entity_id: button.front_entrance_open_door
+            entity_id: button.ring_intercom_open_door
 
     - alias: "[Intercom Lock] Unlock from mobile"
       mode: restart
@@ -78,7 +82,10 @@ intercom:
       action:
         - service: lock.unlock
           target:
-            entity_id: lock.intercom
+            entity_id: lock.r_intercom
+        - service: lock.unlock
+          target:
+            entity_id: lock.z_intercom
 
     - alias: "[Intercom Lock] Unlock from sms"
       trigger:
@@ -94,10 +101,10 @@ intercom:
       action:
         - service: lock.unlock
           target:
-            entity_id: lock.intercom
+            entity_id: lock.r_intercom
         - service: lock.unlock
           target:
-            entity_id: lock.intercom_door
+            entity_id: lock.z_intercom
         - service: script.send_sms_to_azat
           data:
             message: |

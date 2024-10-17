@@ -102,18 +102,18 @@ cards:
       - type: entities
         show_header_toggle: false
         entities:
-          - entity: button.front_entrance_open_door
-          - entity: binary_sensor.front_entrance_ding
-          - entity: sensor.front_entrance_voice_volume
-          - entity: sensor.front_entrance_doorbell_volume
-          - entity: sensor.front_entrance_mic_volume
-          - entity: sensor.front_entrance_last_motion
-          - entity: sensor.front_entrance_last_activity
-          - entity: sensor.front_entrance_last_ding
+          - entity: button.ring_intercom_open_door
+          - entity: binary_sensor.c_ring_intercom_ding
+          - entity: number.ring_intercom_voice_volume
+          - entity: number.ring_intercom_doorbell_volume
+          - entity: number.ring_intercom_mic_volume
+          - entity: event.ring_intercom_ding
+          - entity: event.ring_intercom_intercom_unlock
+          - entity: sensor.ring_intercom_last_activity
         theme: default
         title: Ring Intercom
       - type: "custom:logbook-card"
-        entity: binary_sensor.front_entrance_ding
+        entity: binary_sensor.c_ring_intercom_ding
         title: "Ding History"
         hidden_state:
           - "off"
