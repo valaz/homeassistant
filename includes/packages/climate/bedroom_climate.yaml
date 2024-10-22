@@ -5,16 +5,16 @@ bedroom_climate:
       duration: "01:00:10"
 
   alert:
-    bedroom_co_level:
+    bedroom_co2_level:
       name: "Высокий уровень углекислого газа"
       message: "😮‍💨 Высокий уровень CO2 в спальне: {{states('sensor.c_bedroom_co2_density')}}"
       done_message: "✅ Уровень CO2 в спальне в норме: {{states('sensor.c_bedroom_co2_density')}}"
       entity_id: binary_sensor.c_bedroom_high_co2
       state: "on"
       repeat:
-        - 1
-        - 15
+        - 5
         - 30
+        - 60
       can_acknowledge: true
       skip_first: true
       notifiers:
@@ -26,7 +26,9 @@ bedroom_climate:
         c_bedroom_high_co2:
           friendly_name: "Bedroom High CO2 level"
           value_template: >-
-            {{states('sensor.c_bedroom_co2_density') | float >= 700 }}
+            {% set current_co2_level = states('sensor.c_bedroom_co2_density') | float %}
+            {% set alert_co2_level = states('input_select.c_bedroom_co2_alert_level') | float %}
+            {{ current_co2_level >= alert_co2_level }}
 
   input_select:
     c_bedroom_fan_mode:
@@ -36,6 +38,15 @@ bedroom_climate:
         - "recuperator"
         - "air conditioner"
         - "sleep"
+
+    c_bedroom_co2_alert_level:
+      name: Критический уровень CO2
+      options:
+        - 600
+        - 700
+        - 800
+        - 900
+        - 1000
 
   sensor:
     - platform: template
@@ -48,13 +59,46 @@ bedroom_climate:
             {%- else -%}
               {{states("input_select.c_bedroom_fan_mode")}}
             {%- endif %}
+
+  switch:
+    - platform: template
+      switches:
+        c_bedroom_fan_heater:
+          friendly_name: "Обогреватель"
+          icon_template: mdi:radiator
+          value_template: "{{is_state('switch.bedroom_heater_plug_l1', 'on') or is_state('switch.bedroom_heater_plug_l2', 'on')}}"
+          turn_on:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.bedroom_heater_plug_l1
+            # - service: switch.turn_on
+            #   target:
+            #       entity_id: switch.bedroom_heater_plug_l2
+          turn_off:
+            - service: switch.turn_off
+              target:
+                entity_id: switch.bedroom_heater_plug_l1
+            - service: switch.turn_off
+              target:
+                entity_id: switch.bedroom_heater_plug_l2
+
   fan:
     - platform: template
       fans:
         bedroom_input_fan:
           friendly_name: "Bedroom Input Fan"
           value_template: "{{ states('switch.bedroom_recuperator_plug') }}"
-          percentage_template: "{{ states('sensor.bedroom_recuperator_plug_power') | float /0.14 }}"
+          percentage_template: >-
+            {% set power_fan_capacity = 15 %}
+            {% set power_fan_and_heater_capacity = 369 %}
+            {% set power_total_capacity = power_fan_capacity %}
+            {% if is_state("switch.c_bedroom_fan_heater", "on") -%}
+              {% set power_total_capacity = power_fan_and_heater_capacity %}
+            {%- else -%}
+              {% set power_total_capacity = power_fan_capacity %}
+            {%- endif %}
+            {% set power_fan_current = states('sensor.bedroom_recuperator_plug_power') | float %}
+            {{100*power_fan_current/power_total_capacity}}
           turn_on:
             service: switch.turn_on
             target:
@@ -194,3 +238,36 @@ bedroom_climate:
             entity_id: input_select.c_bedroom_fan_mode
           data:
             option: "{{states('sensor.c_bedroom_fan_last_mode')}}"
+
+    - alias: "[Bedroom Climate] Turn on Fan heater every 30 minutes"
+      mode: single
+      triggers:
+        - platform: time_pattern
+          minutes: "/30"
+      conditions:
+        - condition: state
+          entity_id: switch.c_bedroom_fan_heater
+          state: "off"
+        - condition: state
+          entity_id: input_select.c_bedroom_fan_mode
+          state: "recuperator"
+      actions:
+        - service: switch.turn_on
+          target:
+            entity_id: switch.c_bedroom_fan_heater
+
+    - alias: "[Bedroom Climate] Turn of Fan heater after 5 minutes"
+      mode: single
+      triggers:
+        - platform: state
+          entity_id: switch.c_bedroom_fan_heater
+          to: "on"
+          for: "00:10:00"
+      conditions:
+        - condition: state
+          entity_id: switch.c_bedroom_fan_heater
+          state: "on"
+      actions:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.c_bedroom_fan_heater

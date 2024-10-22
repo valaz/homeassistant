@@ -4,7 +4,8 @@ mqtt:
   user: mqtt
   password: ttmq
 serial:
-  port: /dev/ttyUSB0
+  port: >-
+    /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c01ed14910b6ed11a16bd40ea8669f5d-if00-port0
 frontend:
   port: 8099
 devices:
@@ -79,6 +80,8 @@ devices:
   '0x54ef4410009d5c25':
     friendly_name: Hallway Light Switch
     state_action: true
+  '0x54ef441000b9ea2a':
+    friendly_name: Bedroom Heater Plug
 advanced:
   log_level: info
   log_syslog:
