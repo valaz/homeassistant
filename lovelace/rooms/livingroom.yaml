@@ -1,0 +1,192 @@
+title: Livingroom
+subview: true
+path: livingroom
+type: sections
+icon: mdi:sofa
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Климат   #######
+    cards:
+      - type: heading
+        heading: Климат
+        heading_style: title
+        icon: mdi:home-thermometer-outline
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_livingroom_temperature
+        name: "Temperature"
+        animate: true
+        hour24: true
+        line_color: orange
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_livingroom_humidity
+        name: "Humidity"
+        animate: true
+        hour24: true
+        line_color: blue
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_livingroom_pm25_density
+        name: "PM 2.5"
+        animate: true
+        hour24: true
+        line_color: purple
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+  - type: grid #######   Свет   #######
+    cards:
+      - type: heading
+        heading: Свет
+        heading_style: title
+        icon: mdi:lightbulb-outline
+      - type: tile
+        entity: light.livingroom
+        name: Люстра
+        features:
+          - type: "light-brightness"
+      - type: custom:mushroom-select-card
+        entity: input_select.c_livingroom_light_mode
+        icon_color: orange
+        primary_info: name
+        secondary_info: last-changed
+
+  - type: grid #######   TV   #######
+    cards:
+      - type: heading
+        heading: TV
+        heading_style: title
+        icon: mdi:television-box
+        badges:
+          - type: entity
+            entity: sensor.c_tv_duration_current
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.tv_enabled_today
+            tap_action:
+              action: more-info
+      - type: custom:mushroom-media-player-card
+        entity: media_player.philips_tv
+        fill_container: true
+        show_volume_level: true
+        collapsible_controls: false
+        media_controls: [on_off, play_pause_stop]
+        volume_controls: [volume_buttons]
+      - type: custom:mushroom-media-player-card
+        entity: media_player.apple_tv_4k
+        fill_container: true
+        show_volume_level: true
+        collapsible_controls: false
+        media_controls: [on_off, play_pause_stop]
+
+      - type: tile
+        entity: switch.c_livingroom_tv_power
+      - type: tile
+        entity: switch.c_65oled936_12_screen_state
+        name: screen
+        icon: mdi:fit-to-screen
+      - type: tile
+        entity: switch.c_65oled936_12_ambilight
+        name: ambilight
+      - type: tile
+        entity: switch.c_65oled936_12_ambilight_hue
+        name: ambilight+hue
+        icon: mdi:wall-sconce-round
+
+  - type: grid #######   Vacuum   #######
+    cards:
+      - type: heading
+        heading: Пылесос
+        heading_style: title
+        icon: mdi:robot-vacuum
+        badges:
+          - type: entity
+            entity: sensor.c_roborock_s5_battery
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_last_clean_custom
+            color: blue
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: vacuum.roborock_s5
+        vertical: true
+        features:
+          - type: "vacuum-commands"
+            commands:
+              - start_pause
+              - locate
+              - return_home
+      - type: picture-entity
+        show_state: false
+        show_name: false
+        camera_view: live
+        entity: camera.roborock_s5
+        camera_image: camera.roborock_s5
+        aspect_ratio: "1.9" #"135x115"
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+  - type: grid #######   Air Purifier   #######
+    cards:
+      - type: heading
+        heading: Очиститель воздуха
+        heading_style: title
+        icon: mdi:air-filter
+        badges:
+          - type: entity
+            entity: sensor.air_purifier_2s_motor_speed
+            color: red
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: fan.air_purifier_2s
+      - type: tile
+        entity: switch.air_purifier_2s_led
+        name: Экран
+
+      - type: heading
+        heading: Режим
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: number.air_purifier_2s_favorite_level
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: select.air_purifier_2s_mode
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Фильтр
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.air_purifier_2s_filter_lifetime_remaining
+            color: purple
+            tap_action:
+              action: more-info

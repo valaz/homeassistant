@@ -1,0 +1,278 @@
+title: Rooms
+path: rooms
+type: sections
+icon: mdi:home-city
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Спальня   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Спальня
+        icon: mdi:bed
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/bedroom
+        badges:
+          - type: entity
+            entity: sensor.c_bedroom_temperature
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_bedroom_humidity
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_bedroom_co2_density
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: switch.bedroom_light_switch
+        name: Люстра
+      - type: tile
+        entity: switch.bedroom_monitor_plug
+        name: Монитор
+
+      - type: tile
+        entity: light.yeelight_lamp15_0x1c03268c
+        name: Лампа
+      - type: tile
+        entity: light.yeelight_lamp15_0x1c03268c_ambilight
+        name: Подсветка
+      - type: heading
+        heading: Вентилятор
+        heading_style: subtitle
+        icon: mdi:fan
+        badges:
+          - type: entity
+            entity: input_select.c_bedroom_fan_mode
+            # color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: fan.bedroom_input_fan
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: switch.c_bedroom_fan_heater
+            color: orange
+            tap_action:
+              action: more-info
+
+      - type: heading
+        icon: mdi:roller-shade-closed
+        heading: Шторы
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: cover.bedroom_cover_group
+            tap_action:
+              action: more-info
+
+  - type: grid #######   Корридор   #######
+    cards:
+      - type: heading
+        heading: Корридор
+        icon: mdi:coat-rack
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/hallway
+
+      - type: tile
+        entity: light.hallway
+        name: Люстра
+        # layout_options:
+        #   grid_columns: 4
+        #   grid_rows: 1
+
+      - type: heading
+        icon: mdi:square-circle-outline
+        heading: Z Домофон
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: lock.z_intercom
+            tap_action:
+              action: more-info
+      - type: heading
+        icon: mdi:square-rounded
+        heading: R Домофон
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: lock.r_intercom
+            tap_action:
+              action: more-info
+      - type: heading
+        icon: mdi:door
+        heading: Дверь
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: lock.main_door
+            tap_action:
+              action: more-info
+
+  - type: grid #######   Гостиная   #######
+    cards:
+      - type: heading
+        heading: Гостиная
+        icon: mdi:sofa
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/livingroom
+        badges:
+          - type: entity
+            entity: sensor.c_livingroom_temperature
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_livingroom_humidity
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_livingroom_pm25_density
+            color: purple
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: light.livingroom
+        name: Люстра
+        features:
+          - type: "light-brightness"
+      - type: custom:mushroom-select-card
+        entity: input_select.c_livingroom_light_mode
+        icon_color: orange
+        primary_info: name
+        secondary_info: last-changed
+
+      - type: heading
+        heading: Пылесос
+        heading_style: subtitle
+        icon: mdi:robot-vacuum
+        badges:
+          - type: entity
+            entity: sensor.c_roborock_s5_battery
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: vacuum.roborock_s5
+            tap_action:
+              action: more-info
+
+  - type: grid #     #######   Детская   #######
+    cards:
+      - type: heading
+        heading: Детская
+        icon: mdi:teddy-bear
+        badges:
+          - type: entity
+            entity: sensor.c_kidsroom_temperature
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_kidsroom_humidity
+            color: blue
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Свет
+        heading_style: subtitle
+        icon: mdi:lightbulb-outline
+      - type: tile
+        entity: switch.kidsroom_light_switch
+        name: Люстра
+      - type: tile
+        entity: switch.c_kidsroom_sleep_mode
+        name: Ночной режим
+
+  - type: grid #######   Кухня   #######
+    cards:
+      - type: heading
+        heading: Кухня
+        icon: mdi:faucet
+        badges:
+          - type: entity
+            entity: sensor.c_kitchen_temperature
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_kitchen_humidity
+            color: blue
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Свет
+        heading_style: subtitle
+        icon: mdi:lightbulb-outline
+        badges:
+          - type: entity
+            entity: binary_sensor.kitchen_motion_sensor_occupancy
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.kitchen_motion_sensor_illuminance
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: switch.kitchen_light_switch_right
+        name: Люстра
+      - type: tile
+        entity: switch.kitchen_sink_plug
+        name: Раковина
+
+  - type: grid #######   Ванная   #######
+    cards:
+      - type: heading
+        heading: Ванная
+        icon: mdi:shower
+        badges:
+          - type: entity
+            entity: sensor.c_bathroom_temperature
+            color: orange
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_bathroom_humidity
+            color: blue
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Свет
+        heading_style: subtitle
+        icon: mdi:lightbulb-outline
+        badges:
+          - type: entity
+            entity: binary_sensor.bathroom_presence_sensor_occupancy
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: binary_sensor.bathroom_motion_sensor_occupancy
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: light.c_bathroom
+        name: Люстра
+      - type: tile
+        entity: switch.c_bathroom_light_auto_off
+        name: Автовыключение
+      - type: heading
+        heading: Протечка
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: binary_sensor.bathroom_water_leak_sensor_water_leak
+            tap_action:
+              action: more-info

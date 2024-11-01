@@ -1,0 +1,141 @@
+title: Bedroom
+subview: true
+path: bedroom
+type: sections
+icon: mdi:bed
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Климат   #######
+    cards:
+      - type: heading
+        heading: Климат
+        heading_style: title
+        icon: mdi:home-thermometer-outline
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_bedroom_temperature
+        name: "Temperature"
+        animate: true
+        hour24: true
+        line_color: orange
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_bedroom_humidity
+        name: "Humidity"
+        animate: true
+        hour24: true
+        line_color: blue
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_bedroom_pm25_density
+        name: "PM 2.5"
+        animate: true
+        hour24: true
+        line_color: purple
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_bedroom_co2_density
+        name: "CO2"
+        animate: true
+        hour24: true
+        line_color: green
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+  - type: grid #######   Свет   #######
+    cards:
+      - type: heading
+        heading: Свет
+        heading_style: title
+        icon: mdi:lightbulb-outline
+      - type: tile
+        entity: switch.bedroom_light_switch
+        name: Люстра
+      - type: tile
+        entity: switch.bedroom_monitor_plug
+        name: Монитор
+
+      - type: tile
+        entity: light.yeelight_lamp15_0x1c03268c
+        name: Лампа
+        features:
+          - type: "light-brightness"
+      - type: tile
+        entity: light.yeelight_lamp15_0x1c03268c_ambilight
+        name: Подсветка
+        features:
+          - type: "light-brightness"
+
+  - type: grid #######   Вентилятор   #######
+    cards:
+      - type: heading
+        heading: Вентилятор
+        heading_style: title
+        icon: mdi:fan
+      - type: tile
+        entity: fan.bedroom_input_fan
+        name: Вентилятор
+        fill_container: true
+      - type: tile
+        entity: switch.c_bedroom_fan_heater
+        name: Обогреватель
+        fill_container: true
+
+      - type: custom:mushroom-select-card
+        entity: input_select.c_bedroom_fan_mode
+        icon_color: orange
+        primary_info: name
+        secondary_info: last-changed
+      - type: custom:mushroom-select-card
+        entity: input_select.c_bedroom_co2_alert_level
+        icon_color: orange
+        primary_info: name
+        secondary_info: last-changed
+      - type: tile
+        entity: cover.bedroom_cover_group
+        vertical: false
+        features:
+          - type: "cover-open-close"
+
+  - type: grid #######   Прочее   #######
+    cards:
+      - type: heading
+        heading: Прочее
+        heading_style: title
+        icon: mdi:checkerboard-plus
+      - type: heading
+        heading: Движение в шкафу
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: binary_sensor.c_bedroom_closet_usage
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: switch.bedroom_charging_dock_plug
+        name: Зарядка
+        fill_container: true

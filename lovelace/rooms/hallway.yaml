@@ -1,0 +1,110 @@
+title: Hallway
+subview: true
+path: hallway
+type: sections
+icon: mdi:coat-rack
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Свет   #######
+    cards:
+      - type: heading
+        heading: Свет
+        heading_style: title
+        icon: mdi:lightbulb-outline
+      - type: tile
+        entity: light.hallway
+        name: Люстра
+        features:
+          - type: "light-brightness"
+      - type: custom:mushroom-select-card
+        entity: input_select.c_livingroom_light_mode
+        icon_color: orange
+        primary_info: name
+        secondary_info: last-changed
+
+  - type: grid #######   Домофон   #######
+    cards:
+      - type: heading
+        heading: Домофон
+        heading_style: title
+        icon: mdi:bullhorn-outline
+        badges:
+          - type: entity
+            entity: event.ring_intercom_ding
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: lock.r_intercom
+        name: R Домофон
+        icon: mdi:door-sliding
+        features:
+          - type: "lock-commands"
+      - type: tile
+        entity: lock.z_intercom
+        name: Z Домофон
+        icon: mdi:door-sliding
+        features:
+          - type: "lock-commands"
+
+      - type: tile
+        entity: button.ring_intercom_open_door
+        name: Открыть R Домофон
+        icon: mdi:radiobox-marked
+
+  - type: grid #######   Дверь   #######
+    cards:
+      - type: heading
+        heading: Дверь
+        heading_style: title
+        icon: mdi:door
+        badges:
+          - type: entity
+            entity: binary_sensor.hallway_door_sensor_contact
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: lock.main_door
+        name: Дверь
+        icon: mdi:door
+        features:
+          - type: "lock-commands"
+      - type: tile
+        entity: lock.lock_febb
+        name: Tedee
+        icon: mdi:door-sliding
+        features:
+          - type: "lock-commands"
+          - type: "lock-open-door"
+
+  - type: grid #######   Ding History   #######
+    cards:
+      - type: "custom:logbook-card"
+        entity: binary_sensor.c_ring_intercom_ding
+        title: "Ding History"
+        hidden_state:
+          - "off"
+          - "unknown"
+          - "unavailable"
+          - ""
+        max_items: 15
+        show:
+          end_date: false
+          start_date: true
+
+  - type: grid #######   Door is open   #######
+    cards:
+      - type: "custom:logbook-card"
+        entity: binary_sensor.hallway_door_sensor_contact
+        title: "Door is open"
+        hidden_state:
+          - "off"
+          - "unknown"
+          - "unavailable"
+          - ""
+        max_items: 15
+        show:
+          end_date: false
+          start_date: true
