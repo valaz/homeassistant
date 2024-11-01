@@ -67,7 +67,7 @@ devices:
   '0xa4c138756ba0746d':
     friendly_name: Livingroom PC Plug
   '0xa4c1387ee874ae6f':
-    friendly_name: Bedroom Recuperator Plug
+    friendly_name: Bedroom Fan Plug
   '0xa4c1381eddafd03a':
     friendly_name: Kitchen Button
   '0xa4c1384d2b081bbd':
@@ -81,7 +81,11 @@ devices:
     friendly_name: Hallway Light Switch
     state_action: true
   '0x54ef441000b9ea2a':
-    friendly_name: Bedroom Heater Plug
+    friendly_name: Bedroom Heater Relay
+  '0x00158d000af2836a':
+    friendly_name: Bedroom Air Sensor
+  '0xa4c138ee40adabe6':
+    friendly_name: Test Plug
 advanced:
   log_level: info
   log_syslog:

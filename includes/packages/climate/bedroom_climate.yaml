@@ -66,30 +66,30 @@ bedroom_climate:
         c_bedroom_fan_heater:
           friendly_name: "Обогреватель"
           icon_template: mdi:radiator
-          value_template: "{{is_state('switch.bedroom_heater_plug_l1', 'on') or is_state('switch.bedroom_heater_plug_l2', 'on')}}"
+          value_template: "{{is_state('switch.bedroom_heater_relay_l1', 'on') or is_state('switch.bedroom_heater_relay_l2', 'on')}}"
           turn_on:
             - service: switch.turn_on
               target:
-                entity_id: switch.bedroom_heater_plug_l1
+                entity_id: switch.bedroom_heater_relay_l1
             # - service: switch.turn_on
             #   target:
-            #       entity_id: switch.bedroom_heater_plug_l2
+            #       entity_id: switch.bedroom_heater_relay_l2
           turn_off:
             - service: switch.turn_off
               target:
-                entity_id: switch.bedroom_heater_plug_l1
+                entity_id: switch.bedroom_heater_relay_l1
             - service: switch.turn_off
               target:
-                entity_id: switch.bedroom_heater_plug_l2
+                entity_id: switch.bedroom_heater_relay_l2
 
   fan:
     - platform: template
       fans:
         bedroom_input_fan:
           friendly_name: "Bedroom Input Fan"
-          value_template: "{{ states('switch.bedroom_recuperator_plug') }}"
+          value_template: "{{ states('switch.bedroom_fan_plug') }}"
           percentage_template: >-
-            {% set power_fan_capacity = 15 %}
+            {% set power_fan_capacity = 13 %}
             {% set power_fan_and_heater_capacity = 369 %}
             {% set power_total_capacity = power_fan_capacity %}
             {% if is_state("switch.c_bedroom_fan_heater", "on") -%}
@@ -97,16 +97,16 @@ bedroom_climate:
             {%- else -%}
               {% set power_total_capacity = power_fan_capacity %}
             {%- endif %}
-            {% set power_fan_current = states('sensor.bedroom_recuperator_plug_power') | float %}
+            {% set power_fan_current = states('sensor.bedroom_fan_plug_power') | float %}
             {{100*power_fan_current/power_total_capacity}}
           turn_on:
             service: switch.turn_on
             target:
-              entity_id: switch.bedroom_recuperator_plug
+              entity_id: switch.bedroom_fan_plug
           turn_off:
             service: switch.turn_off
             target:
-              entity_id: switch.bedroom_recuperator_plug
+              entity_id: switch.bedroom_fan_plug
 
   automation:
     - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
@@ -121,7 +121,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_recuperator_plug
+          entity_id: switch.bedroom_fan_plug
           state: "off"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -132,7 +132,7 @@ bedroom_climate:
       action:
         - service: switch.turn_on
           target:
-            entity_id: switch.bedroom_recuperator_plug
+            entity_id: switch.bedroom_fan_plug
 
     - alias: "[Bedroom Climate] Turn off Recuperator on low CO2"
       trigger:
@@ -144,7 +144,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_recuperator_plug
+          entity_id: switch.bedroom_fan_plug
           state: "on"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -155,7 +155,7 @@ bedroom_climate:
       action:
         - service: switch.turn_off
           target:
-            entity_id: switch.bedroom_recuperator_plug
+            entity_id: switch.bedroom_fan_plug
 
     - alias: "[Bedroom Climate] Turn on Recuperator on cool weather"
       trigger:
@@ -167,7 +167,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_recuperator_plug
+          entity_id: switch.bedroom_fan_plug
           state: "off"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -177,7 +177,7 @@ bedroom_climate:
       action:
         - service: switch.turn_on
           target:
-            entity_id: switch.bedroom_recuperator_plug
+            entity_id: switch.bedroom_fan_plug
 
     - alias: "[Bedroom Climate] Turn off Recuperator on hot weather"
       trigger:
@@ -189,7 +189,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_recuperator_plug
+          entity_id: switch.bedroom_fan_plug
           state: "on"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -199,7 +199,7 @@ bedroom_climate:
       action:
         - service: switch.turn_off
           target:
-            entity_id: switch.bedroom_recuperator_plug
+            entity_id: switch.bedroom_fan_plug
 
     - alias: "[Bedroom Climate] On Sleep Mode Started"
       trigger:
@@ -209,7 +209,7 @@ bedroom_climate:
       action:
         - service: switch.turn_off
           target:
-            entity_id: switch.bedroom_recuperator_plug
+            entity_id: switch.bedroom_fan_plug
         - service: timer.cancel
           target:
             entity_id: timer.bedroom_sleep_mode_timer
@@ -256,7 +256,7 @@ bedroom_climate:
           target:
             entity_id: switch.c_bedroom_fan_heater
 
-    - alias: "[Bedroom Climate] Turn of Fan heater after 5 minutes"
+    - alias: "[Bedroom Climate] Turn off Fan heater after 5 minutes"
       mode: single
       triggers:
         - platform: state
