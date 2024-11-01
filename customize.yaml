@@ -1,3 +1,7 @@
+switch.c_65oled936_12_ambilight:
+  optimistic: true
+  icon: mdi:television-ambient-light
+
 switch.c_65oled936_12_ambilight_hue:
   optimistic: true
   icon: mdi:wall-sconce-round
@@ -67,3 +71,13 @@ sensor.private_ble_device_00025d_estimated_distance:
 sensor.private_ble_device_2e2b6b_estimated_distance:
   friendly_name: "BLE Apple Watch S6"
   icon: mdi:watch-import-variant
+
+switch.bedroom_monitor_plug:
+  friendly_name: "Монитор"
+  icon: mdi:monitor
+light.yeelight_lamp15_0x1c03268c:
+  friendly_name: "Лампа для монитора"
+  icon: mdi:desk-lamp
+light.yeelight_lamp15_0x1c03268c_ambilight:
+  friendly_name: "Подсветка для монитора"
+  icon: mdi:television-ambient-light

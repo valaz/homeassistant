@@ -30,7 +30,7 @@ tv_control:
       switches:
         c_livingroom_tv_power:
           friendly_name: "Телевизор"
-          icon_template: mdi:television
+          icon_template: mdi:power-standby
           value_template: "{{is_state('media_player.philips_tv', 'on')}}"
           turn_on:
             - service: script.livingroom_philips_tv_power_on
