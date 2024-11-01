@@ -4,13 +4,20 @@ hallway_ring_intercom:
       name: "Автооткрытие подъезда"
       duration: "00:05:00"
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_ring_intercom_ding:
-          friendly_name: "Ring Intercom Ding Detected"
-          value_template: >-
-            {{ (as_timestamp(now()) - as_timestamp(states('event.ring_intercom_ding'))) < 120 }}
+  template:
+    binary_sensor:
+      - name: "Ring Intercom Ding Detected"
+        unique_id: c_ring_intercom_ding
+        icon: mdi:bell-ring-outline
+        device_class: sound
+        state: >-
+          {% if states('event.ring_intercom_ding') | contains('2024') -%}
+            {% set now = as_timestamp(now()) %}
+            {% set last_ding = as_timestamp(states('event.ring_intercom_ding')) %}
+            {{ now - last_ding < 120}}
+          {%- else -%}
+              {{ states('binary_sensor.c_ring_intercom_ding') }}
+          {%- endif %}
 
   lock:
     - platform: template
