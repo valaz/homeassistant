@@ -81,30 +81,56 @@ sections:
 
   - type: grid #######   Ding History   #######
     cards:
+      - type: heading
+        heading: Ding History
+        heading_style: title
+        icon: mdi:door-open
+        badges:
+          - type: entity
+            entity: binary_sensor.c_ring_intercom_ding
+            state_content: last_changed
+            tap_action:
+              action: more-info
       - type: "custom:logbook-card"
         entity: binary_sensor.c_ring_intercom_ding
-        title: "Ding History"
+        title: ""
         hidden_state:
           - "off"
           - "unknown"
           - "unavailable"
           - ""
-        max_items: 15
+        max_items: 4
         show:
           end_date: false
           start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4
 
-  - type: grid #######   Door is open   #######
+  - type: grid #######   Door History   #######
     cards:
+      - type: heading
+        heading: Door History
+        heading_style: title
+        icon: mdi:door-open
+        badges:
+          - type: entity
+            entity: binary_sensor.hallway_door_sensor_contact
+            state_content: last_changed
+            tap_action:
+              action: more-info
       - type: "custom:logbook-card"
         entity: binary_sensor.hallway_door_sensor_contact
-        title: "Door is open"
+        title: ""
         hidden_state:
           - "off"
           - "unknown"
           - "unavailable"
           - ""
-        max_items: 15
+        max_items: 4
         show:
           end_date: false
           start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4

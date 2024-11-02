@@ -193,3 +193,79 @@ sections:
             color: purple
             tap_action:
               action: more-info
+
+  - type: grid #######   Apple TV History   #######
+    cards:
+      - type: heading
+        heading: Apple TV History
+        heading_style: title
+        icon: mdi:apple
+        badges:
+          - type: entity
+            entity: media_player.apple_tv_4k
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: media_player.apple_tv_4k
+        attributes:
+          - value: app_name
+            label: App
+          - value: media_title
+            label: Title
+        title: ""
+        hidden_state:
+          - "idle"
+          - "standby"
+          - "paused"
+        state_map:
+          - label: Paused
+            icon: mdi:pause
+            value: paused
+          - label: Playing
+            icon: mdi:play-outline
+            value: playing
+          - label: Idle
+            value: idle
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true
+
+  - type: grid #######   Philips TV History   #######
+    cards:
+      - type: heading
+        heading: Philips TV History
+        heading_style: title
+        icon: mdi:android
+        badges:
+          - type: entity
+            entity: media_player.philips_tv
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: media_player.philips_tv
+        attributes:
+          - value: app_name
+            label: App
+          - value: media_title
+            label: Title
+        title: ""
+        hidden_state:
+          - "idle"
+          - "standby"
+          - "off"
+        state_map:
+          - label: Paused
+            icon: mdi:pause
+            value: paused
+          - label: Playing
+            icon: mdi:play-outline
+            value: playing
+          - label: Idle
+            value: idle
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true
