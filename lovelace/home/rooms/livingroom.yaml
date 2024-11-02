@@ -194,6 +194,59 @@ sections:
             tap_action:
               action: more-info
 
+  - type: grid #######   Принтер   #######
+    cards:
+      - type: heading
+        heading: Принтер
+        heading_style: title
+        icon: mdi:printer
+        badges:
+          - type: entity
+            entity: sensor.epson_et_2850_series
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Ink
+        heading_style: subtitle
+        icon: mdi:format-color-fill
+        badges:
+          - type: entity
+            entity: sensor.epson_et_2850_series_magenta_ink
+            color: magenta
+            icon: mdi:water
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.epson_et_2850_series_yellow_ink
+            color: yellow
+            icon: mdi:water
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.epson_et_2850_series_cyan_ink
+            color: cyan
+            icon: mdi:water
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.epson_et_2850_series_black_ink
+            color: black
+            icon: mdi:water
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: sensor.epson_et_2850_series
+        attributes:
+        title: ""
+        hidden_state:
+          - "idle"
+        state_map:
+        max_items: 3
+        show:
+          end_date: false
+          start_date: true
+
   - type: grid #######   Apple TV History   #######
     cards:
       - type: heading
