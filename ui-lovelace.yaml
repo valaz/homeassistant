@@ -4,6 +4,7 @@ views:
   - !include lovelace/home/rooms/bedroom.yaml
   - !include lovelace/home/rooms/hallway.yaml
   - !include lovelace/home/rooms/livingroom.yaml
-  - !include lovelace/home/climate.yaml
-  - !include lovelace/home/vacuum.yaml
+  - !include lovelace/home/01_climate.yaml
+  - !include lovelace/home/02_vacuum.yaml
+  - !include lovelace/home/03_people.yaml
   - !include lovelace/home/devices.yaml

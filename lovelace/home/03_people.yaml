@@ -1,0 +1,83 @@
+title: People
+path: people
+icon: mdi:account-multiple
+type: sections
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Azat   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Azat
+        icon: mdi:face-man
+        badges:
+          - type: entity
+            entity: person.azat
+            state_content: state
+            tap_action:
+              action: more-info
+
+      - type: "custom:logbook-card"
+        entity: person.azat
+        title: ""
+        max_items: 4
+        show:
+          end_date: true
+          start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4
+
+  - type: grid #######   Eliia   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Eliia
+        icon: mdi:face-woman
+        badges:
+          - type: entity
+            entity: person.eliia
+            state_content: state
+            tap_action:
+              action: more-info
+
+      - type: "custom:logbook-card"
+        entity: person.eliia
+        title: ""
+        max_items: 4
+        show:
+          end_date: true
+          start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4
+
+  - type: grid #######   RescueTime   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: RescueTime
+        icon: mdi:timelapse
+      - type: custom:mini-graph-card
+        name: Azat
+        unit: "%"
+        entities:
+          - input_number.c_rescuetime_efficiency_percent
+        color_thresholds:
+          - value: 33
+            color: "#ff0000"
+          - value: 45
+            color: "#FFB300"
+          - value: 50
+            color: "#00ff09"
+
+  - type: grid #######   Other   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Other
+      - type: entities
+        entities:
+          - switch.c_signal_rocketleague_cyclops
+          - binary_sensor.c_signal_rocketleague_jubilee

@@ -5,6 +5,22 @@ type: sections
 cards: []
 max_columns: 3
 sections:
+  - type: grid #######   Weather   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Weather
+        icon: mdi:weather-cloudy
+
+      - type: weather-forecast
+        entity: weather.forecast_tegel_home
+        secondary_info_attribute: humidity
+        show_forecast: true
+        forecast_type: daily
+
+      - type: "custom:horizon-card"
+        language: ru
+
   - type: grid #######   Температура   #######
     cards:
       - type: heading
@@ -193,7 +209,9 @@ sections:
         layout_options:
           grid_columns: 2
           grid_rows: 3.4
-          
+
+  - type: grid #######  CO2  #######
+    cards:
       - type: heading
         heading_style: title
         heading: CO2

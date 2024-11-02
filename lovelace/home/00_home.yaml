@@ -194,10 +194,6 @@ sections:
             color: blue
             tap_action:
               action: more-info
-      - type: heading
-        heading: Свет
-        heading_style: subtitle
-        icon: mdi:lightbulb-outline
       - type: tile
         entity: switch.kidsroom_light_switch
         name: Люстра
@@ -222,16 +218,12 @@ sections:
             tap_action:
               action: more-info
       - type: heading
-        heading: Свет
+        heading: Движение
         heading_style: subtitle
-        icon: mdi:lightbulb-outline
         badges:
           - type: entity
             entity: binary_sensor.kitchen_motion_sensor_occupancy
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.kitchen_motion_sensor_illuminance
+            state_content: last_changed
             tap_action:
               action: more-info
       - type: tile
@@ -258,16 +250,17 @@ sections:
             tap_action:
               action: more-info
       - type: heading
-        heading: Свет
+        heading: Движение
         heading_style: subtitle
-        icon: mdi:lightbulb-outline
         badges:
           - type: entity
             entity: binary_sensor.bathroom_presence_sensor_occupancy
+            state_content: last_changed
             tap_action:
               action: more-info
           - type: entity
             entity: binary_sensor.bathroom_motion_sensor_occupancy
+            state_content: last_changed
             tap_action:
               action: more-info
       - type: tile
