@@ -85,7 +85,7 @@ devices:
   '0x00158d000af2836a':
     friendly_name: Bedroom Air Sensor
   '0xa4c138ee40adabe6':
-    friendly_name: Green Test Plug
+    friendly_name: Kitchen Boiler Plug
 advanced:
   log_level: info
   log_syslog:
