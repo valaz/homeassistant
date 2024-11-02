@@ -80,6 +80,12 @@ sections:
       - type: heading
         heading: Корридор
         icon: mdi:coat-rack
+        badges:
+          - type: entity
+            entity: binary_sensor.hallway_door_sensor_contact
+            state_content: last_changed
+            tap_action:
+              action: more-info
         tap_action:
           action: navigate
           navigation_path: /lovelace/hallway
@@ -169,6 +175,9 @@ sections:
             entity: vacuum.roborock_s5
             tap_action:
               action: more-info
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/vacuum
 
   - type: grid #     #######   Детская   #######
     cards:

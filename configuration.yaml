@@ -19,17 +19,24 @@ http:
   trusted_proxies:
     - 172.30.33.0/24
     - 172.18.0.100
-    # - 172.18.0.100/24
-    # - 172.18.0.100
-    # - 172.30.33.8
-    # - 172.30.33.8
-    # - 192.168.178.6
-    # - 10.13.13.1
 
 homekit: !include includes/homekit.yaml
 
 lovelace:
   mode: yaml
+  dashboards:
+    homeassistant-yaml:
+      mode: yaml
+      title: Home Assistant
+      icon: mdi:home-assistant
+      show_in_sidebar: true
+      filename: ui-homeassistant.yaml
+    homelab-yaml:
+      mode: yaml
+      title: Homelab
+      icon: mdi:server
+      show_in_sidebar: true
+      filename: ui-homelab.yaml
   resources:
     - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
       type: module

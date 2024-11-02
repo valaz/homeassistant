@@ -25,7 +25,7 @@ sections:
         update_interval: 5
         layout_options:
           grid_columns: 2
-          grid_rows: 3
+          grid_rows: 2.7
       - type: custom:mini-graph-card
         entities:
           - entity: sensor.c_bedroom_humidity
@@ -38,7 +38,7 @@ sections:
         update_interval: 5
         layout_options:
           grid_columns: 2
-          grid_rows: 3
+          grid_rows: 2.7
       - type: custom:mini-graph-card
         entities:
           - entity: sensor.c_bedroom_pm25_density
@@ -51,7 +51,7 @@ sections:
         update_interval: 5
         layout_options:
           grid_columns: 2
-          grid_rows: 3
+          grid_rows: 2.7
       - type: custom:mini-graph-card
         entities:
           - entity: sensor.c_bedroom_co2_density
@@ -64,7 +64,7 @@ sections:
         update_interval: 5
         layout_options:
           grid_columns: 2
-          grid_rows: 3
+          grid_rows: 2.7
 
   - type: grid #######   Свет   #######
     cards:

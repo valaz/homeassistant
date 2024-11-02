@@ -119,6 +119,9 @@ sections:
         heading: Пылесос
         heading_style: title
         icon: mdi:robot-vacuum
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/vacuum
         badges:
           - type: entity
             entity: sensor.c_roborock_s5_battery
@@ -158,8 +161,7 @@ sections:
         icon: mdi:air-filter
         badges:
           - type: entity
-            entity: sensor.air_purifier_2s_motor_speed
-            color: red
+            entity: select.air_purifier_2s_mode
             tap_action:
               action: more-info
       - type: tile
@@ -177,7 +179,8 @@ sections:
             tap_action:
               action: more-info
           - type: entity
-            entity: select.air_purifier_2s_mode
+            entity: sensor.air_purifier_2s_motor_speed
+            color: red
             tap_action:
               action: more-info
 

@@ -1,0 +1,214 @@
+title: Climate
+path: climate
+icon: mdi:home-thermometer
+type: sections
+cards: []
+max_columns: 3
+sections:
+  - type: grid #######   Температура   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Температура
+        icon: mdi:thermometer-lines
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_bedroom_temperature
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Детская
+        entities:
+          - sensor.c_kidsroom_temperature
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Гостиная
+        entities:
+          - sensor.c_livingroom_temperature
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Кухня
+        entities:
+          - sensor.c_kitchen_temperature
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Ванная
+        entities:
+          - sensor.c_bathroom_temperature
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+
+  - type: grid #######   Влажность   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Влажность
+        icon: mdi:water-percent
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_bedroom_humidity
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Детская
+        entities:
+          - sensor.c_kidsroom_humidity
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Гостиная
+        entities:
+          - sensor.c_livingroom_humidity
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Кухня
+        entities:
+          - sensor.c_kitchen_humidity
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Ванная
+        entities:
+          - sensor.c_bathroom_humidity
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+
+  - type: grid #######   PM 2.5  & CO2  #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: PM 2.5
+        icon: mdi:blur
+      - type: custom:mini-graph-card
+        name: Гостиная
+        entities:
+          - sensor.c_livingroom_pm25_density
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_bedroom_pm25_density
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+          
+      - type: heading
+        heading_style: title
+        heading: CO2
+        icon: mdi:molecule-co2
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_bedroom_co2_density
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3

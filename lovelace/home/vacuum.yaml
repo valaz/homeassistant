@@ -1,0 +1,230 @@
+title: Vacuum
+subview: false
+path: vacuum
+type: sections
+icon: mdi:robot-vacuum
+cards: []
+max_columns: 3
+sections:
+  - type: grid ### Vacuum ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Vacuum
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_last_clean_area
+            color: amber
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_last_clean_duration
+            color: blue
+            icon: mdi:clock
+      - type: custom:vacuum-card
+        entity: vacuum.roborock_s5
+        show_name: false
+        show_status: false
+
+      - type: heading
+        icon: mdi:broom
+        heading: Main Brush
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_main_brush_left
+            color: blue
+            icon: mdi:clock
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: button.roborock_s5_reset_main_brush
+            tap_action:
+              action: toggle
+            icon: mdi:restart
+            color: green
+            name: Reset
+            state_content: name
+      - type: heading
+        icon: mdi:brush
+        heading: Side Brush
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_side_brush_left
+            color: blue
+            icon: mdi:clock
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: button.roborock_s5_reset_side_brush
+            tap_action:
+              action: toggle
+            icon: mdi:restart
+            color: green
+            name: Reset
+            state_content: name
+      - type: heading
+        icon: mdi:air-filter
+        heading: Filter
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_filter_left
+            color: blue
+            icon: mdi:clock
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: button.roborock_s5_reset_filter
+            tap_action:
+              action: toggle
+            icon: mdi:restart
+            color: green
+            name: Reset
+            state_content: name
+      - type: heading
+        icon: mdi:eye
+        heading: Sensor
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_sensor_dirty_left
+            icon: mdi:clock
+            color: blue
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: button.roborock_s5_reset_sensor_dirty
+            tap_action:
+              action: toggle
+            icon: mdi:restart
+            color: green
+            name: Reset
+            state_content: name
+
+  - type: grid ### Zone Clean ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Zone Clean
+        heading_style: title
+
+      - type: heading
+        icon: ""
+        heading: Zones
+        heading_style: subtitle
+      - type: tile
+        entity: input_boolean.clean_saloon
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_bathroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_bedroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kidsroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kitchen
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kitchen_table
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_livingroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_livingroom_entrance
+        color: green
+        tap_action:
+          action: toggle
+
+      - type: heading
+        icon: ""
+        heading: Control
+        heading_style: subtitle
+      - type: tile
+        entity: input_number.zones_clean_repeats
+        name: Repeats
+        color: blue
+        vertical: false
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: script.reset_zone_selection
+        name: Reset
+        color: green
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: script.roborock_start_zone_cleaning
+        name: Start
+        color: green
+        vertical: false
+        tap_action:
+          action: toggle
+
+  - type: grid ### Cleaning Path ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Cleaning Path
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_current_clean_area
+            color: amber
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_current_clean_duration
+            icon: mdi:clock
+            color: blue
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_last_clean_end
+            icon: mdi:history
+            color: green
+      - type: picture-entity
+        show_state: false
+        show_name: false
+        camera_view: live
+        entity: camera.roborock_s5
+        camera_image: camera.roborock_s5
+        aspect_ratio: "135x130"
+        layout_options:
+          grid_columns: full
+    column_span: 1
