@@ -5,7 +5,7 @@ type: sections
 cards: []
 max_columns: 3
 sections:
-  - type: grid #######   Weather   #######
+  - type: grid ####   Weather.  ####
     cards:
       - type: heading
         heading_style: title
@@ -21,12 +21,12 @@ sections:
       - type: "custom:horizon-card"
         language: ru
 
-  - type: grid #######   Температура   #######
+  - type: grid ####.  Temperature   ####
     cards:
       - type: heading
         heading_style: title
-        heading: Температура
-        icon: mdi:thermometer-lines
+        heading: Temperature
+        icon: mdi:thermometer
       - type: custom:mini-graph-card
         name: Спальня
         entities:
@@ -98,11 +98,11 @@ sections:
           grid_columns: 2
           grid_rows: 3.4
 
-  - type: grid #######   Влажность   #######
+  - type: grid ####   Humidity   ####
     cards:
       - type: heading
         heading_style: title
-        heading: Влажность
+        heading: Humidity
         icon: mdi:water-percent
       - type: custom:mini-graph-card
         name: Спальня
@@ -175,7 +175,7 @@ sections:
           grid_columns: 2
           grid_rows: 3.4
 
-  - type: grid #######   PM 2.5  & CO2  #######
+  - type: grid ####   PM 2.5   ####
     cards:
       - type: heading
         heading_style: title
@@ -210,7 +210,7 @@ sections:
           grid_columns: 2
           grid_rows: 3.4
 
-  - type: grid #######  CO2  #######
+  - type: grid ####   CO2  ####
     cards:
       - type: heading
         heading_style: title
@@ -229,4 +229,67 @@ sections:
         align_state: center
         layout_options:
           grid_columns: 2
-          grid_rows: 3
+          grid_rows: 3.4
+
+  - type: grid ####   Pressure   ####
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Pressure
+        icon: mdi:thermometer-lines
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_bedroom_pressure
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Детская
+        entities:
+          - sensor.c_kidsroom_pressure
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Кухня
+        entities:
+          - sensor.c_kitchen_pressure
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Ванная
+        entities:
+          - sensor.c_bathroom_pressure
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4

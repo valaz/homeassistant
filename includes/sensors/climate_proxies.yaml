@@ -19,6 +19,15 @@
       icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.bedroom_air_sensor_humidity')) }}"
 
+    c_bedroom_pressure:
+      friendly_name: "Bedroom Pressure"
+      value_template: >
+        {{ states('sensor.bedroom_air_sensor_pressure') }}
+      unit_of_measurement: hPa
+      device_class: atmospheric_pressure
+      icon_template: mdi:thermometer-lines
+      availability_template: "{{ is_number(states('sensor.bedroom_air_sensor_pressure')) }}"
+
     c_bedroom_pm25_density:
       friendly_name: "Bedroom pm2.5 Density"
       value_template: >
@@ -69,6 +78,15 @@
       icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_humidity')) }}"
 
+    c_kidsroom_pressure:
+      friendly_name: "Kidsroom Pressure"
+      value_template: >
+        {{ states('sensor.kidsroom_air_sensor_pressure') }}
+      unit_of_measurement: hPa
+      device_class: atmospheric_pressure
+      icon_template: mdi:thermometer-lines
+      availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_pressure')) }}"
+
     # BATHROOM CLIMATE
     c_bathroom_temperature:
       friendly_name: "Bathroom Temeperature"
@@ -88,6 +106,15 @@
       icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_humidity')) }}"
 
+    c_bathroom_pressure:
+      friendly_name: "Bathroom Pressure"
+      value_template: >
+        {{ states('sensor.bathroom_air_sensor_pressure') }}
+      unit_of_measurement: hPa
+      device_class: atmospheric_pressure
+      icon_template: mdi:thermometer-lines
+      availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_pressure')) }}"
+
     # KITCHEN CLIMATE
     c_kitchen_temperature:
       friendly_name: "Kitchen Temeperature"
@@ -106,6 +133,15 @@
       device_class: humidity
       icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.kitchen_air_sensor_humidity')) }}"
+
+    c_kitchen_pressure:
+      friendly_name: "Kitchen Pressure"
+      value_template: >
+        {{ states('sensor.kitchen_air_sensor_pressure') }}
+      unit_of_measurement: hPa
+      device_class: atmospheric_pressure
+      icon_template: mdi:thermometer-lines
+      availability_template: "{{ is_number(states('sensor.kitchen_air_sensor_pressure')) }}"
 
     # LIVING_ROOM CLIMATE
     c_livingroom_temperature:
