@@ -93,37 +93,22 @@ sections:
       - type: tile
         entity: light.hallway
         name: Люстра
-        # layout_options:
-        #   grid_columns: 4
-        #   grid_rows: 1
+        layout_options:
+          grid_columns: 4
+          grid_rows: 1
 
-      - type: heading
-        icon: mdi:square-circle-outline
-        heading: Z Домофон
-        heading_style: subtitle
-        badges:
-          - type: entity
-            entity: lock.z_intercom
-            tap_action:
-              action: more-info
-      - type: heading
-        icon: mdi:square-rounded
-        heading: R Домофон
-        heading_style: subtitle
-        badges:
-          - type: entity
-            entity: lock.r_intercom
-            tap_action:
-              action: more-info
-      - type: heading
-        icon: mdi:door
-        heading: Дверь
-        heading_style: subtitle
-        badges:
-          - type: entity
-            entity: lock.main_door
-            tap_action:
-              action: more-info
+      - type: tile
+        entity: lock.r_intercom
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: lock.main_door
+        features:
+          - type: "lock-commands"
+      - type: tile
+        entity: lock.z_intercom
+        tap_action:
+          action: toggle
 
   - type: grid #######   Гостиная   #######
     cards:
@@ -178,6 +163,20 @@ sections:
         tap_action:
           action: navigate
           navigation_path: /lovelace/vacuum
+
+      - type: heading
+        heading: TV
+        heading_style: subtitle
+        icon: mdi:television-box
+        badges:
+          - type: entity
+            entity: switch.c_livingroom_tv_power
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.tv_enabled_today
+            tap_action:
+              action: more-info
 
   - type: grid #     #######   Детская   #######
     cards:
