@@ -7,6 +7,7 @@
         {{ states('sensor.bedroom_air_sensor_temperature')  | round(2) }}
       unit_of_measurement: "°C"
       device_class: temperature
+      icon_template: mdi:thermometer
       availability_template: "{{ is_number(states('sensor.bedroom_air_sensor_temperature')) }}"
 
     c_bedroom_humidity:
@@ -15,6 +16,7 @@
         {{ states('sensor.bedroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.bedroom_air_sensor_humidity')) }}"
 
     c_bedroom_pm25_density:
@@ -23,6 +25,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_pm25_density') }}
       unit_of_measurement: "µg/m³"
       device_class: pm25
+      icon_template: mdi:blur
       availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_pm25_density')) }}"
 
     c_bedroom_pm10_density:
@@ -31,6 +34,7 @@
         {{ states('sensor.cgllc_cgd1st_c37c_pm10_density') }}
       unit_of_measurement: "µg/m³"
       device_class: pm10
+      icon_template: mdi:blur
       availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_pm10_density')) }}"
 
     c_bedroom_co2_density:
@@ -43,6 +47,7 @@
         {% endif %}
       unit_of_measurement: "ppm"
       device_class: carbon_dioxide
+      icon_template: mdi:molecule-co2
       # availability_template: "{{ is_number(states('sensor.cgllc_cgd1st_c37c_co2_density')) }}"
 
     # KIDSROOM CLIMATE
@@ -52,6 +57,7 @@
         {{ states('sensor.kidsroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      icon_template: mdi:thermometer
       availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_temperature')) }}"
 
     c_kidsroom_humidity:
@@ -60,6 +66,7 @@
         {{ states('sensor.kidsroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.kidsroom_air_sensor_humidity')) }}"
 
     # BATHROOM CLIMATE
@@ -69,6 +76,7 @@
         {{ states('sensor.bathroom_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      icon_template: mdi:thermometer
       availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_temperature')) }}"
 
     c_bathroom_humidity:
@@ -77,6 +85,7 @@
         {{ states('sensor.bathroom_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.bathroom_air_sensor_humidity')) }}"
 
     # KITCHEN CLIMATE
@@ -86,6 +95,7 @@
         {{ states('sensor.kitchen_air_sensor_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      icon_template: mdi:thermometer
       availability_template: "{{ is_number(states('sensor.kitchen_air_sensor_temperature')) }}"
 
     c_kitchen_humidity:
@@ -94,6 +104,7 @@
         {{ states('sensor.kitchen_air_sensor_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.kitchen_air_sensor_humidity')) }}"
 
     # LIVING_ROOM CLIMATE
@@ -103,6 +114,7 @@
         {{ states('sensor.air_purifier_2s_temperature') }}
       unit_of_measurement: "°C"
       device_class: temperature
+      icon_template: mdi:thermometer
       availability_template: "{{ is_number(states('sensor.air_purifier_2s_temperature')) }}"
 
     c_livingroom_humidity:
@@ -111,6 +123,7 @@
         {{ states('sensor.air_purifier_2s_humidity') }}
       unit_of_measurement: "%"
       device_class: humidity
+      icon_template: mdi:water-percent
       availability_template: "{{ is_number(states('sensor.air_purifier_2s_humidity')) }}"
 
     c_livingroom_pm25_density:
@@ -119,4 +132,5 @@
         {{ states('sensor.air_purifier_2s_pm2_5') }}
       unit_of_measurement: "µg/m³"
       device_class: pm25
+      icon_template: mdi:blur
       availability_template: "{{ is_number(states('sensor.air_purifier_2s_pm2_5')) }}"

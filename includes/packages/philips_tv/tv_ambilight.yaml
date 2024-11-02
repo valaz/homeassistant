@@ -4,6 +4,7 @@ tv_ambilight:
       switches:
         c_65oled936_12_ambilight:
           friendly_name: "TV Ambilight"
+          icon_template: mdi:television-ambient-light
           value_template: >-
             {% if is_state("light.65oled936_12_ambilight", "on") or is_state("light.65oled936_12_ambilight", "off") -%}
               {{states("light.65oled936_12_ambilight")}}
@@ -21,6 +22,7 @@ tv_ambilight:
 
         c_65oled936_12_ambilight_hue:
           friendly_name: "TV Ambilight + Hue"
+          icon_template: mdi:wall-sconce-round
           value_template: >-
             {% if is_state("switch.65oled936_12_ambilight_hue", "on") or is_state("switch.65oled936_12_ambilight_hue", "off") -%}
               {{states("switch.65oled936_12_ambilight_hue")}}
@@ -38,6 +40,12 @@ tv_ambilight:
 
         c_65oled936_12_screen_state:
           friendly_name: "TV Screen State"
+          icon_template: >-
+            {% if is_state('switch.c_65oled936_12_screen_state', 'on') %}
+              mdi:monitor
+            {% else %}
+              mdi:monitor-off
+            {% endif %}
           value_template: >-
             {% if is_state("switch.c_livingroom_tv_power", "on") -%}
               {% if is_state("switch.65oled936_12_screen_state", "on") or is_state("switch.65oled936_12_screen_state", "off") -%}

@@ -90,7 +90,7 @@ bedroom_climate:
           value_template: "{{ states('switch.bedroom_fan_plug') }}"
           percentage_template: >-
             {% set power_fan_capacity = 13 %}
-            {% set power_fan_and_heater_capacity = 369 %}
+            {% set power_fan_and_heater_capacity = 350 %}
             {% set power_total_capacity = power_fan_capacity %}
             {% if is_state("switch.c_bedroom_fan_heater", "on") -%}
               {% set power_total_capacity = power_fan_and_heater_capacity %}

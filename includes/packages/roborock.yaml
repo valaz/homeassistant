@@ -11,21 +11,21 @@ roborock:
 
   input_boolean:
     clean_saloon:
-      name: Clean Saloon
+      name: Saloon
     clean_bathroom:
-      name: Clean Bathroom
-    clean_livingroom:
-      name: Clean Livingroom
-    clean_livingroom_entrance:
-      name: Clean Livingroom Entrance
-    clean_kitchen:
-      name: Clean Kitchen
-    clean_kitchen_table:
-      name: Clean Kitchen Table
+      name: Bathroom
     clean_bedroom:
-      name: Clean Bedroom
+      name: Bedroom
     clean_kidsroom:
-      name: Clean Kidsroom
+      name: Kidsroom
+    clean_kitchen:
+      name: Kitchen
+    clean_kitchen_table:
+      name: Kitchen Table
+    clean_livingroom:
+      name: Livingroom
+    clean_livingroom_entrance:
+      name: Livingroom Entrance
 
   sensor:
     - platform: template
@@ -56,6 +56,7 @@ roborock:
   script:
     reset_zone_selection:
       alias: "[Roborock] Reset Zone Selection"
+      icon: mdi:delete-restore
       sequence:
         - service: input_boolean.turn_off
           data:
@@ -69,6 +70,7 @@ roborock:
 
     roborock_start_zone_cleaning:
       alias: "[Roborock] Start Zone Cleaning"
+      icon: mdi:play-box-outline
       mode: restart
       sequence:
         - delay: "00:00:02"

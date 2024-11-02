@@ -24,9 +24,9 @@ bedroom_cover_group:
           position_template: "{{float(state_attr('cover.bedroom_left_cover', 'current_position'))/2 + float(state_attr('cover.bedroom_right_cover', 'current_position'))/2 }}"
           icon_template: >-
             {% if is_state('sensor.bedroom_cover_group', 'open') %}
-              mdi:window-open
+              mdi:blinds-open
             {% else %}
-              mdi:window-closed
+              mdi:roller-shade-closed
             {% endif %}
 
   sensor:

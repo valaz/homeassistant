@@ -124,6 +124,7 @@ bathroom_lights:
           supports_transition_template: True
           min_mireds_template: "{{ state_attr('light.bathroom_lamp', 'min_mireds') }}"
           max_mireds_template: "{{ state_attr('light.bathroom_lamp', 'max_mireds') }}"
+          icon_template: mdi:light-recessed
           turn_on:
             - service: switch.turn_on
               data:
