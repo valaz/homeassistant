@@ -1,4 +1,5 @@
 title: Homelab
 views:
   - !include lovelace/hass/00_hass.yaml
+  - !include lovelace/hass/01_telemetry.yaml
   - !include lovelace/hass/02_automation.yaml
