@@ -41,32 +41,20 @@ system_sensors:
         friendly_name: Текущее время
 
   sensor:
-    # - platform: systemmonitor
-    #   resources:
-    #     - type: processor_use
-    #     - type: disk_use_percent
-    #       arg: /
-    #     - type: memory_use_percent
-    #     - type: last_boot
-    #     - type: disk_free
-    #       arg: /
-    #     - type: processor_temperature
-
-    # Платформа перенесена в UI
-    # - platform: filesize
-    #   file_paths:
-    #     - /config/home-assistant_v2.db
-
-    # - platform: sql
-    #   db_url: !secret db_link
-    #   queries:
-    #     - name: maria_db
-    #       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-    #       column: 'value'
-    #       unit_of_measurement: MB
-
-    # - platform: uptime
-    #   name: online
+    - platform: template
+      sensors:
+        c_uptime_server:
+          friendly_name: "Server Uptime"
+          icon_template: mdi:clock-time-two-outline
+          value_template: >
+            {% set uptime_seconds = (now() - (states('sensor.last_boot') | as_datetime)).total_seconds() %}
+            {{ timedelta(seconds=uptime_seconds) }}
+        c_uptime_system:
+          friendly_name: "System Uptime"
+          icon_template: mdi:clock-time-two-outline
+          value_template: >
+            {% set uptime_seconds = (now() - (states('sensor.online') | as_datetime)).total_seconds() %}
+            {{ timedelta(seconds=uptime_seconds) }}
 
     - platform: time_date
       display_options:
@@ -92,36 +80,9 @@ system_sensors:
           state: >
             {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.online')) | int) %}
             {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
-          #   {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.online')) | int %}
-          #   {% set minutes = (( uptime % 3600) / 60) | int %}
-          #   {% set hours = ((uptime % 86400) / 3600) | int %}
-          #   {% set days = (uptime / 86400) | int %}
-
-          #      {% if uptime < 60 %}
-          #       Меньше минуты
-          #      {% else %}
-          #       {% if days > 0 %}
-          #          {{ days }} д.
-          #       {% endif %}
-          #       {% if hours > 0 %}
-          #          {% if days > 0 %}
-          #           {{ ' ' }}
-          #          {% endif %}
-          #          {{ hours }} ч.
-          #       {% endif %}
-          #       {% if minutes > 0 %}
-          #          {% if days > 0 or hours > 0 %}
-          #           {{ ' ' }}
-          #          {% endif %}
-          #           {{ minutes }} мин.
-          #       {% endif %}
-          #      {% endif %}
-          # icon: mdi:clock
 
         # Время с последней перезагрузки сервера
         - name: last_boot_custom
           state: >
             {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
             {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
-
-       
