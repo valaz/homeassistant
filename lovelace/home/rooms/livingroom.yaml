@@ -241,6 +241,7 @@ sections:
         title: ""
         hidden_state:
           - "idle"
+          - "unavailable"
         state_map:
         max_items: 3
         show:
