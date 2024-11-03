@@ -25,13 +25,13 @@ homekit: !include includes/homekit.yaml
 lovelace:
   mode: yaml
   dashboards:
-    homeassistant-yaml:
+    hass-ui:
       mode: yaml
-      title: Home Assistant
+      title: Hass
       icon: mdi:home-assistant
       show_in_sidebar: true
-      filename: ui-homeassistant.yaml
-    homelab-yaml:
+      filename: ui-hass.yaml
+    homelab-ui:
       mode: yaml
       title: Homelab
       icon: mdi:server

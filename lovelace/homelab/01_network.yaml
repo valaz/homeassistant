@@ -1,0 +1,182 @@
+title: Network
+path: network
+type: sections
+icon: mdi:network
+cards: []
+max_columns: 3
+sections:
+  - type: grid ###   FFRITZ!Box    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: FFRITZ!Box
+        icon: mdi:router-wireless
+
+      - type: heading
+        heading: Last Restart
+        heading_style: subtitle
+        icon: mdi:restart-alert
+        badges:
+          - type: entity
+            entity: sensor.fritz_box_6660_cable_last_restart
+
+      - type: heading
+        heading: Speedtest
+        heading_style: subtitle
+        icon: mdi:speedometer
+        badges:
+          - type: entity
+            entity: sensor.speedtest_ping
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_download
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_upload
+            color: orange
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: switch.fritz_box_6660_cable_wi_fi_aeki
+        name: AEKI
+        color: green
+        vertical: true
+        tap_action:
+          action: toggle
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: switch.fritz_box_6660_cable_wi_fi_aeki_2
+        name: AEKI_2
+        color: green
+        vertical: true
+        tap_action:
+          action: toggle
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: switch.fritz_box_6660_cable_wi_fi_aeki_g
+        name: AEKI_G
+        color: blue
+        vertical: true
+        tap_action:
+          action: toggle
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+
+      - type: custom:mini-graph-card
+        name: "Download Speed"
+        animate: true
+        hour24: true
+        color_thresholds:
+          - value: 100
+            color: "#539652"
+          - value: 500
+            color: "#f39c12"
+          - value: 800
+            color: "#c0392b"
+        hours_to_show: 1
+        points_per_hour: 60
+        update_interval: 10
+        entities:
+          - entity: sensor.c_fritz_box_6660_cable_download_throughput_mbs
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: custom:mini-graph-card
+        name: "Upload Speed"
+        animate: true
+        hour24: true
+        color_thresholds:
+          - value: 100
+            color: "#ffba08"
+          - value: 500
+            color: "#f48c06"
+          - value: 800
+            color: "#d00000"
+        hours_to_show: 1
+        points_per_hour: 60
+        update_interval: 10
+        entities:
+          - entity: sensor.c_fritz_box_6660_cable_upload_throughput_mbs
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+      - type: tile
+        entity: button.fritz_box_6660_cable_restart
+        name: Restart
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: button.fritz_box_6660_cable_reconnect
+        name: Reconnect
+        vertical: false
+        tap_action:
+          action: toggle
+
+  - type: grid ###   Pi-hole    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Pi-hole
+        icon: mdi:pi-hole
+
+      - type: tile
+        entity: switch.pi_hole
+        name: Ad Blocker
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: timer.pihole
+        name: Ad Timer
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: sensor.pi_hole_dns_queries_today
+        icon: mdi:earth
+        name: Total Queries
+        vertical: true
+        color: green
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: sensor.pi_hole_ads_blocked_today
+        icon: mdi:hand-back-right
+        name: Queries Blocked
+        vertical: true
+        color: red
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: sensor.pi_hole_ads_percentage_blocked_today
+        icon: mdi:chart-pie
+        name: Percentage Blocked
+        vertical: true
+        color: red
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: sensor.pi_hole_domains_blocked
+        icon: mdi:list-box-outline
+        name: Domains on Adlists
+        vertical: true
+        color: blue
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
