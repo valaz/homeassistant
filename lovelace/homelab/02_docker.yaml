@@ -5,11 +5,74 @@ icon: mdi:docker
 cards: []
 max_columns: 3
 sections:
-  - type: grid ###   Docker    ###
+  - type: grid ###   Switches    ###
     cards:
       - type: heading
         heading_style: title
         heading: Docker
+        icon: mdi:toggle-switch-outline
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "switch.docker_*"
+          exclude:
+            - entity_id: "switch.docker_addon_*"
+            - entity_id: "switch.docker_hassio_*"
+        sort:
+          method: name
+        show_empty: true
+
+  - type: grid ###   CPU    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: CPU
+        icon: mdi:cpu-64-bit
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "sensor.docker_*_cpu"
+          exclude:
+            - entity_id: "sensor.docker_addon_*"
+            - entity_id: "sensor.docker_hassio_*"
+        sort:
+          method: name
+        show_empty: true
+
+  - type: grid ###   RAM    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: RAM
+        icon: mdi:chip
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "sensor.docker_*_memory"
+          exclude:
+            - entity_id: "sensor.docker_addon_*"
+            - entity_id: "sensor.docker_hassio_*"
+        sort:
+          method: name
+        show_empty: true
+
+  - type: grid ###   Overview    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Overview
         icon: mdi:docker
 
       - type: tile
@@ -22,7 +85,7 @@ sections:
           show_header_toggle: false
         filter:
           include:
-            - name: "c_hulk_docker_*"
+            - entity_id: "sensor.docker_containers*"
         sort:
           method: name
         show_empty: true
@@ -80,5 +143,23 @@ sections:
           - type: entity
             entity: sensor.glances_mnt_wd_yellow_used_percent
             icon: mdi:chart-pie
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Network
+        heading_style: subtitle
+        icon: mdi:server-network
+        badges:
+          - type: entity
+            entity: sensor.docker_syncthing_network_speed_down
+            icon: mdi:download-network
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.docker_syncthing_network_speed_up
+            icon: mdi:upload-network
+            color: orange
             tap_action:
               action: more-info
