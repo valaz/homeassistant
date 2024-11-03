@@ -54,6 +54,34 @@ sections:
         heading_style: title
         heading: Hardware
         icon: mdi:cpu-64-bit
+        badges:
+          - type: entity
+            show_icon: true
+            icon: mdi:cpu-64-bit
+            color: orange
+            entity: sensor.processor_temperature
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: false
+            color: orange
+            entity: sensor.processor_use
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: true
+            icon: mdi:chip
+            color: blue
+            entity: sensor.memory_use_percent
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: true
+            icon: mdi:harddisk
+            color: green
+            entity: sensor.disk_use_percent
+            tap_action:
+              action: more-info
 
       - type: heading
         heading: IP
@@ -84,7 +112,7 @@ sections:
 
       - type: custom:mini-graph-card
         entities:
-          - entity: sensor.glances_package_id_0_temperature
+          - entity: sensor.processor_temperature
         name: "CPU Temperature"
         animate: true
         hour24: true
@@ -100,40 +128,28 @@ sections:
         update_interval: 10
         layout_options:
           grid_columns: 2
-          grid_rows: 3
-      - type: gauge
-        name: CPU
-        unit: "%"
-        entity: sensor.glances_cpu_used
-        severity:
-          green: 0
-          yellow: 50
-          red: 85
+          grid_rows: 2.6
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.memory_use_percent
+        name: "RAM Usage"
+        icon: mdi:chip
+        animate: true
+        hour24: true
+        color_thresholds:
+          - value: 60
+            color: "#539652"
+          - value: 80
+            color: "#f39c12"
+          - value: 90
+            color: "#c0392b"
+        hours_to_show: 1
+        points_per_hour: 60
+        update_interval: 10
         layout_options:
           grid_columns: 2
-          grid_rows: 3
-      - type: gauge
-        name: RAM
-        unit: "%"
-        entity: sensor.glances_ram_used_percent
-        severity:
-          green: 0
-          yellow: 80
-          red: 95
-        layout_options:
-          grid_columns: 2
-          grid_rows: 3
-      - type: gauge
-        name: Disk
-        unit: "%"
-        entity: sensor.glances_used_percent
-        severity:
-          green: 0
-          yellow: 50
-          red: 85
-        layout_options:
-          grid_columns: 2
-          grid_rows: 3
+          grid_rows: 2.6
 
       - type: custom:history-explorer-card
         header: hide
@@ -151,7 +167,8 @@ sections:
         graphs:
           - type: line
             entities:
-              - entity: sensor.glances_used
+              - entity: sensor.disk_use
+                name: Disk usage
                 color: rgb(127, 186, 192)
                 fill: rgba(217, 240, 235, 0.5)
 
