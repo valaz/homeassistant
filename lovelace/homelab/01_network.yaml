@@ -71,6 +71,19 @@ sections:
           grid_columns: 1
           grid_rows: 2
 
+      - type: tile
+        entity: button.fritz_box_6660_cable_restart
+        name: Restart
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: button.fritz_box_6660_cable_reconnect
+        name: Reconnect
+        vertical: false
+        tap_action:
+          action: toggle
+
       - type: custom:mini-graph-card
         name: "Download Speed"
         animate: true
@@ -109,19 +122,6 @@ sections:
         layout_options:
           grid_columns: 2
           grid_rows: 3
-
-      - type: tile
-        entity: button.fritz_box_6660_cable_restart
-        name: Restart
-        vertical: false
-        tap_action:
-          action: toggle
-      - type: tile
-        entity: button.fritz_box_6660_cable_reconnect
-        name: Reconnect
-        vertical: false
-        tap_action:
-          action: toggle
 
   - type: grid ###   Pi-hole    ###
     cards:
