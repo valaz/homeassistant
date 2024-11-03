@@ -1,0 +1,101 @@
+title: Monitoring
+path: monitoring
+icon: mdi:alert-box
+type: sections
+cards: []
+max_columns: 3
+
+sections:
+  - type: grid ###   Scenes    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Scenes
+        icon: mdi:scent
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: scene
+              sort:
+                method: name
+
+  - type: grid ###   Battery Low    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Battery Low
+        icon: mdi:battery-50
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - attributes:
+                device_class: battery
+              state: <= 40
+          exclude:
+            - name: /[Ll]ow/
+            - name: /[Ll]evel/
+            - name: /[Ss]tate/
+            - name: Lux*
+        sort:
+          method: state
+          numeric: true
+        show_empty: true
+
+  - type: grid ###   Stale Environmental Sensors    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Stale Environmental Sensors
+        icon: mdi:alert-octagram-outline
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+          state_color: true
+        filter:
+          include:
+            - entity_id: sensor.*_temperature
+              last_changed: "> 3h ago"
+              options:
+                secondary_info: last-changed
+            - entity_id: sensor.*_humidity
+              last_changed: "> 3h ago"
+              options:
+                secondary_info: last-changed
+          exclude:
+            - entity_id: "*_device_temperature"
+            - entity_id: "sensor.glances_*"
+            - entity_id: "*processor_temperature*"
+            - name: "*Glances*"
+        sort:
+          method: name
+          numeric: true
+        show_empty: true
+
+  - type: grid ###   BLE Devices    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: BLE Devices
+        icon: mdi:alert-octagram-outline
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - attributes:
+                device_class: distance
+        sort:
+          method: state
+          numeric: true
+        show_empty: true
