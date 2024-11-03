@@ -1,0 +1,167 @@
+title: Hass
+path: hass
+type: sections
+icon: mdi:home-assistant
+cards: []
+max_columns: 3
+sections:
+  - type: grid ###   Software    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Software
+        icon: mdi:home-assistant
+
+      - type: heading
+        heading: Uptime
+        heading_style: subtitle
+        icon: mdi:clock
+        badges:
+          - type: entity
+            entity: sensor.online
+            color: blue
+
+      - type: tile
+        entity: script.homeassistant_restart
+        name: Restart HA
+        tap_action:
+          action: toggle
+        layout_options:
+          grid_columns: 4
+          grid_rows: 1
+
+      - type: tile
+        entity: update.home_assistant_core_update
+        name: Core Update
+        features:
+          - type: "update-actions"
+            backup: "ask"
+      - type: tile
+        entity: update.home_assistant_supervisor_update
+        name: Supervisor Update
+        features:
+          - type: "update-actions"
+            backup: "ask"
+
+      - type: history-graph
+        entities:
+          - entity: sensor.maria_db_size
+            name: Maria DB
+
+  - type: grid ###   Hardware    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Hardware
+        icon: mdi:cpu-64-bit
+
+      - type: heading
+        heading: IP
+        icon: mdi:ip
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_icon: false
+            entity: sensor.local_ip
+
+      - type: heading
+        heading: Uptime
+        heading_style: subtitle
+        icon: mdi:clock
+        badges:
+          - type: entity
+            entity: sensor.last_boot
+            color: blue
+
+      - type: tile
+        entity: script.host_reboot
+        name: Reboot Host
+        tap_action:
+          action: more-info
+        layout_options:
+          grid_columns: 4
+          grid_rows: 1
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.glances_package_id_0_temperature
+        name: "CPU Temperature"
+        animate: true
+        hour24: true
+        color_thresholds:
+          - value: 60
+            color: "#539652"
+          - value: 80
+            color: "#f39c12"
+          - value: 90
+            color: "#c0392b"
+        hours_to_show: 1
+        points_per_hour: 60
+        update_interval: 10
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: gauge
+        name: CPU
+        unit: "%"
+        entity: sensor.glances_cpu_used
+        severity:
+          green: 0
+          yellow: 50
+          red: 85
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: gauge
+        name: RAM
+        unit: "%"
+        entity: sensor.glances_ram_used_percent
+        severity:
+          green: 0
+          yellow: 80
+          red: 95
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+      - type: gauge
+        name: Disk
+        unit: "%"
+        entity: sensor.glances_used_percent
+        severity:
+          green: 0
+          yellow: 50
+          red: 85
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+      - type: custom:history-explorer-card
+        header: hide
+        defaultTimeRange: 24h
+        lineMode: curves
+        decimation: true
+        uimode: dark
+        recordedEntitiesOnly: true
+        labelsVisible: false
+        uiColors:
+          gridlines: rgb(100,100,100)
+        uiLayout:
+          toolbar: hide
+          selector: hide
+        graphs:
+          - type: line
+            entities:
+              - entity: sensor.glances_used
+                color: rgb(127, 186, 192)
+                fill: rgba(217, 240, 235, 0.5)
+
+      - entity: sensor.glances_used_percent
+        type: custom:multiple-entity-row
+        name: "Boot"
+        state_color: true
+        state_header: "/ %"
+        entities:
+          - entity: sensor.glances_used
+            name: "used"
+          - entity: sensor.glances_free
+            name: "free"
