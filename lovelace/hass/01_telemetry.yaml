@@ -230,6 +230,12 @@ cards:
                   state: "unavailable"
                   options:
                     secondary_info: last-changed
+              exclude:
+                - domain: light
+                  state: "unavailable"
+                  entity_id: "*65oled936_12*"
+                  options:
+                    secondary_info: last-changed
 
       ################# Реле #################
 
@@ -286,6 +292,17 @@ cards:
               include:
                 - domain: switch
                   state: "unavailable"
+                  options:
+                    secondary_info: last-changed
+              exclude:
+                - domain: switch
+                  state: "unavailable"
+                  entity_id: "*_internet_access*"
+                  options:
+                    secondary_info: last-changed
+                - domain: switch
+                  state: "unavailable"
+                  entity_id: "*65oled936_12*"
                   options:
                     secondary_info: last-changed
 
@@ -398,6 +415,17 @@ cards:
               include:
                 - domain: sensor
                   state: "unavailable"
+                  options:
+                    secondary_info: last-changed
+              exclude:
+                - domain: sensor
+                  state: "unavailable"
+                  entity_id: "*_rx"
+                  options:
+                    secondary_info: last-changed
+                - domain: sensor
+                  state: "unavailable"
+                  entity_id: "*_tx"
                   options:
                     secondary_info: last-changed
 

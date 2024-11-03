@@ -1,6 +1,0 @@
-- platform: template
-  sensors:
-    c_hacs_has_updates:
-      friendly_name: "HACS has updates"
-      value_template: >-
-        {{states.sensor.hacs.state | int > 0 }}

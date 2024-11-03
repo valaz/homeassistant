@@ -30,24 +30,32 @@ sections:
         heading: Battery Low
         icon: mdi:battery-50
 
-      - type: custom:auto-entities
-        card:
-          type: entities
-          show_header_toggle: false
+      - type: custom:battery-state-card
+        secondary_info: "{last_changed}"
         filter:
           include:
-            - attributes:
-                device_class: battery
-              state: <= 40
+            - name: "attributes.device_class"
+              value: "battery"
           exclude:
-            - name: /[Ll]ow/
-            - name: /[Ll]evel/
-            - name: /[Ss]tate/
-            - name: Lux*
+            - name: "entity_id"
+              value: "binary_sensor.*"
+            - name: "entity_id"
+              value: "sensor.ipad_*"
+            - name: "entity_id"
+              value: "sensor.iphone_*"
         sort:
-          method: state
-          numeric: true
-        show_empty: true
+          by: "state"
+        collapse: 4
+        bulk_rename:
+          - from: " Battery"
+          - from: " Батарея"
+          - from: " level"
+        colors:
+          steps:
+            - "#ff0000"
+            - "#ffff00"
+            - "#00ff00"
+          gradient: true
 
   - type: grid ###   Stale Environmental Sensors    ###
     cards:
