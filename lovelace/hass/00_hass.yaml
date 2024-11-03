@@ -84,13 +84,25 @@ sections:
               action: more-info
 
       - type: heading
-        heading: IP
-        icon: mdi:ip
+        heading: Load 1m/5m/15m
         heading_style: subtitle
+        icon: mdi:server-network
         badges:
           - type: entity
+            entity: sensor.load_1m
             show_icon: false
-            entity: sensor.local_ip
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.load_5m
+            show_icon: false
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.load_15m
+            show_icon: false
+            tap_action:
+              action: more-info
 
       - type: heading
         heading: Uptime
@@ -100,6 +112,33 @@ sections:
           - type: entity
             entity: sensor.last_boot
             color: blue
+
+      - type: heading
+        heading: Local IP
+        icon: mdi:ip
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_icon: false
+            entity: sensor.local_ip
+
+      - type: heading
+        heading: Network
+        heading_style: subtitle
+        icon: mdi:server-network
+        badges:
+          - type: entity
+            entity: sensor.network_throughput_in_enp2s0
+            icon: mdi:download-network
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.network_throughput_out_enp2s0
+            icon: mdi:upload-network
+            color: orange
+            tap_action:
+              action: more-info
 
       - type: tile
         entity: script.host_reboot
