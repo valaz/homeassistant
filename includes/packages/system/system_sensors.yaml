@@ -124,7 +124,4 @@ system_sensors:
             {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
             {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
 
-        - name: "Hulk Sync Downloads_Movies"
-          unique_id: c_hulk_downloads_movies
-          unit_of_measurement: "%"
-          state: "{{(state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'in_sync_bytes') / state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'global_bytes') | float * 100) |  round(2) }}"
+       
