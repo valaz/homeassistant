@@ -47,6 +47,8 @@ sections:
         vertical: true
         tap_action:
           action: toggle
+        hold_action:
+          action: more-info
         layout_options:
           grid_columns: 1
           grid_rows: 2
@@ -57,6 +59,8 @@ sections:
         vertical: true
         tap_action:
           action: toggle
+        hold_action:
+          action: more-info
         layout_options:
           grid_columns: 1
           grid_rows: 2
@@ -67,6 +71,8 @@ sections:
         vertical: true
         tap_action:
           action: toggle
+        hold_action:
+          action: more-info
         layout_options:
           grid_columns: 1
           grid_rows: 2

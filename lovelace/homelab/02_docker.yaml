@@ -46,7 +46,7 @@ sections:
               action: more-info
           - type: entity
             entity: sensor.u5elrlu_media_downloads_movies_media_downloads_movies
-            color: orange
+            color: blue
             tap_action:
               action: more-info
 
