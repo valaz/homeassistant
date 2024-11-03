@@ -232,6 +232,14 @@ sections:
       - type: tile
         entity: switch.kitchen_sink_plug
         name: Раковина
+      - type: heading
+        heading: Протечка
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: binary_sensor.bathroom_water_leak_sensor_water_leak
+            tap_action:
+              action: more-info
 
   - type: grid #######   Ванная   #######
     cards:
@@ -270,10 +278,11 @@ sections:
         entity: switch.c_bathroom_light_auto_off
         name: Автовыключение
       - type: heading
-        heading: Протечка
+        heading: Уровень освещения
         heading_style: subtitle
         badges:
           - type: entity
-            entity: binary_sensor.bathroom_water_leak_sensor_water_leak
+            entity: sensor.bathroom_motion_sensor_illuminance_lux
+            color: yellow
             tap_action:
               action: more-info
