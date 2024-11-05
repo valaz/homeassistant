@@ -11,6 +11,7 @@ syncthing:
         c_syncthing_hulk_downloads_movies_need_files:
           friendly_name: "Syncthing Hulk Downloads_Movies Need Files"
           icon_template: mdi:folder-arrow-down
+          unit_of_measurement: "files"
           value_template: "{{state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_files') }}"
 
         c_syncthing_hulk_downloads_movies_need_gb:
