@@ -19,3 +19,21 @@ syncthing:
           icon_template: mdi:harddisk-plus
           unit_of_measurement: "GiB"
           value_template: "{{((state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_bytes') | float) / (1024*1024*1024)) | round(2) }}"
+
+        c_syncthing_hulk_travel_media:
+          friendly_name: "Syncthing Hulk Media_Travel"
+          icon_template: mdi:list-status
+          unit_of_measurement: "%"
+          value_template: "{{(state_attr('sensor.u5elrlu_media_travel_media_travel', 'in_sync_bytes') / state_attr('sensor.u5elrlu_media_travel_media_travel', 'global_bytes') | float * 100) |  round(2) }}"
+
+        c_syncthing_hulk_travel_media_need_files:
+          friendly_name: "Syncthing Hulk Media_Travel Need Files"
+          icon_template: mdi:folder-arrow-down
+          unit_of_measurement: "files"
+          value_template: "{{state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_files') }}"
+
+        c_syncthing_hulk_travel_media_need_gb:
+          friendly_name: "Syncthing Hulk Media_Travel Need GB"
+          icon_template: mdi:harddisk-plus
+          unit_of_measurement: "GiB"
+          value_template: "{{((state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_bytes') | float) / (1024*1024*1024)) | round(2) }}"
