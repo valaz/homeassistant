@@ -6,6 +6,11 @@ system_sensors:
     exclude:
       domains:
         - camera
+      entity_globs:
+        - sensor.docker_*
+        - switch.docker_*
+        - sensor.uptimekuma_*
+        - binary_sensor.uptimekuma_*
   #   include:
   #     entities:
   #       - binary_sensor.rpi_power_status
