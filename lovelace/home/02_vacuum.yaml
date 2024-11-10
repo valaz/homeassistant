@@ -194,11 +194,11 @@ sections:
         tap_action:
           action: toggle
 
-  - type: grid ### Cleaning Path ###
+  - type: grid ### Map ###
     cards:
       - type: heading
         icon: ""
-        heading: Cleaning Path
+        heading: Map
         heading_style: title
         badges:
           - type: entity

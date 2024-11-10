@@ -250,7 +250,7 @@ sections:
         align_state: center
         layout_options:
           grid_columns: 2
-          grid_rows: 3.4
+          grid_rows: 4
       - type: custom:mini-graph-card
         name: Детская
         entities:
@@ -264,7 +264,7 @@ sections:
         align_state: center
         layout_options:
           grid_columns: 2
-          grid_rows: 3.4
+          grid_rows: 4
       - type: custom:mini-graph-card
         name: Кухня
         entities:
@@ -278,7 +278,7 @@ sections:
         align_state: center
         layout_options:
           grid_columns: 2
-          grid_rows: 3.4
+          grid_rows: 4
       - type: custom:mini-graph-card
         name: Ванная
         entities:
@@ -292,4 +292,4 @@ sections:
         align_state: center
         layout_options:
           grid_columns: 2
-          grid_rows: 3.4
+          grid_rows: 4
