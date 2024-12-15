@@ -48,6 +48,15 @@ bedroom_climate:
         - 900
         - 1000
 
+    c_bedroom_fan_heater_timeout:
+      name: Fan Heater Timeout
+      options:
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+
   sensor:
     - platform: template
       sensors:
@@ -59,6 +68,16 @@ bedroom_climate:
             {%- else -%}
               {{states("input_select.c_bedroom_fan_mode")}}
             {%- endif %}
+
+        c_bedroom_fan_heater_active_time:
+          friendly_name: "Bedroom Fan Heater Active Time"
+          unit_of_measurement: "min"
+          value_template: >
+            {% if is_state('switch.c_bedroom_fan_heater', 'on') %}
+              {{ ((now() - states.switch.c_bedroom_fan_heater.last_changed).total_seconds() / 60) | round(1) }}
+            {% else %}
+              0
+            {% endif %}
 
   switch:
     - platform: template
@@ -107,6 +126,56 @@ bedroom_climate:
             service: switch.turn_off
             target:
               entity_id: switch.bedroom_fan_plug
+
+  script:
+    fix_main_heater_timeout:
+      alias: "[Bedroom Climate] Fix Fan Heater Timeout"
+      icon: mdi:delete-restore
+      sequence:
+        - choose:
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.c_bedroom_temperature
+                  below: 18
+              sequence:
+                - service: input_select.select_option
+                  target:
+                    entity_id: input_select.c_bedroom_fan_heater_timeout
+                  data:
+                    option: "20"
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.c_bedroom_temperature
+                  above: 18
+                  below: 19
+              sequence:
+                - service: input_select.select_option
+                  target:
+                    entity_id: input_select.c_bedroom_fan_heater_timeout
+                  data:
+                    option: "15"
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.c_bedroom_temperature
+                  above: 19
+                  below: 20
+              sequence:
+                - service: input_select.select_option
+                  target:
+                    entity_id: input_select.c_bedroom_fan_heater_timeout
+                  data:
+                    option: "10"
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.c_bedroom_temperature
+                  above: 20
+              sequence:
+                - service: input_select.select_option
+                  target:
+                    entity_id: input_select.c_bedroom_fan_heater_timeout
+                  data:
+                    option: "5"
+          default: []
 
   automation:
     - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
@@ -256,13 +325,12 @@ bedroom_climate:
           target:
             entity_id: switch.c_bedroom_fan_heater
 
-    - alias: "[Bedroom Climate] Turn off Fan heater after 5 minutes"
+    - alias: "[Bedroom Climate] Turn off Fan heater after timeout"
       mode: single
       triggers:
-        - platform: state
-          entity_id: switch.c_bedroom_fan_heater
-          to: "on"
-          for: "00:10:00"
+        - platform: template
+          value_template: >
+            {{ states('sensor.c_bedroom_fan_heater_active_time') | float(0) >= states('input_select.c_bedroom_fan_heater_timeout') | float(0) }}
       conditions:
         - condition: state
           entity_id: switch.c_bedroom_fan_heater
@@ -271,3 +339,12 @@ bedroom_climate:
         - service: switch.turn_off
           target:
             entity_id: switch.c_bedroom_fan_heater
+
+    - alias: "[Bedroom Climate] Fix Heater timeout"
+      trigger:
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+      action:
+        - service: script.turn_on
+          target:
+            entity_id: script.fix_main_heater_timeout

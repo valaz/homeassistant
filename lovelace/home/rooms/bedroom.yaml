@@ -107,12 +107,19 @@ sections:
 
       - type: custom:mushroom-select-card
         entity: input_select.c_bedroom_fan_mode
-        icon_color: orange
+        icon_color: blue
         primary_info: name
         secondary_info: last-changed
+        
+      - type: custom:mushroom-select-card
+        entity: input_select.c_bedroom_fan_heater_timeout
+        icon_color: red
+        primary_info: name
+        secondary_info: last-changed
+
       - type: custom:mushroom-select-card
         entity: input_select.c_bedroom_co2_alert_level
-        icon_color: orange
+        icon_color: green
         primary_info: name
         secondary_info: last-changed
       - type: tile
