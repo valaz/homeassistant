@@ -222,15 +222,15 @@ sections:
           - entity: sensor.glances_free
             name: "free"
 
-      - entity: sensor.glances_mnt_wd_yellow_used_percent
+      - entity: sensor.localhost_mnt_wdy_disk_usage
         type: custom:multiple-entity-row
         name: "/mnt/wd-yellow"
         state_color: true
         state_header: "%"
         entities:
-          - entity: sensor.glances_mnt_wd_yellow_used
+          - entity: sensor.localhost_mnt_wdy_disk_used
             name: "used"
-          - entity: sensor.glances_mnt_wd_yellow_free
+          - entity: sensor.localhost_mnt_wdy_disk_free
             name: "free"
 
       - entity: sensor.localhost_mnt_xs1000_disk_usage
