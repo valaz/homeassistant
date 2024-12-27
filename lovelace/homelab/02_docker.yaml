@@ -19,6 +19,7 @@ sections:
         filter:
           include:
             - entity_id: "switch.docker_*"
+            - entity_id: "switch.c_hulk_docker_*"
           exclude:
             - entity_id: "switch.docker_addon_*"
             - entity_id: "switch.docker_hassio_*"
