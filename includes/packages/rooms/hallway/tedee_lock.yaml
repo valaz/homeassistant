@@ -44,27 +44,6 @@ hallway_tedee_lock:
           target:
             entity_id: lock.lock_febb
 
-    intercom_door_try_warmup:
-      alias: "[Intercom Lock] Try to warmup"
-      sequence:
-        - if:
-            - condition: template
-              value_template: "{{ is_state('binary_sensor.c_should_warmup_intercom_door', 'on')}}"
-          then:
-            - service: script.intercom_door_single_warmup
-            - service: script.intercom_door_single_warmup
-            - service: script.intercom_door_single_warmup
-            - service: script.intercom_door_single_warmup
-            - service: script.intercom_door_single_warmup
-
-    intercom_door_single_warmup:
-      alias: "[Intercom Lock] Single warmup"
-      sequence:
-        - service: switch.toggle
-          target:
-            entity_id: switch.hallway_button_pusher
-        - delay: "00:00:03"
-
   lock:
     - platform: template
       unique_id: c_hallway_main_door
@@ -139,3 +118,20 @@ hallway_tedee_lock:
         - service: script.send_sms_to_azat
           data:
             message: "🔒 Дверь закрывается, так как никого нет дома"
+
+    - alias: "[Main Door Lock] Fix Semilock"
+      mode: restart
+      initial_state: true
+      triggers:
+        trigger: state
+        entity_id: binary_sensor.lock_febb_semi_locked
+        to: "on"
+        for: "00:01:00"
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.people_at_home
+          state: "on"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.lock_febb
