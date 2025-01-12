@@ -11,7 +11,7 @@ hallway_ring_intercom:
         icon: mdi:bell-ring-outline
         device_class: sound
         state: >-
-          {% if states('event.ring_intercom_ding') | contains('2024') -%}
+          {% if states('event.ring_intercom_ding') | contains('2025') -%}
             {% set now = as_timestamp(now()) %}
             {% set last_ding = as_timestamp(states('event.ring_intercom_ding')) %}
             {{ now - last_ding < 120}}
