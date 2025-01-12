@@ -1,0 +1,619 @@
+title: Automations
+path: automations
+type: sections
+icon: mdi:script
+cards: []
+max_columns: 3
+sections:
+  - type: grid ###   Lights    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Light Automations
+        icon: mdi:lightbulb
+
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Bathroom
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bathroom Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Bedroom
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bedroom Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Hallway
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Hallway Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Kidsroom
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Kidsroom Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Kitchen
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Kitchen Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Livingroom
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Livingroom Lights*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
+  # - type: vertical-stack
+  #   cards:
+  #     - type: custom:auto-entities
+  #       show_empty: false
+  #       card:
+  #         type: entities
+  #         show_header_toggle: false
+  #         title: Автоматизации Lights
+  #       filter:
+  #         include:
+  #           - domain: automation
+  #             name: "*Lights*"
+  #             options:
+  #               secondary_info: last-triggered
+  #             sort:
+  #               method: name
+  #       exclude:
+  #         - state: "off"
+
+  - type: grid ###   Bedroom    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Bedroom Automations
+        icon: mdi:bed
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Climate
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bedroom Climate*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Covers
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bedroom Covers*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Remote
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bedroom Remote*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Other
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Bedroom*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                    exclude:
+                      - state: "off"
+                      - name: "*Bedroom Lights*"
+                      - name: "*Bedroom Climate*"
+                      - name: "*Bedroom Covers*"
+                      - name: "*Bedroom Remote*"
+
+  - type: grid ###   Hallway    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Hallway Automations
+        icon: mdi:hallway
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Intercom
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Intercom Lock*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                      - domain: automation
+                        name: "*Ring Intercom*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Main Door Lock
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Main Door Lock*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
+  - type: grid ###   Livingroom    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Livingroom Automations
+        icon: mdi:sofa
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Climate
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Livingroom Climate*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Gaming
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Livingroom Gaming*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Cinema
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Livingroom Cinema*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Saloon
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Saloon*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Roborock
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Roborock*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: TV Time
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*TV Time*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
+  - type: grid ###   System    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: System Automations
+        icon: mdi:server
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: FRITZ!Box
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*FRITZ!Box*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Pi-hole
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Pi-hole*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: SMS
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*SMS*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Telegram
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Telegram*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: System
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*System]*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
+  - type: grid ###   Other    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Other Automations
+        icon: mdi:server
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: automation
+              not:
+                name: "*Lights*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+          exclude:
+            - name: "*Bedroom Climate*"
+            - name: "*Bedroom Covers*"
+            - name: "*Bedroom Remote*"
+            - name: "*Bedroom*"
+            - name: "*Intercom Lock*"
+            - name: "*Ring Intercom*"
+            - name: "*Main Door Lock*"
+            - name: "*Livingroom Climate*"
+            - name: "*Livingroom Gaming*"
+            - name: "*Livingroom Cinema*"
+            - name: "*Saloon*"
+            - name: "*TV Time*"
+            - name: "*Roborock*"
+            - name: "*FRITZ!Box*"
+            - name: "*Pi-hole*"
+            - name: "*SMS*"
+            - name: "*Telegram*"
+            - name: "*System]*"
+
+      - type: heading
+        heading: Disabled Automations
+        heading_style: subtitle
+        icon: mdi:cloud-off-outline
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: automation
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+          exclude:
+            - state: "on"
+
+  # - type: custom:auto-entities
+  #   show_empty: false
+  #   card:
+  #     type: entities
+  #     show_header_toggle: false
+  #     title: Скрипты
+  #   filter:
+  #     include:
+  #       - domain: script
+  #         options:
+  #           secondary_info: last-triggered
+  #         sort:
+  #           method: attribute
+  #           attribute: last_triggered
+  #           reverse: true
+  #     sort:
+  #       method: entity_id
