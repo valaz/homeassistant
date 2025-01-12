@@ -135,3 +135,21 @@ hallway_tedee_lock:
         - service: lock.unlock
           target:
             entity_id: lock.lock_febb
+
+    - alias: "[Main Door Lock] Fix Semilock by Door"
+      mode: restart
+      initial_state: true
+      triggers:
+        trigger: state
+        entity_id: binary_sensor.hallway_door_sensor_contact
+        from: "on"
+        to: "off"
+        for: "00:00:10"
+      conditions:
+        - condition: state
+          entity_id: binary_sensor.lock_febb_semi_locked
+          state: "on"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.lock_febb
