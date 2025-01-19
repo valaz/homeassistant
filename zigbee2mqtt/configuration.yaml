@@ -86,6 +86,8 @@ devices:
     friendly_name: Bedroom Air Sensor
   '0xa4c138ee40adabe6':
     friendly_name: Kitchen Boiler Plug
+  '0x00158d00075d7069':
+    friendly_name: Bathroom Window Sensor
 advanced:
   log_level: info
   log_syslog:
