@@ -1,4 +1,17 @@
 bathroom_climate:
+  alert:
+    bathroom_freezing:
+      name: "Низкаая температура в ванной"
+      message: "⚠️🥶 Обнаружено открытое окно и низкая температура в ванной: {{states('sensor.c_bathroom_temperature')}} °C"
+      done_message: "✅🥶 Окно в ванной закрыто"
+      entity_id: binary_sensor.c_bathroom_freezing
+      state: "on"
+      repeat: 5
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - tg_valaz
+
   binary_sensor:
     - platform: template
       sensors:
@@ -6,3 +19,7 @@ bathroom_climate:
           friendly_name: "Bathroom Moisture"
           value_template: >-
             {{states.sensor.c_bathroom_humidity.state | float >= 60 and states.sensor.c_bathroom_humidity.state | float > states.sensor.c_weather_humidity.state | float}}
+        c_bathroom_freezing:
+          friendly_name: "Bathroom Freezing"
+          value_template: >-
+            {{ is_state('binary_sensor.bathroom_window_sensor_contact', 'on') and states.sensor.c_bathroom_temperature.state | float < 21 and states.sensor.c_weather_temperature.state | float < 15 }}
