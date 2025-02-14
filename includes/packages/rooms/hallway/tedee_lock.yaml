@@ -88,17 +88,33 @@ hallway_tedee_lock:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: device_tracker.private_ble_device_00025d
+          entity_id: device_tracker.private_ble_device_00025d # iPhone 15 Pro Max
+          from: "not_home"
+          to: "home"
+        - platform: state
+          entity_id: device_tracker.private_ble_device_ee532a # Apple Watch U2
           from: "not_home"
           to: "home"
       condition:
         - condition: state
           entity_id: binary_sensor.azat_at_home
           state: "off"
+        - condition: state
+          entity_id: binary_sensor.hallway_door_sensor_contact
+          state: "off"
         - condition: template
-          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 600 }}"
+          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
       action:
-        - service: script.ask_to_unlock_main_door
+        - service: lock.unlock
+          target:
+            entity_id: lock.main_door
+        - service: notify.tg_valaz
+          data:
+            message: "🔒 Дверь открывается, так как Азат пришел домой"
+        - service: script.send_sms_to_azat
+          data:
+            message: "🔒 Дверь открывается, так как Азат пришел домой"
+        # - service: script.ask_to_unlock_main_door
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
