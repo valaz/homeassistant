@@ -62,6 +62,9 @@ sensor.private_ble_device_00025d_estimated_distance:
 sensor.private_ble_device_2e2b6b_estimated_distance:
   friendly_name: "BLE Apple Watch S6"
   icon: mdi:watch-import-variant
+sensor.private_ble_device_ee532a_estimated_distance:
+  friendly_name: "BLE Apple Watch U2"
+  icon: mdi:watch-import-variant
 
 switch.bedroom_monitor_plug:
   friendly_name: "Монитор"
