@@ -7,5 +7,6 @@ views:
   - !include lovelace/home/01_climate.yaml
   - !include lovelace/home/02_vacuum.yaml
   - !include lovelace/home/03_people.yaml
+  - !include lovelace/home/04_car.yaml
   - !include lovelace/home/04_monitoring.yaml
   - !include lovelace/home/devices.yaml

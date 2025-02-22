@@ -1,0 +1,536 @@
+title: Car
+subview: false
+path: car
+type: sections
+icon: mdi:car
+cards: []
+max_columns: 3
+sections:
+  - type: grid ### Car ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Passat GTE
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: device_tracker.passat_gte_last_position
+            tap_action:
+              action: more-info
+            # icon: "mdi:map-marker"
+            color: green
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.c_passat_gte_odometer
+            tap_action:
+              action: more-info
+            color: blue
+            # icon: mdi:lock
+      - type: picture-elements
+        image: "/local/passat_gte/passat.png"
+        elements:
+          - type: image
+            entity: switch.passat_gte_electric_climatisation
+            image: /local/passat_gte/blank.png
+            style:
+              top: 39.5%
+              left: 55%
+              width: 43%
+            state_image:
+              "on": /local/passat_gte/passat_heat.png
+
+          - type: image
+            entity: binary_sensor.passat_gte_external_power
+            image: /local/passat_gte/blank.png
+            style:
+              top: 62.8%
+              left: 21.2%
+              width: 43%
+            state_image:
+              "on": /local/passat_gte/passatcharging.png
+
+          - type: image
+            entity: binary_sensor.passat_gte_parking_light
+            image: /local/passat_gte/blank.png
+            style:
+              top: 66.8%
+              left: 37.2%
+              width: 37%
+            state_image:
+              "on": /local/passat_gte/passat_light.png
+
+          - type: image
+            entity: lock.passat_gte_door_locked
+            image: /local/passat_gte/blank.png
+            style:
+              top: 42.3%
+              left: 57%
+              width: 2%
+            state_image:
+              locked: /local/passat_gte/blink.gif
+
+          # Top left row with state icons
+
+          - type: state-icon
+            entity: lock.passat_gte_door_locked
+            style:
+              top: 87%
+              left: 36%
+
+          - type: state-icon
+            entity: switch.passat_gte_auxiliary_climatisation
+            style:
+              top: 87%
+              left: 47%
+
+          - type: state-icon
+            entity: switch.passat_gte_electric_climatisation
+            hold_action: toggle
+            style:
+              top: 87%
+              left: 58%
+
+          - type: state-icon
+            entity: switch.passat_gte_window_heater
+            hold_action: toggle
+            style:
+              top: 87%
+              left: 69%
+
+          #Top right icons
+          - type: state-icon
+            entity: switch.passat_gte_charging
+            style:
+              top: 87%
+              left: 80%
+
+          - type: state-label
+            entity: sensor.passat_gte_battery_level
+            style:
+              top: 96%
+              left: 81%
+
+          - type: state-icon
+            entity: sensor.passat_gte_fuel_level
+            style:
+              top: 87%
+              left: 91%
+
+          - type: state-label
+            entity: sensor.passat_gte_fuel_level
+            style:
+              top: 96%
+              left: 92%
+      #END VW IMAGE CARD
+
+      - type: heading ### Last Sync ###
+        icon: mdi:car-wireless
+        heading: Last Sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_data_refresh
+            # color: orange
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_force_data_refresh
+            tap_action:
+              action: toggle
+            icon: mdi:restart
+            color: green
+            name: Refresh
+            state_content: name
+      - type: heading ### Fuel Range ###
+        icon: mdi:fuel
+        heading: Fuel Range
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_fuel_level
+            color: red
+            icon: mdi:fuel
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_fuel_range
+            color: blue
+            icon: mdi:map-marker-distance
+            tap_action:
+              action: more-info
+      - type: heading ### Electric Range ###
+        icon: mdi:battery
+        heading: Electric Range
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_battery_level
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_electric_range
+            color: blue
+            icon: mdi:map-marker-distance
+            tap_action:
+              action: more-info
+      - type: heading ### Parling Lights ###
+        icon: mdi:car-parking-lights
+        heading: Parling Lights
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_parking_light
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Doors ###
+        icon: mdi:car-door
+        heading: Doors
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: lock.passat_gte_door_locked
+            tap_action:
+              action: more-info
+            # color: gray
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.c_passat_gte_doors_closed
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Trunk ###
+        icon: mdi:car-back
+        heading: Trunk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: lock.passat_gte_trunk_locked
+            tap_action:
+              action: more-info
+            # color: gray
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_trunk_closed
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Windows ###
+        icon: mdi:car-side
+        heading: Windows
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_windows_closed
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Sunroof ###
+        icon: mdi:car-wash
+        heading: Sunroof
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_sunroof_closed
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Hood ###
+        icon: mdi:car-outline
+        heading: Hood
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_hood_closed
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Service ###
+        icon: mdi:car-wrench
+        heading: Service
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_service_inspection_days
+            tap_action:
+              action: more-info
+            color: green
+            icon: mdi:calendar
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_service_inspection_distance
+            tap_action:
+              action: more-info
+            color: blue
+            icon: mdi:map-marker-distance
+      - type: heading ### Oil Change ###
+        icon: mdi:oil
+        heading: Oil Change
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_oil_inspection_days
+            color: green
+            icon: mdi:calendar
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_oil_inspection_distance
+            tap_action:
+              action: more-info
+            color: blue
+            icon: mdi:map-marker-distance
+
+  - type: grid ### Remote Climate ###
+    cards:
+      - type: heading ### Climate ###
+        icon: "mdi:waves-arrow-up"
+        heading: Remote Climate
+        heading_style: title
+
+      - type: heading ### Target Temperature ###
+        # icon: mdi:cable-data
+        heading: Target Temperature
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: number.passat_gte_climatisation_target_temperature
+            tap_action:
+              action: more-info
+            color: green
+      - type: heading ### Autonomous Heater ###
+        # icon: mdi:cable-data
+        heading: Autonomous Heater
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_auxiliary_climatisation
+            tap_action:
+              action: more-info
+            # color: green
+      - type: heading ### Climatisation ###
+        # icon: mdi:cable-data
+        heading: Climatisation
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_electric_climatisation
+            tap_action:
+              action: more-info
+            # color: green
+      - type: heading ### Window Heater ###
+        # icon: mdi:cable-data
+        heading: Window Heater
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_window_heater
+            tap_action:
+              action: more-info
+            # color: green
+      - type: heading ### Climatisation from battery ###
+        # icon: mdi:cable-data
+        heading: Climatisation from battery
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_climatisation_from_battery
+            tap_action:
+              action: more-info
+            # color: green
+
+      - type: heading ### HV Battery ###
+        icon: "mdi:ev-station"
+        heading: HV Battery
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_battery_level
+            color: blue
+            tap_action:
+              action: more-info
+      - type: heading ### Cable Connected ###
+        # icon: mdi:cable-data
+        heading: Cable Connected
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_charging_cable_connected
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Cable Locked ###
+        # icon: mdi:cable-data
+        heading: Cable Locked
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_charging_cable_locked
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### External Power ###
+        # icon: mdi:cable-data
+        heading: External Power
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.passat_gte_external_power
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Charging ###
+        # icon: mdi:cable-data
+        heading: Charging
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_charging
+            tap_action:
+              action: more-info
+            # color: gray
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_charging_time_left
+            tap_action:
+              action: more-info
+            # color: gray
+      - type: heading ### Reduced Charging ###
+        # icon: mdi:cable-data
+        heading: Reduced Charging
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: switch.passat_gte_reduced_ac_charging
+            tap_action:
+              action: more-info
+            # color: gray
+
+  - type: grid ### Location History ###
+    cards:
+      - type: heading
+        icon: "mdi:clipboard-text-clock-outline"
+        heading: Location History
+        heading_style: title
+
+      - type: heading ### Last Trip ###
+        icon: mdi:map-marker-distance
+        heading: Last Trip
+        heading_style: subtitle
+        badges:
+          # color: orange
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_duration
+            tap_action:
+              action: more-info
+            color: green
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_length
+            tap_action:
+              action: more-info
+            color: blue
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_average_speed
+            tap_action:
+              action: more-info
+            color: red
+      - type: heading ### Last Consumption ###
+        heading: Last Consumption
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_average_electric_engine_consumption
+            tap_action:
+              action: more-info
+            # color: orange
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_average_fuel_consumption
+            tap_action:
+              action: more-info
+            # color: orange
+      - type: heading ### Parking Started ###
+        heading: Parking Started
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_parking_time
+            tap_action:
+              action: more-info
+            # color: orange
+      - type: map
+        # aspect_ratio: 16:9
+        default_zoom: 16
+        auto_fit: true
+        entities:
+          # - device_tracker.passat_gte_position
+          - device_tracker.passat_gte_last_position
+          - zone.home
+          - zone.work

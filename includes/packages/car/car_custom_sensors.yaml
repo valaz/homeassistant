@@ -1,0 +1,96 @@
+car_custom_sensors:
+  homeassistant:
+    customize:
+      device_tracker.passat_gte_position:
+        entity_picture: /local/passat_gte/vw.jpg
+      switch.passat_gte_window_heater:
+        icon: mdi:car-defrost-front
+      sensor.c_passat_gte_odometer:
+        icon: mdi:counter
+      device_tracker.passat_gte_last_position:
+        friendly_name: "Passat GTE Last Position"
+        entity_picture: /local/passat_gte/vw.jpg
+        icon: mdi:car
+
+  template:
+    - binary_sensor:
+        - name: "Passat GTE Doors Closed"
+          unique_id: c_passat_gte_doors_closed
+          state: >
+            {{ is_state('binary_sensor.passat_gte_door_closed_left_back', 'on') or
+               is_state('binary_sensor.passat_gte_door_closed_left_front', 'on') or
+               is_state('binary_sensor.passat_gte_door_closed_right_back', 'on') or
+               is_state('binary_sensor.passat_gte_door_closed_right_front', 'on') }}
+          device_class: door
+
+    - sensor:
+        - name: "Passat GTE Odometer Saved"
+          unique_id: c_passat_gte_odometer
+          unit_of_measurement: "km"
+          state: >
+            {% set new_value = states('sensor.passat_gte_odometer') | float(0) %}
+            {% set saved_value = states('sensor.c_passat_gte_odometer') | float(0) %}
+
+            {% if states('sensor.passat_gte_odometer') not in ['unknown', 'unavailable', 'none'] and new_value > saved_value %}
+              {{ new_value }}
+            {% else %}
+              {{ saved_value }}
+            {% endif %}
+
+    - sensor:
+        - name: "Passat GTE Last Latitude"
+          unique_id: passat_gte_last_latitude
+          state: >
+            {% if states.device_tracker.passat_gte_position.attributes.latitude is defined %}
+              {{ states.device_tracker.passat_gte_position.attributes.latitude }}
+            {% else %}
+              {{ states('sensor.passat_gte_last_latitude') }}
+            {% endif %}
+          unit_of_measurement: "°"
+
+        - name: "Passat GTE Last Longitude"
+          unique_id: passat_gte_last_longitude
+          state: >
+            {% if states.device_tracker.passat_gte_position.attributes.longitude is defined %}
+              {{ states.device_tracker.passat_gte_position.attributes.longitude }}
+            {% else %}
+              {{ states('sensor.passat_gte_last_longitude') }}
+            {% endif %}
+          unit_of_measurement: "°"
+
+  automation:
+    - alias: "[Car] Update Passat GTE Last Position"
+      mode: queued
+      trigger:
+        - platform: state
+          entity_id: device_tracker.passat_gte_position
+      condition:
+        - condition: template
+          value_template: "{{ states.device_tracker.passat_gte_position.state not in ['unknown', 'unavailable', 'none'] }}"
+      action:
+        - service: mqtt.publish
+          data:
+            topic: "homeassistant/device_tracker/passat_gte_last_position"
+            payload: >
+              {
+                "latitude": {{ states.device_tracker.passat_gte_position.attributes.latitude }},
+                "longitude": {{ states.device_tracker.passat_gte_position.attributes.longitude }},
+                "source_type": "gps"
+              }
+            retain: true
+
+  mqtt:
+    - device_tracker:
+        - name: "Passat GTE Last Position"
+          json_attributes_topic: "homeassistant/device_tracker/passat_gte_last_position"
+# sensor:
+#   - platform: template
+#     sensors:
+#       passat_gte_last_trip_total_electric_consumption:
+#         value_template: >-
+#           {{ (   states('sensor.passat_gte_last_trip_average_electric_engine_consumption') | float
+#                + states('sensor.passat_gte_last_trip_average_auxillary_consumer_consumption') | float
+#                - states('sensor.passat_gte_last_trip_average_recuperation') | float
+#              ) | round(1) }}
+#         unit_of_measurement: "kWh/100km"
+#         friendly_name: "passat_gte Last trip total electric consumption"
