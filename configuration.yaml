@@ -1,7 +1,7 @@
 homeassistant:
   name: Tegel Home
-  latitude: !secret latitude_coord
-  longitude: !secret longitude_coord
+  latitude: !secret home_latitude_coord
+  longitude: !secret home_longitude_coord
   unit_system: metric
   time_zone: Europe/Berlin
   customize: !include customize.yaml
