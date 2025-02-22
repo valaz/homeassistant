@@ -51,6 +51,7 @@ bedroom_climate:
     c_bedroom_fan_heater_timeout:
       name: Fan Heater Timeout
       options:
+        - 1
         - 5
         - 10
         - 15
@@ -142,7 +143,7 @@ bedroom_climate:
                   target:
                     entity_id: input_select.c_bedroom_fan_heater_timeout
                   data:
-                    option: "20"
+                    option: "15"
             - conditions:
                 - condition: numeric_state
                   entity_id: sensor.c_bedroom_temperature
@@ -153,7 +154,7 @@ bedroom_climate:
                   target:
                     entity_id: input_select.c_bedroom_fan_heater_timeout
                   data:
-                    option: "15"
+                    option: "10"
             - conditions:
                 - condition: numeric_state
                   entity_id: sensor.c_bedroom_temperature
@@ -164,7 +165,7 @@ bedroom_climate:
                   target:
                     entity_id: input_select.c_bedroom_fan_heater_timeout
                   data:
-                    option: "10"
+                    option: "5"
             - conditions:
                 - condition: numeric_state
                   entity_id: sensor.c_bedroom_temperature
@@ -174,7 +175,7 @@ bedroom_climate:
                   target:
                     entity_id: input_select.c_bedroom_fan_heater_timeout
                   data:
-                    option: "5"
+                    option: "1"
           default: []
 
   automation:
@@ -317,6 +318,9 @@ bedroom_climate:
         - condition: state
           entity_id: switch.c_bedroom_fan_heater
           state: "off"
+        - condition: numeric_state
+          entity_id: sensor.c_bedroom_temperature
+          below: 20
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
           state: "recuperator"
