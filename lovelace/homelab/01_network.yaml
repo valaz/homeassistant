@@ -309,26 +309,6 @@ sections:
             tap_action:
               action: more-info
 
-      - type: heading
-        heading: "/mnt/xs1000"
-        heading_style: subtitle
-        # icon: mdi:harddisk
-        badges:
-          - type: entity
-            entity: sensor.localhost_mnt_xs1000_disk_used
-            icon: mdi:harddisk-remove
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.localhost_mnt_xs1000_disk_free
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.localhost_mnt_xs1000_disk_usage
-            icon: mdi:chart-pie
-            tap_action:
-              action: more-info
-
   - type: grid ###   Docker Overview    ###
     cards:
       - type: heading

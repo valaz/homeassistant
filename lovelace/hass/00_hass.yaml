@@ -211,15 +211,15 @@ sections:
                 color: rgb(127, 186, 192)
                 fill: rgba(217, 240, 235, 0.5)
 
-      - entity: sensor.glances_used_percent
+      - entity: sensor.localhost_disk_usage
         type: custom:multiple-entity-row
         name: "/"
         state_color: true
         state_header: "%"
         entities:
-          - entity: sensor.glances_used
+          - entity: sensor.localhost_disk_used
             name: "used"
-          - entity: sensor.glances_free
+          - entity: sensor.localhost_disk_free
             name: "free"
 
       - entity: sensor.localhost_mnt_wdy_disk_usage
@@ -231,17 +231,6 @@ sections:
           - entity: sensor.localhost_mnt_wdy_disk_used
             name: "used"
           - entity: sensor.localhost_mnt_wdy_disk_free
-            name: "free"
-
-      - entity: sensor.localhost_mnt_xs1000_disk_usage
-        type: custom:multiple-entity-row
-        name: "/mnt/xs1000"
-        state_color: true
-        state_header: "%"
-        entities:
-          - entity: sensor.localhost_mnt_xs1000_disk_used
-            name: "used"
-          - entity: sensor.localhost_mnt_xs1000_disk_free
             name: "free"
 
   - type: grid ###   Objects    ###
