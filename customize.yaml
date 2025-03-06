@@ -65,6 +65,9 @@ sensor.private_ble_device_2e2b6b_estimated_distance:
 sensor.private_ble_device_ee532a_estimated_distance:
   friendly_name: "BLE Apple Watch U2"
   icon: mdi:watch-import-variant
+sensor.private_ble_device_7b8953_estimated_distance:
+  friendly_name: "BLE iPhone 16 Pro Max"
+  icon: mdi:cellphone-wireless
 
 switch.bedroom_monitor_plug:
   friendly_name: "Монитор"
