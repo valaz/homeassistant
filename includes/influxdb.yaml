@@ -1,10 +1,10 @@
 api_version: 2
 ssl: true
-host: !secret oci_influxdb_url
+host: !secret ultron_influxdb_url
 port: 443
-token: !secret oci_influxdb_token
-organization: !secret oci_influxdb_org
-bucket: !secret oci_influxdb_bucket
+token: !secret ultron_influxdb_token
+organization: !secret ultron_influxdb_org
+bucket: !secret ultron_influxdb_bucket
 default_measurement: state
 include:
   entities:
@@ -23,6 +23,7 @@ include:
     - sensor.*battery*
     - sensor.*power*
     - sensor.*energy*
+    - sensor.*passat_gte*
     - switch.*_plug
     - light.*
     - cover.*
@@ -85,6 +86,18 @@ component_config_glob:
     override_measurement: fan
   update.*:
     override_measurement: update
+  binary_sensor.*passat_gte*:
+    override_measurement: car
+  device_tracker.*passat_gte*:
+    override_measurement: car
+  lock.*passat_gte*:
+    override_measurement: car
+  number.*passat_gte*:
+    override_measurement: car
+  sensor.*passat_gte*:
+    override_measurement: car
+  switch.*passat_gte*:
+    override_measurement: car
 tags:
   source: HA
   host: hulk
