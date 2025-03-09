@@ -29,8 +29,8 @@ smart_leave:
         condition: and
         conditions:
           - condition: state
-            entity_id: binary_sensor.azat_at_home
-            state: "on"
+            entity_id: person.azat
+            state: "home"
           - condition: state
             entity_id: binary_sensor.c_bedroom_closet_usage
             state: "on"
