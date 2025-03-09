@@ -91,6 +91,23 @@ sections:
           numeric: true
         show_empty: true
 
+  - type: grid ###   Alerts    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Alerts
+        icon: mdi:alert
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "alert.*"
+              sort:
+                method: name
+
   - type: grid ###   Uptime    ###
     cards:
       - type: heading
