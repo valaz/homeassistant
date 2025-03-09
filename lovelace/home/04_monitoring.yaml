@@ -42,6 +42,8 @@ sections:
               value: "sensor.ipad_*"
             - name: "entity_id"
               value: "sensor.iphone_*"
+            - name: "entity_id"
+              value: "sensor.*passat_gte_*"
         sort:
           by: "state"
         collapse: 4
@@ -82,6 +84,8 @@ sections:
             - entity_id: "sensor.glances_*"
             - entity_id: "*processor_temperature*"
             - name: "*Glances*"
+            - entity_id: "*passat_gte*"
+            - entity_id: "*localhost*"
         sort:
           method: name
           numeric: true
