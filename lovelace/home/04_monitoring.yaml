@@ -138,8 +138,7 @@ sections:
           show_header_toggle: false
         filter:
           include:
-            - attributes:
-                device_class: distance
+            - entity_id: "sensor.private_ble_device_*_estimated_distance"
         sort:
           method: state
           numeric: true
