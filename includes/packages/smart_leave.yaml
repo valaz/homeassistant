@@ -1,41 +1,41 @@
-smart_leave:
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_bedroom_closet_usage:
-          friendly_name: "Bedroom Closet Usage"
-          device_class: motion
-          value_template: >-
-            {{states('binary_sensor.bedroom_closet_motion_sensor_occupancy') == 'on'}}
-          delay_off:
-            minutes: 5
+# smart_leave:
+#   binary_sensor:
+#     - platform: template
+#       sensors:
+#         c_bedroom_closet_usage:
+#           friendly_name: "Bedroom Closet Usage"
+#           device_class: motion
+#           value_template: >-
+#             {{states('binary_sensor.bedroom_closet_motion_sensor_occupancy') == 'on'}}
+#           delay_off:
+#             minutes: 5
 
-  template:
-    binary_sensor:
-      - name: "Wardrobe Usage"
-        unique_id: "wardrobe_usage"
-        state: "{{states('binary_sensor.bedroom_closet_motion_sensor_occupancy') == 'on'}}"
-        delay_off:
-          minutes: 5
-        device_class: motion
+#   template:
+#     binary_sensor:
+#       - name: "Wardrobe Usage"
+#         unique_id: "wardrobe_usage"
+#         state: "{{states('binary_sensor.bedroom_closet_motion_sensor_occupancy') == 'on'}}"
+#         delay_off:
+#           minutes: 5
+#         device_class: motion
 
-  automation:
-    - alias: "[Smart Leave] Check Azat for keys"
-      trigger:
-        - platform: state
-          entity_id: binary_sensor.hallway_door_sensor_contact
-          to: "on"
-      condition:
-        condition: and
-        conditions:
-          - condition: state
-            entity_id: person.azat
-            state: "home"
-          - condition: state
-            entity_id: binary_sensor.c_bedroom_closet_usage
-            state: "on"
-      action:
-        - delay: "00:00:01"
-        - service: script.turn_on
-          target:
-            entity_id: script.1679826687505
+#   automation:
+#     - alias: "[People] Check Azat for keys"
+#       trigger:
+#         - platform: state
+#           entity_id: binary_sensor.hallway_door_sensor_contact
+#           to: "on"
+#       condition:
+#         condition: and
+#         conditions:
+#           - condition: state
+#             entity_id: person.azat
+#             state: "home"
+#           - condition: state
+#             entity_id: binary_sensor.c_bedroom_closet_usage
+#             state: "on"
+#       action:
+#         - delay: "00:00:01"
+#         - service: script.turn_on
+#           target:
+#             entity_id: script.1679826687505
