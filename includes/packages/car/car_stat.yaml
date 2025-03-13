@@ -1,0 +1,38 @@
+car_stat:
+  automation:
+    - alias: "[Car] Report Last Trip info"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.passat_gte_vehicle_moving
+          to: "off"
+          for: "02:00:00"
+      action:
+        - service: notify.tg_car_chat
+          data:
+            title: 🚙📊 Последняя поездка
+            message: |
+              Время: {{ as_timestamp(states('sensor.passat_gte_parking_time')) | timestamp_custom('%d %b %Y, %H:%M', true) }}
+              Расстояние: {{ states('sensor.passat_gte_last_trip_length') }} км
+              Продолжительность: {{ states('sensor.passat_gte_last_trip_duration') }} мин
+              Средння скорость: {{ states('sensor.passat_gte_last_trip_average_speed') }} км/ч
+              Расход батареи: {{ states('sensor.passat_gte_last_trip_average_electric_engine_consumption') }} кВтч/100 km
+              Расход бензина: {{ states('sensor.passat_gte_last_trip_average_fuel_consumption') }} л/100 км
+              Текущий пробег: {{ states('sensor.passat_gte_odometer') }} км
+
+    - alias: "[Car] Reload Integration"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.passat_gte_odometer
+          to: "unavailable"
+          for: "01:00:00"
+      action:
+        - service: homeassistant.reload_config_entry
+          target:
+            entity_id: sensor.passat_gte_odometer
+        - service: notify.tg_car_chat
+          data:
+            title: 🚙🔃 Перезагрузка интеграции
