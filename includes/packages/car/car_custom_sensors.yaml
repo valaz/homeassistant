@@ -17,10 +17,10 @@ car_custom_sensors:
         - name: "Passat GTE Doors closed"
           unique_id: c_passat_gte_doors_closed
           state: >
-            {{ is_state('binary_sensor.passat_gte_door_closed_left_back', 'on') or
-               is_state('binary_sensor.passat_gte_door_closed_left_front', 'on') or
-               is_state('binary_sensor.passat_gte_door_closed_right_back', 'on') or
-               is_state('binary_sensor.passat_gte_door_closed_right_front', 'on') }}
+            {{ is_state('binary_sensor.passat_gte_door_closed_left_back', 'on')
+            or is_state('binary_sensor.passat_gte_door_closed_left_front', 'on') 
+            or is_state('binary_sensor.passat_gte_door_closed_right_back', 'on') 
+            or is_state('binary_sensor.passat_gte_door_closed_right_front', 'on') }}
           device_class: door
 
     - sensor:
@@ -31,8 +31,7 @@ car_custom_sensors:
           state: >
             {% set new_value = states('sensor.passat_gte_odometer') | float(0) %}
             {% set saved_value = states('sensor.c_passat_gte_odometer') | float(0) %}
-
-            {% if states('sensor.passat_gte_odometer') not in ['unknown', 'unavailable', 'none'] and new_value >= saved_value %}
+            {% if states('sensor.passat_gte_odometer') not in ['unknown', 'unavailable', 'none'] and new_value > saved_value %}
               {{ new_value }}
             {% else %}
               {{ saved_value }}
