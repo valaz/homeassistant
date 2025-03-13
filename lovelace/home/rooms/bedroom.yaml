@@ -73,7 +73,7 @@ sections:
         heading_style: title
         icon: mdi:lightbulb-outline
       - type: tile
-        entity: switch.bedroom_light_switch
+        entity: light.c_bedroom
         name: Люстра
       - type: tile
         entity: switch.bedroom_monitor_plug

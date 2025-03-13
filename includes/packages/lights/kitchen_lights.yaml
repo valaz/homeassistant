@@ -1,4 +1,21 @@
 kitchen_lights:
+  
+  light:
+    - platform: template
+      lights:
+        c_kitchen:
+          friendly_name: "[Kitchen] Light"
+          value_template: "{{ is_state('switch.kitchen_light_switch_right', 'on') }}"
+          icon_template: mdi:globe-light
+          turn_on:
+            - service: switch.turn_on
+              data:
+                entity_id: switch.kitchen_light_switch_right
+          turn_off:
+            - service: switch.turn_off
+              data:
+                entity_id: switch.kitchen_light_switch_right
+
   automation:
     - alias: "[Kitchen Lights] Toggle Main Light"
       mode: restart

@@ -32,7 +32,7 @@ sections:
               action: more-info
 
       - type: tile
-        entity: switch.bedroom_light_switch
+        entity: light.c_bedroom
         name: Люстра
       - type: tile
         entity: switch.bedroom_monitor_plug
@@ -195,7 +195,7 @@ sections:
             tap_action:
               action: more-info
       - type: tile
-        entity: switch.kidsroom_light_switch
+        entity: light.c_kidsroom
         name: Люстра
       - type: tile
         entity: switch.c_kidsroom_sleep_mode
@@ -227,7 +227,7 @@ sections:
             tap_action:
               action: more-info
       - type: tile
-        entity: switch.kitchen_light_switch_right
+        entity: light.c_kitchen
         name: Люстра
       - type: tile
         entity: switch.kitchen_sink_plug

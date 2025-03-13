@@ -70,14 +70,8 @@ sensor.private_ble_device_7b8953_estimated_distance:
   icon: mdi:cellphone-wireless
 
 switch.bedroom_monitor_plug:
-  friendly_name: "Монитор"
+  friendly_name: "Bedroom Monitor Plug"
   icon: mdi:monitor
-light.yeelight_lamp15_0x1c03268c:
-  friendly_name: "Лампа для монитора"
-  icon: mdi:desk-lamp
-light.yeelight_lamp15_0x1c03268c_ambilight:
-  friendly_name: "Подсветка для монитора"
-  icon: mdi:television-ambient-light
 
 binary_sensor.bathroom_presence_sensor_occupancy:
   icon: mdi:motion-sensor

@@ -1,4 +1,29 @@
 bedroom_lights:
+  homeassistant:
+    customize:
+      light.yeelight_lamp15_0x1c03268c:
+        friendly_name: "[Bedroom] Monitor Lamp"
+        icon: mdi:desk-lamp
+      light.yeelight_lamp15_0x1c03268c_ambilight:
+        friendly_name: "[Bedroom] Monitor Ambilight"
+        icon: mdi:television-ambient-light
+
+  light:
+    - platform: template
+      lights:
+        c_bedroom:
+          friendly_name: "[Bedroom] Light"
+          value_template: "{{ is_state('switch.bedroom_light_switch', 'on') }}"
+          icon_template: mdi:light-recessed
+          turn_on:
+            - service: switch.turn_on
+              data:
+                entity_id: switch.bedroom_light_switch
+          turn_off:
+            - service: switch.turn_off
+              data:
+                entity_id: switch.bedroom_light_switch
+
   binary_sensor:
     - platform: template
       sensors:

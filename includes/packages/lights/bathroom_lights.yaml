@@ -117,7 +117,7 @@ bathroom_lights:
     - platform: template
       lights:
         c_bathroom:
-          friendly_name: "Bathroom Light"
+          friendly_name: "[Bathroom] Light"
           value_template: "{{ is_state('switch.bathroom_light_switch', 'on') and is_state('light.bathroom_lamp', 'on') }}"
           level_template: "{{ state_attr('light.bathroom_lamp', 'brightness') }}"
           temperature_template: "{{ state_attr('light.bathroom_lamp', 'color_temp') }}"
