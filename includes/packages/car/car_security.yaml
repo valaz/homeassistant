@@ -1,0 +1,38 @@
+car_security:
+  alert:
+    car_left_unprotected:
+      name: "Автомобиль оставлен открытым"
+      message: "⚠️🔓🚙 Автомобиль оставлен открытым"
+      done_message: "✅🔐🚙 Автомобиль теперь в безопасности"
+      entity_id: binary_sensor.c_passat_gte_left_unprotected
+      state: "on"
+      repeat: 2
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - tg_car_chat
+        - mobile_app_iphone_15_az
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_passat_gte_unprotected:
+          friendly_name: "Passt GTE Unprotected"
+          icon_template: mdi:gpp_good
+          device_class: safety
+          value_template: >-
+            {{ is_state('lock.passat_gte_door_locked', 'unlocked')
+                or is_state('lock.passat_gte_trunk_locked', 'unlocked')
+                or is_state('binary_sensor.c_passat_gte_doors_closed', 'on')
+                or is_state('binary_sensor.passat_gte_trunk_closed', 'on')
+                or is_state('binary_sensor.passat_gte_windows_closed', 'on')
+                or is_state('binary_sensor.passat_gte_sunroof_closed', 'on')
+                or is_state('binary_sensor.passat_gte_hood_closed', 'on')
+            }}
+        c_passat_gte_left_unprotected:
+          friendly_name: "Passt GTE left unprotected"
+          device_class: problem
+          value_template: >-
+            {{ is_state('binary_sensor.passat_gte_vehicle_moving', 'off')
+                and is_state('binary_sensor.c_passat_gte_unprotected', 'on') 
+            }}
