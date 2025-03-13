@@ -540,6 +540,55 @@ sections:
                   exclude:
                     - state: "off"
 
+  - type: grid ###   System    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: People and Car
+        icon: mdi:account-multiple
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: People
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*People]*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Car
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Car]*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
   - type: grid ###   Other    ###
     cards:
       - type: heading
@@ -579,6 +628,8 @@ sections:
             - name: "*SMS*"
             - name: "*Telegram*"
             - name: "*System]*"
+            - name: "*People]*"
+            - name: "*Car]*"
 
       - type: heading
         heading: Disabled Automations
