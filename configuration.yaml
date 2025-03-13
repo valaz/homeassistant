@@ -137,8 +137,12 @@ telegram_bot:
     api_key: !secret telegram_bot_api_key
     allowed_chat_ids:
       - !secret tg_valaz_id
+      - !secret tg_car_chat_id
 
 notify:
   - name: tg_valaz
     platform: telegram
     chat_id: !secret tg_valaz_id
+  - name: tg_car_chat
+    platform: telegram
+    chat_id: !secret tg_car_chat_id
