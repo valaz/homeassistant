@@ -174,7 +174,7 @@ sections:
         entity: input_number.zones_clean_repeats
         name: Repeats
         color: blue
-        vertical: false
+        vertical: true
         features:
           - type: "numeric-input"
             style: "buttons"
@@ -190,7 +190,7 @@ sections:
         entity: script.roborock_start_zone_cleaning
         name: Start
         color: green
-        vertical: false
+        vertical: true
         tap_action:
           action: toggle
 
