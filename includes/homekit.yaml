@@ -37,9 +37,6 @@
       - vacuum
     include_entities:
       - sensor.c_bedroom_pm25_density
-      - switch.bedroom_light_switch
-      - switch.kidsroom_light_switch
-      - switch.kitchen_light_switch_right
       - binary_sensor.c_bedroom_closet_usage
       - binary_sensor.kitchen_motion_sensor_occupancy
       - sensor.kitchen_motion_sensor_illuminance_lux
@@ -77,6 +74,12 @@
       name: "Люстра"
     light.livingroom:
       name: "Люстра"
+    light.c_bedroom:
+      name: "Люстра"
+    light.c_kidsroom:
+      name: "Люстра"
+    light.c_kitchen:
+      name: "Люстра"
     light.yeelight_lamp15_0x1c03268c:
       name: "Лампа для мониора"
     light.yeelight_lamp15_0x1c03268c_ambilight:
@@ -95,6 +98,8 @@
       name: "Температура"
     sensor.c_livingroom_temperature:
       name: "Температура"
+    sensor.c_kitchen_temperature:
+      name: "Температура"
     sensor.c_bedroom_humidity:
       name: "Влажность"
     sensor.c_kidsroom_humidity:
@@ -103,16 +108,12 @@
       name: "Влажность"
     sensor.c_livingroom_humidity:
       name: "Влажность"
+    sensor.c_kitchen_humidity:
+      name: "Влажность"
     sensor.c_bedroom_pm25_density:
       name: "pm2.5"
-    switch.bedroom_light_switch:
-      name: "Люстра"
     switch.bedroom_monitor_plug:
       name: "Монитор"
-    switch.kidsroom_light_switch:
-      name: "Люстра"
-    switch.kitchen_light_switch_right:
-      name: "Люстра"
     switch.kitchen_sink_plug:
       name: "Раковина"
     binary_sensor.c_bedroom_closet_usage:
@@ -147,6 +148,8 @@
       name: "Рекуператор"
     switch.bedroom_charging_dock_plug:
       name: "Зарядка"
+    switch.kitchen_boiler_plug:
+      name: "Самовар"
     scene.tv_gaming:
       name: "Игровой режим"
     scene.movies:
