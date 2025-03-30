@@ -1,0 +1,74 @@
+car_charging:
+  automation:
+    - alias: "[Car] Notify about electric charge progress"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 19
+          below: 40
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 39
+          below: 60
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 59
+          below: 80
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 79
+          below: 100
+      condition:
+        - condition: state
+          entity_id: binary_sensor.passat_gte_external_power
+          state: "on"
+        - condition: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          below: 100
+      action:
+        - service: notify.tg_car_chat
+          data:
+            message: |
+              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}%
+              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин.
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}%.
+              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин.
+
+    - alias: "[Car] Notify when battery is fully charged"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 99
+      action:
+        - service: notify.tg_car_chat
+          data:
+            message: |
+              🚙🔋 Авто полностью заряжен ({{ states('sensor.passat_gte_battery_level') }}%).
+              Запас хода на батарее: {{ states('sensor.passat_gte_electric_range') }} км.
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              🚙🔋 Авто полностью заряжен ({{ states('sensor.passat_gte_battery_level') }}%).
+              Запас хода на батарее: {{ states('sensor.passat_gte_electric_range') }} км.
+
+    - alias: "[Car] Notify on full fuel refill"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_fuel_level
+          above: 98
+      action:
+        - service: notify.tg_car_chat
+          data:
+            message: |
+              🚙⛽ Авто запрвлен на {{ states('sensor.passat_gte_fuel_level') }}%.
+              Пробег: {{ states('sensor.passat_gte_odometer') }} км.
+              Запас хода на бензине: {{ states('sensor.passat_gte_fuel_range') }} км
