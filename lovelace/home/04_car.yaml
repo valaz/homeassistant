@@ -164,7 +164,7 @@ sections:
             show_icon: true
             entity: sensor.passat_gte_fuel_range
             color: blue
-            icon: mdi:map-marker-distance
+            icon: mdi:arrow-left-right
             tap_action:
               action: more-info
       - type: heading ### Electric Range ###
@@ -184,7 +184,7 @@ sections:
             show_icon: true
             entity: sensor.passat_gte_electric_range
             color: blue
-            icon: mdi:map-marker-distance
+            icon: mdi:arrow-left-right
             tap_action:
               action: more-info
       - type: heading ### Parling Lights ###
@@ -293,7 +293,7 @@ sections:
             tap_action:
               action: more-info
             color: blue
-            icon: mdi:map-marker-distance
+            icon: mdi:arrow-left-right
       - type: heading ### Oil Change ###
         icon: mdi:oil
         heading: Oil Change
@@ -314,7 +314,7 @@ sections:
             tap_action:
               action: more-info
             color: blue
-            icon: mdi:map-marker-distance
+            icon: mdi:arrow-left-right
 
   - type: grid ### Remote Climate ###
     cards:
