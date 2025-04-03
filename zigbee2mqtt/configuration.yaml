@@ -6,13 +6,12 @@ mqtt:
 serial:
   port: >-
     /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c01ed14910b6ed11a16bd40ea8669f5d-if00-port0
+  adapter: zstack
 frontend:
   port: 8099
 devices:
   '0x00158d000586695c':
     friendly_name: Bathroom Air Sensor
-  '0x00158d0006ed6b85':
-    friendly_name: Kidsroom Air Sensor
   '0x00158d0006bed661':
     friendly_name: Bathroom Motion Sensor
   '0x00158d00054cd813':
@@ -88,6 +87,8 @@ devices:
     friendly_name: Bathroom Window Sensor
   '0x00158d0005800735':
     friendly_name: Kitchen Air Sensor
+  '0x00158d0006ed6b85':
+    friendly_name: Kidsroom Air Sensor
 advanced:
   log_level: info
   log_syslog:
