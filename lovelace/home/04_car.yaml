@@ -24,7 +24,7 @@ sections:
           - type: entity
             show_state: true
             show_icon: true
-            entity: sensor.c_passat_gte_odometer
+            entity: sensor.passat_gte_odometer
             tap_action:
               action: more-info
             color: blue
@@ -135,6 +135,8 @@ sections:
             show_state: true
             show_icon: true
             entity: sensor.passat_gte_last_data_refresh
+            tap_action:
+              action: more-info
             # color: orange
           - type: entity
             show_state: true

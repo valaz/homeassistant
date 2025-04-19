@@ -20,6 +20,8 @@ car_stat:
               Расход батареи: {{ states('sensor.passat_gte_last_trip_average_electric_engine_consumption') }} кВтч/100 km
               Расход бензина: {{ states('sensor.passat_gte_last_trip_average_fuel_consumption') }} л/100 км
               Текущий пробег: {{ states('sensor.passat_gte_odometer') }} км
+              ⛽ Топливо: {{ states('sensor.passat_gte_fuel_level') }}% ({{ states('sensor.passat_gte_fuel_range') }} км)
+              🔋 Батарея: {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
 
     - alias: "[Car] Reload Integration"
       mode: restart
@@ -28,7 +30,7 @@ car_stat:
         - platform: state
           entity_id: sensor.passat_gte_odometer
           to: "unavailable"
-          for: "01:00:00"
+          for: "00:10:00"
       action:
         - service: homeassistant.reload_config_entry
           target:

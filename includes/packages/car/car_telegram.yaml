@@ -1,0 +1,125 @@
+car_telegram:
+  script:
+    tg_car_report:
+      alias: "[Car Telegram] Send Report"
+      icon: mdi:information-box
+      sequence:
+        - service: notify.tg_car_chat
+          data:
+            title: 🚙ℹ️ Статус Автомобиля
+            message: |
+              Текущее Время: {{ states('sensor.time') }}
+              Пробег: {{ states('sensor.passat_gte_odometer') }} км
+              Топливо: {{ states('sensor.passat_gte_fuel_level') }}% ({{ states('sensor.passat_gte_fuel_range') }} км)
+              Батарея: {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
+              Последнее обновление: {{ as_timestamp(states('sensor.passat_gte_last_data_refresh')) | timestamp_custom('%d %b %Y, %H:%M', true) }}
+
+    tg_car_charging_status:
+      alias: "[Car Telegram] Charging status"
+      icon: mdi:information-box
+      sequence:
+        - service: notify.tg_car_chat
+          data:
+            title: 🚙ℹ🔌 Статус Зарядки Автомобиля
+            message: |
+              Текущее Время: {{ states('sensor.time') }}
+              Внешнее питание: {{ states('binary_sensor.passat_gte_external_power') }}
+              Зарядка: {{ states('switch.passat_gte_charging') }}
+              Уровень заряда: {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
+              Оставшееся время: {{ states('sensor.passat_gte_charging_time_left') }} мин.
+              Медленная зарядка: {{ states('switch.passat_gte_reduced_ac_charging') }}
+              Последнее обновление: {{ as_timestamp(states('sensor.passat_gte_last_data_refresh')) | timestamp_custom('%d %b %Y, %H:%M', true) }}
+
+  automation:
+    - alias: "[Car Telegram] Get Commands"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_start"
+      action:
+        - service: notify.tg_car_chat
+          data:
+            message: "commands"
+            data:
+              keyboard:
+                - "/car_report, /car_refresh"
+                - "/charging_status"
+                - "/fast_charge, /slow_charge"
+
+    - alias: "[Car Telegram] Report"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_report"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_car_report
+
+    - alias: "[Car Telegram] Data Refresh"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_refresh"
+      actions:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.passat_gte_force_data_refresh
+
+    - alias: "[Car Telegram] Charging Status"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/charging_status"
+        - platform: state
+          entity_id: binary_sensor.passat_gte_external_power
+          from: "off"
+          to: "on"
+        - platform: state
+          entity_id: binary_sensor.passat_gte_external_power
+          from: "on"
+          to: "off"
+        - platform: state
+          entity_id: switch.passat_gte_reduced_ac_charging
+          from: "off"
+          to: "on"
+        - platform: state
+          entity_id: switch.passat_gte_reduced_ac_charging
+          from: "on"
+          to: "off"
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.tg_car_charging_status
+
+    - alias: "[Car Telegram] Fast Charge"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/fast_charge"
+      actions:
+        - action: switch.turn_off
+          target:
+            entity_id: switch.passat_gte_reduced_ac_charging
+
+    - alias: "[Car Telegram] Slow Charge"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/slow_charge"
+      actions:
+        - action: switch.turn_on
+          target:
+            entity_id: switch.passat_gte_reduced_ac_charging
