@@ -1,4 +1,9 @@
 car_stat:
+  timer:
+    car_integration_check:
+      name: "Проверка VW интеграции"
+      duration: "00:30:00"
+
   automation:
     - alias: "[Car] Report Last Trip info"
       mode: restart
@@ -31,10 +36,26 @@ car_stat:
           entity_id: sensor.passat_gte_odometer
           to: "unavailable"
           for: "00:10:00"
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.car_integration_check
+      conditions:
+        - condition: state
+          entity_id: sensor.passat_gte_odometer
+          state: "unavailable"
       action:
-        - service: homeassistant.reload_config_entry
-          target:
-            entity_id: sensor.passat_gte_odometer
         - service: notify.tg_car_chat
           data:
             title: 🚙🔃 Перезагрузка интеграции
+            message: |
+              Текущее Время: {{ states('sensor.time') }}
+        - service: homeassistant.reload_config_entry
+          target:
+            entity_id: sensor.passat_gte_odometer
+        - service: timer.cancel
+          target:
+            entity_id: timer.car_integration_check
+        - service: timer.start
+          target:
+            entity_id: timer.car_integration_check

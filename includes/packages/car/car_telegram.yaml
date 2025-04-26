@@ -45,7 +45,7 @@ car_telegram:
             data:
               keyboard:
                 - "/car_report, /car_refresh"
-                - "/charging_status"
+                - "/car_reload, /charging_status"
                 - "/fast_charge, /slow_charge"
 
     - alias: "[Car Telegram] Report"
@@ -71,6 +71,18 @@ car_telegram:
         - action: switch.turn_on
           target:
             entity_id: switch.passat_gte_force_data_refresh
+
+    - alias: "[Car Telegram] Integration Reload"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_reload"
+      actions:
+        - service: homeassistant.reload_config_entry
+          target:
+            entity_id: sensor.passat_gte_odometer
 
     - alias: "[Car Telegram] Charging Status"
       initial_state: true
