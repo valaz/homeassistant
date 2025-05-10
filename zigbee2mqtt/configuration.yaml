@@ -89,6 +89,9 @@ devices:
     friendly_name: Kitchen Air Sensor
   '0x00158d0006ed6b85':
     friendly_name: Kidsroom Air Sensor
+  '0xa4c138baa7383aae':
+    friendly_name: Bedroom Monitor Lamp
+    state_action: true
 advanced:
   log_level: info
   log_syslog:

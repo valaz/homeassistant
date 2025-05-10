@@ -110,7 +110,7 @@ sections:
         icon_color: blue
         primary_info: name
         secondary_info: last-changed
-        
+
       - type: custom:mushroom-select-card
         entity: input_select.c_bedroom_fan_heater_timeout
         icon_color: red
@@ -145,4 +145,8 @@ sections:
       - type: tile
         entity: switch.bedroom_charging_dock_plug
         name: Зарядка
+        fill_container: true
+      - type: tile
+        entity: switch.bedroom_monitor_lamp
+        name: Лампа для монитора
         fill_container: true
