@@ -82,7 +82,7 @@ hallway_tedee_lock:
           target:
             entity_id: lock.main_door
 
-    - alias: "[Main Door Lock] Ask to Unlock"
+    - alias: "[Main Door Lock] Auto Unlock for Azat"
       mode: restart
       initial_state: true
       trigger:
@@ -91,6 +91,9 @@ hallway_tedee_lock:
           from: "not_home"
           to: "home"
       condition:
+        - condition: time
+          after: "08:00:00"
+          before: "22:00:00"
         - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
