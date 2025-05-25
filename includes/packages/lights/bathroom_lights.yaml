@@ -162,12 +162,12 @@ bathroom_lights:
           entity_id: binary_sensor.bathroom_motion_sensor_occupancy
           to: "on"
         - platform: state
-          entity_id: sensor.bathroom_motion_sensor_illuminance_lux
+          entity_id: sensor.bathroom_motion_sensor_illuminance
       condition:
         - condition: or
           conditions:
             - condition: numeric_state
-              entity_id: sensor.bathroom_motion_sensor_illuminance_lux
+              entity_id: sensor.bathroom_motion_sensor_illuminance
               below: 50
             - condition: numeric_state
               entity_id: sensor.c_sun_elevation

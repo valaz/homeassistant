@@ -282,7 +282,7 @@ sections:
         heading_style: subtitle
         badges:
           - type: entity
-            entity: sensor.bathroom_motion_sensor_illuminance_lux
+            entity: sensor.bathroom_motion_sensor_illuminance
             color: yellow
             tap_action:
               action: more-info
