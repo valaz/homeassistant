@@ -19,6 +19,14 @@ car_charging:
         - platform: numeric_state
           entity_id: sensor.passat_gte_battery_level
           above: 79
+          below: 90
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 89
+          below: 95
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          above: 94
           below: 100
       condition:
         - condition: state
