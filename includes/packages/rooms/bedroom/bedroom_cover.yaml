@@ -29,6 +29,20 @@ bedroom_cover_group:
               mdi:roller-shade-closed
             {% endif %}
 
+  input_number:
+    bedroom_left_cover_down_position:
+      name: Bedroom Left Cover Base
+      initial: 0
+      min: 0
+      max: 100
+      step: 1
+    bedroom_right_cover_down_position:
+      name: Bedroom Right Cover Base
+      initial: 0
+      min: 0
+      max: 100
+      step: 1
+
   sensor:
     - platform: template
       sensors:
@@ -121,3 +135,58 @@ bedroom_cover_group:
           data:
             topic: "zigbee2mqtt/{{state_attr('cover.bedroom_right_cover','friendly_name')}}/get"
             payload: '{"battery":""}'
+
+    - alias: "[Bedroom Covers] Update Down Levels"
+      trigger:
+        - platform: numeric_state
+          entity_id: sun.sun
+          attribute: elevation
+          below: 3
+      conditions:
+        - condition: template
+          value_template: "{{ now().day % 3 == 0 }}"
+      action:
+        - service: input_number.increment
+          target:
+            entity_id: input_number.bedroom_left_cover_down_position
+        - service: input_number.increment
+          target:
+            entity_id: input_number.bedroom_right_cover_down_position
+
+    - alias: "[Bedroom Covers] Adjust Left Cover Down Losition"
+      mode: restart
+      triggers:
+        - platform: state
+          entity_id: input_number.bedroom_left_cover_down_position
+        - platform: state
+          entity_id: cover.bedroom_left_cover
+      conditions:
+        - condition: template
+          value_template: "{{ (states('input_number.bedroom_left_cover_down_position') | int )  -  state_attr('cover.bedroom_left_cover', 'current_position') > -5}}"
+      actions:
+        - delay: "00:00:05"
+        - service: cover.set_cover_position
+          target:
+            entity_id:
+              - cover.bedroom_left_cover
+          data:
+            position: "{{ states('input_number.bedroom_left_cover_down_position') | int }}"
+
+    - alias: "[Bedroom Covers] Adjust Right Cover Down Losition"
+      mode: restart
+      triggers:
+        - platform: state
+          entity_id: input_number.bedroom_right_cover_down_position
+        - platform: state
+          entity_id: cover.bedroom_right_cover
+      conditions:
+        - condition: template
+          value_template: "{{ (states('input_number.bedroom_right_cover_down_position') | int )  -  state_attr('cover.bedroom_right_cover', 'current_position') > -5}}"
+      actions:
+        - delay: "00:00:05"
+        - service: cover.set_cover_position
+          target:
+            entity_id:
+              - cover.bedroom_right_cover
+          data:
+            position: "{{ states('input_number.bedroom_right_cover_down_position') | int }}"
