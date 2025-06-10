@@ -59,6 +59,7 @@
       - sensor.c_*_temperature
       - sensor.c_*_humidity
       - switch.*_plug
+      - fan.*
     exclude_entities:
       - cover.bedroom_left_cover
       - cover.bedroom_right_cover
@@ -69,6 +70,10 @@
   entity_config:
     cover.bedroom_cover_group:
       name: "Шторы"
+    fan.bedroom_turbine:
+      name: "Турбина"
+    fan.air_purifier_2s:
+      name: "Очиститель воздуха"
     light.c_bathroom:
       name: "Люстра"
     light.hallway:

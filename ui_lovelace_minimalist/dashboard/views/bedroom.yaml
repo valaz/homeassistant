@@ -118,7 +118,7 @@ cards:
 
   - type: "custom:button-card"
     template: card_fan
-    entity: fan.bedroom_input_fan
+    entity: fan.bedroom_turbine
     variables:
       ulm_card_fan_name: Fan
       ulm_card_fan_enable_slider: true

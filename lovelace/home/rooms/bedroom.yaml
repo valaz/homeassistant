@@ -90,15 +90,48 @@ sections:
         features:
           - type: "light-brightness"
 
-  - type: grid #######   Вентилятор   #######
+  - type: grid #######   Шторы   #######
     cards:
       - type: heading
-        heading: Вентилятор
+        heading: Шторы
+        heading_style: title
+        icon: mdi:roller-shade
+      - type: tile
+        entity: cover.bedroom_cover_group
+        vertical: false
+        features:
+          - type: "cover-open-close"
+        layout_options:
+          grid_columns: 4
+          grid_rows: 2
+
+      - type: tile
+        entity: input_number.bedroom_left_cover_down_position
+        name: Left Down Position
+        color: grey
+        vertical: false
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: input_number.bedroom_right_cover_down_position
+        name: Right Down Position
+        color: grey
+        vertical: false
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+  - type: grid #######   Вентиляция   #######
+    cards:
+      - type: heading
+        heading: Вентиляция
         heading_style: title
         icon: mdi:fan
       - type: tile
-        entity: fan.bedroom_input_fan
-        name: Вентилятор
+        entity: fan.bedroom_turbine
+        name: Турбина
         fill_container: true
       - type: tile
         entity: switch.c_bedroom_fan_heater
@@ -122,11 +155,6 @@ sections:
         icon_color: green
         primary_info: name
         secondary_info: last-changed
-      - type: tile
-        entity: cover.bedroom_cover_group
-        vertical: false
-        features:
-          - type: "cover-open-close"
 
   - type: grid #######   Прочее   #######
     cards:

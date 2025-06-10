@@ -118,7 +118,7 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: tile
-                    entity: fan.bedroom_input_fan
+                    entity: fan.bedroom_turbine
                     name: Рекуператор
                     fill_container: true
                   - type: tile

@@ -105,8 +105,8 @@ bedroom_climate:
   fan:
     - platform: template
       fans:
-        bedroom_input_fan:
-          friendly_name: "Bedroom Input Fan"
+        bedroom_turbine:
+          friendly_name: "Bedroom Turbine"
           value_template: "{{ states('switch.bedroom_fan_plug') }}"
           percentage_template: >-
             {% set power_fan_capacity = 13 %}
@@ -179,7 +179,7 @@ bedroom_climate:
           default: []
 
   automation:
-    - alias: "[Bedroom Climate] Turn on Recuperator on high CO2"
+    - alias: "[Bedroom Climate] Turn on Turbine on high CO2"
       trigger:
         - platform: state
           entity_id: binary_sensor.people_at_home
@@ -191,7 +191,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_fan_plug
+          entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -200,11 +200,11 @@ bedroom_climate:
           entity_id: sensor.c_bedroom_co2_density
           above: 500
       action:
-        - service: switch.turn_on
+        - service: fan.turn_on
           target:
-            entity_id: switch.bedroom_fan_plug
+            entity_id: fan.bedroom_turbine
 
-    - alias: "[Bedroom Climate] Turn off Recuperator on low CO2"
+    - alias: "[Bedroom Climate] Turn off Turbine on low CO2"
       trigger:
         - platform: numeric_state
           entity_id: sensor.c_bedroom_co2_density
@@ -214,7 +214,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_fan_plug
+          entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -223,11 +223,11 @@ bedroom_climate:
           entity_id: sensor.c_bedroom_co2_density
           below: 450
       action:
-        - service: switch.turn_off
+        - service: fan.turn_off
           target:
-            entity_id: switch.bedroom_fan_plug
+            entity_id: fan.bedroom_turbine
 
-    - alias: "[Bedroom Climate] Turn on Recuperator on cool weather"
+    - alias: "[Bedroom Climate] Turn on Turbine on cool weather"
       trigger:
         - platform: state
           entity_id: sensor.c_weather_temperature
@@ -259,7 +259,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_fan_plug
+          entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -267,9 +267,9 @@ bedroom_climate:
         - condition: template
           value_template: "{{ states('sensor.c_weather_temperature') > states('sensor.c_bedroom_temperature') }}"
       action:
-        - service: switch.turn_off
+        - service: fan.turn_off
           target:
-            entity_id: switch.bedroom_fan_plug
+            entity_id: fan.bedroom_turbine
 
     - alias: "[Bedroom Climate] On Sleep Mode Started"
       trigger:

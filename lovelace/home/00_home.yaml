@@ -55,7 +55,7 @@ sections:
             tap_action:
               action: more-info
           - type: entity
-            entity: fan.bedroom_input_fan
+            entity: fan.bedroom_turbine
             color: blue
             tap_action:
               action: more-info
