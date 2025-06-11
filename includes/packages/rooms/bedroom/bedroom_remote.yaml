@@ -90,6 +90,19 @@ bedroom_remote:
           target:
             entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
 
+    - alias: "[Bedroom Remote] Toggle Monitor Plug"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "2_hold"
+      action:
+        - service: switch.toggle
+          data: {}
+          target:
+            entity_id: switch.bedroom_monitor_plug
+
     ####### Button 3
     - alias: "[Bedroom Remote] Unlock Intercom Door"
       mode: restart
@@ -99,6 +112,9 @@ bedroom_remote:
           entity_id: sensor.bedroom_remote_control_action
           to: "3_single"
       action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.r_intercom
         - service: lock.unlock
           target:
             entity_id: lock.z_intercom
@@ -116,7 +132,7 @@ bedroom_remote:
             entity_id: lock.main_door
 
     ####### Button 4
-    - alias: "[Bedroom Remote] Toggle Monitor Plug"
+    - alias: "[Bedroom Remote] Toggle Air Circulator Oscillating"
       mode: restart
       initial_state: true
       trigger:
@@ -124,7 +140,30 @@ bedroom_remote:
           entity_id: sensor.bedroom_remote_control_action
           to: "4_single"
       action:
-        - service: switch.toggle
+        - if:
+            - condition: state
+              entity_id: fan.air_circulator
+              state: "off"
+          then:
+            - service: fan.turn_on
+              data: {}
+              target:
+                entity_id: fan.air_circulator
+          else:
+            - service: switch.toggle
+              data: {}
+              target:
+                entity_id: switch.air_circulator_horizontally_oscillating
+
+    - alias: "[Bedroom Remote] Toggle Air Circulator Oscillating"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.bedroom_remote_control_action
+          to: "4_double"
+      action:
+        - service: fan.toggle
           data: {}
           target:
-            entity_id: switch.bedroom_monitor_plug
+            entity_id: fan.air_circulator
