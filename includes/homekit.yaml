@@ -49,6 +49,7 @@
       - switch.fritz_box_6660_cable_wi_fi_aeki_g
       - switch.c_kidsroom_sleep_mode
       - switch.bedroom_monitor_lamp
+      - switch.air_circulator_horizontally_oscillating
       - scene.tv_gaming
       - scene.movies
     include_entity_globs:
@@ -74,6 +75,8 @@
       name: "Турбина"
     fan.air_purifier_2s:
       name: "Очиститель воздуха"
+    fan.air_circulator:
+      name: "Циркулятор воздуха"
     light.c_bathroom:
       name: "Люстра"
     light.hallway:
@@ -158,6 +161,8 @@
       name: "Самовар"
     switch.bedroom_monitor_lamp:
       name: "USB Выключатель"
+    switch.air_circulator_horizontally_oscillating:
+      name: "Вращения вентилятора"
     scene.tv_gaming:
       name: "Игровой режим"
     scene.movies:

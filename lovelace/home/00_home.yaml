@@ -45,9 +45,9 @@ sections:
         entity: light.yeelight_lamp15_0x1c03268c_ambilight
         name: Подсветка
       - type: heading
-        heading: Вентилятор
+        heading: Турбина
         heading_style: subtitle
-        icon: mdi:fan
+        icon: mdi:turbine
         badges:
           - type: entity
             entity: input_select.c_bedroom_fan_mode
@@ -62,6 +62,21 @@ sections:
           - type: entity
             entity: switch.c_bedroom_fan_heater
             color: orange
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Вентилятор
+        heading_style: subtitle
+        icon: mdi:fan
+        badges:
+          - type: entity
+            entity: switch.air_circulator_horizontally_oscillating
+            # color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: fan.air_circulator
+            color: blue
             tap_action:
               action: more-info
 
