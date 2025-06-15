@@ -31,7 +31,7 @@ bedroom_climate:
             {{ current_co2_level >= alert_co2_level }}
 
   input_select:
-    c_bedroom_fan_mode:
+    c_bedroom_turbine_mode:
       name: Режим вентилятора
       options:
         - "none"
@@ -64,10 +64,10 @@ bedroom_climate:
         c_bedroom_fan_last_mode:
           friendly_name: "Bedroom Fan Last Mode"
           value_template: >-
-            {% if is_state("input_select.c_bedroom_fan_mode", "none") or is_state("input_select.c_bedroom_fan_mode", "sleep") -%}
+            {% if is_state("input_select.c_bedroom_turbine_mode", "none") or is_state("input_select.c_bedroom_turbine_mode", "sleep") -%}
               {{states("sensor.c_bedroom_fan_last_mode")}}
             {%- else -%}
-              {{states("input_select.c_bedroom_fan_mode")}}
+              {{states("input_select.c_bedroom_turbine_mode")}}
             {%- endif %}
 
         c_bedroom_fan_heater_active_time:
@@ -188,13 +188,13 @@ bedroom_climate:
           entity_id: sensor.c_bedroom_co2_density
           above: 500
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
           entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           state: "recuperator"
         - condition: numeric_state
           entity_id: sensor.c_bedroom_co2_density
@@ -211,13 +211,13 @@ bedroom_climate:
           below: 450
           for: "00:10:00"
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
           entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           state: "recuperator"
         - condition: numeric_state
           entity_id: sensor.c_bedroom_co2_density
@@ -234,13 +234,13 @@ bedroom_climate:
         - platform: state
           entity_id: sensor.c_bedroom_temperature
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
           entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           state: "air conditioner"
         - condition: template
           value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
@@ -256,13 +256,13 @@ bedroom_climate:
         - platform: state
           entity_id: sensor.c_bedroom_temperature
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
           entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           state: "air conditioner"
         - condition: template
           value_template: "{{ states('sensor.c_weather_temperature') > states('sensor.c_bedroom_temperature') }}"
@@ -274,7 +274,7 @@ bedroom_climate:
     - alias: "[Bedroom Climate] On Sleep Mode Started"
       trigger:
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           to: "sleep"
       action:
         - service: switch.turn_off
@@ -290,7 +290,7 @@ bedroom_climate:
     - alias: "[Bedroom Climate] AutoCancel timer"
       trigger:
         - platform: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           from: "sleep"
       action:
         - service: timer.cancel
@@ -305,7 +305,7 @@ bedroom_climate:
       action:
         - service: input_select.select_option
           target:
-            entity_id: input_select.c_bedroom_fan_mode
+            entity_id: input_select.c_bedroom_turbine_mode
           data:
             option: "{{states('sensor.c_bedroom_fan_last_mode')}}"
 
@@ -322,7 +322,7 @@ bedroom_climate:
           entity_id: sensor.c_bedroom_temperature
           below: 20
         - condition: state
-          entity_id: input_select.c_bedroom_fan_mode
+          entity_id: input_select.c_bedroom_turbine_mode
           state: "recuperator"
       actions:
         - service: switch.turn_on
@@ -361,7 +361,7 @@ bedroom_climate:
       action:
         - service: input_select.select_option
           target:
-            entity_id: input_select.c_bedroom_fan_mode
+            entity_id: input_select.c_bedroom_turbine_mode
           data:
             option: "none"
         - service: fan.turn_off

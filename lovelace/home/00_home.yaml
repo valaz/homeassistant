@@ -50,7 +50,7 @@ sections:
         icon: mdi:turbine
         badges:
           - type: entity
-            entity: input_select.c_bedroom_fan_mode
+            entity: input_select.c_bedroom_turbine_mode
             # color: blue
             tap_action:
               action: more-info

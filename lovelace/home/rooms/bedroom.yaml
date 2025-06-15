@@ -139,7 +139,7 @@ sections:
         fill_container: true
 
       - type: custom:mushroom-select-card
-        entity: input_select.c_bedroom_fan_mode
+        entity: input_select.c_bedroom_turbine_mode
         icon_color: blue
         primary_info: name
         secondary_info: last-changed
