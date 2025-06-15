@@ -55,6 +55,7 @@
     include_entity_globs:
       - binary_sensor.*_water_leak
       - binary_sensor.*_door_sensor_contact
+      - binary_sensor.*_window_sensor_contact
       - binary_sensor.*_presence_sensor_occupancy
       - sensor.c_*_co2_density
       - sensor.c_*_temperature
@@ -131,8 +132,10 @@
       name: "Движение"
     sensor.kitchen_motion_sensor_illuminance_lux:
       name: "Освещенность"
-    binary_sensor.bathroom_door_sensor_contact:
-      name: "Дверь"
+    binary_sensor.bathroom_window_sensor_contact:
+      name: "Окно"
+    binary_sensor.bedroom_window_sensor_contact:
+      name: "Окно"
     binary_sensor.hallway_door_sensor_contact:
       name: "Дверь"
     binary_sensor.bathroom_presence_sensor_occupancy:

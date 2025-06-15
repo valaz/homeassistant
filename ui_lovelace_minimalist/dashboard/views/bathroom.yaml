@@ -90,12 +90,6 @@ cards:
     cards:
       - type: "custom:button-card"
         template: card_generic_swap
-        entity: binary_sensor.bathroom_door_sensor_contact
-        variables:
-          ulm_card_generic_swap_name: Door
-
-      - type: "custom:button-card"
-        template: card_generic_swap
         entity: sensor.bathroom_motion_sensor_illuminance_lux
         variables:
           ulm_card_generic_swap_name: Illuminance

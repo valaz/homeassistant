@@ -295,11 +295,6 @@ cards:
               - type: horizontal-stack
                 cards:
                   - type: tile
-                    entity: binary_sensor.bathroom_door_sensor_contact
-                    name: Дверь
-                    color: black
-                    state_content: last-changed
-                  - type: tile
                     entity: sensor.bathroom_motion_sensor_illuminance_lux
                     name: Уровень освещения
                     color: yellow

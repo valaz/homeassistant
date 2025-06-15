@@ -237,7 +237,7 @@ bedroom_climate:
           entity_id: input_select.c_bedroom_fan_mode
       condition:
         - condition: state
-          entity_id: switch.bedroom_fan_plug
+          entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
           entity_id: input_select.c_bedroom_fan_mode
@@ -352,3 +352,18 @@ bedroom_climate:
         - service: script.turn_on
           target:
             entity_id: script.fix_main_heater_timeout
+
+    - alias: "[Bedroom Climate] Disable Turbine when window is open"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.bedroom_window_sensor_contact
+          to: "on"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_bedroom_fan_mode
+          data:
+            option: "none"
+        - service: fan.turn_off
+          target:
+            entity_id: fan.bedroom_turbine

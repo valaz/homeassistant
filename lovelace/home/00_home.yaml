@@ -81,6 +81,17 @@ sections:
               action: more-info
 
       - type: heading
+        heading: Окно
+        heading_style: subtitle
+        icon: mdi:window-open-variant
+        badges:
+          - type: entity
+            entity: binary_sensor.bedroom_window_sensor_contact
+            color: blue
+            tap_action:
+              action: more-info
+
+      - type: heading
         icon: mdi:roller-shade-closed
         heading: Шторы
         heading_style: subtitle
@@ -308,16 +319,6 @@ sections:
         badges:
           - type: entity
             entity: binary_sensor.bathroom_window_sensor_contact
-            color: blue
-            tap_action:
-              action: more-info
-      - type: heading
-        heading: Дверь
-        heading_style: subtitle
-        icon: mdi:door
-        badges:
-          - type: entity
-            entity: binary_sensor.bathroom_door_sensor_contact
             color: blue
             tap_action:
               action: more-info
