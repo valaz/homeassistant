@@ -32,7 +32,7 @@ bedroom_climate:
 
   input_select:
     c_bedroom_turbine_mode:
-      name: Режим вентилятора
+      name: Режим турбины
       options:
         - "none"
         - "recuperator"
