@@ -30,6 +30,14 @@ bedroom_climate:
             {% set alert_co2_level = states('input_select.c_bedroom_co2_alert_level') | float %}
             {{ current_co2_level >= alert_co2_level }}
 
+  input_number:
+    c_bedroom_target_temperature:
+      name: Bedroom Target Temperature
+      initial: 22
+      min: 20
+      max: 25
+      step: 1
+
   input_select:
     c_bedroom_turbine_mode:
       name: Режим турбины
@@ -38,6 +46,12 @@ bedroom_climate:
         - "recuperator"
         - "air conditioner"
         - "sleep"
+
+    c_bedroom_circulator_mode:
+      name: Режим циркулятора
+      options:
+        - "none"
+        - "air conditioner"
 
     c_bedroom_co2_alert_level:
       name: Критический уровень CO2
@@ -245,11 +259,121 @@ bedroom_climate:
         - condition: template
           value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
       action:
-        - service: switch.turn_on
+        - service: fan.turn_on
           target:
-            entity_id: switch.bedroom_fan_plug
+            entity_id: fan.bedroom_turbine
 
-    - alias: "[Bedroom Climate] Turn off Recuperator on hot weather"
+    - alias: "[Bedroom Climate] Turn off Circulator on hot weather"
+      trigger:
+        - platform: state
+          entity_id: sensor.c_weather_temperature
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+        - platform: state
+          entity_id: input_select.c_bedroom_circulator_mode
+      condition:
+        - condition: state
+          entity_id: fan.air_circulator
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_bedroom_circulator_mode
+          state: "air conditioner"
+        - condition: template
+          value_template: "{{ states('sensor.c_weather_temperature') > states('sensor.c_bedroom_temperature') }}"
+      action:
+        - service: fan.turn_off
+          target:
+            entity_id: fan.air_circulator
+
+    - alias: "[Bedroom Climate] Turn on Circulator on cool weather"
+      trigger:
+        - platform: state
+          entity_id: sensor.c_weather_temperature
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+        - platform: state
+          entity_id: input_select.c_bedroom_circulator_mode
+      condition:
+        - condition: state
+          entity_id: fan.air_circulator
+          state: "off"
+        - condition: state
+          entity_id: input_select.c_bedroom_circulator_mode
+          state: "air conditioner"
+        - condition: template
+          value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
+      action:
+        - service: fan.turn_on
+          target:
+            entity_id: fan.air_circulator
+
+    - alias: "[Bedroom Climate] Adjust Circulator Speed on bedroom temeperature"
+      triggers:
+        - platform: state
+          entity_id: input_number.c_bedroom_target_temperature
+        - platform: state
+          entity_id: sensor.c_bedroom_temperature
+        - platform: state
+          entity_id: input_select.c_bedroom_circulator_mode
+          to: "air conditioner"
+          for: "00:00:03"
+      conditions:
+        - condition: state
+          entity_id: fan.air_circulator
+          state: "on"
+        - condition: state
+          entity_id: input_select.c_bedroom_circulator_mode
+          state: "air conditioner"
+      actions:
+        - choose:
+            - conditions:
+                - condition: template
+                  value_template: >
+                    {{ states('sensor.c_bedroom_temperature') | float < states('input_number.c_bedroom_target_temperature') | float }}
+              sequence:
+                - service: fan.set_percentage
+                  target:
+                    entity_id: fan.air_circulator
+                  data:
+                    percentage: 25
+
+            - conditions:
+                - condition: template
+                  value_template: >
+                    {% set diff = states('sensor.c_bedroom_temperature') | float - states('input_number.c_bedroom_target_temperature') | float %}
+                    {{ 0 <= diff < 1 }}
+              sequence:
+                - service: fan.set_percentage
+                  target:
+                    entity_id: fan.air_circulator
+                  data:
+                    percentage: 50
+
+            - conditions:
+                - condition: template
+                  value_template: >
+                    {% set diff = states('sensor.c_bedroom_temperature') | float - states('input_number.c_bedroom_target_temperature') | float %}
+                    {{ 1 <= diff < 2 }}
+              sequence:
+                - service: fan.set_percentage
+                  target:
+                    entity_id: fan.air_circulator
+                  data:
+                    percentage: 75
+
+            - conditions:
+                - condition: template
+                  value_template: >
+                    {% set diff = states('sensor.c_bedroom_temperature') | float - states('input_number.c_bedroom_target_temperature') | float %}
+                    {{ diff >= 2 }}
+              sequence:
+                - service: fan.set_percentage
+                  target:
+                    entity_id: fan.air_circulator
+                  data:
+                    percentage: 100
+
+    - alias: "[Bedroom Climate] Turn off Turbine on hot weather"
       trigger:
         - platform: state
           entity_id: sensor.c_weather_temperature
@@ -353,11 +477,12 @@ bedroom_climate:
           target:
             entity_id: script.fix_main_heater_timeout
 
-    - alias: "[Bedroom Climate] Disable Turbine when window is open"
+    - alias: "[Bedroom Climate] When window is open"
       trigger:
         - platform: state
           entity_id: binary_sensor.bedroom_window_sensor_contact
           to: "on"
+          for: "00:00:05"
       action:
         - service: input_select.select_option
           target:
@@ -367,3 +492,29 @@ bedroom_climate:
         - service: fan.turn_off
           target:
             entity_id: fan.bedroom_turbine
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_bedroom_circulator_mode
+          data:
+            option: "air conditioner"
+
+    - alias: "[Bedroom Climate] When window is closed"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.bedroom_window_sensor_contact
+          to: "off"
+          for: "00:00:05"
+      action:
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_bedroom_circulator_mode
+          data:
+            option: "none"
+        - service: fan.turn_off
+          target:
+            entity_id: fan.air_circulator
+        - service: input_select.select_option
+          target:
+            entity_id: input_select.c_bedroom_turbine_mode
+          data:
+            option: "air conditioner"

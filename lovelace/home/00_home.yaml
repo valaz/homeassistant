@@ -54,26 +54,31 @@ sections:
             # color: blue
             tap_action:
               action: more-info
+          # - type: entity
+          #   entity: switch.c_bedroom_fan_heater
+          #   color: orange
+          #   tap_action:
+          #     action: more-info
           - type: entity
             entity: fan.bedroom_turbine
             color: blue
             tap_action:
               action: more-info
-          - type: entity
-            entity: switch.c_bedroom_fan_heater
-            color: orange
-            tap_action:
-              action: more-info
       - type: heading
-        heading: Вентилятор
+        heading: Циркулятор
         heading_style: subtitle
         icon: mdi:fan
         badges:
           - type: entity
-            entity: switch.air_circulator_horizontally_oscillating
+            entity: input_select.c_bedroom_circulator_mode
             # color: blue
             tap_action:
               action: more-info
+          # - type: entity
+          #   entity: switch.air_circulator_horizontally_oscillating
+          #   # color: blue
+          #   tap_action:
+          #     action: more-info
           - type: entity
             entity: fan.air_circulator
             color: blue

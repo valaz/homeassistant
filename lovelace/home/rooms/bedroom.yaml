@@ -123,10 +123,10 @@ sections:
           - type: "numeric-input"
             style: "buttons"
 
-  - type: grid #######   Вентиляция   #######
+  - type: grid #######   Турбина   #######
     cards:
       - type: heading
-        heading: Вентиляция
+        heading: Турбина
         heading_style: title
         icon: mdi:fan
       - type: tile
@@ -149,6 +149,53 @@ sections:
         icon_color: red
         primary_info: name
         secondary_info: last-changed
+
+  - type: grid #######   Циркулятор   #######
+    cards:
+      - type: heading
+        heading: Циркулятор
+        heading_style: title
+        icon: mdi:fan
+        badges:
+          - type: entity
+            entity: sensor.air_circulator_temperature
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: fan.air_circulator
+        name: Циркулятор
+        fill_container: true
+        features:
+          - type: "fan-speed"
+          - type: "fan-preset-modes"
+            style: "dropdown"
+            preset_modes:
+              - normal
+              - natural
+              - sleep
+              - auto
+              - custom
+
+      - type: tile
+        entity: switch.air_circulator_horizontally_oscillating
+        name: Вращение
+        fill_container: true
+
+      - type: custom:mushroom-select-card
+        entity: input_select.c_bedroom_circulator_mode
+        icon_color: blue
+        primary_info: name
+        secondary_info: last-changed
+
+      - type: tile
+        entity: input_number.c_bedroom_target_temperature
+        name: Желаемая температура
+        color: blue
+        vertical: false
+        features:
+          - type: "numeric-input"
+            style: "buttons"
 
   - type: grid #######   Прочее   #######
     cards:
