@@ -75,11 +75,11 @@ bedroom_climate:
   sensor:
     - platform: template
       sensors:
-        c_bedroom_fan_last_mode:
+        c_bedroom_turbine_last_mode:
           friendly_name: "Bedroom Fan Last Mode"
           value_template: >-
             {% if is_state("input_select.c_bedroom_turbine_mode", "none") or is_state("input_select.c_bedroom_turbine_mode", "sleep") -%}
-              {{states("sensor.c_bedroom_fan_last_mode")}}
+              {{states("sensor.c_bedroom_turbine_last_mode")}}
             {%- else -%}
               {{states("input_select.c_bedroom_turbine_mode")}}
             {%- endif %}
@@ -431,7 +431,7 @@ bedroom_climate:
           target:
             entity_id: input_select.c_bedroom_turbine_mode
           data:
-            option: "{{states('sensor.c_bedroom_fan_last_mode')}}"
+            option: "{{states('sensor.c_bedroom_turbine_last_mode')}}"
 
     - alias: "[Bedroom Climate] Turn on Fan heater every 30 minutes"
       mode: single
