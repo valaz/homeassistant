@@ -1,0 +1,15 @@
+weather:
+  sensor:
+    - platform: template
+      sensors:
+        c_weather_humidity:
+          friendly_name: "Влажность на улице"
+          value_template: "{{ state_attr('weather.pirateweather', 'humidity') | round(0) }}"
+          unit_of_measurement: "%"
+        c_weather_temperature:
+          friendly_name: "Температура на улице"
+          value_template: "{{ state_attr('weather.pirateweather', 'temperature') | round(1) }}"
+          unit_of_measurement: "°C"
+        c_sun_elevation:
+          friendly_name: "Высота солнца"
+          value_template: "{{ state_attr('sun.sun', 'elevation') }}"

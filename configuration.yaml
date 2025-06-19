@@ -96,6 +96,8 @@ lovelace:
       type: module
     - url: /hacsfiles/tabbed-card/tabbed-card.js
       type: module
+    - url: /hacsfiles/astroweather-card/astroweather-card.js
+      type: module
 
 # Вынос во внешние файлы
 influxdb: !include includes/influxdb.yaml
