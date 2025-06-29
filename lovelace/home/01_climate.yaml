@@ -12,11 +12,48 @@ sections:
         heading: Weather
         icon: mdi:weather-cloudy
 
-      - type: weather-forecast
-        entity: weather.forecast_tegel_home
-        secondary_info_attribute: humidity
-        show_forecast: true
-        forecast_type: daily
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Default
+            card:
+              type: weather-forecast
+              entity: weather.forecast_tegel_home
+              secondary_info_attribute: humidity
+              show_forecast: true
+              forecast_type: daily
+          - attributes:
+              label: Pirate
+            card:
+              type: weather-forecast
+              entity: weather.pirateweather
+              secondary_info_attribute: humidity
+              show_forecast: true
+              forecast_type: daily
+          - attributes:
+              label: TIO
+            card:
+              type: weather-forecast
+              entity: weather.tio_tegel_daily
+              secondary_info_attribute: humidity
+              show_forecast: true
+              forecast_type: daily
+          - attributes:
+              label: AW
+            card:
+              type: weather-forecast
+              entity: weather.aw_tegel
+              secondary_info_attribute: humidity
+              show_forecast: true
+              forecast_type: hourly
+          - attributes:
+              label: OM
+            card:
+              type: weather-forecast
+              entity: weather.om_tegel
+              secondary_info_attribute: humidity
+              show_forecast: true
+              forecast_type: daily
 
       - type: "custom:horizon-card"
         language: ru
