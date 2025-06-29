@@ -492,11 +492,23 @@ bedroom_climate:
         - service: fan.turn_off
           target:
             entity_id: fan.bedroom_turbine
-        - service: input_select.select_option
-          target:
-            entity_id: input_select.c_bedroom_circulator_mode
-          data:
-            option: "air conditioner"
+        - if:
+            - condition: template
+              value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
+            - condition: template
+              value_template: "{{ states('input_number.c_bedroom_target_temperature') < states('sensor.c_bedroom_temperature') }}"
+          then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_bedroom_circulator_mode
+              data:
+                option: "air conditioner"
+          else:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_bedroom_circulator_mode
+              data:
+                option: "none"
 
     - alias: "[Bedroom Climate] When window is closed"
       trigger:
@@ -513,8 +525,20 @@ bedroom_climate:
         - service: fan.turn_off
           target:
             entity_id: fan.air_circulator
-        - service: input_select.select_option
-          target:
-            entity_id: input_select.c_bedroom_turbine_mode
-          data:
-            option: "air conditioner"
+        - if:
+            - condition: template
+              value_template: "{{ states('sensor.c_weather_temperature') < states('sensor.c_bedroom_temperature') }}"
+            - condition: template
+              value_template: "{{ states('input_number.c_bedroom_target_temperature') < states('sensor.c_bedroom_temperature') }}"
+          then:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_bedroom_turbine_mode
+              data:
+                option: "air conditioner"
+          else:
+            - service: input_select.select_option
+              target:
+                entity_id: input_select.c_bedroom_turbine_mode
+              data:
+                option: "none"
