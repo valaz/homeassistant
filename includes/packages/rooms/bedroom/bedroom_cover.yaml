@@ -32,13 +32,11 @@ bedroom_cover_group:
   input_number:
     bedroom_left_cover_down_position:
       name: Bedroom Left Cover Base
-      initial: 0
       min: 0
       max: 100
       step: 1
     bedroom_right_cover_down_position:
       name: Bedroom Right Cover Base
-      initial: 0
       min: 0
       max: 100
       step: 1
