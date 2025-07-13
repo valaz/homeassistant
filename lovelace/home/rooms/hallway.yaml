@@ -134,3 +134,31 @@ sections:
         layout_options:
           grid_columns: 4
           grid_rows: 4
+
+  - type: grid #######  Door External Motion   #######
+    cards:
+      - type: heading
+        heading: Door External Motion
+        heading_style: title
+        icon: mdi:motion-sensor
+        badges:
+          - type: entity
+            entity: binary_sensor.hallway_external_motion_sensor_occupancy
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: binary_sensor.hallway_external_motion_sensor_occupancy
+        title: ""
+        hidden_state:
+          - "off"
+          - "unknown"
+          - "unavailable"
+          - ""
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4

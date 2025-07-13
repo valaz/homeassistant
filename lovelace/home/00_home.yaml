@@ -70,6 +70,11 @@ sections:
         icon: mdi:fan
         badges:
           - type: entity
+            entity: sensor.air_circulator_temperature
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
             entity: input_select.c_bedroom_circulator_mode
             # color: blue
             tap_action:

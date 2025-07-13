@@ -96,6 +96,8 @@ devices:
   '0xa4c138baa7383aae':
     friendly_name: Bedroom Monitor Lamp
     state_action: true
+  '0xa4c138d49300e1b7':
+    friendly_name: Hallway External Motion Sensor
 advanced:
   log_level: info
   log_syslog:

@@ -95,26 +95,26 @@ hallway_tedee_lock:
           after: "08:00:00"
           before: "22:00:00"
         - condition: state
+          entity_id: person.eliia
+          state: "home"
+        - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
         - condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
       action:
-        - service: script.main_door_try_unlock
-        - if:
-            - condition: state
-              entity_id: person.eliia
-              state: "home"
-          then:
-            - service: script.main_door_try_open
-            - service: script.send_sms_to_azat
-              data:
-                message: "🔒 Дверь открывается, так как Азат пришел домой"
-            - service: notify.tg_valaz
-              data:
-                message: "🔒 Замок открывается, так как Азат пришел домой"
-          else:
-            - service: script.ask_to_unlock_main_door
+        - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
+          timeout: 10
+          continue_on_timeout: false
+        - service: lock.open
+          target:
+            entity_id: lock.lock_febb
+        - service: script.send_sms_to_azat
+          data:
+            message: "🔒 Дверь открывается, так как Азат пришел домой"
+        - service: notify.tg_valaz
+          data:
+            message: "🔒 Замок открывается, так как Азат пришел домой"
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
