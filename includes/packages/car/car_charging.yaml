@@ -1,4 +1,29 @@
 car_charging:
+  template:
+    - sensor:
+        - name: "Passat GTE Charging Finish Time Raw"
+          unique_id: passat_gte_charging_finish_time_raw
+          device_class: timestamp
+          state: >
+            {% set minutes_str = states('sensor.passat_gte_charging_time_left') %}
+            {% if minutes_str in ['unknown', 'unavailable', '', None] %}
+              {{ 'unknown' }}
+            {% else %}
+              {% set minutes = minutes_str | int(0) %}
+              {% set last_updated = states.sensor.passat_gte_charging_time_left.last_updated %}
+              {{ (last_updated + timedelta(minutes=minutes)).isoformat() }}
+            {% endif %}
+        - name: "Passat GTE Charging Finish Time"
+          unique_id: passat_gte_charging_finish_time
+          # device_class: timestamp
+          state: >
+            {% set charge_time_raw = states('sensor.passat_gte_charging_finish_time_raw') %}
+            {% if charge_time_raw in ['unknown', 'unavailable', '', None] %}
+              {{ 'unknown' }}
+            {% else %}
+              {{ as_timestamp(charge_time_raw) | timestamp_custom('%H:%M', true) }}
+            {% endif %}
+
   automation:
     - alias: "[Car] Notify about electric charge progress"
       mode: restart
@@ -80,3 +105,15 @@ car_charging:
               🚙⛽ Авто запрвлен на {{ states('sensor.passat_gte_fuel_level') }}%.
               Пробег: {{ states('sensor.passat_gte_odometer') }} км.
               Запас хода на бензине: {{ states('sensor.passat_gte_fuel_range') }} км
+
+    - alias: "[Car] Enable fast charging"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: numeric_state
+          entity_id: sensor.passat_gte_battery_level
+          below: 80
+      actions:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.passat_gte_reduced_ac_charging

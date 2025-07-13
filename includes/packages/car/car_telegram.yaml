@@ -26,7 +26,7 @@ car_telegram:
               Внешнее питание: {{ states('binary_sensor.passat_gte_external_power') }}
               Зарядка: {{ states('switch.passat_gte_charging') }}
               Уровень заряда: {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
-              Оставшееся время: {{ states('sensor.passat_gte_charging_time_left') }} мин.
+              Оставшееся время: {{ states('sensor.passat_gte_charging_time_left') }} мин. ({{ states('sensor.passat_gte_charging_finish_time') }})
               Медленная зарядка: {{ states('switch.passat_gte_reduced_ac_charging') }}
               Последнее обновление: {{ as_timestamp(states('sensor.passat_gte_last_data_refresh')) | timestamp_custom('%d %b %Y, %H:%M', true) }}
 
