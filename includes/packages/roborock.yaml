@@ -1,6 +1,11 @@
 # https://community.home-assistant.io/t/howto-xiaomi-vacuum-zoned-cleaning/51293
 
 roborock:
+  timer:
+    roborock_remote_zone_clean_delay:
+      name: "Запущена зональная уборка"
+      duration: "00:00:05"
+
   input_number:
     zones_clean_repeats:
       name: Zone Clean Repeats
@@ -67,6 +72,17 @@ roborock:
           data:
             entity_id: input_number.zones_clean_repeats
             value: 1
+            
+    restart_zone_clean_delay_timer:
+      alias: "[Roborock] Restart Zone Clean Delay Timer"
+      icon: mdi:delete-restore
+      sequence:
+        - service: timer.cancel
+          target:
+            entity_id: timer.roborock_remote_zone_clean_delay
+        - service: timer.start
+          target:
+            entity_id: timer.roborock_remote_zone_clean_delay
 
     roborock_start_zone_cleaning:
       alias: "[Roborock] Start Zone Cleaning"
@@ -106,40 +122,6 @@ roborock:
               - input_boolean.clean_saloon
         - service: script.roborock_start_zone_cleaning
 
-    roborock_bathroom_cleanup:
-      alias: "[Roborock] Уборка в ванной"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_bathroom
-        - service: script.roborock_start_zone_cleaning
-
-    roborock_livingroom_kitchen_cleanup:
-      alias: "[Roborock] Уборка в гостиной и на кухне"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_kitchen
-              - input_boolean.clean_livingroom
-        - service: script.roborock_start_zone_cleaning
-
-    roborock_livingroom_cleanup:
-      alias: "[Roborock] Уборка в гостиной"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_livingroom
-        - service: script.roborock_start_zone_cleaning
-
     roborock_livingroom_entarance_cleanup:
       alias: "[Roborock] Уборка в гостиной у входа"
       mode: restart
@@ -156,17 +138,6 @@ roborock:
               - input_boolean.clean_livingroom_entrance
         - service: script.roborock_start_zone_cleaning
 
-    roborock_kitchen_cleanup:
-      alias: "[Roborock] Уборка на кухне"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_kitchen
-        - service: script.roborock_start_zone_cleaning
-
     roborock_kitchen_table_cleanup:
       alias: "[Roborock] Уборка на кухне под столом"
       mode: restart
@@ -181,28 +152,6 @@ roborock:
           target:
             entity_id:
               - input_boolean.clean_kitchen_table
-        - service: script.roborock_start_zone_cleaning
-
-    roborock_bedroom_cleanup:
-      alias: "[Roborock] Уборка в спальне"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_bedroom
-        - service: script.roborock_start_zone_cleaning
-
-    roborock_kidsroom_cleanup:
-      alias: "[Roborock] Уборка в детской"
-      mode: restart
-      sequence:
-        - service: script.reset_zone_selection
-        - service: input_boolean.turn_on
-          target:
-            entity_id:
-              - input_boolean.clean_kidsroom
         - service: script.roborock_start_zone_cleaning
 
   automation:
@@ -227,9 +176,13 @@ roborock:
           entity_id: sensor.roborock_remote_control_action
           to: "1_single"
       action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kitchen
         - service: script.turn_on
           entity_id:
-            - script.roborock_kitchen_cleanup
+            - script.restart_zone_clean_delay_timer
 
     - alias: "[Roborock] Start Kitchen Table cleaning"
       mode: restart
@@ -251,9 +204,13 @@ roborock:
           entity_id: sensor.roborock_remote_control_action
           to: "2_single"
       action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_livingroom
         - service: script.turn_on
           entity_id:
-            - script.roborock_livingroom_cleanup
+            - script.restart_zone_clean_delay_timer
 
     - alias: "[Roborock] Start Livingroom Enterance cleaning"
       mode: restart
@@ -267,18 +224,6 @@ roborock:
           entity_id:
             - script.roborock_livingroom_entarance_cleanup
 
-    - alias: "[Roborock] Start Kitchen and Livingroom cleaning"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: state
-          entity_id: sensor.roborock_remote_control_action
-          to: "2_hold"
-      action:
-        - service: script.turn_on
-          entity_id:
-            - script.roborock_livingroom_kitchen_cleanup
-
     - alias: "[Roborock] Start Kidsroom cleaning"
       mode: restart
       initial_state: true
@@ -287,9 +232,13 @@ roborock:
           entity_id: sensor.roborock_remote_control_action
           to: "3_single"
       action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_kidsroom
         - service: script.turn_on
           entity_id:
-            - script.roborock_kidsroom_cleanup
+            - script.restart_zone_clean_delay_timer
 
     - alias: "[Roborock] Start Bedroom cleaning"
       mode: restart
@@ -299,6 +248,39 @@ roborock:
           entity_id: sensor.roborock_remote_control_action
           to: "4_single"
       action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_bedroom
         - service: script.turn_on
           entity_id:
-            - script.roborock_bedroom_cleanup
+            - script.restart_zone_clean_delay_timer
+
+    - alias: "[Roborock] Start Bathroom cleaning"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.roborock_remote_control_action
+          to: "4_double"
+      action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id:
+              - input_boolean.clean_bathroom
+        - service: script.turn_on
+          entity_id:
+            - script.restart_zone_clean_delay_timer
+
+    - alias: "[Roborock] Start Zone Cleanup on Timer"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.roborock_remote_zone_clean_delay
+      action:
+        - service: script.turn_on
+          entity_id:
+            - script.roborock_start_zone_cleaning
