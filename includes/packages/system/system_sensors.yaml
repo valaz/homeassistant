@@ -45,6 +45,27 @@ system_sensors:
       sensor.custom_time:
         friendly_name: Текущее время
 
+  alert:
+    hulk_high_disk_usage:
+      name: "Высокая загрузка диска на Hulk"
+      message: "⚠️💾 Высокое использование диска на Hulk: {{ states('sensor.disk_use_percent') }}%"
+      done_message: "✅💾 Использование диска на Hulk снизилось: {{ states('sensor.disk_use_percent') }}%"
+      entity_id: binary_sensor.c_hulk_high_disk_usage
+      state: "on"
+      repeat: 60
+      can_acknowledge: true
+      skip_first: false
+      notifiers:
+        - tg_valaz
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_hulk_high_disk_usage:
+          friendly_name: "Hulk Dish High Usage"
+          value_template: >-
+            {{ states('sensor.disk_use_percent') | float > 85 }}
+
   sensor:
     - platform: template
       sensors:
