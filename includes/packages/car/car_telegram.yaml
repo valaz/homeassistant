@@ -18,6 +18,7 @@ car_telegram:
       alias: "[Car Telegram] Charging status"
       icon: mdi:information-box
       sequence:
+        - delay: "00:00:05"
         - service: notify.tg_car_chat
           data:
             title: 🚙ℹ🔌 Статус Зарядки Автомобиля

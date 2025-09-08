@@ -64,13 +64,13 @@ car_charging:
         - service: notify.tg_car_chat
           data:
             message: |
-              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}%
-              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин.
+              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
+              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин. ({{ states('sensor.passat_gte_charging_finish_time') }})
         - service: script.send_sms_to_azat
           data:
             message: |
-              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}%.
-              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин.
+              🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км).
+              До конца зарядки осталось {{ states('sensor.passat_gte_charging_time_left') }} мин. ({{ states('sensor.passat_gte_charging_finish_time') }})
 
     - alias: "[Car] Notify when battery is fully charged"
       mode: restart
