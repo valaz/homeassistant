@@ -16,8 +16,6 @@ frontend:
 devices:
   '0x00158d000586695c':
     friendly_name: Bathroom Air Sensor
-  '0x00158d0006bed661':
-    friendly_name: Bathroom Motion Sensor
   '0x00158d00054cd813':
     friendly_name: Bedroom Closet Motion Sensor
   '0x00158d0006e4e280':
@@ -98,6 +96,8 @@ devices:
     state_action: true
   '0xa4c138d49300e1b7':
     friendly_name: Hallway External Motion Sensor
+  '0x00158d0006bed661':
+    friendly_name: Bathroom Motion Sensor
 advanced:
   log_level: info
   log_syslog:
