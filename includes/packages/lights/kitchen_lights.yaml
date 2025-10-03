@@ -50,9 +50,6 @@ kitchen_lights:
         - platform: state
           entity_id: sensor.kitchen_motion_sensor_illuminance
       condition:
-        - condition: numeric_state
-          entity_id: sensor.kitchen_motion_sensor_illuminance
-          below: 2600
         - condition: state
           entity_id: binary_sensor.kitchen_motion_sensor_occupancy
           state: "on"
