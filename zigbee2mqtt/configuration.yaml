@@ -89,8 +89,6 @@ devices:
     friendly_name: Bathroom Window Sensor
   '0x00158d0005800735':
     friendly_name: Kitchen Air Sensor
-  '0x00158d0006ed6b85':
-    friendly_name: Kidsroom Air Sensor
   '0xa4c138baa7383aae':
     friendly_name: Bedroom Monitor Lamp
     state_action: true
@@ -98,6 +96,8 @@ devices:
     friendly_name: Hallway External Motion Sensor
   '0x00158d0006bed661':
     friendly_name: Bathroom Motion Sensor
+  '0x00158d0006ed6b85':
+    friendly_name: Kidsroom Air Sensor
 advanced:
   log_level: info
   log_syslog:
