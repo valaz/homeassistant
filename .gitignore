@@ -24,3 +24,5 @@ www/*
 temp/*
 
 *.key
+
+.ha_run.lock
