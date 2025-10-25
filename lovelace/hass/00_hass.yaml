@@ -211,26 +211,15 @@ sections:
                 color: rgb(127, 186, 192)
                 fill: rgba(217, 240, 235, 0.5)
 
-      - entity: sensor.localhost_disk_usage
+      - entity: sensor.disk_use_percent
         type: custom:multiple-entity-row
         name: "/"
         state_color: true
         state_header: "%"
         entities:
-          - entity: sensor.localhost_disk_used
+          - entity: sensor.disk_use
             name: "used"
-          - entity: sensor.localhost_disk_free
-            name: "free"
-
-      - entity: sensor.localhost_mnt_wdy_disk_usage
-        type: custom:multiple-entity-row
-        name: "/mnt/wd-yellow"
-        state_color: true
-        state_header: "%"
-        entities:
-          - entity: sensor.localhost_mnt_wdy_disk_used
-            name: "used"
-          - entity: sensor.localhost_mnt_wdy_disk_free
+          - entity: sensor.disk_free
             name: "free"
 
   - type: grid ###   Objects    ###
