@@ -29,6 +29,12 @@ bedroom_climate:
             {% set current_co2_level = states('sensor.c_bedroom_co2_density') | float %}
             {% set alert_co2_level = states('input_select.c_bedroom_co2_alert_level') | float %}
             {{ current_co2_level >= alert_co2_level }}
+        c_bedroom_target_co2:
+          friendly_name: "Bedroom Target CO2 level reached"
+          value_template: >-
+            {% set current_co2_level = states('sensor.c_bedroom_co2_density') | float %}
+            {% set target_co2_level = states('input_select.c_bedroom_target_co2_level') | float %}
+            {{ current_co2_level <= target_co2_level }}
 
   input_number:
     c_bedroom_target_temperature:
@@ -52,6 +58,15 @@ bedroom_climate:
       options:
         - "none"
         - "air conditioner"
+
+    c_bedroom_target_co2_level:
+      name: Bedroom Target CO2
+      options:
+        - 400
+        - 450
+        - 500
+        - 550
+        - 600
 
     c_bedroom_co2_alert_level:
       name: Критический уровень CO2
@@ -198,21 +213,21 @@ bedroom_climate:
         - platform: state
           entity_id: binary_sensor.people_at_home
           to: "on"
-        - platform: numeric_state
-          entity_id: sensor.c_bedroom_co2_density
-          above: 500
+        - platform: state
+          entity_id: binary_sensor.c_bedroom_target_co2
+          to: "off"
         - platform: state
           entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
+          entity_id: input_select.c_bedroom_turbine_mode
+          state: "recuperator"
+        - condition: state
           entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
-          entity_id: input_select.c_bedroom_turbine_mode
-          state: "recuperator"
-        - condition: numeric_state
-          entity_id: sensor.c_bedroom_co2_density
-          above: 500
+          entity_id: binary_sensor.c_bedroom_target_co2
+          state: "off"
       action:
         - service: fan.turn_on
           target:
@@ -220,22 +235,22 @@ bedroom_climate:
 
     - alias: "[Bedroom Climate] Turn off Turbine on low CO2"
       trigger:
-        - platform: numeric_state
-          entity_id: sensor.c_bedroom_co2_density
-          below: 450
+        - platform: state
+          entity_id: binary_sensor.c_bedroom_target_co2
+          to: "on"
           for: "00:10:00"
         - platform: state
           entity_id: input_select.c_bedroom_turbine_mode
       condition:
         - condition: state
+          entity_id: input_select.c_bedroom_turbine_mode
+          state: "recuperator"
+        - condition: state
           entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
-          entity_id: input_select.c_bedroom_turbine_mode
-          state: "recuperator"
-        - condition: numeric_state
-          entity_id: sensor.c_bedroom_co2_density
-          below: 450
+          entity_id: binary_sensor.c_bedroom_target_co2
+          state: "on"
       action:
         - service: fan.turn_off
           target:
