@@ -86,11 +86,14 @@ hallway_ring_intercom:
           event_type: ios.action_fired
           event_data:
             actionID: 4C4494D1-AB16-42AF-8B6B-5C5D998CC809
-      action:
-        - service: lock.unlock
+      actions:
+        - action: button.press
+          target:
+            entity_id: button.ring_intercom_open_door
+        - action: lock.unlock
           target:
             entity_id: lock.r_intercom
-        - service: lock.unlock
+        - action: lock.unlock
           target:
             entity_id: lock.z_intercom
 
