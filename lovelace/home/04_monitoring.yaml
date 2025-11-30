@@ -121,7 +121,7 @@ sections:
           show_header_toggle: false
         filter:
           include:
-            - entity_id: "binary_sensor.uptimekuma_smarthome_*"
+            - entity_id: "sensor.uptimekuma_smarthome_*_status"
               sort:
                 method: name
 
