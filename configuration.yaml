@@ -102,7 +102,6 @@ lovelace:
 
 # Вынос во внешние файлы
 influxdb: !include includes/influxdb.yaml
-monitor_docker: !include includes/monitor_docker.yaml
 timer: !include includes/timer.yaml
 group: !include includes/groups.yaml
 scene: !include includes/scenes.yaml
