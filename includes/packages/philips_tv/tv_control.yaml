@@ -40,19 +40,19 @@ tv_control:
               target:
                 entity_id: media_player.philips_tv
 
-  automation:
-    - alias: "[Philips TV] Restart Homebridge"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: state
-          entity_id: media_player.philips_tv
-          to: "on"
-      action:
-        - service: switch.turn_off
-          target:
-            entity_id: switch.c_hulk_docker_homebridge
-        - delay: "00:00:10"
-        - service: switch.turn_on
-          target:
-            entity_id: switch.c_hulk_docker_homebridge
+  # automation:
+  #   - alias: "[Philips TV] Restart Homebridge"
+  #     mode: restart
+  #     initial_state: true
+  #     trigger:
+  #       - platform: state
+  #         entity_id: media_player.philips_tv
+  #         to: "on"
+  #     action:
+  #       - service: switch.turn_off
+  #         target:
+  #           entity_id: switch.c_hulk_docker_homebridge
+  #       - delay: "00:00:10"
+  #       - service: switch.turn_on
+  #         target:
+  #           entity_id: switch.c_hulk_docker_homebridge
