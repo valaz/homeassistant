@@ -1,4 +1,3 @@
 title: Homelab
 views:
   - !include lovelace/homelab/01_network.yaml
-  - !include lovelace/homelab/02_docker.yaml
