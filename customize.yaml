@@ -25,6 +25,8 @@ sensor.c_livingroom_humidity:
   room: "Livingroom"
 sensor.c_livingroom_pm25_density:
   room: "Livingroom"
+sensor.c_livingroom_co2_density:
+  room: "Livingroom"
 
 sensor.c_kitchen_temperature:
   room: "Kitchen"

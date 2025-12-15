@@ -267,6 +267,20 @@ sections:
         layout_options:
           grid_columns: 2
           grid_rows: 3.4
+      - type: custom:mini-graph-card
+        name: Спальня
+        entities:
+          - sensor.c_livingroom_co2_density
+        hour24: true
+        show:
+          graph: false
+          icon: true
+          extrema: true
+          fill: false
+        align_state: center
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3.4
 
   - type: grid ####   Pressure   ####
     cards:
