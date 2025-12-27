@@ -14,12 +14,6 @@ hallway_tedee_lock:
               or (as_timestamp(now()) | int - as_timestamp(states.lock.z_intercom.last_changed) < 210)
               or (as_timestamp(now()) | int - as_timestamp(states.lock.r_intercom.last_changed) < 210)
             }}
-        c_should_warmup_intercom_door:
-          friendly_name: "Should warmup intercom door"
-          value_template: >-
-            {% set last_changed = states.lock.z_intercom.last_changed %}
-            {% set threshold = now() - timedelta(hours=72) %}
-            {{ last_changed <= threshold }}
 
   script:
     main_door_try_unlock:

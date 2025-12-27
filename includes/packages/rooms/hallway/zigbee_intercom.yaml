@@ -4,6 +4,16 @@ hallway_zigbee_intercom:
       name: "Запущено открытие подъезда"
       duration: "00:00:02"
 
+  binary_sensor:
+    - platform: template
+      sensors:
+        c_should_warmup_intercom_door:
+          friendly_name: "Should warmup intercom door"
+          value_template: >-
+            {% set last_changed = states.lock.z_intercom.last_changed %}
+            {% set threshold = now() - timedelta(hours=72) %}
+            {{ last_changed <= threshold }}
+
   script:
     intercom_door_try_warmup:
       alias: "[Intercom Lock] Try to warmup"
