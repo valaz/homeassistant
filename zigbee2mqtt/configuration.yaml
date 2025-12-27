@@ -64,7 +64,7 @@ devices:
   '0xa4c1385d220cdc03':
     friendly_name: Kitchen Motion Sensor
   '0xa4c138756ba0746d':
-    friendly_name: Livingroom PC Plug
+    friendly_name: Livingroom Thanos Plug
   '0xa4c1387ee874ae6f':
     friendly_name: Bedroom Fan Plug
   '0xa4c1381eddafd03a':
@@ -98,6 +98,8 @@ devices:
     friendly_name: Bathroom Motion Sensor
   '0x00158d0006ed6b85':
     friendly_name: Kidsroom Air Sensor
+  '0xa4c138aab1a4d1f6':
+    friendly_name: Kidsroom Motion Sensor
 advanced:
   log_level: info
   log_syslog:

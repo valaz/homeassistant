@@ -81,6 +81,8 @@ binary_sensor.bathroom_motion_sensor_occupancy:
   icon: mdi:motion-sensor
 binary_sensor.kitchen_motion_sensor_occupancy:
   icon: mdi:motion-sensor
+binary_sensor.kidsroom_motion_sensor_occupancy:
+  icon: mdi:motion-sensor
 
 switch.kitchen_sink_plug:
   icon: mdi:lightbulb-spot

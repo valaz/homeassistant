@@ -1,4 +1,9 @@
 kidsroom_lights:
+  timer:
+    kidsroom_light_turn_off:
+      name: "Свет в детской выключится через "
+      duration: "00:03:00"
+
   input_select:
     c_kidsroom_light_mode:
       name: Режим освещения
@@ -60,6 +65,7 @@ kidsroom_lights:
 
   automation:
     - alias: "[Kidsroom Lights] Turn Off on Sunrise"
+      initial_state: true
       trigger:
         - platform: sun
           event: sunrise
@@ -75,6 +81,7 @@ kidsroom_lights:
             option: full
 
     - alias: "[Kidsroom Lights] Fix Main Light"
+      initial_state: false
       trigger:
         - platform: state
           entity_id: input_select.c_kidsroom_light_mode
@@ -92,6 +99,7 @@ kidsroom_lights:
             command: "{{ states('input_select.c_kidsroom_light_mode') }}"
 
     - alias: "[Kidsroom Lights] Turn On Sleep Mode"
+      initial_state: false
       trigger:
         - platform: time
           at: "21:00:00"
@@ -127,3 +135,78 @@ kidsroom_lights:
       action:
         - service: switch.toggle
           entity_id: switch.c_kidsroom_sleep_mode
+
+    - alias: "[Kidsroom Lights] Turn on light if there is movement"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+          to: "on"
+        - platform: state
+          entity_id: sensor.kidsroom_motion_sensor_illuminance
+      condition:
+        - condition: or
+          conditions:
+            - condition: numeric_state
+              entity_id: sensor.kidsroom_motion_sensor_illuminance
+              below: 50
+            - condition: numeric_state
+              entity_id: sensor.c_sun_elevation
+              below: 3
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+              state: "on"
+      action:
+        - service: light.turn_on
+          target:
+            entity_id: light.c_kidsroom
+
+    - alias: "[Kidsroom Lights] Turn off light if there is no movements"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+          to: "off"
+          for: "00:01:00"
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.kidsroom_light_turn_off
+      condition:
+        - condition: state
+          entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+          state: "off"
+      action:
+        - service: light.turn_off
+          target:
+            entity_id: light.c_kidsroom
+
+    - alias: "[Kidsroom Lights] Start timer if light turned on manually"
+      trigger:
+        - platform: state
+          entity_id: light.c_kidsroom
+          to: "on"
+      condition:
+        condition: state
+        entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+        state: "off"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.kidsroom_light_turn_off
+        - service: timer.start
+          target:
+            entity_id: timer.kidsroom_light_turn_off
+
+    - alias: "[Kidsroom Lights] Cancel timer if there is movement"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
+          to: "on"
+        - platform: state
+          entity_id: light.c_kidsroom
+          to: "off"
+      action:
+        - service: timer.cancel
+          target:
+            entity_id: timer.kidsroom_light_turn_off
