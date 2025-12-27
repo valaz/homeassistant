@@ -166,8 +166,8 @@ sections:
             tap_action:
               action: more-info
           - type: entity
-            entity: sensor.c_livingroom_pm25_density
-            color: purple
+            entity: sensor.c_livingroom_co2_density
+            color: green
             tap_action:
               action: more-info
 
@@ -230,12 +230,30 @@ sections:
             color: blue
             tap_action:
               action: more-info
+      - type: heading
+        heading: Движение
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: binary_sensor.kidsroom_motion_sensor_occupancy
+            state_content: last_changed
+            tap_action:
+              action: more-info
       - type: tile
         entity: light.c_kidsroom
         name: Люстра
       - type: tile
         entity: switch.c_kidsroom_sleep_mode
         name: Ночной режим
+      - type: heading
+        heading: Уровень освещения
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.kidsroom_motion_sensor_illuminance
+            color: yellow
+            tap_action:
+              action: more-info
 
   - type: grid #######   Кухня   #######
     cards:

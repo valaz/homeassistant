@@ -52,6 +52,19 @@ sections:
         layout_options:
           grid_columns: 2
           grid_rows: 2.7
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.c_livingroom_co2_density
+        name: "CO2"
+        animate: true
+        hour24: true
+        line_color: green
+        hours_to_show: 24
+        points_per_hour: 1
+        update_interval: 5
+        layout_options:
+          grid_columns: 2
+          grid_rows: 2.7
 
   - type: grid #######   Свет   #######
     cards:
