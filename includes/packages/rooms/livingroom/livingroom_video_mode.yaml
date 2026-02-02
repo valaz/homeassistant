@@ -1,0 +1,33 @@
+livingroom_video:
+  scene:
+    - name: Video
+      icon: "mdi:hair-dryer"
+      entities:
+        switch.c_65oled936_12_ambilight_hue: "off"
+        light.hallway:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          color_temp_kelvin: 5500
+          color_temp: 225
+        light.livingroom:
+          state: "on"
+          brightness: 255
+          color_mode: "color_temp"
+          color_temp_kelvin: 5500
+          color_temp: 225
+
+  automation:
+    - alias: "[Livingroom Lights] On Video Mode"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: input_select.c_livingroom_light_mode
+          to: "video"
+      action:
+        - service: scene.turn_on
+          target:
+            entity_id: scene.video
+          data:
+            transition: 2.5

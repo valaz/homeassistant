@@ -4,6 +4,7 @@ livingroom_lights:
       name: Режим освещения
       options:
         - "normal"
+        - "video"
         - "saloon"
         - "relax"
         - "cinema"
