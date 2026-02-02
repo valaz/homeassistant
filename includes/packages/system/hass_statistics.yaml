@@ -28,71 +28,77 @@ hass_statistics:
             entity_id: input_number.automations_triggers_counter
           data:
             value: "{{ 0 }}"
-  sensor:
-    - platform: template
-      sensors:
-        #----- Count Automations
-        count_automations:
-          # entity_id: sensor.date
-          value_template: "{{ states.automation | list | length }}"
+
+  template:
+    - sensor:
+        # ----- Count Automations
+        - name: "Count Automations"
           unit_of_measurement: ""
-        #----- Count Scripts
-        count_scripts:
-          # entity_id: sensor.date
-          value_template: "{{ states.script| list | length }}"
+          state: >-
+            {{ states.automation | list | length }}
+
+        # ----- Count Scripts
+        - name: "Count Scripts"
           unit_of_measurement: ""
-        #----- Count Device Trackers
-        count_device_trackers:
-          # entity_id: sensor.date
-          value_template: "{{ states.device_tracker | list | length }}"
+          state: >-
+            {{ states.script | list | length }}
+
+        # ----- Count Device Trackers
+        - name: "Count Device Trackers"
           unit_of_measurement: ""
-        #----- Count Binary Sensors
-        count_binary_sensors:
-          # entity_id: sensor.date
-          value_template: "{{ states.binary_sensor| list | length }}"
+          state: >-
+            {{ states.device_tracker | list | length }}
+
+        # ----- Count Binary Sensors
+        - name: "Count Binary Sensors"
           unit_of_measurement: ""
-        #----- Count Sensors
-        count_sensors:
-          # entity_id: sensor.date
-          value_template: "{{ states.sensor | list | length }}"
+          state: >-
+            {{ states.binary_sensor | list | length }}
+
+        # ----- Count Sensors
+        - name: "Count Sensors"
           unit_of_measurement: ""
-        #----- Count Switches
-        count_switches:
-          # entity_id: sensor.date
-          value_template: "{{ states.switch | list | length }}"
+          state: >-
+            {{ states.sensor | list | length }}
+
+        # ----- Count Switches
+        - name: "Count Switches"
           unit_of_measurement: ""
-        #----- Count Switches
-        count_lightes:
-          # entity_id: sensor.date
-          value_template: "{{ states.light | list | length }}"
+          state: >-
+            {{ states.switch | list | length }}
+
+        # ----- Count Zones
+        - name: "Count Zones"
           unit_of_measurement: ""
-        #----- Count Zones
-        count_zones:
-          # entity_id: sensor.date
-          value_template: "{{ states.zone | list | length }}"
+          state: >-
+            {{ states.zone | list | length }}
+
+        # ----- Input Booleans
+        - name: "Count Input Booleans"
           unit_of_measurement: ""
-        #----- Input Booleans
-        count_input_booleans:
-          # entity_id: sensor.date
-          value_template: "{{ states.input_boolean | list | length }}"
+          state: >-
+            {{ states.input_boolean | list | length }}
+
+        # ----- Input Numbers
+        - name: "Count Input Numbers"
           unit_of_measurement: ""
-        #----- Input Numbers
-        count_input_numbers:
-          # entity_id: sensor.date
-          value_template: "{{ states.input_number | list | length }}"
+          state: >-
+            {{ states.input_number | list | length }}
+
+        # ----- Input Texts
+        - name: "Count Input Texts"
           unit_of_measurement: ""
-        #----- Input Texts
-        count_input_texts:
-          # entity_id: sensor.date
-          value_template: "{{ states.input_text | list | length }}"
+          state: >-
+            {{ states.input_text | list | length }}
+
+        # ----- Input Selects
+        - name: "Count Input Selects"
           unit_of_measurement: ""
-        #----- Input Selects
-        count_input_selects:
-          # entity_id: sensor.date
-          value_template: "{{ states.input_select | list | length }}"
+          state: >-
+            {{ states.input_select | list | length }}
+
+        # ----- Input DateTimes
+        - name: "Count Input Datetimes"
           unit_of_measurement: ""
-        #----- Input Date Times
-        count_input_datetimes:
-          # entity_id: sensor.date
-          value_template: "{{ states.input_datetime | list | length }}"
-          unit_of_measurement: ""
+          state: >-
+            {{ states.input_datetime | list | length }}
