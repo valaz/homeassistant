@@ -89,6 +89,9 @@ sections:
         heading: TV
         heading_style: title
         icon: mdi:television-box
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/tv
         badges:
           - type: entity
             entity: sensor.c_tv_duration_current

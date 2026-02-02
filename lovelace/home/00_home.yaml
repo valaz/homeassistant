@@ -204,6 +204,9 @@ sections:
         heading: TV
         heading_style: subtitle
         icon: mdi:television-box
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/tv
         badges:
           - type: entity
             entity: switch.c_livingroom_tv_power

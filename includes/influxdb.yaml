@@ -24,6 +24,7 @@ include:
     - sensor.*power*
     - sensor.*energy*
     - sensor.*passat_gte*
+    - sensor.*tv*
     - switch.*_plug
     - light.*
     - cover.*

@@ -1,0 +1,174 @@
+title: TV
+subview: false
+path: tv
+type: sections
+icon: mdi:television-box
+cards: []
+max_columns: 3
+sections:
+  - type: grid ### TV ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: TV
+        heading_style: title
+      - type: custom:mushroom-media-player-card
+        entity: media_player.philips_tv
+        fill_container: true
+        show_volume_level: true
+        collapsible_controls: false
+        media_controls: [on_off, play_pause_stop]
+        volume_controls: [volume_buttons]
+        layout_options:
+          grid_columns: 4
+          # grid_rows: 2
+
+      - type: custom:mushroom-media-player-card
+        entity: media_player.apple_tv_4k
+        fill_container: true
+        show_volume_level: true
+        collapsible_controls: false
+        media_controls: [on_off, play_pause_stop]
+        layout_options:
+          grid_columns: 4
+
+  - type: grid ### TV Controls ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: TV Control
+        heading_style: title
+
+      - type: tile
+        entity: switch.c_livingroom_tv_power
+      - type: tile
+        entity: switch.c_65oled936_12_screen_state
+        name: screen
+        icon: mdi:fit-to-screen
+      - type: tile
+        entity: switch.c_65oled936_12_ambilight
+        name: ambilight
+      - type: tile
+        entity: switch.c_65oled936_12_ambilight_hue
+        name: ambilight+hue
+        icon: mdi:wall-sconce-round
+
+  - type: grid ### TV Screen Time ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: TV Screen Time
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.c_tv_duration_current
+            color: amber
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.tv_enabled_today
+            color: blue
+            icon: mdi:clock
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: input_number.tv_max_duration_today
+        name: Limit
+        color: blue
+        icon: mdi:timer-sand
+        # vertical: true
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: sensor.tv_enabled_today
+        name: Today
+        color: red
+        icon: mdi:television
+        # vertical: true
+        features:
+          - type: "trend-graph"
+            hours_to_show: 12
+            detail: true
+
+  - type: grid #######   Apple TV History   #######
+    cards:
+      - type: heading
+        heading: Apple TV History
+        heading_style: title
+        icon: mdi:apple
+        badges:
+          - type: entity
+            entity: media_player.apple_tv_4k
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: media_player.apple_tv_4k
+        attributes:
+          - value: app_name
+            label: App
+          - value: media_title
+            label: Title
+        title: ""
+        hidden_state:
+          - "idle"
+          - "standby"
+          - "paused"
+        state_map:
+          - label: Paused
+            icon: mdi:pause
+            value: paused
+          - label: Playing
+            icon: mdi:play-outline
+            value: playing
+          - label: Idle
+            value: idle
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true
+
+  - type: grid #######   Philips TV History   #######
+    cards:
+      - type: heading
+        heading: Philips TV History
+        heading_style: title
+        icon: mdi:android
+        badges:
+          - type: entity
+            entity: media_player.philips_tv
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: media_player.philips_tv
+        attributes:
+          - value: app_name
+            label: App
+          - value: media_title
+            label: Title
+        title: ""
+        hidden_state:
+          - "idle"
+          - "standby"
+          - "off"
+        state_map:
+          - label: Paused
+            icon: mdi:pause
+            value: paused
+          - label: Playing
+            icon: mdi:play-outline
+            value: playing
+          - label: Idle
+            value: idle
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true

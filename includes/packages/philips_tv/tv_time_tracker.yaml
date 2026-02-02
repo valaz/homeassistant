@@ -5,17 +5,24 @@ tv_time_tracker:
       duration: "00:01:00"
 
   input_number:
-    tv_duration_today:
-      name: TV Duration today
-      min: 0
-      max: 1440
-      step: 1
-      unit_of_measurement: min
+    # tv_duration_today:
+    #   name: TV Duration today
+    #   min: 0
+    #   max: 1440
+    #   step: 1
+    #   unit_of_measurement: min
     tv_duration_current:
       name: TV Duration current
       min: 0
       max: 1440
       step: 1
+      unit_of_measurement: min
+    tv_max_duration_today:
+      name: TV Max Duration for today
+      initial: 120
+      min: 60
+      max: 720
+      step: 60
       unit_of_measurement: min
 
   binary_sensor:
@@ -30,16 +37,17 @@ tv_time_tracker:
   sensor:
     - platform: history_stats
       name: TV Enabled Today
-      entity_id: media_player.philips_tv
-      state: "on"
+      entity_id: media_player.apple_tv_4k
+      state: "playing"
       type: time
       start: "{{ today_at() }}"
       end: "{{ now() }}"
+
     - platform: template
       sensors:
         c_tv_duration_today:
           friendly_name: "TV Duration Today"
-          value_template: "{{ states('input_number.tv_duration_today') }}"
+          value_template: "{{ states('sensor.tv_enabled_today') | float * 60 }}"
           unit_of_measurement: min
         c_tv_duration_current:
           friendly_name: "TV Duration Current"
@@ -50,7 +58,10 @@ tv_time_tracker:
     - alias: "[TV Time] Refresh Duration"
       trigger:
         - platform: state
-          entity_id: media_player.philips_tv
+          entity_id: media_player.apple_tv_4k
+          to: "playing"
+        - platform: state
+          entity_id: switch.c_65oled936_12_screen_state
           to: "on"
         - platform: event
           event_type: timer.finished
@@ -58,19 +69,15 @@ tv_time_tracker:
             entity_id: timer.tv_rescan
       condition:
         - condition: state
-          entity_id: media_player.philips_tv
-          state: "on"
+          entity_id: media_player.apple_tv_4k
+          state: "playing"
       action:
-        - service: input_number.set_value
-          target:
-            entity_id: input_number.tv_duration_today
-          data:
-            value: "{{ states('sensor.c_tv_duration_today') | int + 1 }}"
-        - service: input_number.set_value
+        # - action: input_number.increment
+        #   target:
+        #     entity_id: input_number.tv_duration_today
+        - action: input_number.increment
           target:
             entity_id: input_number.tv_duration_current
-          data:
-            value: "{{ states('sensor.c_tv_duration_current') | int + 1 }}"
         - service: timer.start
           target:
             entity_id: timer.tv_rescan
@@ -79,6 +86,9 @@ tv_time_tracker:
       trigger:
         - platform: state
           entity_id: media_player.philips_tv
+          to: "off"
+        - platform: state
+          entity_id: switch.c_65oled936_12_screen_state
           to: "off"
       action:
         - service: input_number.set_value
@@ -95,8 +105,60 @@ tv_time_tracker:
         - platform: time
           at: "00:00:00"
       action:
+        # - service: input_number.set_value
+        #   target:
+        #     entity_id: input_number.tv_duration_today
+        #   data:
+        #     value: "{{ 0 }}"
         - service: input_number.set_value
           target:
-            entity_id: input_number.tv_duration_today
+            entity_id: input_number.tv_max_duration_today
           data:
-            value: "{{ 0 }}"
+            value: "{{ 120 }}"
+
+    - alias: "[TV Time] Every 15m After 120m Daily"
+      trigger:
+        - platform: time_pattern
+          minutes: "/15"
+      condition:
+        - condition: template
+          value_template: "{{ states('sensor.c_tv_duration_today')|int >= states('input_number.tv_max_duration_today')|int }}"
+        - condition: template
+          value_template: "{{ states('sensor.c_tv_duration_current')|int >= 10 }}"
+        - condition: state
+          entity_id: media_player.apple_tv_4k
+          state: "playing"
+      actions:
+        # - action: notify.tg_valaz
+        #   data:
+        #     message: "📺 Сегодня уже {{ states('sensor.c_tv_duration_today')|int }} мин ТВ. Каждые 15 минут напоминаю: может хватит? 🙂"
+        - service: notify.mobile_app_iphone_15_az
+          data:
+            message: "📺 Сегодня уже {{ states('sensor.c_tv_duration_today')|int }} мин ТВ. Каждые 15 минут напоминаю: может хватит? 🙂"
+        - action: media_player.media_pause
+          target:
+            entity_id:
+              - media_player.apple_tv_4k
+
+    - alias: "[TV Time] Late Night Warning"
+      trigger:
+        - platform: time_pattern
+          minutes: "/5"
+      condition:
+        - condition: time
+          after: "00:00:00"
+          before: "06:00:00"
+        - condition: state
+          entity_id: media_player.apple_tv_4k
+          state: "playing"
+      action:
+        # - service: notify.tg_valaz
+        #   data:
+        #     message: "🌙 Уже поздно ({{ states('sensor.time') }}). ТВ сейчас = минус сон. Давай выключим и баиньки."
+        - service: notify.mobile_app_iphone_15_az
+          data:
+            message: "🌙 Уже поздно. ТВ сейчас = минус сон. Выключаем?"
+        - action: media_player.media_pause
+          target:
+            entity_id:
+              - media_player.apple_tv_4k
