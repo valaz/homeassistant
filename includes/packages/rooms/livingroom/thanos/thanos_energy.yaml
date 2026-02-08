@@ -1,0 +1,97 @@
+thanos_plug_energy:
+  utility_meter:
+    thanos_plug_energy_daily:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: daily
+      unique_id: thanos_plug_energy_daily
+
+    thanos_plug_energy_weekly:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: weekly
+      unique_id: thanos_plug_energy_weekly
+
+    thanos_plug_energy_monthly:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: monthly
+      unique_id: thanos_plug_energy_monthly
+
+    thanos_plug_energy_bimonthly:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: bimonthly
+      unique_id: thanos_plug_energy_bimonthly
+
+    thanos_plug_energy_quarterly:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: quarterly
+      unique_id: thanos_plug_energy_quarterly
+
+    thanos_plug_energy_yearly:
+      source: sensor.livingroom_thanos_plug_energy
+      cycle: yearly
+      unique_id: thanos_plug_energy_yearly
+
+  input_number:
+    electricity_price:
+      name: "Electricity Price"
+      min: 0
+      max: 1
+      step: 0.0001
+      unit_of_measurement: "€/kWh"
+      mode: box
+      initial: 0.2956
+
+  template:
+    - sensor:
+        - name: "Thanos Plug Energy Daily Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_daily') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total
+
+        - name: "Thanos Plug Energy Weekly Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_weekly') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total
+
+        - name: "Thanos Plug Energy Monthly Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_monthly') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total
+
+        - name: "Thanos Plug Energy Bimonthly Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_bimonthly') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total
+
+        - name: "Thanos Plug Energy Quarterly  Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_quarterly') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total
+
+        - name: "Thanos Plug Energy Yearly Cost"
+          state: >
+            {% set energy = states('sensor.thanos_plug_energy_yearly') | float(0) %}
+            {% set price = states('input_number.electricity_price') | float(0) %}
+            {{ (energy * price) | round(2) }}
+          unit_of_measurement: "€"
+          device_class: monetary
+          state_class: total

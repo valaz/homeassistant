@@ -1,0 +1,428 @@
+title: Thanos
+path: thanos
+type: sections
+icon: mdi:server
+cards: []
+max_columns: 3
+sections:
+  # - type: grid ###   Thanos    ###
+  #   cards:
+  #     - type: heading
+  #       heading_style: title
+  #       heading: Thanos
+  #       icon: mdi:server
+  #       tap_action:
+  #         action: url
+  #         url_path: http://192.168.178.11
+
+  - type: grid ###   Thanos Hardware    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Ultron Hardware
+        icon: mdi:cpu-64-bit
+        tap_action:
+          action: url
+          url_path: http://192.168.178.11:61208/
+        badges:
+          - type: entity
+            show_icon: true
+            icon: mdi:cpu-64-bit
+            color: orange
+            entity: sensor.192_168_178_11_package_id_0_temperature
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: false
+            icon: mdi:cpu-64-bit
+            color: orange
+            entity: sensor.192_168_178_11_cpu_usage
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: true
+            icon: mdi:chip
+            color: blue
+            entity: sensor.192_168_178_11_memory_usage
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: true
+            icon: mdi:harddisk
+            color: green
+            entity: sensor.192_168_178_11_disk_usage
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: sensor.192_168_178_11_cpu_usage
+        features_position: inline
+        vertical: false
+        name: CPU
+        icon: mdi:cpu-64-bit
+        color: orange
+        show_entity_picture: false
+        features:
+          - type: "bar-gauge"
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.192_168_178_11_memory_usage
+        features_position: inline
+        vertical: false
+        name: RAM
+        icon: mdi:chip
+        color: light-blue
+        show_entity_picture: false
+        features:
+          - type: "bar-gauge"
+            min: 0
+            max: 100
+
+      - type: heading
+        heading: Uptime
+        heading_style: subtitle
+        icon: mdi:clock
+        badges:
+          - type: entity
+            entity: sensor.192_168_178_11_uptime
+            color: blue
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Load
+        heading_style: subtitle
+        icon: mdi:server-network
+        badges:
+          - type: entity
+            entity: sensor.192_168_178_11_cpu_load
+            show_icon: false
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Thanos Docker    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Thanos Docker
+        icon: mdi:docker
+        badges:
+          - type: entity
+            show_icon: true
+            icon: mdi:cube
+            color: orange
+            entity: sensor.192_168_178_11_containers_active
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: sensor.192_168_178_11_containers_cpu_usage
+        features_position: bottom
+        vertical: false
+        name: CPU
+        show_entity_picture: false
+        icon: mdi:cpu-64-bit
+        color: orange
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: tile
+        entity: sensor.192_168_178_11_containers_memory_used
+        features_position: bottom
+        vertical: false
+        name: Memory
+        show_entity_picture: false
+        icon: mdi:chip
+        color: light-blue
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+  - type: grid ###   Thanos Network    ###
+    cards:
+      - type: heading
+        icon: mdi:access-point-network
+        heading: Thanos Network
+        heading_style: title
+        tap_action:
+          action: url
+          url_path: http://192.168.178.11
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: false
+            entity: sensor.thanos_ip
+
+      - type: heading
+        icon: mdi:home-assistant
+        heading: eth1
+        heading_style: subtitle
+      - type: tile
+        entity: sensor.192_168_178_11_eth1_rx
+        features_position: bottom
+        vertical: false
+        name: Download
+        icon: mdi:download
+        color: teal
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+      - type: tile
+        entity: sensor.192_168_178_11_eth1_tx
+        features_position: bottom
+        vertical: false
+        name: Upload
+        icon: mdi:upload
+        color: purple
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: heading
+        icon: mdi:home-assistant
+        heading: docker0
+        heading_style: subtitle
+      - type: tile
+        entity: sensor.192_168_178_11_docker0_rx
+        features_position: bottom
+        vertical: false
+        name: Download
+        icon: mdi:download
+        color: teal
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+      - type: tile
+        entity: sensor.192_168_178_11_docker0_tx
+        features_position: bottom
+        vertical: false
+        name: Upload
+        icon: mdi:upload
+        color: purple
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: heading
+        icon: mdi:home-assistant
+        heading: tailscale1
+        heading_style: subtitle
+      - type: tile
+        entity: sensor.192_168_178_11_tailscale1_rx
+        features_position: bottom
+        vertical: false
+        name: Download
+        icon: mdi:download
+        color: teal
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+      - type: tile
+        entity: sensor.192_168_178_11_tailscale1_tx
+        features_position: bottom
+        vertical: false
+        name: Upload
+        icon: mdi:upload
+        color: purple
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+  - type: grid ###   Thanos Power    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Thanos Power
+        icon: mdi:server
+
+      - type: tile
+        entity: sensor.livingroom_thanos_plug_power
+        name: Power
+        color: blue
+        icon: mdi:power-plug-outline
+        layout_options:
+          grid_columns: 4
+          grid_rows: 2
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.thanos_plug_energy_daily
+        name: Energy consumption
+        hours_to_show: 168
+        icon: mdi:power-plug-outline
+        line_color: black
+        aggregate_func: max
+        group_by: date
+        show:
+          graph: bar
+          legend: false
+          labels: false
+
+      - type: heading
+        heading: Consumed Today
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.thanos_plug_energy_daily
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.thanos_plug_energy_daily_cost
+            color: green
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Consumed This Week
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.thanos_plug_energy_weekly
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.thanos_plug_energy_weekly_cost
+            color: green
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Consumed This Month
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.thanos_plug_energy_monthly
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.thanos_plug_energy_monthly_cost
+            color: green
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Consumed This Quarter
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.thanos_plug_energy_quarterly
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.thanos_plug_energy_quarterly_cost
+            color: green
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Consumed This Year
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.thanos_plug_energy_yearly
+            color: blue
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.thanos_plug_energy_yearly_cost
+            color: green
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Thanos KVM    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Thanos KVM
+        icon: mdi:remote-desktop
+        tap_action:
+          action: url
+          url_path: http://192.168.178.21
+
+      - type: heading
+        heading_style: subtitle
+        heading: NanoKVM
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.thanos_kvm_application_version
+            color: green
+            icon: mdi:file-code
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.thanos_kvm_hardware_version
+            color: grey
+            icon: mdi:chip
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: switch.thanos_kvm_power
+        color: blue
+      - type: tile
+        entity: button.thanos_kvm_reboot_system
+      - type: tile
+        entity: switch.thanos_kvm_virtual_disk
+      - type: tile
+        entity: switch.thanos_kvm_virtual_network
+      - type: tile
+        entity: switch.thanos_kvm_ssh
+      - type: tile
+        entity: switch.thanos_kvm_mdns
+      - type: tile
+        entity: button.thanos_kvm_reset_hid
+      - type: tile
+        entity: button.thanos_kvm_update_application
+      - type: tile
+        entity: select.thanos_kvm_mouse_jiggler_mode
+
+      - type: heading
+        heading_style: subtitle
+        heading: Ultron Controls
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: binary_sensor.thanos_kvm_power_led
+            color: green
+            tap_action:
+              action: more-info
+      - type: picture-entity
+        show_state: false
+        show_name: false
+        camera_view: live
+        entity: camera.thanos_kvm_hdmi_stream
+        camera_image: camera.thanos_kvm_hdmi_stream
+        # aspect_ratio: "1.22" #"135x115"
+        layout_options:
+          grid_columns: 2
+          grid_rows: 2
+      - type: tile
+        entity: button.thanos_kvm_power_button
+        color: green
+      - type: tile
+        entity: button.thanos_kvm_reset_button
+        color: orange

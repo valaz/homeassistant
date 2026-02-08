@@ -58,6 +58,12 @@ sections:
             - "#00ff00"
           gradient: true
 
+      - type: entities
+        title: Price Control
+        entities:
+          - entity: input_number.electricity_price
+        name: Electricity Price
+
   - type: grid ###   Stale Environmental Sensors    ###
     cards:
       - type: heading

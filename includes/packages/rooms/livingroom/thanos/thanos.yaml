@@ -1,0 +1,5 @@
+thanos:
+  template:
+    - sensor:
+        - name: "Thanos IP"
+          state: !secret thanos_ip
