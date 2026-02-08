@@ -164,7 +164,7 @@ sections:
         camera_view: live
         entity: camera.roborock_s5
         camera_image: camera.roborock_s5
-        aspect_ratio: "1.9" #"135x115"
+        aspect_ratio: "1.22" #"135x115"
         layout_options:
           grid_columns: 2
           grid_rows: 3
