@@ -11,6 +11,9 @@ sections:
         heading_style: title
         heading: FFRITZ!Box
         icon: mdi:router-wireless
+        tap_action:
+          action: url
+          url_path: http://192.168.178.1
 
       - type: heading
         heading: Last Restart
