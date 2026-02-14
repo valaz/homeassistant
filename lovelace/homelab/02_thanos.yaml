@@ -19,7 +19,7 @@ sections:
     cards:
       - type: heading
         heading_style: title
-        heading: Ultron Hardware
+        heading: Thanos Hardware
         icon: mdi:cpu-64-bit
         tap_action:
           action: url
@@ -56,29 +56,29 @@ sections:
 
       - type: tile
         entity: sensor.192_168_178_11_cpu_usage
-        features_position: inline
+        features_position: bottom
         vertical: false
         name: CPU
         icon: mdi:cpu-64-bit
         color: orange
         show_entity_picture: false
         features:
-          - type: "bar-gauge"
-            min: 0
-            max: 100
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
 
       - type: tile
         entity: sensor.192_168_178_11_memory_usage
-        features_position: inline
+        features_position: bottom
         vertical: false
         name: RAM
         icon: mdi:chip
         color: light-blue
         show_entity_picture: false
         features:
-          - type: "bar-gauge"
-            min: 0
-            max: 100
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
 
       - type: heading
         heading: Uptime
