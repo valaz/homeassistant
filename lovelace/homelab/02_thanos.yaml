@@ -142,6 +142,166 @@ sections:
             hours_to_show: 24
             detail: true
 
+  - type: grid ###   Thanos Array    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Thanos Array
+        icon: mdi:server
+
+      - type: heading
+        icon: mdi:harddisk
+        heading: Array
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            color: orange
+            icon: mdi:thermometer
+            entity: sensor.thanos_api_parity_temperature
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            show_icon: true
+            color: orange
+            icon: mdi:thermometer
+            entity: sensor.thanos_api_disk1_temperature
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Parity Status
+        heading_style: subtitle
+        icon: mdi:check-all
+        badges:
+          - type: entity
+            entity: sensor.thanos_api_parity_status
+            color: blue
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: sensor.thanos_api_array_usage
+        features_position: bottom
+        vertical: false
+        name: Array Usage
+        show_entity_picture: false
+        color: green
+        layout_options:
+          grid_columns: 4
+          grid_rows: 2
+        features:
+          - type: "bar-gauge"
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.thanos_array_used_space
+        features_position: bottom
+        vertical: false
+        name: Used
+        show_entity_picture: false
+        color: red
+      - type: tile
+        entity: sensor.thanos_array_free_space
+        features_position: bottom
+        vertical: false
+        name: Free
+        show_entity_picture: false
+        color: light-blue
+
+      # - type: heading
+      #   heading: Parity Progress
+      #   heading_style: subtitle
+      #   # icon: mdi:check-all
+      #   badges:
+      #     - type: entity
+      #       entity: sensor.telegraf_ultron_parity_speed
+      #       color: orange
+      #       icon: mdi:speedometer
+      #       tap_action:
+      #         action: more-info
+      #     - type: entity
+      #       entity: sensor.telegraf_ultron_parity_progress
+      #       color: orange
+      #       icon: mdi:list-status
+      #       tap_action:
+      #         action: more-info
+      #     - type: entity
+      #       entity: sensor.telegraf_ultron_parity_finish_timestamp
+      #       color: orange
+      #       show_icon: false
+      #       tap_action:
+      #         action: more-info
+      #   visibility:
+      #     - condition: numeric_state
+      #       entity: sensor.telegraf_ultron_parity_progress
+      #       below: 100
+
+      # - type: heading
+      #   icon: mdi:harddisk
+      #   heading: Disks
+      #   heading_style: title
+
+      - type: heading
+        icon: mdi:harddisk
+        heading: Cache
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            color: orange
+            icon: mdi:thermometer
+            entity: sensor.thanos_api_cache_temperature
+            tap_action:
+              action: more-info
+          - type: entity
+            show_state: true
+            icon: mdi:thermometer
+            show_icon: true
+            color: orange
+            entity: sensor.thanos_api_cache2_temperature
+            tap_action:
+              action: more-info
+          # - type: entity
+          #   show_state: true
+          #   show_icon: true
+          #   entity: sensor.thanos_api_cache_usage
+          #   tap_action:
+          #     action: more-info
+      - type: tile
+        entity: sensor.thanos_api_cache_usage
+        features_position: bottom
+        vertical: false
+        name: Cache Usage
+        show_entity_picture: false
+        color: light-green
+        layout_options:
+          grid_columns: 4
+          grid_rows: 2
+        features:
+          - type: "bar-gauge"
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.thanos_cache_used_space
+        features_position: bottom
+        vertical: false
+        name: Used
+        show_entity_picture: false
+        color: red
+      - type: tile
+        entity: sensor.thanos_cache_free_space
+        features_position: bottom
+        vertical: false
+        name: Free
+        show_entity_picture: false
+        color: light-blue
+
   - type: grid ###   Thanos Network    ###
     cards:
       - type: heading
@@ -158,7 +318,7 @@ sections:
             entity: sensor.thanos_ip
 
       - type: heading
-        icon: mdi:home-assistant
+        # icon: mdi:home-assistant
         heading: eth1
         heading_style: subtitle
       - type: tile
@@ -187,7 +347,7 @@ sections:
             detail: true
 
       - type: heading
-        icon: mdi:home-assistant
+        # icon: mdi:home-assistant
         heading: docker0
         heading_style: subtitle
       - type: tile
@@ -216,7 +376,7 @@ sections:
             detail: true
 
       - type: heading
-        icon: mdi:home-assistant
+        # icon: mdi:home-assistant
         heading: tailscale1
         heading_style: subtitle
       - type: tile
@@ -270,7 +430,7 @@ sections:
         name: Energy consumption
         hours_to_show: 168
         icon: mdi:power-plug-outline
-        line_color: black
+        line_color: blue
         aggregate_func: max
         group_by: date
         show:
