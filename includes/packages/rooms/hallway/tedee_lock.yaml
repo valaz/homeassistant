@@ -14,6 +14,13 @@ hallway_tedee_lock:
               or (as_timestamp(now()) | int - as_timestamp(states.lock.z_intercom.last_changed) < 210)
               or (as_timestamp(now()) | int - as_timestamp(states.lock.r_intercom.last_changed) < 210)
             }}
+        c_intercom_changed_recently:
+          friendly_name: "Intercom changed recently"
+          value_template: >-
+            {{ 
+              (as_timestamp(now()) | int - as_timestamp(states.lock.z_intercom.last_changed) < 300)
+              or (as_timestamp(now()) | int - as_timestamp(states.lock.r_intercom.last_changed) < 300)
+            }}
 
   script:
     main_door_try_unlock:
@@ -88,19 +95,22 @@ hallway_tedee_lock:
         - condition: time
           after: "08:00:00"
           before: "22:00:00"
-        - condition: state
-          entity_id: person.eliia
-          state: "home"
+        # - condition: state
+        #   entity_id: person.eliia
+        #   state: "home"
         - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
+        - condition: state
+          entity_id: binary_sensor.c_intercom_changed_recently
+          state: "on"
         - condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
       action:
-        - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
-          timeout: 10
-          continue_on_timeout: false
-        - service: lock.open
+        # - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
+        #   timeout: 10
+        #   continue_on_timeout: false
+        - service: lock.unlock
           target:
             entity_id: lock.lock_febb
         - service: script.send_sms_to_azat
