@@ -92,6 +92,8 @@ sections:
             - name: "*Glances*"
             - entity_id: "*passat_gte*"
             - entity_id: "*localhost*"
+            - entity_id: "*192_168_178_11*"
+            - entity_id: "*thanos_api*"
         sort:
           method: name
           numeric: true
