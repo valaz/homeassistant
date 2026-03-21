@@ -87,7 +87,7 @@ sections:
               left: 47%
 
           - type: state-icon
-            entity: switch.passat_gte_electric_climatisation
+            entity: climate.passat_gte_electric_climatisation
             hold_action: toggle
             style:
               top: 87%
@@ -325,18 +325,14 @@ sections:
         heading: Remote Climate
         heading_style: title
 
-      - type: heading ### Target Temperature ###
-        # icon: mdi:cable-data
-        heading: Target Temperature
-        heading_style: subtitle
-        badges:
-          - type: entity
-            show_state: true
-            show_icon: true
-            entity: number.passat_gte_climatisation_target_temperature
-            tap_action:
-              action: more-info
-            color: green
+      - type: tile
+        entity: climate.passat_gte_electric_climatisation
+        name: Electric Climate
+        color: yellow
+        features_position: inline
+        features:
+          - type: "target-temperature"
+
       - type: heading ### Autonomous Heater ###
         # icon: mdi:cable-data
         heading: Autonomous Heater
@@ -349,18 +345,7 @@ sections:
             tap_action:
               action: more-info
             # color: green
-      - type: heading ### Climatisation ###
-        # icon: mdi:cable-data
-        heading: Climatisation
-        heading_style: subtitle
-        badges:
-          - type: entity
-            show_state: true
-            show_icon: true
-            entity: switch.passat_gte_electric_climatisation
-            tap_action:
-              action: more-info
-            # color: green
+
       - type: heading ### Window Heater ###
         # icon: mdi:cable-data
         heading: Window Heater
