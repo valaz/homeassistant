@@ -113,9 +113,6 @@ hallway_tedee_lock:
         - service: lock.unlock
           target:
             entity_id: lock.lock_febb
-        - service: script.send_sms_to_azat
-          data:
-            message: "🔒 Дверь открывается, так как Азат пришел домой"
         - service: notify.tg_valaz
           data:
             message: "🔒 Замок открывается, так как Азат пришел домой"
@@ -133,9 +130,6 @@ hallway_tedee_lock:
           target:
             entity_id: lock.lock_febb
         - service: notify.tg_valaz
-          data:
-            message: "🔒 Дверь закрывается, так как никого нет дома"
-        - service: script.send_sms_to_azat
           data:
             message: "🔒 Дверь закрывается, так как никого нет дома"
 

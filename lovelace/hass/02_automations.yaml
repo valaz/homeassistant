@@ -480,26 +480,6 @@ sections:
                   exclude:
                     - state: "off"
           - attributes:
-              label: SMS
-            card:
-              type: vertical-stack
-              cards:
-                - type: custom:auto-entities
-                  show_empty: false
-                  card:
-                    type: entities
-                    show_header_toggle: false
-                  filter:
-                    include:
-                      - domain: automation
-                        name: "*SMS*"
-                        options:
-                          secondary_info: last-triggered
-                        sort:
-                          method: name
-                  exclude:
-                    - state: "off"
-          - attributes:
               label: Telegram
             card:
               type: vertical-stack
@@ -624,8 +604,7 @@ sections:
             - name: "*TV Time*"
             - name: "*Roborock*"
             - name: "*FRITZ!Box*"
-            - name: "*Pi-hole*"
-            - name: "*SMS*"
+            - name: "*Pi-hole*"v
             - name: "*Telegram*"
             - name: "*System]*"
             - name: "*People]*"
