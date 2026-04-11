@@ -94,6 +94,19 @@ bedroom_cover_group:
                   position: "{{(state_attr('cover.bedroom_cover_group', 'current_position') + STEP, 100) | min | int}}"
               - delay: "00:01:00"
 
+    reset_down_positions:
+      alias: "[Bedroom Covers] Reset Down Positions"
+      icon: mdi:delete-restore
+      sequence:
+        - service: input_number.set_value
+          data:
+            entity_id: input_number.bedroom_left_cover_down_position
+            value: 0
+        - service: input_number.set_value
+          data:
+            entity_id: input_number.bedroom_right_cover_down_position
+            value: 0
+
   automation:
     - alias: "[Bedroom Covers] Close after Sunset"
       trigger:

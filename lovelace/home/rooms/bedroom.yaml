@@ -122,6 +122,14 @@ sections:
         features:
           - type: "numeric-input"
             style: "buttons"
+            
+      - type: tile
+        entity: script.reset_down_positions
+        name: Reset
+        color: green
+        vertical: false
+        tap_action:
+          action: toggle
 
   - type: grid #######   Турбина   #######
     cards:
