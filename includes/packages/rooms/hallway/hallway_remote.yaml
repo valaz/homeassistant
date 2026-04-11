@@ -1,0 +1,39 @@
+hallway_remote:
+  automation:
+    ####### Button ON
+    - alias: "[Main Door Lock] Unlock from Remote Control"
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: event.hallway_remote_control_button_on
+          attribute: event_type
+          to: "long_press"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.main_door
+
+    - alias: "[Tedee Lock] Unlock from Remote Control"
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: event.hallway_remote_control_button_on
+          attribute: event_type
+          to: "multi_press_1"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.lock_febb
+
+    ####### Button OFF
+    - alias: "[Main Door Lock] Lock from Remote Control"
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: event.hallway_remote_control_button_off
+          attribute: event_type
+          to: "long_press"
+      action:
+        - service: lock.lock
+          target:
+            entity_id: lock.lock_febb
