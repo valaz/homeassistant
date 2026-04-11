@@ -3,6 +3,9 @@ hallway_tedee_lock:
     hallway_door_pull_spring:
       name: "Запущено открытие двери"
       duration: "00:00:03"
+    hallway_door_azat_auto_open:
+      name: "Автооткрытие двери для Азата"
+      duration: "00:03:33"
 
   binary_sensor:
     - platform: template
@@ -115,7 +118,42 @@ hallway_tedee_lock:
             entity_id: lock.lock_febb
         - service: notify.tg_valaz
           data:
-            message: "🔒 Замок открывается, так как Азат пришел домой"
+            message: "🔒 Замок разблокировался, так как Азат пришел"
+
+
+    - alias: "[Main Door Lock] Auto Open for Azat"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: person.azat
+          from: "not_home"
+          to: "home"
+      condition:
+        - condition: time
+          after: "08:00:00"
+          before: "22:00:00"
+        - condition: state
+          entity_id: binary_sensor.hallway_door_sensor_contact
+          state: "off"
+        - condition: state
+          entity_id: binary_sensor.c_intercom_changed_recently
+          state: "on"
+        - condition: template
+          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
+        - condition: state
+          entity_id: timer.hallway_door_azat_auto_open
+          state: "active"
+      action:
+        - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
+          timeout: 10
+          continue_on_timeout: false
+        - service: lock.unlock
+          target:
+            entity_id: lock.lock_febb
+        - service: notify.tg_valaz
+          data:
+            message: "🔒 Замок разблокировался, так как Азат подошел"
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
