@@ -58,57 +58,65 @@ system_sensors:
       notifiers:
         - tg_valaz
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_hulk_high_disk_usage:
-          friendly_name: "Hulk Dish High Usage"
-          value_template: >-
-            {{ states('sensor.disk_use_percent') | float > 85 }}
-
-  sensor:
-    - platform: template
-      sensors:
-        c_uptime_server:
-          friendly_name: "Server Uptime"
-          icon_template: mdi:clock-time-two-outline
-          value_template: >
-            {% set uptime_seconds = (now() - (states('sensor.last_boot') | as_datetime)).total_seconds() %}
-            {{ timedelta(seconds=uptime_seconds) }}
-        c_uptime_system:
-          friendly_name: "System Uptime"
-          icon_template: mdi:clock-time-two-outline
-          value_template: >
-            {% set uptime_seconds = (now() - (states('sensor.online') | as_datetime)).total_seconds() %}
-            {{ timedelta(seconds=uptime_seconds) }}
-
-    - platform: time_date
-      display_options:
-        - "time"
-        - "date"
-        - "date_time"
-        - "time_date"
-
   template:
+    - binary_sensor:
+        - name: "Hulk High Disk Usage"
+          default_entity_id: binary_sensor.c_hulk_high_disk_usage
+          unique_id: c_hulk_high_disk_usage
+          state: >
+            {{ states('sensor.disk_use_percent') | float(0) > 85 }}
+
+    - sensor:
+        - name: "Server Uptime"
+          default_entity_id: sensor.c_server_uptime
+          unique_id: c_uptime_server
+          icon: mdi:clock-time-two-outline
+          state: >
+            {% set last_boot = states('sensor.last_boot') | as_datetime %}
+            {% if last_boot %}
+              {{ now() - last_boot }}
+            {% else %}
+              unknown
+            {% endif %}
+
+        - name: "System Uptime"
+          default_entity_id: sensor.c_system_uptime
+          unique_id: c_uptime_system
+          icon: mdi:clock-time-two-outline
+          state: >
+            {% set online = states('sensor.online') | as_datetime %}
+            {% if online %}
+              {{ now() - online }}
+            {% else %}
+              unknown
+            {% endif %}
+
+        - name: "Custom Time"
+          default_entity_id: sensor.c_custom_time
+          unique_id: c_custom_time
+          state: >
+            {{ now().strftime("%H:%M:%S") }}
+
+        - name: "Online Custom"
+          default_entity_id: sensor.c_online_custom
+          unique_id: c_online_custom
+          state: >
+            {% set s = (as_timestamp(now()) - as_timestamp(states('sensor.online'))) | int(0) %}
+            {{ '%d d %02d:%02d:%02d' | format(s//86400, (s%86400)//3600, (s%3600)//60, s%60) }}
+
+        - name: "Last Boot Custom"
+          default_entity_id: sensor.c_last_boot_custom
+          unique_id: c_last_boot_custom
+          state: >
+            {% set s = (as_timestamp(now()) - as_timestamp(states('sensor.last_boot'))) | int(0) %}
+            {{ '%d d %02d:%02d:%02d' | format(s//86400, (s%86400)//3600, (s%3600)//60, s%60) }}
+
     - trigger:
         - platform: time_pattern
           seconds: "/30"
+
       sensor:
-        - name: time_1_sec
-          state: "{{ as_timestamp(now()) | round(default=0)}}"
-
-    - sensor:
-        - name: custom_time
-          state: >
-            {{states("sensor.time_1_sec") | int | timestamp_custom("%H:%M:%S") }}
-        # Время с последней перезагрузки Home Assistant
-        - name: online_custom
-          state: >
-            {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.online')) | int) %}
-            {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
-
-        # Время с последней перезагрузки сервера
-        - name: last_boot_custom
-          state: >
-            {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
-            {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+        - name: "Time Tick"
+          default_entity_id: sensor.c_time_1_sec
+          unique_id: c_time_1_sec
+          state: "{{ as_timestamp(now()) | round(0) }}"

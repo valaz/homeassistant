@@ -4,15 +4,36 @@ hallway_zigbee_intercom:
       name: "Запущено открытие подъезда"
       duration: "00:00:02"
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_should_warmup_intercom_door:
-          friendly_name: "Should warmup intercom door"
-          value_template: >-
+  template:
+    - binary_sensor:
+        - name: "Should Warmup Intercom Door"
+          default_entity_id: binary_sensor.c_should_warmup_intercom_door
+
+          state: >-
             {% set last_changed = states.lock.z_intercom.last_changed %}
-            {% set threshold = now() - timedelta(hours=72) %}
-            {{ last_changed <= threshold }}
+            {% set threshold = now() - timedelta(hours=154) %}
+
+            {{
+              last_changed is not none
+              and as_timestamp(last_changed) < as_timestamp(threshold)
+            }}
+
+    - lock:
+        - unique_id: z_intercom
+          name: Z Intercom
+          lock:
+            - target:
+                entity_id:
+                  - timer.hallway_intercom_state_timer
+              action: timer.cancel
+          unlock:
+            - action: script.intercom_door_try_warmup
+            - target:
+                entity_id:
+                  - switch.hallway_button_pusher
+              action: switch.toggle
+          optimistic: false
+          state: "{{ is_state('timer.hallway_intercom_state_timer', 'idle') }}"
 
   script:
     intercom_door_try_warmup:
@@ -35,21 +56,6 @@ hallway_zigbee_intercom:
           target:
             entity_id: switch.hallway_button_pusher
         - delay: "00:00:03"
-
-  lock:
-    - platform: template
-      unique_id: z_intercom
-      name: Z Intercom
-      value_template: "{{ is_state('timer.hallway_intercom_state_timer', 'idle') }}"
-      lock:
-        - service: timer.cancel
-          target:
-            entity_id: timer.hallway_intercom_state_timer
-      unlock:
-        - service: script.intercom_door_try_warmup
-        - service: switch.toggle
-          target:
-            entity_id: switch.hallway_button_pusher
 
   automation:
     - alias: "[Intercom Lock] Observe button push"

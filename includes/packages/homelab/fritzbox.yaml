@@ -1,0 +1,24 @@
+fritzbox:
+  template:
+    - sensor:
+        - name: "Fritz Box 6660 Cable Upload Throughput Mbs"
+          default_entity_id: sensor.c_fritz_box_6660_cable_upload_throughput_mbs
+          unit_of_measurement: "Mbit/s"
+          device_class: data_rate
+          state_class: measurement
+          icon: mdi:upload
+          state: >-
+            {{ (states('sensor.fritz_box_6660_cable_upload_throughput') | float(0) / 125) | round(2) }}
+          availability: >-
+            {{ is_number(states('sensor.fritz_box_6660_cable_upload_throughput')) }}
+
+        - name: "Fritz Box 6660 Cable Download Throughput Mbs"
+          default_entity_id: sensor.c_fritz_box_6660_cable_download_throughput_mbs
+          unit_of_measurement: "Mbit/s"
+          device_class: data_rate
+          state_class: measurement
+          icon: mdi:download
+          state: >-
+            {{ (states('sensor.fritz_box_6660_cable_download_throughput') | float(0) / 125) | round(2) }}
+          availability: >-
+            {{ is_number(states('sensor.fritz_box_6660_cable_download_throughput')) }}

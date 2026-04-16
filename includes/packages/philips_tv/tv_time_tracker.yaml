@@ -25,14 +25,35 @@ tv_time_tracker:
       step: 60
       unit_of_measurement: min
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_tv_plex:
-          friendly_name: "Plex on TV"
+  template:
+    - binary_sensor:
+        - name: "TV Plex"
+          default_entity_id: binary_sensor.c_tv_plex
           device_class: running
-          value_template: >-
-            {{state_attr('media_player.apple_tv_4k', 'app_name') == 'Plex'}}
+          state: >
+            {{ state_attr('media_player.apple_tv_4k', 'app_name') == 'Plex' }}
+
+    - sensor:
+        - name: "TV Duration Today"
+          default_entity_id: sensor.c_tv_duration_today
+          unit_of_measurement: min
+          state: >
+            {{ (states('sensor.tv_enabled_today') | float(0)) * 60 }}
+
+        - name: "TV Duration Current"
+          default_entity_id: sensor.c_tv_duration_current
+          unit_of_measurement: min
+          state: >
+            {{ states('input_number.tv_duration_current') | float(0) }}
+
+        - name: "TV Enabled Today Formatted"
+          default_entity_id: sensor.tv_enabled_today_formatted
+          state: >
+            {% set hours = states('sensor.tv_enabled_today') | float(0) %}
+            {% set hr = hours | int %}
+            {% set min = ((hours - hr) * 60) | int %}
+            {{ "%d:%02d" | format(hr, min) }}
+          icon: mdi:television-clock
 
   sensor:
     - platform: history_stats
@@ -42,17 +63,6 @@ tv_time_tracker:
       type: time
       start: "{{ today_at() }}"
       end: "{{ now() }}"
-
-    - platform: template
-      sensors:
-        c_tv_duration_today:
-          friendly_name: "TV Duration Today"
-          value_template: "{{ states('sensor.tv_enabled_today') | float * 60 }}"
-          unit_of_measurement: min
-        c_tv_duration_current:
-          friendly_name: "TV Duration Current"
-          value_template: "{{ states('input_number.tv_duration_current') }}"
-          unit_of_measurement: min
 
   automation:
     - alias: "[TV Time] Refresh Duration"
@@ -139,6 +149,11 @@ tv_time_tracker:
           target:
             entity_id:
               - media_player.apple_tv_4k
+        - action: tts.google_say
+          data:
+            entity_id: media_player.65oled936_12
+            language: ru
+            message: "Ты смотришь телевизор уже {{ states('sensor.tv_enabled_today_formatted') }}"
 
     - alias: "[TV Time] Late Night Warning"
       trigger:

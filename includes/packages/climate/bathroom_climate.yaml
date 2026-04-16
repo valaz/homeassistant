@@ -1,9 +1,49 @@
 bathroom_climate:
   alert:
+    # =========================
+    # LEAK ALERT
+    # =========================
+    leak_bathroom:
+      name: "Утечка воды в ванной"
+      message: "⚠️ ОБНАРУЖЕНА УТЕЧКА ВОДЫ В ВАННОЙ"
+      done_message: "🆗 Утечка воды в ванной устранена"
+      entity_id: binary_sensor.bathroom_water_leak_sensor_water_leak
+      state: "on"
+      repeat: 1
+      can_acknowledge: true
+      skip_first: false
+      notifiers:
+        - mobile_app_iphone_12_az
+        - tg_valaz
+
+    # =========================
+    # HIGH HUMIDITY ALERT
+    # =========================
+    moisture_bathroom:
+      name: "Высокая влажность в ванной"
+      message: "⚠️ Обнаружена высокая влажность в ванной"
+      done_message: "🆗 Влажность в ванной в норме"
+      entity_id: binary_sensor.c_bathroom_moisture
+      state: "on"
+      repeat:
+        - 5
+        - 15
+        - 30
+      can_acknowledge: true
+      skip_first: true
+      notifiers:
+        - tg_valaz
+
+    # =========================
+    # COLD + WINDOW OPEN ALERT
+    # =========================
     bathroom_freezing:
-      name: "Низкаая температура в ванной"
-      message: "⚠️🥶 Обнаружено открытое окно и низкая температура в ванной: {{states('sensor.c_bathroom_temperature')}} °C"
-      done_message: "✅🥶 Окно в ванной закрыто"
+      name: "Низкая температура в ванной"
+      message: >-
+        ⚠️🥶 Обнаружены неблагоприятные условия в ванной:
+        Температура: {{ states('sensor.c_bathroom_temperature') }}°C,
+        Влажность: {{ states('sensor.c_bathroom_humidity') }}%
+      done_message: "✅🥶 Условия в ванной нормализованы"
       entity_id: binary_sensor.c_bathroom_freezing
       state: "on"
       repeat: 5
@@ -12,14 +52,32 @@ bathroom_climate:
       notifiers:
         - tg_valaz
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_bathroom_moisture:
-          friendly_name: "Bathroom Moisture"
-          value_template: >-
-            {{ is_state('binary_sensor.bathroom_window_sensor_contact', 'off') and  states.sensor.c_bathroom_humidity.state | float >= 60 and states.sensor.c_bathroom_humidity.state | float > states.sensor.c_weather_humidity.state | float }}
-        c_bathroom_freezing:
-          friendly_name: "Bathroom Freezing"
-          value_template: >-
-            {{ is_state('binary_sensor.bathroom_window_sensor_contact', 'on') and states.sensor.c_bathroom_temperature.state | float < 21 and states.sensor.c_weather_temperature.state | float < 15 }}
+  template:
+    - binary_sensor:
+        # =========================
+        # MOISTURE CONDITION
+        # =========================
+        - name: "Bathroom Moisture"
+          default_entity_id: binary_sensor.c_bathroom_moisture
+          state: >-
+            {% set window_open = is_state('binary_sensor.bathroom_window_sensor_contact', 'on') %}
+            {% set humidity = states('sensor.c_bathroom_humidity') | float(0) %}
+            {% set weather_humidity = states('sensor.c_weather_humidity') | float(0) %}
+
+            {{ (not window_open)
+              and humidity >= 60
+              and humidity > weather_humidity }}
+
+        # =========================
+        # FREEZING CONDITION
+        # =========================
+        - name: "Bathroom Freezing"
+          default_entity_id: binary_sensor.c_bathroom_freezing
+          state: >-
+            {% set window_open = is_state('binary_sensor.bathroom_window_sensor_contact', 'on') %}
+            {% set temp = states('sensor.c_bathroom_temperature') | float(0) %}
+            {% set outside_temp = states('sensor.c_weather_temperature') | float(0) %}
+
+            {{ window_open
+              and temp < 21
+              and outside_temp < 15 }}

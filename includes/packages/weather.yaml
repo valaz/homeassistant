@@ -1,15 +1,32 @@
 weather:
-  sensor:
-    - platform: template
-      sensors:
-        c_weather_humidity:
-          friendly_name: "Влажность на улице"
-          value_template: "{{ state_attr('weather.pirateweather', 'humidity') | round(0) }}"
+  template:
+    - sensor:
+        - name: "Weather Humidity"
+          default_entity_id: sensor.c_weather_humidity
           unit_of_measurement: "%"
-        c_weather_temperature:
-          friendly_name: "Температура на улице"
-          value_template: "{{ state_attr('weather.pirateweather', 'temperature') | round(1) }}"
+          device_class: humidity
+          state_class: measurement
+          state: >
+            {{ state_attr('weather.pirateweather', 'humidity') | float(0) | round(0) }}
+          availability: >
+            {{ state_attr('weather.pirateweather', 'humidity') is not none }}
+
+        - name: "Weather Temperature"
+          default_entity_id: sensor.c_weather_temperature
           unit_of_measurement: "°C"
-        c_sun_elevation:
-          friendly_name: "Высота солнца"
-          value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+          device_class: temperature
+          state_class: measurement
+          state: >
+            {{ state_attr('weather.pirateweather', 'temperature') | float(0) | round(1) }}
+          availability: >
+            {{ state_attr('weather.pirateweather', 'temperature') is not none }}
+
+        - name: "Sun Elevation"
+          default_entity_id: sensor.c_sun_elevation
+          unit_of_measurement: "°"
+          state_class: measurement
+          icon: mdi:weather-sunny
+          state: >
+            {{ state_attr('sun.sun', 'elevation') | float(0) | round(1) }}
+          availability: >
+            {{ state_attr('sun.sun', 'elevation') is not none }}

@@ -7,8 +7,13 @@ bedroom_climate:
   alert:
     bedroom_co2_level:
       name: "Высокий уровень углекислого газа"
-      message: "😮‍💨 Высокий уровень CO2 в спальне: {{states('sensor.c_bedroom_co2_density')}}"
-      done_message: "✅ Уровень CO2 в спальне в норме: {{states('sensor.c_bedroom_co2_density')}}"
+      message: >-
+        😮‍💨 Высокий уровень CO2 в спальне:
+        {{ states('sensor.c_bedroom_co2_density') }} ppm
+        (threshold: {{ states('input_select.c_bedroom_co2_alert_level') }})
+      done_message: >-
+        ✅ Уровень CO2 в спальне в норме:
+        {{ states('sensor.c_bedroom_co2_density') }} ppm
       entity_id: binary_sensor.c_bedroom_high_co2
       state: "on"
       repeat:
@@ -20,21 +25,97 @@ bedroom_climate:
       notifiers:
         - tg_valaz
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_bedroom_high_co2:
-          friendly_name: "Bedroom High CO2 level"
-          value_template: >-
-            {% set current_co2_level = states('sensor.c_bedroom_co2_density') | float %}
-            {% set alert_co2_level = states('input_select.c_bedroom_co2_alert_level') | float %}
-            {{ current_co2_level >= alert_co2_level }}
-        c_bedroom_target_co2:
-          friendly_name: "Bedroom Target CO2 level reached"
-          value_template: >-
-            {% set current_co2_level = states('sensor.c_bedroom_co2_density') | float %}
-            {% set target_co2_level = states('input_select.c_bedroom_target_co2_level') | float %}
-            {{ current_co2_level <= target_co2_level }}
+  template:
+    - fan:
+        - name: Bedroom Turbine
+          default_entity_id: fan.bedroom_turbine
+          state: "{{ states('switch.bedroom_fan_plug') }}"
+          turn_on:
+            - target:
+                entity_id:
+                  - switch.bedroom_fan_plug
+              action: switch.turn_on
+          turn_off:
+            - target:
+                entity_id:
+                  - switch.bedroom_fan_plug
+              action: switch.turn_off
+          percentage: >
+            {% set power_fan_capacity = 13 %}
+            {% set power_fan_and_heater_capacity = 350 %}
+            {% set power_total_capacity = power_fan_capacity %}
+
+            {% if is_state('switch.c_bedroom_fan_heater', 'on') %}
+              {% set power_total_capacity = power_fan_and_heater_capacity %}
+            {% else %}
+              {% set power_total_capacity = power_fan_capacity %}
+            {% endif %}
+
+            {% set power_fan_current = states('sensor.bedroom_fan_plug_power') | float(0) %}
+            {{ (100 * power_fan_current / power_total_capacity) | round(1) }}
+
+    - binary_sensor:
+        # =========================
+        # HIGH CO2
+        # =========================
+        - name: "Bedroom High CO2"
+          default_entity_id: binary_sensor.c_bedroom_high_co2
+          state: >-
+            {% set current = states('sensor.c_bedroom_co2_density') | float(0) %}
+            {% set threshold = states('input_select.c_bedroom_co2_alert_level') | int(800) %}
+            {{ current >= threshold }}
+
+        # =========================
+        # TARGET CO2 REACHED
+        # =========================
+        - name: "Bedroom Target CO2 Reached"
+          default_entity_id: binary_sensor.c_bedroom_target_co2_reached
+          state: >-
+            {% set current = states('sensor.c_bedroom_co2_density') | float(0) %}
+            {% set target = states('input_select.c_bedroom_target_co2_level') | int(500) %}
+            {{ current <= target }}
+
+    - sensor:
+        - name: "Bedroom Turbine Last Mode"
+          default_entity_id: sensor.c_bedroom_turbine_last_mode
+          state: >
+            {% if is_state('input_select.c_bedroom_turbine_mode', 'none')
+              or is_state('input_select.c_bedroom_turbine_mode', 'sleep') %}
+              {{ states('sensor.c_bedroom_turbine_last_mode') }}
+            {% else %}
+              {{ states('input_select.c_bedroom_turbine_mode') }}
+            {% endif %}
+
+        - name: "Bedroom Fan Heater Active Time"
+          default_entity_id: sensor.c_bedroom_fan_heater_active_time
+          unit_of_measurement: "min"
+          state: >
+            {% if is_state('switch.c_bedroom_fan_heater', 'on') %}
+              {{ ((now() - states.switch.c_bedroom_fan_heater.last_changed).total_seconds() / 60) | round(1) }}
+            {% else %}
+              0
+            {% endif %}
+
+    - switch:
+        - name: "Bedroom Fan Heater"
+          default_entity_id: switch.c_bedroom_fan_heater
+          icon: mdi:radiator
+
+          state: >
+            {{ is_state('switch.bedroom_heater_relay_l1', 'on')
+              or is_state('switch.bedroom_heater_relay_l2', 'on') }}
+
+          turn_on:
+            - service: switch.turn_on
+              target:
+                entity_id: switch.bedroom_heater_relay_l1
+
+          turn_off:
+            - service: switch.turn_off
+              target:
+                entity_id:
+                  - switch.bedroom_heater_relay_l1
+                  - switch.bedroom_heater_relay_l2
 
   input_number:
     c_bedroom_target_temperature:
@@ -62,100 +143,30 @@ bedroom_climate:
     c_bedroom_target_co2_level:
       name: Bedroom Target CO2
       options:
-        - 400
-        - 450
-        - 500
-        - 550
-        - 600
+        - "400"
+        - "450"
+        - "500"
+        - "550"
+        - "600"
 
     c_bedroom_co2_alert_level:
       name: Критический уровень CO2
       options:
-        - 600
-        - 700
-        - 800
-        - 900
-        - 1000
+        - "600"
+        - "700"
+        - "800"
+        - "900"
+        - "1000"
 
     c_bedroom_fan_heater_timeout:
       name: Fan Heater Timeout
       options:
-        - 1
-        - 5
-        - 10
-        - 15
-        - 20
-        - 25
-
-  sensor:
-    - platform: template
-      sensors:
-        c_bedroom_turbine_last_mode:
-          friendly_name: "Bedroom Fan Last Mode"
-          value_template: >-
-            {% if is_state("input_select.c_bedroom_turbine_mode", "none") or is_state("input_select.c_bedroom_turbine_mode", "sleep") -%}
-              {{states("sensor.c_bedroom_turbine_last_mode")}}
-            {%- else -%}
-              {{states("input_select.c_bedroom_turbine_mode")}}
-            {%- endif %}
-
-        c_bedroom_fan_heater_active_time:
-          friendly_name: "Bedroom Fan Heater Active Time"
-          unit_of_measurement: "min"
-          value_template: >
-            {% if is_state('switch.c_bedroom_fan_heater', 'on') %}
-              {{ ((now() - states.switch.c_bedroom_fan_heater.last_changed).total_seconds() / 60) | round(1) }}
-            {% else %}
-              0
-            {% endif %}
-
-  switch:
-    - platform: template
-      switches:
-        c_bedroom_fan_heater:
-          friendly_name: "Обогреватель"
-          icon_template: mdi:radiator
-          value_template: "{{is_state('switch.bedroom_heater_relay_l1', 'on') or is_state('switch.bedroom_heater_relay_l2', 'on')}}"
-          turn_on:
-            - service: switch.turn_on
-              target:
-                entity_id: switch.bedroom_heater_relay_l1
-            # - service: switch.turn_on
-            #   target:
-            #       entity_id: switch.bedroom_heater_relay_l2
-          turn_off:
-            - service: switch.turn_off
-              target:
-                entity_id: switch.bedroom_heater_relay_l1
-            - service: switch.turn_off
-              target:
-                entity_id: switch.bedroom_heater_relay_l2
-
-  fan:
-    - platform: template
-      fans:
-        bedroom_turbine:
-          friendly_name: "Bedroom Turbine"
-          value_template: "{{ states('switch.bedroom_fan_plug') }}"
-          percentage_template: >-
-            {% set power_fan_capacity = 13 %}
-            {% set power_fan_and_heater_capacity = 350 %}
-            {% set power_total_capacity = power_fan_capacity %}
-            {% if is_state("switch.c_bedroom_fan_heater", "on") -%}
-              {% set power_total_capacity = power_fan_and_heater_capacity %}
-            {%- else -%}
-              {% set power_total_capacity = power_fan_capacity %}
-            {%- endif %}
-            {% set power_fan_current = states('sensor.bedroom_fan_plug_power') | float %}
-            {{100*power_fan_current/power_total_capacity}}
-          turn_on:
-            service: switch.turn_on
-            target:
-              entity_id: switch.bedroom_fan_plug
-          turn_off:
-            service: switch.turn_off
-            target:
-              entity_id: switch.bedroom_fan_plug
+        - "1"
+        - "5"
+        - "10"
+        - "15"
+        - "20"
+        - "25"
 
   script:
     fix_main_heater_timeout:

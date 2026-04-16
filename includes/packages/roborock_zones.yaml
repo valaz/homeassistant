@@ -1,6 +1,6 @@
 # https://community.home-assistant.io/t/howto-xiaomi-vacuum-zoned-cleaning/51293
 
-roborock:
+roborock_zones:
   timer:
     roborock_remote_zone_clean_delay:
       name: "Запущена зональная уборка"
@@ -32,31 +32,55 @@ roborock:
     clean_livingroom_entrance:
       name: Livingroom Entrance
 
-  sensor:
-    - platform: template
-      sensors:
-        c_roborock_clean_zones:
-          friendly_name: "Roborock Clean Zones"
-          value_template: >
+  template:
+    - sensor:
+        - name: "Roborock Clean Zones"
+          default_entity_id: sensor.c_roborock_clean_zones
+          state: >
             {% set clean_data = namespace(zones=[], zone_names=[]) %}
             {% for entity in states.input_boolean %}
               {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
-                {% set zone = entity.attributes.zone_coordinates %}
-                {% set clean_data.zones = clean_data.zones + [zone]  %}
+                {% set clean_data.zones = clean_data.zones + [entity.attributes.zone_coordinates] %}
               {% endif %}
             {% endfor %}
             {{ clean_data.zones }}
-        c_roborock_clean_zones_names:
-          friendly_name: "Roborock Clean Zones Names"
-          value_template: >
+
+        - name: "Roborock Clean Zones Names"
+          default_entity_id: sensor.c_roborock_clean_zones_names
+          state: >
             {% set clean_data = namespace(zones=[], zone_names=[]) %}
             {% for entity in states.input_boolean %}
               {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
-                {% set zone_name = entity.attributes.friendly_name.replace('Clean ', '') %}
-                {% set clean_data.zone_names = clean_data.zone_names + [zone_name] %}
+                {% set clean_data.zone_names = clean_data.zone_names + [entity.attributes.friendly_name | replace('Clean ', '')] %}
               {% endif %}
             {% endfor %}
             {{ clean_data.zone_names }}
+
+  # sensor:
+  #   - platform: template
+  #     sensors:
+  #       c_roborock_clean_zones:
+  #         friendly_name: "Roborock Clean Zones"
+  #         value_template: >
+  #           {% set clean_data = namespace(zones=[], zone_names=[]) %}
+  #           {% for entity in states.input_boolean %}
+  #             {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
+  #               {% set zone = entity.attributes.zone_coordinates %}
+  #               {% set clean_data.zones = clean_data.zones + [zone]  %}
+  #             {% endif %}
+  #           {% endfor %}
+  #           {{ clean_data.zones }}
+  #       c_roborock_clean_zones_names:
+  #         friendly_name: "Roborock Clean Zones Names"
+  #         value_template: >
+  #           {% set clean_data = namespace(zones=[], zone_names=[]) %}
+  #           {% for entity in states.input_boolean %}
+  #             {% if 'zone_coordinates' in entity.attributes and is_state(entity.entity_id, 'on') %}
+  #               {% set zone_name = entity.attributes.friendly_name.replace('Clean ', '') %}
+  #               {% set clean_data.zone_names = clean_data.zone_names + [zone_name] %}
+  #             {% endif %}
+  #           {% endfor %}
+  #           {{ clean_data.zone_names }}
 
   script:
     reset_zone_selection:
@@ -72,7 +96,7 @@ roborock:
           data:
             entity_id: input_number.zones_clean_repeats
             value: 1
-            
+
     restart_zone_clean_delay_timer:
       alias: "[Roborock] Restart Zone Clean Delay Timer"
       icon: mdi:delete-restore

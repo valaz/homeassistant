@@ -1,20 +1,18 @@
 kitchen_lights:
-  
-  light:
-    - platform: template
-      lights:
-        c_kitchen:
-          friendly_name: "[Kitchen] Light"
-          value_template: "{{ is_state('switch.kitchen_light_switch_right', 'on') }}"
-          icon_template: mdi:globe-light
+  template:
+    - light:
+        - name: "[Kitchen] Light"
+          default_entity_id: light.c_kitchen
+          icon: mdi:globe-light
+          state: "{{ is_state('switch.kitchen_light_switch_right', 'on') }}"
           turn_on:
-            - service: switch.turn_on
-              data:
+            - data:
                 entity_id: switch.kitchen_light_switch_right
+              action: switch.turn_on
           turn_off:
-            - service: switch.turn_off
-              data:
+            - data:
                 entity_id: switch.kitchen_light_switch_right
+              action: switch.turn_off
 
   automation:
     - alias: "[Kitchen Lights] Toggle Main Light"

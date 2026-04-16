@@ -1,38 +1,157 @@
 car_security:
   alert:
     car_left_unprotected:
-      name: "Автомобиль оставлен открытым"
-      message: "⚠️🔓🚙 Автомобиль оставлен открытым"
-      done_message: "✅🔐🚙 Автомобиль теперь в безопасности"
+      name: "Автомобиль оставлен без защиты"
+
+      message: >-
+        ⚠️🔓🚙 Автомобиль оставлен без защиты
+        {% set issue = states('sensor.c_passat_gte_security_issue') %}
+        {% set score = states('sensor.c_passat_gte_security_score') %}
+        {% if issue != 'secure' %}
+          | Причина: {{ issue }}
+        {% endif %}
+        | Защита: {{ score }}%
+
+      done_message: >-
+        ✅🔐🚙 Автомобиль снова в безопасности
+        (все двери, окна и замки закрыты)
+
       entity_id: binary_sensor.c_passat_gte_left_unprotected
       state: "on"
       repeat: 2
       can_acknowledge: true
       skip_first: true
+
       notifiers:
         - tg_car_chat
         - mobile_app_iphone_15_az
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_passat_gte_unprotected:
-          friendly_name: "Passt GTE Unprotected"
-          icon_template: mdi:gpp_good
+  template:
+    # =========================================================
+    # 1. MAIN SECURITY STATE
+    # =========================================================
+    - binary_sensor:
+        - name: "Passat GTE Unprotected"
+          default_entity_id: binary_sensor.c_passat_gte_left_unprotected
           device_class: safety
-          value_template: >-
-            {{ is_state('lock.passat_gte_door_locked', 'unlocked')
-                or is_state('lock.passat_gte_trunk_locked', 'unlocked')
-                or is_state('binary_sensor.c_passat_gte_doors_closed', 'on')
-                or is_state('binary_sensor.passat_gte_trunk_closed', 'on')
-                or is_state('binary_sensor.passat_gte_windows_closed', 'on')
-                or is_state('binary_sensor.passat_gte_sunroof_closed', 'on')
-                or is_state('binary_sensor.passat_gte_hood_closed', 'on')
+          icon: mdi:shield-alert
+          state: >-
+            {{
+              is_state('lock.passat_gte_door_locked', 'unlocked')
+              or is_state('lock.passat_gte_trunk_locked', 'unlocked')
+
+              or is_state('binary_sensor.passat_gte_door_closed_left_back', 'on')
+              or is_state('binary_sensor.passat_gte_door_closed_left_front', 'on')
+              or is_state('binary_sensor.passat_gte_door_closed_right_back', 'on')
+              or is_state('binary_sensor.passat_gte_door_closed_right_front', 'on')
+
+              or is_state('binary_sensor.passat_gte_trunk_closed', 'on')
+              or is_state('binary_sensor.passat_gte_windows_closed', 'on')
+              or is_state('binary_sensor.passat_gte_sunroof_closed', 'on')
+              or is_state('binary_sensor.passat_gte_hood_closed', 'on')
             }}
-        c_passat_gte_left_unprotected:
-          friendly_name: "Passt GTE left unprotected"
+
+        # =========================================================
+        # 2. LEFT UNPROTECTED (movement filtered)
+        # =========================================================
+        - name: "Passat GTE Left Unprotected"
+          unique_id: c_passat_gte_left_unprotected
           device_class: problem
-          value_template: >-
-            {{ is_state('binary_sensor.passat_gte_vehicle_moving', 'off')
-                and is_state('binary_sensor.c_passat_gte_unprotected', 'on') 
+          icon: mdi:car-alert
+          state: >-
+            {{
+              is_state('binary_sensor.passat_gte_vehicle_moving', 'off')
+              and is_state('binary_sensor.c_passat_gte_unprotected', 'on')
             }}
+
+    # =========================================================
+    # 3. SECURITY REASON (WHAT EXACTLY IS WRONG)
+    # =========================================================
+    - sensor:
+        - name: "Passat GTE Security Issue"
+          unique_id: c_passat_gte_security_issue
+          icon: mdi:alert-circle
+          state: >-
+            {% set issues = [] %}
+
+            {% if is_state('lock.passat_gte_door_locked', 'unlocked') %}
+              {% set issues = issues + ['doors unlocked'] %}
+            {% endif %}
+
+            {% if is_state('lock.passat_gte_trunk_locked', 'unlocked') %}
+              {% set issues = issues + ['trunk unlocked'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_door_closed_left_back', 'on') %}
+              {% set issues = issues + ['left back door open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_door_closed_left_front', 'on') %}
+              {% set issues = issues + ['left front door open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_door_closed_right_back', 'on') %}
+              {% set issues = issues + ['right back door open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_door_closed_right_front', 'on') %}
+              {% set issues = issues + ['right front door open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_trunk_closed', 'on') %}
+              {% set issues = issues + ['trunk open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_windows_closed', 'on') %}
+              {% set issues = issues + ['window open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_sunroof_closed', 'on') %}
+              {% set issues = issues + ['sunroof open'] %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_hood_closed', 'on') %}
+              {% set issues = issues + ['hood open'] %}
+            {% endif %}
+
+            {{ issues | join(', ') if issues | length > 0 else 'secure' }}
+
+        # =========================================================
+        # 4. SECURITY SCORE (0–100)
+        # =========================================================
+        - name: "Passat GTE Security Score"
+          unique_id: c_passat_gte_security_score
+          unit_of_measurement: "%"
+          icon: mdi:shield-check
+          state: >-
+            {% set max_score = 100 %}
+            {% set penalty = 0 %}
+
+            {% if is_state('lock.passat_gte_door_locked', 'unlocked') %}
+              {% set penalty = penalty + 25 %}
+            {% endif %}
+
+            {% if is_state('lock.passat_gte_trunk_locked', 'unlocked') %}
+              {% set penalty = penalty + 25 %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_door_closed_left_back', 'on')
+               or is_state('binary_sensor.passat_gte_door_closed_left_front', 'on')
+               or is_state('binary_sensor.passat_gte_door_closed_right_back', 'on')
+               or is_state('binary_sensor.passat_gte_door_closed_right_front', 'on') %}
+              {% set penalty = penalty + 10 %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_windows_closed', 'on') %}
+              {% set penalty = penalty + 15 %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_sunroof_closed', 'on') %}
+              {% set penalty = penalty + 10 %}
+            {% endif %}
+
+            {% if is_state('binary_sensor.passat_gte_hood_closed', 'on') %}
+              {% set penalty = penalty + 10 %}
+            {% endif %}
+
+            {{ [max_score - penalty, 0] | max }}

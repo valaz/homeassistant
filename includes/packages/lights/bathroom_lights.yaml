@@ -1,156 +1,191 @@
 bathroom_lights:
   timer:
     bathroom_light_turn_off:
-      name: "Свет в ванной выключится через "
+      name: "Свет в ванной выключится через"
       duration: "00:03:00"
 
-  sensor:
-    - platform: template
-      sensors:
-        c_bathroom_light_brightness_schedule:
-          friendly_name: "Яркость лампы Aqara в спальне"
-          value_template: >
+  template:
+    - sensor:
+        # =========================
+        # BRIGHTNESS SCHEDULE
+        # =========================
+        - name: "Bathroom Light Brightness Schedule"
+          default_entity_id: sensor.c_bathroom_light_brightness_schedule
+          unique_id: c_bathroom_light_brightness_schedule
+          state: >-
             {% set hour = now().hour %}
-            {% if 5 <= hour and hour < 21 %}
+            {% if 5 <= hour < 21 %}
               230
-            {% elif 21 <= hour and hour < 23 %}
+            {% elif 21 <= hour < 23 %}
               192
             {% else %}
               99
             {% endif %}
 
-        c_bathroom_light_color_temp_schedule:
-          friendly_name: "Температура лампы Aqara в спальне"
-          value_template: >
+        # =========================
+        # COLOR TEMP SCHEDULE
+        # =========================
+        - name: "Bathroom Light Color Temp Schedule"
+          default_entity_id: sensor.c_bathroom_light_color_temp_schedule
+          unique_id: c_bathroom_light_color_temp_schedule
+          state: >-
             {% set hour = now().hour %}
-            {% set min_temp = state_attr('light.c_bathroom', 'min_mireds') %}
-            {% set max_temp = state_attr('light.c_bathroom', 'max_mireds') %}
-            {% if 5 <= hour and hour < 21 %}
-              {{ 0.5 * (max_temp  - min_temp) + min_temp | round(0) }}
-            {% elif 21 <= hour and hour < 23 %}
-              {{ 0.7 * (max_temp  - min_temp) + min_temp | round(0) }}
+            {% set min_temp = state_attr('light.c_bathroom', 'min_mireds') | float(0) %}
+            {% set max_temp = state_attr('light.c_bathroom', 'max_mireds') | float(0) %}
+
+            {% set base = max_temp - min_temp %}
+
+            {% if 5 <= hour < 21 %}
+              {{ (0.5 * base + min_temp) | round(0) }}
+            {% elif 21 <= hour < 23 %}
+              {{ (0.7 * base + min_temp) | round(0) }}
             {% else %}
-              {{ 0.9 * (max_temp  - min_temp) + min_temp | round(0) }}
+              {{ (0.9 * base + min_temp) | round(0) }}
             {% endif %}
 
-        c_bathroom_lr_log_prediction:
-          value_template: >
-            {{ state_attr('sun.sun','elevation') | float * 0.01441 + 3.65051 }}
+        # =========================
+        # LIGHT ML MODEL (LOG PREDICTION)
+        # =========================
+        - name: "Bathroom LR Log Prediction"
+          default_entity_id: sensor.c_bathroom_lr_log_prediction
+          unique_id: c_bathroom_lr_log_prediction
+          state: >-
+            {{ state_attr('sun.sun','elevation') | float(0) * 0.01441 + 3.65051 }}
 
-        c_bathroom_log_correction:
-          value_template: >
-            {% if state_attr('sun.sun','elevation') <= 13.745 %}
-              -1.083 
+        # =========================
+        # CORRECTION MODEL
+        # =========================
+        - name: "Bathroom Log Correction"
+          default_entity_id: sensor.c_bathroom_log_correction
+          unique_id: c_bathroom_log_correction
+          state: >-
+            {% set elev = state_attr('sun.sun','elevation') | float(0) %}
+            {% set az = state_attr('sun.sun','azimuth') | float(0) %}
+
+            {% if elev <= 13.745 %}
+              -1.083
             {% else %}
-              {% if state_attr('sun.sun','azimuth') <= 135.287 %}
-                -0.085 
-              {% elif state_attr('sun.sun','elevation') <= 49.553 %}
-                0.216 
+              {% if az <= 135.287 %}
+                -0.085
+              {% elif elev <= 49.553 %}
+                0.216
               {% else %}
-                -0.055 
-              {% endif %}            
+                -0.055
+              {% endif %}
             {% endif %}
 
-        c_bathroom_lx_prediction:
-          friendly_name: "Bathroom Illuminance AI v1"
-          value_template: >
-            {% if state_attr('sun.sun','elevation') <= 0 %}
-              0 
-            {% else %}
-              {{ e**(states('sensor.c_bathroom_lr_log_prediction')|float + states('sensor.c_bathroom_log_correction')|float) - 1 }}          
-            {% endif %}
-          unit_of_measurement: lx
+        # =========================
+        # FINAL LUX PREDICTION
+        # =========================
+        - name: "Bathroom Illuminance AI v1"
+          default_entity_id: sensor.c_bathroom_lx_prediction
+          unique_id: c_bathroom_lx_prediction
+          unit_of_measurement: "lx"
           device_class: illuminance
+          state: >-
+            {% set elev = state_attr('sun.sun','elevation') | float(0) %}
 
-        c_bathroom_lx_func:
-          friendly_name: "Bathroom Illuminance func AI v2"
-          value_template: >
-            {% set elevation_value = state_attr('sun.sun','elevation') %}
-            {% set elevation_index = -0.28256257505674626 %}
-            {% set azimuth_value = state_attr('sun.sun','azimuth') %}
-            {% set azimuth_index = -0.012541141050843814 %}
-            {% set cloud_coverage_value = state_attr('weather.forecast_tegel_home','cloud_coverage') %}
-            {% set cloud_coverage_index = 0.029587416540465414 %}
-            {% set door_value = 0 %}
-            {% set door_index = 0.09654319664050931 %}
-            {% set cloudy_value = 0 %}
-            {% set cloudy_index = -0.758920253038008 %}
-            {% set partlycloudy_value = 0 %}
-            {% set partlycloudy_index = 0 %}
-            {% set rainy_value = 0 %}
-            {% set rainy_index = 1.1918680896075657 %}
-            {% set sunny_value = 0 %}
-            {% set sunny_index = 1.0671404452982214 %}
-            {% set free_value = 1 %}
-            {% set free_index = 3.8438701283568815 %}
-            {% if states('binary_sensor.0x00158d0006e4e280_contact') == 'on' %}
-              {% set door_value = 1 %}
-            {% endif %}
-            {% if states('weather.forecast_tegel_home') == 'cloudy' %}
-              {% set cloudy_value = 1 %}
-            {% elif states('weather.forecast_tegel_home') == 'partlycloudy' %}
-              {% set partlycloudy_value = 1 %}
-            {% elif states('weather.forecast_tegel_home') == 'rainy' %}
-              {% set rainy_value = 1 %}
-            {% elif states('weather.forecast_tegel_home') == 'sunny' %}
-              {% set sunny_value = 1 %}
-            {% endif %}
-            {% set x =  elevation_value * elevation_index +  azimuth_value * azimuth_index + cloud_coverage_value*cloud_coverage_index + door_value * door_index + cloudy_value * cloudy_index + partlycloudy_value * partlycloudy_index + rainy_value * rainy_index + sunny_value * sunny_index + free_value * free_index %}
-            {{ 1/(1 + e** (-1 * x)) }}
+            {% if elev <= 0 %}
+              0
+            {% else %}
+              {% set lr = states('sensor.c_bathroom_lr_log_prediction') | float(0) %}
+              {% set corr = states('sensor.c_bathroom_log_correction') | float(0) %}
 
-  switch:
-    - platform: template
-      switches:
-        c_bathroom_light_auto_off:
-          friendly_name: "Light Auto OFF"
-          value_template: "{{is_state('automation.bathroom_lights_turn_off_light_if_there_is_no_movements', 'on')}}"
+              {{ (e ** (lr + corr) - 1) | round(2) }}
+            {% endif %}
+
+        # =========================
+        # AI LIGHT MODEL v2
+        # =========================
+        - name: "Bathroom Illuminance Func AI v2"
+          default_entity_id: sensor.c_bathroom_lx_func
+          unique_id: c_bathroom_lx_func
+          unit_of_measurement: "lx"
+          state: >-
+            {% set elev = state_attr('sun.sun','elevation') | float(0) %}
+            {% set az = state_attr('sun.sun','azimuth') | float(0) %}
+            {% set cloud = state_attr('weather.forecast_tegel_home','cloud_coverage') | float(0) %}
+
+            {% set door = 1 if is_state('binary_sensor.0x00158d0006e4e280_contact','on') else 0 %}
+
+            {% set weather = states('weather.forecast_tegel_home') %}
+
+            {% set cloudy = 1 if weather == 'cloudy' else 0 %}
+            {% set partly = 1 if weather == 'partlycloudy' else 0 %}
+            {% set rainy = 1 if weather == 'rainy' else 0 %}
+            {% set sunny = 1 if weather == 'sunny' else 0 %}
+
+            {% set x =
+              elev * -0.28256257505674626 +
+              az * -0.012541141050843814 +
+              cloud * 0.029587416540465414 +
+              door * 0.09654319664050931 +
+              cloudy * -0.758920253038008 +
+              partly * 0 +
+              rainy * 1.1918680896075657 +
+              sunny * 1.0671404452982214 +
+              1 * 3.8438701283568815
+            %}
+
+            {{ (1 / (1 + e ** (-x))) | round(4) }}
+
+    - switch:
+        - name: "Bathroom Light Auto Off"
+          default_entity_id: switch.c_bathroom_light_auto_off
+          unique_id: c_bathroom_light_auto_off
+
+          state: >
+            {{ is_state('automation.bathroom_lights_turn_off_light_if_there_is_no_movements', 'on') }}
+
           turn_on:
             - service: automation.turn_on
               target:
                 entity_id: automation.bathroom_lights_turn_off_light_if_there_is_no_movements
+
           turn_off:
             - service: automation.turn_off
               target:
                 entity_id: automation.bathroom_lights_turn_off_light_if_there_is_no_movements
 
-  light:
-    - platform: template
-      lights:
-        c_bathroom:
-          friendly_name: "[Bathroom] Light"
-          value_template: "{{ is_state('switch.bathroom_light_switch', 'on') and is_state('light.bathroom_lamp', 'on') }}"
-          level_template: "{{ state_attr('light.bathroom_lamp', 'brightness') }}"
-          temperature_template: "{{ state_attr('light.bathroom_lamp', 'color_temp') }}"
-          supports_transition_template: True
-          min_mireds_template: "{{ state_attr('light.bathroom_lamp', 'min_mireds') }}"
-          max_mireds_template: "{{ state_attr('light.bathroom_lamp', 'max_mireds') }}"
-          icon_template: mdi:light-recessed
+    - light:
+        - name: "[Bathroom] Light"
+          default_entity_id: light.c_bathroom
+          icon: mdi:light-recessed
+          state: >-
+            {{ is_state('switch.bathroom_light_switch', 'on') and is_state('light.bathroom_lamp', 'on') }}
           turn_on:
-            - service: switch.turn_on
-              data:
+            - data:
                 entity_id: switch.bathroom_light_switch
-            - service: light.turn_on
-              data:
+              action: switch.turn_on
+            - data:
                 entity_id: light.bathroom_lamp
+              action: light.turn_on
           turn_off:
-            - service: light.turn_off
-              data:
+            - data:
                 entity_id: light.bathroom_lamp
-            - service: switch.turn_off
-              data:
+              action: light.turn_off
+            - data:
                 entity_id: switch.bathroom_light_switch
+              action: switch.turn_off
           set_level:
-            service: light.turn_on
-            target:
-              entity_id: light.bathroom_lamp
-            data_template:
-              brightness: "{{ brightness }}"
+            - target:
+                entity_id:
+                  - light.bathroom_lamp
+              data_template:
+                brightness: "{{ brightness }}"
+              action: light.turn_on
           set_temperature:
-            service: light.turn_on
-            target:
-              entity_id: light.bathroom_lamp
-            data_template:
-              color_temp: "{{ color_temp }}"
+            - target:
+                entity_id:
+                  - light.bathroom_lamp
+              data_template:
+                color_temp: "{{ color_temp }}"
+              action: light.turn_on
+          level: "{{ state_attr('light.bathroom_lamp', 'brightness') }}"
+          max_mireds: "{{ state_attr('light.bathroom_lamp', 'max_mireds') }}"
+          min_mireds: "{{ state_attr('light.bathroom_lamp', 'min_mireds') }}"
+          supports_transition: "True"
+          temperature: "{{ state_attr('light.bathroom_lamp', 'color_temp') }}"
 
   automation:
     - alias: "[Bathroom Lights] Turn on light if there is movement"

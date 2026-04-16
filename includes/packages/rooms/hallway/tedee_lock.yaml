@@ -3,27 +3,64 @@ hallway_tedee_lock:
     hallway_door_pull_spring:
       name: "Запущено открытие двери"
       duration: "00:00:03"
+
     hallway_door_azat_auto_open:
       name: "Автооткрытие двери для Азата"
       duration: "00:03:33"
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_should_open_main_door:
-          friendly_name: "Should pull spring"
-          value_template: >-
-            {{ is_state('person.azat', 'home')
-              or (as_timestamp(now()) | int - as_timestamp(states.lock.z_intercom.last_changed) < 210)
-              or (as_timestamp(now()) | int - as_timestamp(states.lock.r_intercom.last_changed) < 210)
+  template:
+    - binary_sensor:
+        - name: "Should Open Main Door"
+          default_entity_id: binary_sensor.c_should_open_main_door
+          unique_id: c_should_open_main_door
+          state: >
+            {% set now_ts = as_timestamp(now()) %}
+            {% set z_last = as_timestamp(states.lock.z_intercom.last_changed) %}
+            {% set r_last = as_timestamp(states.lock.r_intercom.last_changed) %}
+
+            {{ is_state('person.azat','home') }}
+        - name: "Intercom Changed Recently"
+          default_entity_id: binary_sensor.c_intercom_changed_recently
+          unique_id: c_intercom_changed_recently
+          state: >
+            {% set now_ts = as_timestamp(now()) %}
+            {% set z_last = as_timestamp(states.lock.z_intercom.last_changed) %}
+            {% set r_last = as_timestamp(states.lock.r_intercom.last_changed) %}
+
+            {{
+              (now_ts - z_last < 300)
+              or (now_ts - r_last < 300)
             }}
-        c_intercom_changed_recently:
-          friendly_name: "Intercom changed recently"
-          value_template: >-
-            {{ 
-              (as_timestamp(now()) | int - as_timestamp(states.lock.z_intercom.last_changed) < 300)
-              or (as_timestamp(now()) | int - as_timestamp(states.lock.r_intercom.last_changed) < 300)
-            }}
+    - lock:
+        - name: Main Door
+          unique_id: c_hallway_main_door
+          lock:
+            - target:
+                entity_id:
+                  - lock.lock_febb
+              action: lock.lock
+          unlock:
+            - action: script.main_door_try_unlock
+            - if:
+                - condition: state
+                  entity_id:
+                    - binary_sensor.c_should_open_main_door
+                  state: "on"
+                  match: all
+              then:
+                - action: script.main_door_try_open
+              else:
+                - data:
+                    message: Дверь разблокирована, но не откроется
+                  action: notify.mobile_app_iphone_15_az
+            - target:
+                entity_id:
+                  - timer.hallway_door_pull_spring
+              action: timer.start
+          optimistic: false
+          state:
+            "{{ is_state('lock.lock_febb', 'locked') or is_state('timer.hallway_door_pull_spring',
+            'idle') }}"
 
   script:
     main_door_try_unlock:
@@ -46,31 +83,6 @@ hallway_tedee_lock:
         - service: lock.open
           target:
             entity_id: lock.lock_febb
-
-  lock:
-    - platform: template
-      unique_id: c_hallway_main_door
-      name: Main Door
-      value_template: "{{ is_state('lock.lock_febb', 'locked') or is_state('timer.hallway_door_pull_spring', 'idle') }}"
-      lock:
-        - service: lock.lock
-          target:
-            entity_id: lock.lock_febb
-      unlock:
-        - service: script.main_door_try_unlock
-        - if:
-            - condition: state
-              entity_id: binary_sensor.c_should_open_main_door
-              state: "on"
-          then:
-            - service: script.main_door_try_open
-          else:
-            - service: notify.mobile_app_iphone_15_az
-              data:
-                message: Дверь разблокирована, но не откроется
-        - service: timer.start
-          target:
-            entity_id: timer.hallway_door_pull_spring
 
   automation:
     - alias: "[Main Door Lock] Unlock from mobile"
@@ -119,7 +131,6 @@ hallway_tedee_lock:
         - service: notify.tg_valaz
           data:
             message: "🔒 Замок разблокировался, так как Азат пришел"
-
 
     - alias: "[Main Door Lock] Auto Open for Azat"
       mode: restart

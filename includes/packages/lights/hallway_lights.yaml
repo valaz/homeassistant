@@ -4,44 +4,43 @@ hallway_lights:
       name: "Входной свет выключится через "
       duration: "00:02:00"
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        c_hallway_carpet_usage:
-          friendly_name: "Hallway Carpet Usage"
+  template:
+    - binary_sensor:
+        - name: "Hallway Carpet Usage"
+          default_entity_id: binary_sensor.c_hallway_carpet_usage
           device_class: motion
           delay_off:
             seconds: 10
-          value_template: >-
-            {{states('binary_sensor.hallway_push_sensor_contact') == 'off'}}
+          state: >
+            {{ states('binary_sensor.hallway_push_sensor_contact') == 'off' }}
 
-  sensor:
-    - platform: template
-      sensors:
-        c_hallway_light_brightness_schedule:
-          friendly_name: "Яркость лампы Aqara в спальне"
-          value_template: >
+    - sensor:
+        - name: "Hallway Light Brightness Schedule"
+          default_entity_id: sensor.c_hallway_light_brightness_schedule
+          state: >
             {% set hour = now().hour %}
-            {% if 5 <= hour and hour < 21 %}
+            {% if 5 <= hour < 21 %}
               230
-            {% elif 21 <= hour and hour < 23 %}
+            {% elif 21 <= hour < 23 %}
               192
             {% else %}
               123
             {% endif %}
 
-        c_hallway_light_color_temp_schedule:
-          friendly_name: "Температура лампы Aqara в спальне"
-          value_template: >
+        - name: "Hallway Light Color Temp Schedule"
+          default_entity_id: sensor.c_hallway_light_color_temp_schedule
+          state: >
             {% set hour = now().hour %}
-            {% set min_temp = state_attr('light.hallway', 'min_mireds') %}
-            {% set max_temp = state_attr('light.hallway', 'max_mireds') %}
-            {% if 5 <= hour and hour < 21 %}
-              {{ 0.5 * (max_temp  - min_temp) + min_temp | round(0) }}
-            {% elif 21 <= hour and hour < 23 %}
-              {{ 0.7 * (max_temp  - min_temp) + min_temp | round(0) }}
+            {% set light = 'light.hallway' %}
+            {% set min_temp = state_attr(light, 'min_mireds') | float(0) %}
+            {% set max_temp = state_attr(light, 'max_mireds') | float(0) %}
+
+            {% if 5 <= hour < 21 %}
+              {{ (0.5 * (max_temp - min_temp) + min_temp) | round(0) }}
+            {% elif 21 <= hour < 23 %}
+              {{ (0.7 * (max_temp - min_temp) + min_temp) | round(0) }}
             {% else %}
-              {{ 0.9 * (max_temp  - min_temp) + min_temp | round(0) }}
+              {{ (0.9 * (max_temp - min_temp) + min_temp) | round(0) }}
             {% endif %}
 
   automation:

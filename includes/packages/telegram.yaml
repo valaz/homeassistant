@@ -1,26 +1,50 @@
 telegram:
-  sensor:
-    - platform: template
-      sensors:
-        unavailable_now_light:
-          friendly_name: "Всего недоступных светильников - "
-          value_template: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
-          icon_template: mdi:counter
+  template:
+    - sensor:
+        - name: "Unavailable Lights"
+          default_entity_id: sensor.c_unavailable_lights
+          icon: mdi:counter
+          state: >
+            {{ states.light
+               | selectattr('state', 'eq', 'unavailable')
+               | list
+               | count }}
+          availability: >
+            {{ states.light is not none }}
 
-        unavailable_now_switch:
-          friendly_name: "Всего недоступных реле - "
-          value_template: "{{states.switch | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
-          icon_template: mdi:counter
+        - name: "Unavailable Switches"
+          default_entity_id: sensor.c_unavailable_switches
+          icon: mdi:counter
+          state: >
+            {{ states.switch
+               | selectattr('state', 'eq', 'unavailable')
+               | list
+               | count }}
+          availability: >
+            {{ states.switch is not none }}
 
-        unavailable_now_sensor:
-          friendly_name: "Всего недоступных сенсоров - "
-          value_template: "{{states.sensor | selectattr ('state', 'equalto', 'unavailable') | list | length - 1 }}"
-          icon_template: mdi:counter
+        - name: "Unavailable Sensors"
+          default_entity_id: sensor.c_unavailable_sensors
+          icon: mdi:counter
+          state: >
+            {% set count = states.sensor
+               | selectattr('state', 'eq', 'unavailable')
+               | list
+               | count %}
+            {{ [count - 1, 0] | max }}
+          availability: >
+            {{ states.sensor is not none }}
 
-        unavailable_now_binary_sensor:
-          friendly_name: "Всего недоступных бинарных сенсоров - "
-          value_template: "{{states.binary_sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
-          icon_template: mdi:counter
+        - name: "Unavailable Binary Sensors"
+          default_entity_id: sensor.c_unavailable_binary_sensors
+          icon: mdi:counter
+          state: >
+            {{ states.binary_sensor
+               | selectattr('state', 'eq', 'unavailable')
+               | list
+               | count }}
+          availability: >
+            {{ states.binary_sensor is not none }}
 
   script:
     tg_simple_message:

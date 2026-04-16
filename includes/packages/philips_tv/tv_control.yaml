@@ -1,4 +1,23 @@
 tv_control:
+  template:
+    - switch:
+        - name: "Livingroom TV Power"
+          default_entity_id: switch.c_livingroom_tv_power
+          unique_id: c_livingroom_tv_power
+          icon: mdi:power-standby
+
+          state: >
+            {{ not is_state('media_player.philips_tv', 'off') }}
+
+          turn_on:
+            - service: script.livingroom_philips_tv_power_on
+            - service: script.livingroom_philips_tv_wait_until_on
+
+          turn_off:
+            - service: media_player.turn_off
+              target:
+                entity_id: media_player.philips_tv
+
   script:
     livingroom_philips_tv_toggle_power:
       alias: "[Livingroom TV] Toggle Power"
@@ -24,21 +43,6 @@ tv_control:
       sequence:
         - wait_template: "{{ is_state('media_player.philips_tv', 'on') }}"
           timeout: "00:01:00"
-
-  switch:
-    - platform: template
-      switches:
-        c_livingroom_tv_power:
-          friendly_name: "Телевизор"
-          icon_template: mdi:power-standby
-          value_template: "{{is_state('media_player.philips_tv', 'on')}}"
-          turn_on:
-            - service: script.livingroom_philips_tv_power_on
-            - service: script.livingroom_philips_tv_wait_until_on
-          turn_off:
-            - service: media_player.turn_off
-              target:
-                entity_id: media_player.philips_tv
 
   # automation:
   #   - alias: "[Philips TV] Restart Homebridge"

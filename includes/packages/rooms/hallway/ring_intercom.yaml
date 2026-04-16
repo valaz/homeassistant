@@ -10,50 +10,48 @@ hallway_ring_intercom:
         unique_id: c_ring_intercom_ding
         icon: mdi:bell-ring-outline
         device_class: sound
-        state: >-
-          {% if states('event.ring_intercom_ding') | contains('202') -%}
-            {% set now = as_timestamp(now()) %}
-            {% set last_ding = as_timestamp(states('event.ring_intercom_ding')) %}
-            {{ now - last_ding < 120}}
-          {%- else -%}
-              {{ states('binary_sensor.c_ring_intercom_ding') }}
-          {%- endif %}
 
-  lock:
-    - platform: template
-      unique_id: r_intercom
-      name: R Intercom
-      value_template: "{{ is_state('switch.c_intercom_autoopen', 'off') }}"
-      lock:
-        - service: switch.turn_off
-          target:
-            entity_id: switch.c_intercom_autoopen
-      unlock:
-        - service: switch.turn_on
-          target:
-            entity_id: switch.c_intercom_autoopen
+        state: >
+          {% set last_event = states('event.ring_intercom_ding') %}
+          {% set last_ts = state_attr('event.ring_intercom_ding','timestamp') %}
 
-  switch:
-    - platform: template
-      switches:
-        c_intercom_autoopen:
-          friendly_name: "Intercom Autoopen"
-          value_template: >-
-            {{ not is_state("timer.hallway_intercom_autoopen_timer", "idle") }}
-          turn_on:
-            - service: timer.cancel
-              target:
-                entity_id: timer.hallway_intercom_autoopen_timer
-            - service: timer.start
-              target:
-                entity_id: timer.hallway_intercom_autoopen_timer
-          turn_off:
-            - service: timer.start
-              target:
-                entity_id: timer.hallway_intercom_autoopen_timer
-            - service: timer.cancel
-              target:
-                entity_id: timer.hallway_intercom_autoopen_timer
+          {% if last_ts is not none %}
+            {% set age = as_timestamp(now()) - as_timestamp(last_ts) %}
+            {{ age < 120 }}
+          {% else %}
+            {{ this.state | default('off') }}
+          {% endif %}
+
+    switch:
+      - name: "Intercom Autoopen"
+        default_entity_id: switch.c_intercom_autoopen
+        icon: mdi:door-open
+        state: >
+          {{ states('timer.hallway_intercom_autoopen_timer') != 'idle' }}
+        turn_on:
+          - service: timer.start
+            target:
+              entity_id: timer.hallway_intercom_autoopen_timer
+        turn_off:
+          - service: timer.cancel
+            target:
+              entity_id: timer.hallway_intercom_autoopen_timer
+
+    lock:
+      - unique_id: r_intercom
+        name: R Intercom
+        lock:
+          - target:
+              entity_id:
+                - switch.c_intercom_autoopen
+            action: switch.turn_off
+        unlock:
+          - target:
+              entity_id:
+                - switch.c_intercom_autoopen
+            action: switch.turn_on
+        optimistic: false
+        state: "{{ is_state('switch.c_intercom_autoopen', 'off') }}"
 
   automation:
     - alias: "[Ring Intercom] Autoopen"

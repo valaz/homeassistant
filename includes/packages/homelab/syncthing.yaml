@@ -1,39 +1,58 @@
 syncthing:
-  sensor:
-    - platform: template
-      sensors:
-        c_syncthing_hulk_downloads_movies:
-          friendly_name: "Syncthing Hulk Downloads_Movies"
-          icon_template: mdi:list-status
+  template:
+    - sensor:
+        # =========================
+        # MOVIES
+        # =========================
+
+        - name: "Syncthing Hulk Downloads Movies Progress"
+          default_entity_id: sensor.c_syncthing_hulk_downloads_movies_progress
           unit_of_measurement: "%"
-          value_template: "{{(state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'in_sync_bytes') / state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'global_bytes') | float * 100) |  round(2) }}"
+          icon: mdi:list-status
+          state: >-
+            {% set s = state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'in_sync_bytes') | float(0) %}
+            {% set g = state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'global_bytes') | float(0) %}
+            {{ (s / g * 100) | round(2) if g > 0 else 0 }}
 
-        c_syncthing_hulk_downloads_movies_need_files:
-          friendly_name: "Syncthing Hulk Downloads_Movies Need Files"
-          icon_template: mdi:folder-arrow-down
+        - name: "Syncthing Hulk Downloads Movies Need Files"
+          default_entity_id: sensor.c_syncthing_hulk_downloads_movies_need_files
           unit_of_measurement: "files"
-          value_template: "{{state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_files') }}"
+          icon: mdi:folder-arrow-down
+          state: >-
+            {{ state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_files') | int(0) }}
 
-        c_syncthing_hulk_downloads_movies_need_gb:
-          friendly_name: "Syncthing Hulk Downloads_Movies Need GB"
-          icon_template: mdi:harddisk-plus
+        - name: "Syncthing Hulk Downloads Movies Need GB"
+          default_entity_id: sensor.c_syncthing_hulk_downloads_movies_need_gb
           unit_of_measurement: "GiB"
-          value_template: "{{((state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_bytes') | float) / (1024*1024*1024)) | round(2) }}"
+          icon: mdi:harddisk-plus
+          state: >-
+            {% set b = state_attr('sensor.u5elrlu_media_downloads_movies_media_downloads_movies', 'need_bytes') | float(0) %}
+            {{ (b / 1024 / 1024 / 1024) | round(2) }}
 
-        c_syncthing_hulk_travel_media:
-          friendly_name: "Syncthing Hulk Media_Travel"
-          icon_template: mdi:list-status
+        # =========================
+        # TRAVEL MEDIA
+        # =========================
+
+        - name: "Syncthing Hulk Travel Media Progress"
+          default_entity_id: sensor.c_syncthing_hulk_travel_media_progress
           unit_of_measurement: "%"
-          value_template: "{{(state_attr('sensor.u5elrlu_media_travel_media_travel', 'in_sync_bytes') / state_attr('sensor.u5elrlu_media_travel_media_travel', 'global_bytes') | float * 100) |  round(2) }}"
+          icon: mdi:list-status
+          state: >-
+            {% set s = state_attr('sensor.u5elrlu_media_travel_media_travel', 'in_sync_bytes') | float(0) %}
+            {% set g = state_attr('sensor.u5elrlu_media_travel_media_travel', 'global_bytes') | float(0) %}
+            {{ (s / g * 100) | round(2) if g > 0 else 0 }}
 
-        c_syncthing_hulk_travel_media_need_files:
-          friendly_name: "Syncthing Hulk Media_Travel Need Files"
-          icon_template: mdi:folder-arrow-down
+        - name: "Syncthing Hulk Travel Media Need Files"
+          default_entity_id: sensor.c_syncthing_hulk_travel_media_need_files
           unit_of_measurement: "files"
-          value_template: "{{state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_files') }}"
+          icon: mdi:folder-arrow-down
+          state: >-
+            {{ state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_files') | int(0) }}
 
-        c_syncthing_hulk_travel_media_need_gb:
-          friendly_name: "Syncthing Hulk Media_Travel Need GB"
-          icon_template: mdi:harddisk-plus
+        - name: "Syncthing Hulk Travel Media Need GB"
+          default_entity_id: sensor.c_syncthing_hulk_travel_media_need_gb
           unit_of_measurement: "GiB"
-          value_template: "{{((state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_bytes') | float) / (1024*1024*1024)) | round(2) }}"
+          icon: mdi:harddisk-plus
+          state: >-
+            {% set b = state_attr('sensor.u5elrlu_media_travel_media_travel', 'need_bytes') | float(0) %}
+            {{ (b / 1024 / 1024 / 1024) | round(2) }}

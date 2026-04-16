@@ -4,25 +4,24 @@ car_charging:
         - name: "Passat GTE Charging Finish Time Raw"
           unique_id: passat_gte_charging_finish_time_raw
           device_class: timestamp
-          state: >
+          state: >-
             {% set minutes_str = states('sensor.passat_gte_charging_time_left') %}
-            {% if minutes_str in ['unknown', 'unavailable', '', None] %}
-              {{ 'unknown' }}
-            {% else %}
+            {% if is_number(minutes_str) %}
               {% set minutes = minutes_str | int(0) %}
               {% set last_updated = states.sensor.passat_gte_charging_time_left.last_updated %}
               {{ (last_updated + timedelta(minutes=minutes)).isoformat() }}
+            {% else %}
+              unknown
             {% endif %}
+          availability: >-
+            {{ states.sensor.passat_gte_charging_time_left is not none }}
+
         - name: "Passat GTE Charging Finish Time"
           unique_id: passat_gte_charging_finish_time
-          # device_class: timestamp
-          state: >
-            {% set charge_time_raw = states('sensor.passat_gte_charging_finish_time_raw') %}
-            {% if charge_time_raw in ['unknown', 'unavailable', '', None] %}
-              {{ 'unknown' }}
-            {% else %}
-              {{ as_timestamp(charge_time_raw) | timestamp_custom('%H:%M', true) }}
-            {% endif %}
+          state: >-
+            {% set ts = states('sensor.passat_gte_charging_finish_time_raw') %}
+            {% set t = as_timestamp(ts, default=none) %}
+            {{ t | timestamp_custom('%H:%M', true) if t else 'unknown' }}
 
   automation:
     - alias: "[Car] Notify about electric charge progress"

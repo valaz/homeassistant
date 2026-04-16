@@ -1,0 +1,111 @@
+roborock_metrics:
+  template:
+    - sensor:
+        - name: "Roborock S5 Battery"
+          default_entity_id: sensor.c_roborock_s5_battery
+          unit_of_measurement: "%"
+          device_class: battery
+          state_class: measurement
+          icon: mdi:battery
+          state: >-
+            {{ state_attr('vacuum.roborock_s5', 'battery_level') | float(0) | round(0) }}
+          availability: >-
+            {{ state_attr('vacuum.roborock_s5', 'battery_level') is not none }}
+
+        - name: "Roborock S5 Status"
+          default_entity_id: sensor.c_roborock_s5_status
+          icon: mdi:robot-vacuum
+          state: >-
+            {{ state_attr('vacuum.roborock_s5', 'status') | default('unknown') }}
+          availability: >-
+            {{ state_attr('vacuum.roborock_s5', 'status') is not none }}
+
+        - name: "Roborock S5 Last Clean Duration"
+          default_entity_id: sensor.c_roborock_s5_last_clean_duration
+          unit_of_measurement: "min"
+          state_class: measurement
+          icon: mdi:texture-box
+          state: >-
+            {{ (states('sensor.roborock_s5_last_clean_duration') | float(0) / 60) | round(2) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_last_clean_duration')) }}
+
+        - name: "Roborock S5 Current Clean Duration"
+          default_entity_id: sensor.c_roborock_s5_current_clean_duration
+          unit_of_measurement: "min"
+          state_class: measurement
+          icon: mdi:timer-sand
+          state: >-
+            {{ (states('sensor.roborock_s5_current_clean_duration') | float(0) / 60) | round(2) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_current_clean_duration')) }}
+
+        - name: "Last Clean Custom"
+          default_entity_id: sensor.c_last_clean_custom
+          icon: mdi:clock
+          state: >-
+            {% set ts = states('sensor.roborock_s5_last_clean_end') %}
+            {% set ts_val = as_timestamp(ts, default=0) %}
+            {% if ts_val > 0 %}
+              {% set uptime = as_timestamp(now()) - ts_val %}
+              {% set minutes = ((uptime % 3600) / 60) | int %}
+              {% set hours = ((uptime % 86400) / 3600) | int %}
+              {% set days = (uptime / 86400) | int %}
+              {% if uptime < 60 %}
+                Меньше минуты
+              {% else %}
+                {% if days > 0 %}{{ days }} д.{% endif %}
+                {% if hours > 0 %}
+                  {% if days > 0 %} {% endif %}
+                  {{ hours }} ч.
+                {% endif %}
+                {% if minutes > 0 %}
+                  {% if days > 0 or hours > 0 %} {% endif %}
+                  {{ minutes }} мин.
+                {% endif %}
+              {% endif %}
+            {% else %}
+              unknown
+            {% endif %}
+          availability: >-
+            {{ states('sensor.roborock_s5_last_clean_end') not in ['unknown','unavailable',''] }}
+
+        - name: "Roborock S5 Filter Left Hours"
+          default_entity_id: sensor.c_roborock_s5_filter_left_hours
+          unit_of_measurement: "h"
+          state_class: measurement
+          icon: mdi:air-filter
+          state: >-
+            {{ (states('sensor.roborock_s5_filter_left') | float(0) / 3600) | round(1) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_filter_left')) }}
+
+        - name: "Roborock S5 Side Brush Left Hours"
+          default_entity_id: sensor.c_roborock_s5_side_brush_left_hours
+          unit_of_measurement: "h"
+          state_class: measurement
+          icon: mdi:brush
+          state: >-
+            {{ (states('sensor.roborock_s5_side_brush_left') | float(0) / 3600) | round(1) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_side_brush_left')) }}
+
+        - name: "Roborock S5 Main Brush Left Hours"
+          default_entity_id: sensor.c_roborock_s5_main_brush_left_hours
+          unit_of_measurement: "h"
+          state_class: measurement
+          icon: mdi:brush
+          state: >-
+            {{ (states('sensor.roborock_s5_main_brush_left') | float(0) / 3600) | round(1) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_main_brush_left')) }}
+
+        - name: "Roborock S5 Sensor Dirty Left Hours"
+          default_entity_id: sensor.c_roborock_s5_sensor_dirty_left_hours
+          unit_of_measurement: "h"
+          state_class: measurement
+          icon: mdi:eye-outline
+          state: >-
+            {{ (states('sensor.roborock_s5_sensor_dirty_left') | float(0) / 3600) | round(1) }}
+          availability: >-
+            {{ is_number(states('sensor.roborock_s5_sensor_dirty_left')) }}

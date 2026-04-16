@@ -1,0 +1,205 @@
+climate_proxies:
+  template:
+    - sensor:
+        # BEDROOM CLIMATE
+        - name: "Bedroom Temperature"
+          default_entity_id: sensor.c_bedroom_temperature
+          unit_of_measurement: "°C"
+          device_class: temperature
+          icon: mdi:thermometer
+          state: >-
+            {{ states('sensor.bedroom_air_sensor_temperature') | float(0) | round(2) }}
+          availability: >-
+            {{ is_number(states('sensor.bedroom_air_sensor_temperature')) }}
+
+        - name: "Bedroom Humidity"
+          default_entity_id: sensor.c_bedroom_humidity
+          unit_of_measurement: "%"
+          device_class: humidity
+          icon: mdi:water-percent
+          state: >-
+            {{ states('sensor.bedroom_air_sensor_humidity') }}
+          availability: >-
+            {{ is_number(states('sensor.bedroom_air_sensor_humidity')) }}
+
+        - name: "Bedroom Pressure"
+          default_entity_id: sensor.c_bedroom_pressure
+          unit_of_measurement: "hPa"
+          device_class: atmospheric_pressure
+          icon: mdi:thermometer-lines
+          state: >-
+            {{ states('sensor.bedroom_air_sensor_pressure') }}
+          availability: >-
+            {{ is_number(states('sensor.bedroom_air_sensor_pressure')) }}
+
+        - name: "Bedroom PM25 Density"
+          default_entity_id: sensor.c_bedroom_pm25_density
+          unit_of_measurement: "µg/m³"
+          device_class: pm25
+          icon: mdi:blur
+          state: >-
+            {{ states('sensor.cgllc_cgd1st_c37c_pm25_density') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgd1st_c37c_pm25_density')) }}
+
+        - name: "Bedroom PM10 Density"
+          default_entity_id: sensor.c_bedroom_pm10_density
+          unit_of_measurement: "µg/m³"
+          device_class: pm10
+          icon: mdi:blur
+          state: >-
+            {{ states('sensor.cgllc_cgd1st_c37c_pm10_density') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgd1st_c37c_pm10_density')) }}
+
+        - name: "Bedroom CO2 Density"
+          default_entity_id: sensor.c_bedroom_co2_density
+          unit_of_measurement: "ppm"
+          device_class: carbon_dioxide
+          icon: mdi:molecule-co2
+          state: >-
+            {% set val = states('sensor.cgllc_cgd1st_c37c_co2_density') %}
+            {{ val if is_number(val) else this.state }}
+
+        # KIDSROOM CLIMATE
+        - name: "Kidsroom Temperature"
+          default_entity_id: sensor.c_kidsroom_temperature
+          unit_of_measurement: "°C"
+          device_class: temperature
+          icon: mdi:thermometer
+          state: >-
+            {{ states('sensor.kidsroom_air_sensor_temperature') }}
+          availability: >-
+            {{ is_number(states('sensor.kidsroom_air_sensor_temperature')) }}
+
+        - name: "Kidsroom Humidity"
+          default_entity_id: sensor.c_kidsroom_humidity
+          unit_of_measurement: "%"
+          device_class: humidity
+          icon: mdi:water-percent
+          state: >-
+            {{ states('sensor.kidsroom_air_sensor_humidity') }}
+          availability: >-
+            {{ is_number(states('sensor.kidsroom_air_sensor_humidity')) }}
+
+        - name: "Kidsroom Pressure"
+          default_entity_id: sensor.c_kidsroom_pressure
+          unit_of_measurement: "hPa"
+          device_class: atmospheric_pressure
+          icon: mdi:thermometer-lines
+          state: >-
+            {{ states('sensor.kidsroom_air_sensor_pressure') }}
+          availability: >-
+            {{ is_number(states('sensor.kidsroom_air_sensor_pressure')) }}
+
+        # BATHROOM CLIMATE
+        - name: "Bathroom Temperature"
+          default_entity_id: sensor.c_bathroom_temperature
+          unit_of_measurement: "°C"
+          device_class: temperature
+          icon: mdi:thermometer
+          state: >-
+            {{ states('sensor.bathroom_air_sensor_temperature') }}
+          availability: >-
+            {{ is_number(states('sensor.bathroom_air_sensor_temperature')) }}
+
+        - name: "Bathroom Humidity"
+          default_entity_id: sensor.c_bathroom_humidity
+          unit_of_measurement: "%"
+          device_class: humidity
+          icon: mdi:water-percent
+          state: >-
+            {{ states('sensor.bathroom_air_sensor_humidity') }}
+          availability: >-
+            {{ is_number(states('sensor.bathroom_air_sensor_humidity')) }}
+
+        - name: "Bathroom Pressure"
+          default_entity_id: sensor.c_bathroom_pressure
+          unit_of_measurement: "hPa"
+          device_class: atmospheric_pressure
+          icon: mdi:thermometer-lines
+          state: >-
+            {{ states('sensor.bathroom_air_sensor_pressure') }}
+          availability: >-
+            {{ is_number(states('sensor.bathroom_air_sensor_pressure')) }}
+
+        # KITCHEN CLIMATE
+        - name: "Kitchen Temperature"
+          default_entity_id: sensor.c_kitchen_temperature
+          unit_of_measurement: "°C"
+          device_class: temperature
+          icon: mdi:thermometer
+          state: >-
+            {{ states('sensor.kitchen_air_sensor_temperature') }}
+          availability: >-
+            {{ is_number(states('sensor.kitchen_air_sensor_temperature')) }}
+
+        - name: "Kitchen Humidity"
+          default_entity_id: sensor.c_kitchen_humidity
+          unit_of_measurement: "%"
+          device_class: humidity
+          icon: mdi:water-percent
+          state: >-
+            {{ states('sensor.kitchen_air_sensor_humidity') }}
+          availability: >-
+            {{ is_number(states('sensor.kitchen_air_sensor_humidity')) }}
+
+        - name: "Kitchen Pressure"
+          default_entity_id: sensor.c_kitchen_pressure
+          unit_of_measurement: "hPa"
+          device_class: atmospheric_pressure
+          icon: mdi:thermometer-lines
+          state: >-
+            {{ states('sensor.kitchen_air_sensor_pressure') }}
+          availability: >-
+            {{ is_number(states('sensor.kitchen_air_sensor_pressure')) }}
+
+        # LIVING ROOM CLIMATE
+        - name: "Livingroom Temperature"
+          default_entity_id: sensor.c_livingroom_temperature
+          unit_of_measurement: "°C"
+          device_class: temperature
+          icon: mdi:thermometer
+          state: >-
+            {{ states('sensor.cgllc_cgs2_8eaa_temperature') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgs2_8eaa_temperature')) }}
+
+        - name: "Livingroom Humidity"
+          default_entity_id: sensor.c_livingroom_humidity
+          unit_of_measurement: "%"
+          device_class: humidity
+          icon: mdi:water-percent
+          state: >-
+            {{ states('sensor.cgllc_cgs2_8eaa_relative_humidity') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgs2_8eaa_relative_humidity')) }}
+
+        - name: "Livingroom PM25 Density"
+          default_entity_id: sensor.c_livingroom_pm25_density
+          unit_of_measurement: "µg/m³"
+          device_class: pm25
+          icon: mdi:blur
+          state: >-
+            {{ states('sensor.cgllc_cgs2_8eaa_pm25_density') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgs2_8eaa_pm25_density')) }}
+
+        - name: "Livingroom PM10 Density"
+          default_entity_id: sensor.c_livingroom_pm10_density
+          unit_of_measurement: "µg/m³"
+          device_class: pm10
+          icon: mdi:blur
+          state: >-
+            {{ states('sensor.cgllc_cgs2_8eaa_pm10_density') }}
+          availability: >-
+            {{ is_number(states('sensor.cgllc_cgs2_8eaa_pm10_density')) }}
+
+        - name: "Livingroom CO2 Density"
+          default_entity_id: sensor.c_livingroom_co2_density
+          unit_of_measurement: "ppm"
+          device_class: carbon_dioxide
+          icon: mdi:molecule-co2
+          state: >-
+            {% set val = states('sensor.cgllc_cgs2_8eaa_co2_density') %}
+            {{ val if is_number(val) else this.state }}
