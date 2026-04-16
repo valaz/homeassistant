@@ -268,7 +268,7 @@ sections:
           grid_columns: 2
           grid_rows: 3.4
       - type: custom:mini-graph-card
-        name: Спальня
+        name: Гостиная
         entities:
           - sensor.c_livingroom_co2_density
         hour24: true
