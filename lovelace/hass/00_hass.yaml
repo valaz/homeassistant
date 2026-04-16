@@ -18,7 +18,7 @@ sections:
         icon: mdi:clock
         badges:
           - type: entity
-            entity: sensor.c_uptime_system
+            entity: sensor.online
             color: blue
 
       - type: tile
@@ -89,7 +89,7 @@ sections:
         icon: mdi:clock
         badges:
           - type: entity
-            entity: sensor.c_uptime_server
+            entity: sensor.online
             color: blue
 
       - type: heading

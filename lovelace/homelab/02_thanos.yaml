@@ -517,28 +517,11 @@ sections:
         icon: mdi:remote-desktop
         tap_action:
           action: url
-          url_path: http://192.168.178.21
+          url_path: "http://192.168.178.12"
 
       - type: heading
         heading_style: subtitle
         heading: NanoKVM
-        badges:
-          - type: entity
-            show_state: true
-            show_icon: true
-            entity: sensor.thanos_kvm_application_version
-            color: green
-            icon: mdi:file-code
-            tap_action:
-              action: more-info
-          - type: entity
-            show_state: true
-            show_icon: true
-            entity: sensor.thanos_kvm_hardware_version
-            color: grey
-            icon: mdi:chip
-            tap_action:
-              action: more-info
       - type: tile
         entity: switch.thanos_kvm_power
         color: blue
@@ -554,8 +537,6 @@ sections:
         entity: switch.thanos_kvm_mdns
       - type: tile
         entity: button.thanos_kvm_reset_hid
-      - type: tile
-        entity: button.thanos_kvm_update_application
       - type: tile
         entity: select.thanos_kvm_mouse_jiggler_mode
 

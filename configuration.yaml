@@ -6,6 +6,8 @@ homeassistant:
   time_zone: Europe/Berlin
   customize: !include customize.yaml
   packages: !include_dir_merge_named includes/packages
+  external_url: https://ha.valiev.de
+
 # Loads default set of integrations. Do not remove.
 default_config:
 

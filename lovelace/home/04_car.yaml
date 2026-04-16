@@ -81,7 +81,7 @@ sections:
               left: 36%
 
           - type: state-icon
-            entity: switch.passat_gte_auxiliary_climatisation
+            entity: climate.passat_gte_auxiliary_climatisation
             style:
               top: 87%
               left: 47%
@@ -328,23 +328,18 @@ sections:
       - type: tile
         entity: climate.passat_gte_electric_climatisation
         name: Electric Climate
-        color: yellow
-        features_position: inline
+        color: blue
+        # features_position: inline
         features:
           - type: "target-temperature"
 
-      - type: heading ### Autonomous Heater ###
-        # icon: mdi:cable-data
-        heading: Autonomous Heater
-        heading_style: subtitle
-        badges:
-          - type: entity
-            show_state: true
-            show_icon: true
-            entity: switch.passat_gte_auxiliary_climatisation
-            tap_action:
-              action: more-info
-            # color: green
+      - type: tile
+        entity: climate.passat_gte_auxiliary_climatisation
+        name: Auxiliary Climate
+        color: yellow
+        # features_position: inline
+        features:
+          - type: "target-temperature"
 
       - type: heading ### Window Heater ###
         # icon: mdi:cable-data
