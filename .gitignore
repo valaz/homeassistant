@@ -19,6 +19,7 @@ zigbee2mqtt/*
 tts/*
 node-red/*
 .storage/*
+.idea/*
 custom_components/*
 www/*
 temp/*

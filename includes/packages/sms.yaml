@@ -1,0 +1,49 @@
+sms:
+  template:
+    - sensor:
+        - name: "Azat Phone Number"
+          default_entity_id: sensor.c_azat_phone_number
+          state: !secret azat_phone_number
+
+  script:
+    send_sms_to_azat:
+      alias: "[SMS] Send Message to Azat"
+      fields:
+        message:
+          description: "Message"
+          example: "Any text"
+      sequence:
+        - service: gammu_gateway.send_sms
+          data:
+            number: "{{ states('sensor.c_azat_phone_number') }}"
+            message: "{{message}}"
+
+  automation:
+    - alias: "[SMS] Log incoming"
+      trigger:
+        - platform: event
+          event_type: gammu_gateway_sms_received
+      action:
+        - service: persistent_notification.create
+          data:
+            title: "Incoming SMS"
+            message: |
+              From: {{trigger.event.data.sender}}
+              Message: {{trigger.event.data.text}}
+
+    - alias: "[SMS] Ping"
+      trigger:
+        - platform: event
+          event_type: gammu_gateway_sms_received
+      condition:
+        condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.sender == states('sensor.c_azat_phone_number') }}"
+          - condition: template
+            value_template: "{{ trigger.event.data.text == 'Ping' }}"
+      action:
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              Pong

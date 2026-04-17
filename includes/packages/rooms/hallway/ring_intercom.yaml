@@ -94,3 +94,26 @@ hallway_ring_intercom:
         - action: lock.unlock
           target:
             entity_id: lock.z_intercom
+
+    - alias: "[Intercom Lock] Unlock from sms"
+      trigger:
+        - platform: event
+          event_type: gammu_gateway_sms_received
+      condition:
+        condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.sender == states('sensor.c_azat_phone_number') }}"
+          - condition: template
+            value_template: "{{ trigger.event.data.text == 'Intercom' }}"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.r_intercom
+        - service: lock.unlock
+          target:
+            entity_id: lock.z_intercom
+        - service: script.send_sms_to_azat
+          data:
+            message: |
+              🚪🔊 Intercoms are unlocked
