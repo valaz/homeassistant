@@ -14,7 +14,7 @@ bathroom_climate:
       skip_first: false
       notifiers:
         - mobile_app_iphone_12_az
-        - tg_valaz
+        - tg_bot_valaz
 
     # =========================
     # HIGH HUMIDITY ALERT
@@ -32,7 +32,7 @@ bathroom_climate:
       can_acknowledge: true
       skip_first: true
       notifiers:
-        - tg_valaz
+        - tg_bot_valaz
 
     # =========================
     # COLD + WINDOW OPEN ALERT
@@ -50,7 +50,7 @@ bathroom_climate:
       can_acknowledge: true
       skip_first: true
       notifiers:
-        - tg_valaz
+        - tg_bot_valaz
 
   template:
     - binary_sensor:

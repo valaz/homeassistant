@@ -11,7 +11,9 @@
           - sensor.iphone_15_az_battery_level
           - sensor.ipad_m1_battery_level
       actions:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "Замени батареи: {{sensors}}"
             title: Низкий уровень заряда

@@ -4,7 +4,9 @@ car_telegram:
       alias: "[Car Telegram] Send Report"
       icon: mdi:information-box
       sequence:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             title: 🚙ℹ️ Статус Автомобиля
             message: |
@@ -19,7 +21,9 @@ car_telegram:
       icon: mdi:information-box
       sequence:
         - delay: "00:00:05"
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             title: 🚙ℹ🔌 Статус Зарядки Автомобиля
             message: |
@@ -40,7 +44,9 @@ car_telegram:
           event_data:
             command: "/car_start"
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             message: "commands"
             data:

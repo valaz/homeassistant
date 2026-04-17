@@ -60,7 +60,9 @@ car_charging:
           entity_id: sensor.passat_gte_battery_level
           below: 100
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             message: |
               🚙🔌 Авто заряжен на {{ states('sensor.passat_gte_battery_level') }}% ({{ states('sensor.passat_gte_electric_range') }} км)
@@ -74,7 +76,9 @@ car_charging:
           entity_id: sensor.passat_gte_battery_level
           above: 99
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             message: |
               🚙🔋 Авто полностью заряжен ({{ states('sensor.passat_gte_battery_level') }}%).
@@ -88,7 +92,9 @@ car_charging:
           entity_id: sensor.passat_gte_fuel_level
           above: 98
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             message: |
               🚙⛽ Авто запрвлен на {{ states('sensor.passat_gte_fuel_level') }}%.

@@ -23,7 +23,7 @@ bedroom_climate:
       can_acknowledge: true
       skip_first: true
       notifiers:
-        - tg_valaz
+        - tg_bot_valaz
 
   template:
     - fan:
@@ -222,10 +222,10 @@ bedroom_climate:
     - alias: "[Bedroom Climate] Turn on Turbine on high CO2"
       trigger:
         - platform: state
-          entity_id: binary_sensor.people_at_home
+          entity_id: binary_sensor.c_people_at_home
           to: "on"
         - platform: state
-          entity_id: binary_sensor.c_bedroom_target_co2
+          entity_id: binary_sensor.c_bedroom_target_co2_reached
           to: "off"
         - platform: state
           entity_id: input_select.c_bedroom_turbine_mode
@@ -237,7 +237,7 @@ bedroom_climate:
           entity_id: fan.bedroom_turbine
           state: "off"
         - condition: state
-          entity_id: binary_sensor.c_bedroom_target_co2
+          entity_id: binary_sensor.c_bedroom_target_co2_reached
           state: "off"
       action:
         - service: fan.turn_on
@@ -247,7 +247,7 @@ bedroom_climate:
     - alias: "[Bedroom Climate] Turn off Turbine on low CO2"
       trigger:
         - platform: state
-          entity_id: binary_sensor.c_bedroom_target_co2
+          entity_id: binary_sensor.c_bedroom_target_co2_reached
           to: "on"
           for: "00:10:00"
         - platform: state
@@ -260,7 +260,7 @@ bedroom_climate:
           entity_id: fan.bedroom_turbine
           state: "on"
         - condition: state
-          entity_id: binary_sensor.c_bedroom_target_co2
+          entity_id: binary_sensor.c_bedroom_target_co2_reached
           state: "on"
       action:
         - service: fan.turn_off

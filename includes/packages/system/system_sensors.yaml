@@ -56,7 +56,7 @@ system_sensors:
       can_acknowledge: true
       skip_first: false
       notifiers:
-        - tg_valaz
+        - tg_bot_valaz
 
   template:
     - binary_sensor:

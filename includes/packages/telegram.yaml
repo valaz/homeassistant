@@ -50,14 +50,18 @@ telegram:
     tg_simple_message:
       alias: Отправка через сервис уведомлений
       sequence:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "Текущее время - {{ states('sensor.time') }} . Все в порядке"
 
     tg_system_report:
       alias: Отправка отчета о состоянии системы
       sequence:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F4BB"}} Состояние системы
@@ -70,7 +74,9 @@ telegram:
     tg_climate_report:
       alias: Отправка отчета о состоянии климата
       sequence:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F333"}} Климат в квартире
@@ -83,7 +89,9 @@ telegram:
     tg_homelab_report:
       alias: Отправка отчета о состоянии homelab
       sequence:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U00002699"}} Homelab
@@ -93,7 +101,9 @@ telegram:
     tg_people_report:
       alias: Отправка отчета о состоянии people
       sequence:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F3E0"}} Люди
@@ -109,7 +119,9 @@ telegram:
           event_data:
             command: "/start"
       action:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "commands"
             data:
@@ -186,7 +198,9 @@ telegram:
           from: "docked"
           to: "cleaning"
       action:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {% if is_state_attr('vacuum.roborock_s5', 'status', 'Zoned cleaning') -%}
@@ -205,7 +219,9 @@ telegram:
       action:
         - service: script.roborock_s5_map_to_telegram
         - service: script.reset_zone_selection
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F9F9"}} Пылесос завершил уборку.
@@ -220,7 +236,9 @@ telegram:
           entity_id: vacuum.roborock_s5
           to: "error"
       action:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F9F9"}} Ошибка при уборке.
@@ -238,7 +256,9 @@ telegram:
           from: "off"
           to: "on"
       action:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               {{"\U0001F4BB"}} {{ states('sensor.time_date') }} Состояние Macbook Pro 15 в сети: {{states('binary_sensor.macbook_pro_15_ping')}}
@@ -250,7 +270,9 @@ telegram:
           entity_id: binary_sensor.c_signal_rocketleague_jubilee
           to: "on"
       action:
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: |
               🏎️ Юбилей готов к РЛ!

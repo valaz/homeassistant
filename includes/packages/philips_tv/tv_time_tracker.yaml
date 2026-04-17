@@ -139,9 +139,6 @@ tv_time_tracker:
           entity_id: media_player.apple_tv_4k
           state: "playing"
       actions:
-        # - action: notify.tg_valaz
-        #   data:
-        #     message: "📺 Сегодня уже {{ states('sensor.c_tv_duration_today')|int }} мин ТВ. Каждые 15 минут напоминаю: может хватит? 🙂"
         - service: notify.mobile_app_iphone_15_az
           data:
             message: "📺 Сегодня уже {{ states('sensor.c_tv_duration_today')|int }} мин ТВ. Каждые 15 минут напоминаю: может хватит? 🙂"
@@ -151,7 +148,7 @@ tv_time_tracker:
               - media_player.apple_tv_4k
         - action: tts.google_say
           data:
-            entity_id: media_player.65oled936_12
+            entity_id: media_player.nest_hub
             language: ru
             message: "Ты смотришь телевизор уже {{ states('sensor.tv_enabled_today_formatted') }}"
 
@@ -167,9 +164,6 @@ tv_time_tracker:
           entity_id: media_player.apple_tv_4k
           state: "playing"
       action:
-        # - service: notify.tg_valaz
-        #   data:
-        #     message: "🌙 Уже поздно ({{ states('sensor.time') }}). ТВ сейчас = минус сон. Давай выключим и баиньки."
         - service: notify.mobile_app_iphone_15_az
           data:
             message: "🌙 Уже поздно. ТВ сейчас = минус сон. Выключаем?"

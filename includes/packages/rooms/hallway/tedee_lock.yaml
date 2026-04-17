@@ -128,7 +128,9 @@ hallway_tedee_lock:
         - service: lock.unlock
           target:
             entity_id: lock.lock_febb
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "🔒 Замок разблокировался, так как Азат пришел"
 
@@ -162,7 +164,9 @@ hallway_tedee_lock:
         - service: lock.unlock
           target:
             entity_id: lock.lock_febb
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "🔒 Замок разблокировался, так как Азат подошел"
 
@@ -171,14 +175,16 @@ hallway_tedee_lock:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: binary_sensor.people_at_home
+          entity_id: binary_sensor.c_people_at_home
           to: "off"
           for: "00:01:00"
       action:
         - service: lock.lock
           target:
             entity_id: lock.lock_febb
-        - service: notify.tg_valaz
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
           data:
             message: "🔒 Дверь закрывается, так как никого нет дома"
 
@@ -192,7 +198,7 @@ hallway_tedee_lock:
         for: "00:01:00"
       conditions:
         - condition: state
-          entity_id: binary_sensor.people_at_home
+          entity_id: binary_sensor.c_people_at_home
           state: "on"
       action:
         - service: lock.unlock

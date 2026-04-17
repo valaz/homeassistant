@@ -14,7 +14,9 @@ car_stat:
           to: "off"
           for: "02:00:00"
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             title: 🚙📊 Последняя поездка
             message: |
@@ -45,7 +47,9 @@ car_stat:
           entity_id: sensor.passat_gte_odometer
           state: "unavailable"
       action:
-        - service: notify.tg_car_chat
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
           data:
             title: 🚙🔃 Перезагрузка интеграции
             message: |

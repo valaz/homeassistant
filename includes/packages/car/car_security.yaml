@@ -23,7 +23,7 @@ car_security:
       skip_first: true
 
       notifiers:
-        - tg_car_chat
+        - tg_bot_car_chat
         - mobile_app_iphone_15_az
 
   template:
