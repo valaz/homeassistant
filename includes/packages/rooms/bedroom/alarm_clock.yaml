@@ -13,7 +13,7 @@ alarm_clock_sync:
       name: Bedroom Pre Alarm Time
       has_date: false
       has_time: true
-      
+
   automation:
     - alias: "[Bedroom] Sync Alarm"
       trigger:
@@ -24,4 +24,6 @@ alarm_clock_sync:
           target:
             entity_id: input_datetime.pre_bedroom_alarm_clock_time
           data:
-            time: "{{(as_timestamp(strptime(states('sensor.date')+' '+states('input_datetime.bedroom_alarm_clock_time'),'%Y-%m-%d %H:%M:%S')) | int -(60*10)) | timestamp_custom('%H:%M:%S') }}"
+            time: >
+              {% set alarm = states('input_datetime.bedroom_alarm_clock_time') %}
+              {{ (today_at(alarm) - timedelta(minutes=10)).strftime('%H:%M:%S') }}
