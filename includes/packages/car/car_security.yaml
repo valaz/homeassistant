@@ -32,7 +32,7 @@ car_security:
     # =========================================================
     - binary_sensor:
         - name: "Passat GTE Unprotected"
-          default_entity_id: binary_sensor.c_passat_gte_left_unprotected
+          default_entity_id: binary_sensor.c_passat_gte_unprotected
           device_class: safety
           icon: mdi:shield-alert
           state: >-
@@ -55,7 +55,7 @@ car_security:
         # 2. LEFT UNPROTECTED (movement filtered)
         # =========================================================
         - name: "Passat GTE Left Unprotected"
-          unique_id: c_passat_gte_left_unprotected
+          default_entity_id: binary_sensor.c_passat_gte_left_unprotected
           device_class: problem
           icon: mdi:car-alert
           state: >-
@@ -69,7 +69,7 @@ car_security:
     # =========================================================
     - sensor:
         - name: "Passat GTE Security Issue"
-          unique_id: c_passat_gte_security_issue
+          default_entity_id: sensor.c_passat_gte_security_issue
           icon: mdi:alert-circle
           state: >-
             {% set issues = [] %}
@@ -120,7 +120,7 @@ car_security:
         # 4. SECURITY SCORE (0–100)
         # =========================================================
         - name: "Passat GTE Security Score"
-          unique_id: c_passat_gte_security_score
+          default_entity_id: sensor.c_passat_gte_security_score
           unit_of_measurement: "%"
           icon: mdi:shield-check
           state: >-
