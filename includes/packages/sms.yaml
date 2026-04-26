@@ -18,6 +18,13 @@ sms:
             number: "{{ states('sensor.c_azat_phone_number') }}"
             message: "{{message}}"
 
+    sms_emoji_test:
+      alias: "[SMS] Test Emoji"
+      sequence:
+        - action: script.send_sms_to_azat
+          data:
+            message: ✅ Это тест
+
   automation:
     - alias: "[SMS] Log incoming"
       trigger:

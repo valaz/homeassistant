@@ -138,6 +138,47 @@ sections:
           grid_columns: 2
           grid_rows: 3
 
+  - type: grid ###   SMS Gateway    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: SMS Gateway
+        icon: mdi:message-processing
+        badges:
+          - type: entity
+            entity: sensor.operator
+            color: blue
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: button.gammu_gateway_reset_modem
+        name: Reset
+        color: red
+        vertical: true
+        tap_action:
+          action: toggle
+
+      - type: tile
+        entity: sensor.signal_strength
+        features_position: bottom
+        vertical: false
+        name: "Signal Strength"
+        color: light-blue
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: tile
+        entity: script.sms_emoji_test
+        name: Emoji Test
+        color: yellow
+        vertical: false
+        tap_action:
+          action: script.sms_emoji_test
+
   - type: grid ###   Pi-hole    ###
     cards:
       - type: heading
