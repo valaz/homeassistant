@@ -34,22 +34,26 @@ bedroom_lights:
             {% endif %}
 
         # =========================
-        # MAIN MONITOR COLOR TEMP
+        # MAIN MONITOR COLOR TEMP (FIXED FOR KELVIN)
         # =========================
         - name: "Bedroom Monitor Light Color Temp Schedule"
           default_entity_id: sensor.c_bedroom_monitor_light_color_temp_schedule
           state: >-
             {% set hour = now().hour %}
-            {% set min_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'min_mireds') | float(0) %}
-            {% set max_temp = state_attr('light.yeelight_lamp15_0x1c03268c', 'max_mireds') | float(0) %}
-            {% set base = max_temp - min_temp %}
+            {# Kelvin logic: Lower is warmer (red), Higher is cooler (blue) #}
+            {% set min_k = state_attr('light.yeelight_lamp15_0x1c03268c', 'min_color_temp_kelvin') | float(2700) %}
+            {% set max_k = state_attr('light.yeelight_lamp15_0x1c03268c', 'max_color_temp_kelvin') | float(6500) %}
+            {% set base = max_k - min_k %}
 
             {% if 5 <= hour < 20 %}
-              {{ (0.3 * base + min_temp) | round(0) }}
+              {# Day: Cooler light #}
+              {{ (min_k + 0.7 * base) | round(0) }}
             {% elif 20 <= hour < 22 %}
-              {{ (0.6 * base + min_temp) | round(0) }}
+              {# Evening: Warmer #}
+              {{ (min_k + 0.4 * base) | round(0) }}
             {% else %}
-              {{ (0.9 * base + min_temp) | round(0) }}
+              {# Night: Warmest #}
+              {{ (min_k + 0.1 * base) | round(0) }}
             {% endif %}
 
         # =========================
@@ -103,8 +107,9 @@ bedroom_lights:
           entity_id: sensor.bedroom_light_switch_action
           to: "single"
       action:
-        - service: switch.toggle
-          entity_id: switch.bedroom_light_switch
+        - action: switch.toggle
+          target:
+            entity_id: switch.bedroom_light_switch
 
     - alias: "[Bedroom Lights] Toggle Desk Lamp"
       mode: restart
@@ -114,8 +119,9 @@ bedroom_lights:
           entity_id: sensor.bedroom_light_switch_action
           to: "double"
       action:
-        - service: light.toggle
-          entity_id: light.yeelight_lamp15_0x1c03268c
+        - action: light.toggle
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
 
     - alias: "[Bedroom Lights] Turn Off Monitor Lamp"
       mode: restart
@@ -126,10 +132,12 @@ bedroom_lights:
           to: "off"
           for: "00:00:10"
       action:
-        - service: light.turn_off
-          entity_id: light.yeelight_lamp15_0x1c03268c
-        - service: light.turn_off
-          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+        - action: light.turn_off
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
+        - action: light.turn_off
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
 
     - alias: "[Bedroom Lights] Turn On Monitor Lamp"
       mode: restart
@@ -139,8 +147,9 @@ bedroom_lights:
           entity_id: binary_sensor.c_bedroom_monitor_display
           to: "on"
       action:
-        - service: light.turn_on
-          entity_id: light.yeelight_lamp15_0x1c03268c
+        - action: light.turn_on
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
 
     - alias: "[Bedroom Lights] Turn On Monitor Ambilight"
       mode: restart
@@ -155,8 +164,9 @@ bedroom_lights:
           attribute: elevation
           below: 0
       action:
-        - service: light.turn_on
-          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+        - action: light.turn_on
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
 
     - alias: "[Bedroom Lights] Fix Monitor Lamp Light"
       mode: restart
@@ -176,13 +186,13 @@ bedroom_lights:
           entity_id: light.yeelight_lamp15_0x1c03268c
           state: "on"
       action:
-        - service: light.turn_on
-          entity_id: light.yeelight_lamp15_0x1c03268c
-          data_template:
-            brightness: >
-              {{ states('sensor.c_bedroom_monitor_light_brightness_schedule') }}
-            color_temp: >
-              {{ states('sensor.c_bedroom_monitor_light_color_temp_schedule') }}
+        - action: light.turn_on
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c
+          data:
+            brightness: "{{ states('sensor.c_bedroom_monitor_light_brightness_schedule') }}"
+            # Fixed: updated to color_temp_kelvin
+            color_temp_kelvin: "{{ states('sensor.c_bedroom_monitor_light_color_temp_schedule') }}"
             transition: 5
 
     - alias: "[Bedroom Lights] Fix Monitor Lamp Ambilight"
@@ -203,11 +213,10 @@ bedroom_lights:
           entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
           state: "on"
       action:
-        - service: light.turn_on
-          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
-          data_template:
-            brightness: >
-              {{ states('sensor.c_bedroom_monitor_ambilight_brightness_schedule') }}
-            rgb_color: >
-              {{ states('sensor.c_bedroom_monitor_ambilight_rgb_calc') }}
+        - action: light.turn_on
+          target:
+            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          data:
+            brightness: "{{ states('sensor.c_bedroom_monitor_ambilight_brightness_schedule') }}"
+            rgb_color: "{{ states('sensor.c_bedroom_monitor_ambilight_rgb_calc') }}"
             transition: 5

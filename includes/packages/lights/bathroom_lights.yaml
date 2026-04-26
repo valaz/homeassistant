@@ -6,9 +6,7 @@ bathroom_lights:
 
   template:
     - sensor:
-        # =========================
-        # BRIGHTNESS SCHEDULE
-        # =========================
+        # ... (Brightness Schedule remains the same)
         - name: "Bathroom Light Brightness Schedule"
           default_entity_id: sensor.c_bathroom_light_brightness_schedule
           unique_id: c_bathroom_light_brightness_schedule
@@ -23,24 +21,24 @@ bathroom_lights:
             {% endif %}
 
         # =========================
-        # COLOR TEMP SCHEDULE
+        # COLOR TEMP SCHEDULE (FIXED FOR KELVIN)
         # =========================
         - name: "Bathroom Light Color Temp Schedule"
           default_entity_id: sensor.c_bathroom_light_color_temp_schedule
           unique_id: c_bathroom_light_color_temp_schedule
           state: >-
             {% set hour = now().hour %}
-            {% set min_temp = state_attr('light.c_bathroom', 'min_mireds') | float(0) %}
-            {% set max_temp = state_attr('light.c_bathroom', 'max_mireds') | float(0) %}
-
-            {% set base = max_temp - min_temp %}
+            {# Note: Higher Kelvin is cooler/whiter, Lower is warmer/yellow #}
+            {% set min_k = state_attr('light.bathroom_lamp', 'min_color_temp_kelvin') | float(2000) %}
+            {% set max_k = state_attr('light.bathroom_lamp', 'max_color_temp_kelvin') | float(6500) %}
+            {% set range_k = max_k - min_k %}
 
             {% if 5 <= hour < 21 %}
-              {{ (0.5 * base + min_temp) | round(0) }}
+              {{ (max_k - 0.2 * range_k) | round(0) }}
             {% elif 21 <= hour < 23 %}
-              {{ (0.7 * base + min_temp) | round(0) }}
+              {{ (min_k + 0.3 * range_k) | round(0) }}
             {% else %}
-              {{ (0.9 * base + min_temp) | round(0) }}
+              {{ min_k | round(0) }}
             {% endif %}
 
         # =========================
@@ -153,39 +151,54 @@ bathroom_lights:
           icon: mdi:light-recessed
           state: >-
             {{ is_state('switch.bathroom_light_switch', 'on') and is_state('light.bathroom_lamp', 'on') }}
+          supports_transition: True
           turn_on:
-            - data:
+            - action: switch.turn_on
+              target:
                 entity_id: switch.bathroom_light_switch
-              action: switch.turn_on
-            - data:
+            - action: light.turn_on
+              target:
                 entity_id: light.bathroom_lamp
-              action: light.turn_on
           turn_off:
-            - data:
+            - action: light.turn_off
+              target:
                 entity_id: light.bathroom_lamp
-              action: light.turn_off
-            - data:
+            - action: switch.turn_off
+              target:
                 entity_id: switch.bathroom_light_switch
-              action: switch.turn_off
+
           set_level:
-            - target:
-                entity_id:
-                  - light.bathroom_lamp
-              data_template:
+            - action: light.turn_on
+              target:
+                entity_id: light.bathroom_lamp
+              data:
                 brightness: "{{ brightness }}"
-              action: light.turn_on
+
+          # WORKAROUND: Template Light expects 'temperature' in mireds,
+          # but we use 'color_temp_kelvin' for the action.
           set_temperature:
-            - target:
-                entity_id:
-                  - light.bathroom_lamp
-              data_template:
-                color_temp: "{{ color_temp }}"
-              action: light.turn_on
+            - action: light.turn_on
+              target:
+                entity_id: light.bathroom_lamp
+              data:
+                color_temp_kelvin: "{{ color_temp_kelvin }}"
+                brightness: "{{ brightness if brightness is defined else none }}"
+
           level: "{{ state_attr('light.bathroom_lamp', 'brightness') }}"
-          max_mireds: "{{ state_attr('light.bathroom_lamp', 'max_mireds') }}"
-          min_mireds: "{{ state_attr('light.bathroom_lamp', 'min_mireds') }}"
-          supports_transition: "True"
-          temperature: "{{ state_attr('light.bathroom_lamp', 'color_temp') }}"
+
+          # MANDATORY CONVERSIONS FOR TEMPLATE COMPATIBILITY:
+          # Mireds = 1,000,000 / Kelvin
+          temperature: >-
+            {% set k = state_attr('light.bathroom_lamp', 'color_temp_kelvin') | float(0) %}
+            {{ (1000000 / k) | round(0) if k > 0 else 0 }}
+
+          min_mireds: >-
+            {% set k = state_attr('light.bathroom_lamp', 'max_color_temp_kelvin') | float(0) %}
+            {{ (1000000 / k) | round(0) if k > 0 else 153 }}
+
+          max_mireds: >-
+            {% set k = state_attr('light.bathroom_lamp', 'min_color_temp_kelvin') | float(0) %}
+            {{ (1000000 / k) | round(0) if k > 0 else 500 }}
 
   automation:
     - alias: "[Bathroom Lights] Turn on light if there is movement"
@@ -305,11 +318,10 @@ bathroom_lights:
               entity_id: input_select.c_livingroom_light_mode
               state: "saloon"
       action:
-        - service: light.turn_on
-          entity_id: light.bathroom_lamp
-          data_template:
-            brightness: >
-              {{ states('sensor.c_bathroom_light_brightness_schedule') }}
-            color_temp: >
-              {{ states('sensor.c_bathroom_light_color_temp_schedule') }}
-            # transition: 10
+        - action: light.turn_on
+          target:
+            entity_id: light.bathroom_lamp
+          data:
+            brightness: "{{ states('sensor.c_bathroom_light_brightness_schedule') }}"
+            color_temp_kelvin: "{{ states('sensor.c_bathroom_light_color_temp_schedule') }}"
+            transition: 5

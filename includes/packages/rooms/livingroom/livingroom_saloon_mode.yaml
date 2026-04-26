@@ -16,13 +16,15 @@ livingroom_saloon_mode:
           brightness: 255
           color_mode: "color_temp"
           xy_color: [0.396, 0.357]
-          color_temp: 225
+          # 1,000,000 / 225 = 4444
+          color_temp_kelvin: 4444
         light.livingroom:
           state: "on"
           brightness: 255
           color_mode: "color_temp"
           xy_color: [0.396, 0.357]
-          color_temp: 225
+          # 1,000,000 / 225 = 4444
+          color_temp_kelvin: 4444
 
   automation:
     - alias: "[Saloon] Start scene when saloon is working"
@@ -31,7 +33,7 @@ livingroom_saloon_mode:
           entity_id: binary_sensor.saloon_works
           to: "on"
       action:
-        - service: scene.turn_on
+        - action: scene.turn_on
           target:
             entity_id: scene.saloon
           data:
@@ -48,7 +50,7 @@ livingroom_saloon_mode:
           entity_id: sensor.livingroom_light_switch_action
           to: "double_both"
       action:
-        - service: script.turn_on
+        - action: script.turn_on
           entity_id:
             - script.roborock_saloon_zone_cleanup
 
@@ -62,12 +64,13 @@ livingroom_saloon_mode:
         entity_id: binary_sensor.saloon_works
         state: "on"
       action:
-        service: light.turn_on
+        action: light.turn_on
         target:
           entity_id: light.bathroom_lamp
         data:
           brightness: 255
-          color_temp: 168
+          # 1,000,000 / 168 = 5952
+          color_temp_kelvin: 5952
 
     - alias: "[Saloon] Fix livingroom light"
       trigger:
@@ -82,13 +85,14 @@ livingroom_saloon_mode:
         entity_id: binary_sensor.saloon_works
         state: "on"
       action:
-        - service: light.turn_on
+        - action: light.turn_on
           target:
             entity_id: light.livingroom
           data:
             brightness: 255
-            color_temp: 225
-        - service: switch.turn_off
+            # 1,000,000 / 225 = 4444
+            color_temp_kelvin: 4444
+        - action: switch.turn_off
           target:
             entity_id: switch.c_65oled936_12_ambilight_hue
 
@@ -102,12 +106,13 @@ livingroom_saloon_mode:
         entity_id: binary_sensor.saloon_works
         state: "on"
       action:
-        service: light.turn_on
+        action: light.turn_on
         target:
           entity_id: light.hallway
         data:
           brightness: 255
-          color_temp: 225
+          # 1,000,000 / 225 = 4444
+          color_temp_kelvin: 4444
 
     - alias: "[Livingroom Lights] Turn Off saloon mode by time"
       trigger:
@@ -118,7 +123,7 @@ livingroom_saloon_mode:
         entity_id: binary_sensor.saloon_works
         state: "on"
       action:
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:

@@ -32,15 +32,20 @@ hallway_lights:
           state: >
             {% set hour = now().hour %}
             {% set light = 'light.hallway' %}
-            {% set min_temp = state_attr(light, 'min_mireds') | float(0) %}
-            {% set max_temp = state_attr(light, 'max_mireds') | float(0) %}
+            {# Kelvin: Min is Warm (~2000), Max is Cold (~6500) #}
+            {% set min_k = state_attr(light, 'min_color_temp_kelvin') | float(2000) %}
+            {% set max_k = state_attr(light, 'max_color_temp_kelvin') | float(6500) %}
+            {% set range_k = max_k - min_k %}
 
             {% if 5 <= hour < 21 %}
-              {{ (0.5 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Day: Neutral #}
+              {{ (min_k + 0.7 * range_k) | round(0) }}
             {% elif 21 <= hour < 23 %}
-              {{ (0.7 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Evening: Warmer #}
+              {{ (min_k + 0.3 * range_k) | round(0) }}
             {% else %}
-              {{ (0.9 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Night: Warmest #}
+              {{ (min_k + 0.1 * range_k) | round(0) }}
             {% endif %}
 
   automation:
@@ -68,13 +73,12 @@ hallway_lights:
           entity_id: input_select.c_livingroom_light_mode
           state: "normal"
       action:
-        - service: light.turn_on
-          entity_id: light.hallway
-          data_template:
-            brightness: >
-              {{ states('sensor.c_hallway_light_brightness_schedule') }}
-            color_temp: >
-              {{ states('sensor.c_hallway_light_color_temp_schedule') }}
+        - action: light.turn_on
+          target:
+            entity_id: light.hallway
+          data:
+            brightness: "{{ states('sensor.c_hallway_light_brightness_schedule') }}"
+            color_temp_kelvin: "{{ states('sensor.c_hallway_light_color_temp_schedule') }}"
             transition: 10
 
     - alias: "[Hallway Lights] Turn on light when door is open"
@@ -92,13 +96,13 @@ hallway_lights:
           entity_id: light.hallway
           state: "off"
       action:
-        - service: timer.cancel
+        - action: timer.cancel
           target:
             entity_id: timer.hallway_light_turn_off
-        - service: timer.start
+        - action: timer.start
           target:
             entity_id: timer.hallway_light_turn_off
-        - service: light.turn_on
+        - action: light.turn_on
           target:
             entity_id: light.hallway
 
@@ -115,74 +119,8 @@ hallway_lights:
           entity_id: input_select.c_livingroom_light_mode
           state: "normal"
       action:
-        - service: light.turn_off
+        - action: light.turn_off
           target:
             entity_id: light.hallway
 
     - alias: "[Hallway Lights] Turn on in the evening"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 3
-        - platform: state
-          entity_id: input_select.c_livingroom_light_mode
-          to: "normal"
-      condition:
-        - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          below: 3
-        - condition: state
-          entity_id: light.hallway
-          state: "off"
-      action:
-        - service: light.turn_on
-          target:
-            entity_id: light.hallway
-
-    - alias: "[Hallway Lights] Turn off before the evening"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: state
-          entity_id: input_select.c_livingroom_light_mode
-          to: "normal"
-      condition:
-        - condition: numeric_state
-          entity_id: sun.sun
-          attribute: elevation
-          above: 3
-        - condition: state
-          entity_id: light.hallway
-          state: "on"
-      action:
-        - service: light.turn_off
-          target:
-            entity_id: light.hallway
-
-    - alias: "[Hallway Lights] Turn Off on Sunrise"
-      trigger:
-        - platform: sun
-          event: sunrise
-          offset: "00:10:00"
-      action:
-        - service: light.turn_off
-          target:
-            entity_id: light.hallway
-
-    - alias: "[Hallway Lights] Toggle Main Light"
-      mode: restart
-      initial_state: true
-      trigger:
-        - platform: state
-          entity_id: sensor.hallway_button_action
-          to: "single"
-        - platform: state
-          entity_id: sensor.hallway_light_switch_action
-          to: "single"
-      action:
-        - service: light.toggle
-          entity_id: light.hallway

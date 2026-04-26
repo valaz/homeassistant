@@ -29,15 +29,20 @@ livingroom_lights:
           state: >
             {% set hour = now().hour %}
             {% set light = 'light.livingroom' %}
-            {% set min_temp = state_attr(light, 'min_mireds') | float(0) %}
-            {% set max_temp = state_attr(light, 'max_mireds') | float(0) %}
+            {# Kelvin: Low is Warm (~2000), High is Cold (~6500) #}
+            {% set min_k = state_attr(light, 'min_color_temp_kelvin') | float(2000) %}
+            {% set max_k = state_attr(light, 'max_color_temp_kelvin') | float(6500) %}
+            {% set range_k = max_k - min_k %}
 
             {% if 5 <= hour < 21 %}
-              {{ (0.5 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Day: Neutral/Cool #}
+              {{ (min_k + 0.5 * range_k) | round(0) }}
             {% elif 21 <= hour < 23 %}
-              {{ (0.7 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Evening: Warm #}
+              {{ (min_k + 0.3 * range_k) | round(0) }}
             {% else %}
-              {{ (0.9 * (max_temp - min_temp) + min_temp) | round(0) }}
+              {# Night: Warmest #}
+              {{ (min_k + 0.1 * range_k) | round(0) }}
             {% endif %}
 
   automation:
@@ -49,8 +54,9 @@ livingroom_lights:
           entity_id: sensor.livingroom_light_switch_action
           to: "single_left"
       action:
-        - service: light.toggle
-          entity_id: light.livingroom
+        - action: light.toggle
+          target:
+            entity_id: light.livingroom
 
     - alias: "[Livingroom Lights] Toggle Ambilight + Hue"
       mode: restart
@@ -60,8 +66,9 @@ livingroom_lights:
           entity_id: sensor.livingroom_light_switch_action
           to: "single_right"
       action:
-        - service: switch.toggle
-          entity_id: switch.c_65oled936_12_ambilight_hue
+        - action: switch.toggle
+          target:
+            entity_id: switch.c_65oled936_12_ambilight_hue
 
     - alias: "[Livingroom Lights] Fix Main Light"
       mode: restart
@@ -87,13 +94,12 @@ livingroom_lights:
           entity_id: input_select.c_livingroom_light_mode
           state: "normal"
       action:
-        - service: light.turn_on
-          entity_id: light.livingroom
-          data_template:
-            brightness: >
-              {{ states('sensor.c_livingroom_light_brightness_schedule') }}
-            color_temp: >
-              {{ states('sensor.c_livingroom_light_color_temp_schedule') }}
+        - action: light.turn_on
+          target:
+            entity_id: light.livingroom
+          data:
+            brightness: "{{ states('sensor.c_livingroom_light_brightness_schedule') }}"
+            color_temp_kelvin: "{{ states('sensor.c_livingroom_light_color_temp_schedule') }}"
             transition: 10
 
     - alias: "[Livingroom Lights] Turn ON saloon mode"
@@ -104,12 +110,12 @@ livingroom_lights:
           entity_id: sensor.livingroom_light_switch_action
           to: "double_left"
       action:
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:
             option: normal
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:
@@ -123,13 +129,13 @@ livingroom_lights:
           entity_id: sensor.livingroom_light_switch_action
           to: "double_right"
       action:
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:
             option: normal
         - delay: "00:00:03"
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:
@@ -144,7 +150,7 @@ livingroom_lights:
           to: "off"
           for: "00:00:05"
       action:
-        - service: input_select.select_option
+        - action: input_select.select_option
           target:
             entity_id: input_select.c_livingroom_light_mode
           data:
