@@ -8,6 +8,11 @@ car_telegram:
           target:
             entity_id: notify.tg_bot_car_chat
           data:
+            # keyboard:
+            #   - "/car_report, /charging_status"
+            #   - "/car_refresh, /car_reload"
+            #   - "/car_lock, /car_location"
+            #   - "/fast_charge, /slow_charge"
             title: 🚙ℹ️ Статус Автомобиля
             message: |
               Текущее Время: {{ states('sensor.time') }}
@@ -25,6 +30,11 @@ car_telegram:
           target:
             entity_id: notify.tg_bot_car_chat
           data:
+            # keyboard:
+            #   - "/car_report, /charging_status"
+            #   - "/car_refresh, /car_reload"
+            #   - "/car_lock, /car_location"
+            #   - "/fast_charge, /slow_charge"
             title: 🚙ℹ🔌 Статус Зарядки Автомобиля
             message: |
               Текущее Время: {{ states('sensor.time') }}
@@ -51,8 +61,9 @@ car_telegram:
             message: "commands"
             data:
               keyboard:
-                - "/car_report, /car_refresh"
-                - "/car_reload, /charging_status"
+                - "/car_report, /charging_status"
+                - "/car_refresh, /car_reload"
+                - "/car_lock, /car_location"
                 - "/fast_charge, /slow_charge"
 
     - alias: "[Car Telegram] Report"
@@ -118,6 +129,43 @@ car_telegram:
         - service: script.turn_on
           entity_id:
             - script.tg_car_charging_status
+
+    - alias: "[Car Telegram] Lock"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_lock"
+      actions:
+        - action: lock.lock
+          target:
+            entity_id: lock.passat_gte_door_locked
+
+    - alias: "[Car Telegram] Location"
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: telegram_command
+          event_data:
+            command: "/car_location"
+      actions:
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_car_chat
+          data:
+            title: "🚙ℹ️ Местоположение Автомобиля"
+            # latitude: "{{ state_attr('device_tracker.passat_gte_position', 'latitude') }}"
+            # longitude: "{{ state_attr('device_tracker.passat_gte_position', 'longitude') }}"
+            message: |
+              📍 *Координаты:* `{{ state_attr('device_tracker.passat_gte_position', 'latitude') }}, {{ state_attr('device_tracker.passat_gte_position', 'longitude') }}`
+              🗺 [Открыть на Google Maps](https://www.google.com/maps?q={{ state_attr('device_tracker.passat_gte_position', 'latitude') }},{{ state_attr('device_tracker.passat_gte_position', 'longitude') }})
+
+              🛰 *Тип данных:* {{ state_attr('device_tracker.passat_gte_position', 'source_type') }}
+              📡 *Точность GPS:* {{ state_attr('device_tracker.passat_gte_position', 'gps_accuracy') }} м.
+
+              ⏱ *Последнее обновление:* {{ as_timestamp(states.device_tracker.passat_gte_position.last_updated) | timestamp_custom('%H:%M:%S %d.%m.%Y') }}
+              🔄 *Последнее изменение:* {{ as_timestamp(states.device_tracker.passat_gte_position.last_changed) | timestamp_custom('%H:%M:%S %d.%m.%Y') }}
 
     - alias: "[Car Telegram] Fast Charge"
       initial_state: true
