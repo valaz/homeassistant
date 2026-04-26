@@ -20,6 +20,7 @@ tts/*
 node-red/*
 .storage/*
 .idea/*
+.cache/*
 custom_components/*
 www/*
 temp/*
