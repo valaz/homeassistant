@@ -642,7 +642,7 @@ cards:
                     entities:
                       - attribute: brightness
                         name: Яркость
-                      - attribute: color_temp
+                      - attribute: color_temp_kelvin
                         name: Температура
 
       ################# Активные термоголовки #################
