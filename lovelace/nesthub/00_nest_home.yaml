@@ -1,0 +1,77 @@
+title: Main
+path: home
+type: sections
+icon: mdi:home-city
+cards: []
+max_columns: 2
+sections:
+  - type: grid #######   RescueTime   #######
+    cards:
+      - type: weather-forecast
+        entity: weather.forecast_tegel_home
+        secondary_info_attribute: humidity
+        show_forecast: true
+        forecast_type: daily
+
+      - type: "custom:horizon-card"
+        language: ru
+
+  - type: grid #######   Vacuum   #######
+    cards:
+      - type: heading
+        heading: Пылесос
+        heading_style: title
+        icon: mdi:robot-vacuum
+        tap_action:
+          action: navigate
+          navigation_path: /nesthub-ui/vacuum
+        badges:
+          - type: entity
+            entity: sensor.c_roborock_s5_battery
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.c_last_clean_custom
+            color: blue
+            tap_action:
+              action: more-info
+      - type: tile
+        entity: vacuum.roborock_s5
+        vertical: true
+        features:
+          - type: "vacuum-commands"
+            commands:
+              - start_pause
+              - locate
+              - return_home
+      - type: picture-entity
+        show_state: false
+        show_name: false
+        camera_view: live
+        entity: camera.roborock_s5
+        camera_image: camera.roborock_s5
+        aspect_ratio: "1.22" #"135x115"
+        layout_options:
+          grid_columns: 2
+          grid_rows: 3
+
+      - type: heading
+        heading_style: title
+        heading: RescueTime
+        icon: mdi:timelapse
+      - type: custom:mini-graph-card
+        name: Azat
+        unit: "%"
+        entities:
+          - input_number.c_rescuetime_efficiency_percent
+        color_thresholds:
+          - value: 33
+            color: "#ff0000"
+          - value: 45
+            color: "#FFB300"
+          - value: 50
+            color: "#00ff09"
+        layout_options:
+          grid_columns: 12
+          grid_rows: 3

@@ -1,0 +1,4 @@
+title: Nesthub
+views:
+  - !include lovelace/nesthub/00_nest_home.yaml
+  - !include lovelace/nesthub/01_nest_vacuum.yaml

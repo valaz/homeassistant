@@ -40,6 +40,12 @@ lovelace:
       icon: mdi:server
       show_in_sidebar: true
       filename: ui-homelab.yaml
+    nesthub-ui:
+      mode: yaml
+      title: Nesthub
+      icon: mdi:home-assistant
+      show_in_sidebar: true
+      filename: ui-nesthub.yaml
   resources:
     - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
       type: module

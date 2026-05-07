@@ -1,0 +1,115 @@
+title: Vacuum
+path: vacuum
+type: sections
+icon: mdi:robot-vacuum
+cards: []
+max_columns: 2
+sections:
+  - type: grid ### Vacuum ###
+    cards:
+      - type: button
+        name: Back
+        icon: mdi:arrow-left
+        tap_action:
+          action: navigate
+          navigation_path: /nesthub-ui/home
+      - type: heading
+        icon: ""
+        heading: Vacuum
+        heading_style: title
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.roborock_s5_last_clean_area
+            color: amber
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.c_roborock_s5_last_clean_duration
+            color: blue
+            icon: mdi:clock
+      - type: custom:vacuum-card
+        entity: vacuum.roborock_s5
+        show_name: false
+        show_status: false
+
+  - type: grid ### Zone Clean ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Zone Clean
+        heading_style: title
+
+      - type: heading
+        icon: ""
+        heading: Zones
+        heading_style: subtitle
+      - type: tile
+        entity: input_boolean.clean_saloon
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_bathroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_bedroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kidsroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kitchen
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_kitchen_table
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_livingroom
+        color: green
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: input_boolean.clean_livingroom_entrance
+        color: green
+        tap_action:
+          action: toggle
+
+      - type: heading
+        icon: ""
+        heading: Control
+        heading_style: subtitle
+      - type: tile
+        entity: input_number.zones_clean_repeats
+        name: Repeats
+        color: blue
+        vertical: true
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: script.reset_zone_selection
+        name: Reset
+        color: green
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: script.roborock_start_zone_cleaning
+        name: Start
+        color: green
+        vertical: true
+        tap_action:
+          action: toggle
