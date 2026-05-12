@@ -588,6 +588,26 @@ sections:
                           method: name
                   exclude:
                     - state: "off"
+          - attributes:
+              label: Car Climate
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Car Climate]*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
 
   - type: grid ###   Other    ###
     cards:
@@ -631,6 +651,7 @@ sections:
             - name: "*System]*"
             - name: "*People]*"
             - name: "*Car]*"
+            - name: "*Car Climate]*"
 
       - type: heading
         heading: Disabled Automations

@@ -1,0 +1,181 @@
+car_climate:
+  input_boolean:
+    car_camping_mode:
+      name: "Car Camping Mode"
+      icon: mdi:tent
+
+  input_number:
+    car_heater_battery_threshold:
+      name: Battery Threshold for Electric Heater
+      initial: 5
+      min: 5
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+      icon: mdi:battery-charging-medium
+
+    car_heater_fuel_threshold:
+      name: Fuel Threshold for Webasto
+      initial: 20
+      min: 10
+      max: 100
+      step: 5
+      unit_of_measurement: "%"
+      icon: mdi:gas-station
+
+    car_heater_interval_minutes:
+      name: Период включения (Interval)
+      initial: 30
+      min: 5
+      max: 300
+      step: 5
+      unit_of_measurement: "min"
+      icon: mdi:timer-outline
+
+    car_heater_duration_minutes:
+      name: Время прогрева (Duration)
+      initial: 10
+      min: 1
+      max: 15
+      step: 1
+      unit_of_measurement: "min"
+      icon: mdi:timer-sand
+
+  template:
+    - sensor:
+        - name: "Car Electric Heater Active Time"
+          default_entity_id: sensor.car_electric_heater_active_time
+          unit_of_measurement: "min"
+          state: >
+            {% if is_state('climate.passat_gte_electric_climatisation', 'heat_cool') %}
+              {{ ((now() - states.climate.passat_gte_electric_climatisation.last_changed).total_seconds() / 60) | round(1) }}
+            {% else %}
+              0
+            {% endif %}
+
+        - name: "Car Webasto Heater Active Time"
+          default_entity_id: sensor.car_webasto_heater_active_time
+          unit_of_measurement: "min"
+          state: >
+            {% if is_state('climate.passat_gte_auxiliary_climatisation', 'heat_cool') %}
+              {{ ((now() - states.climate.passat_gte_auxiliary_climatisation.last_changed).total_seconds() / 60) | round(1) }}
+            {% else %}
+              0
+            {% endif %}
+
+  script:
+    turn_on_car_heater_smart:
+      alias: "[Car Climate] Smart Turn On Heater"
+      icon: mdi:fire
+      sequence:
+        - choose:
+            # 1. High Battery -> Electric Heater
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.passat_gte_battery_level
+                  above: input_number.car_heater_battery_threshold
+              sequence:
+                - action: climate.set_hvac_mode
+                  target:
+                    entity_id: climate.passat_gte_electric_climatisation
+                  data:
+                    hvac_mode: heat_cool
+            
+            # 2. Low Battery but High Fuel -> Webasto
+            - conditions:
+                - condition: numeric_state
+                  entity_id: sensor.passat_gte_fuel_level
+                  above: input_number.car_heater_fuel_threshold
+              sequence:
+                - action: climate.set_hvac_mode
+                  target:
+                    entity_id: climate.passat_gte_auxiliary_climatisation
+                  data:
+                    hvac_mode: heat_cool
+          
+          # DEFAULT -> Both are too low, send a warning
+          default:
+            - action: notify.notify # <-- Change this to your specific notifier (e.g., notify.tg_bot_valaz)
+              data:
+                title: "⚠️ Car Climate Alert"
+                message: >
+                  Heater failed to start! Both battery ({{ states('sensor.passat_gte_battery_level') }}%) 
+                  and fuel ({{ states('sensor.passat_gte_fuel_level') }}%) levels are too low.
+
+  automation:
+    - alias: "[Car Climate] Periodic Heater Turn On"
+      mode: single
+      trigger:
+        - platform: time_pattern
+          minutes: "/5"
+      condition:
+        - condition: state
+          entity_id: input_boolean.car_camping_mode
+          state: "on"
+        - condition: not
+          conditions:
+            - condition: state
+              entity_id: climate.passat_gte_electric_climatisation
+              state: "heat_cool"
+            - condition: state
+              entity_id: climate.passat_gte_auxiliary_climatisation
+              state: "heat_cool"
+        - condition: template
+          value_template: >
+            {% set last_triggered = state_attr('automation.car_climate_periodic_heater_turn_on', 'last_triggered') %}
+            {% if last_triggered != None %}
+              {{ (now() - last_triggered).total_seconds() / 60 >= states('input_number.car_heater_interval_minutes') | float(120) }}
+            {% else %}
+              true
+            {% endif %}
+      action:
+        - action: script.turn_on
+          target:
+            entity_id: script.turn_on_car_heater_smart
+
+    - alias: "[Car Climate] Turn off Heaters after timeout"
+      mode: single
+      trigger:
+        - platform: time_pattern
+          minutes: "/1"
+      condition:
+        - condition: or
+          conditions:
+            - condition: template
+              value_template: >
+                {{ is_state('climate.passat_gte_electric_climatisation', 'heat_cool') 
+                   and states('sensor.car_electric_heater_active_time') | float(0) >= states('input_number.car_heater_duration_minutes') | float(0) }}
+            - condition: template
+              value_template: >
+                {{ is_state('climate.passat_gte_auxiliary_climatisation', 'heat_cool') 
+                   and states('sensor.car_webasto_heater_active_time') | float(0) >= states('input_number.car_heater_duration_minutes') | float(0) }}
+      action:
+        - action: climate.set_hvac_mode
+          target:
+            entity_id:
+              - climate.passat_gte_electric_climatisation
+              - climate.passat_gte_auxiliary_climatisation
+          data:
+            hvac_mode: "off"
+
+    - alias: "[Car Climate] Disable Camping Mode on Move"
+      mode: single
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.passat_gte_vehicle_moving
+          to: "on"
+      condition:
+        - condition: state
+          entity_id: input_boolean.car_camping_mode
+          state: "on"
+      action:
+        - action: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.car_camping_mode
+        - action: climate.set_hvac_mode
+          target:
+            entity_id:
+              - climate.passat_gte_electric_climatisation
+              - climate.passat_gte_auxiliary_climatisation
+          data:
+            hvac_mode: "off"

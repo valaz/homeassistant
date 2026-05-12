@@ -518,3 +518,83 @@ sections:
           - device_tracker.passat_gte_last_position
           - zone.home
           - zone.work
+
+  - type: grid ### Car Campting ###
+    cards:
+      - type: heading
+        icon: ""
+        heading: Camping Climate
+        heading_style: title
+
+      - type: tile
+        entity: input_boolean.car_camping_mode
+        color: orange
+        features_position: inline
+        features:
+          - type: "toggle"
+
+      - type: tile
+        entity: climate.passat_gte_electric_climatisation
+        name: Electric Climate
+        color: blue
+        # features_position: inline
+        features:
+          - type: "target-temperature"
+
+      - type: tile
+        entity: climate.passat_gte_auxiliary_climatisation
+        name: Auxiliary Climate
+        color: yellow
+        # features_position: inline
+        features:
+          - type: "target-temperature"
+
+      - type: tile
+        entity: input_number.car_heater_battery_threshold
+        color: blue
+        # features_position: inline
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: input_number.car_heater_fuel_threshold
+        color: orange
+        # features_position: inline
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: input_number.car_heater_interval_minutes
+        color: green
+        # features_position: inline
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: input_number.car_heater_duration_minutes
+        color: green
+        # features_position: inline
+        features:
+          - type: "numeric-input"
+            style: "buttons"
+
+      - type: tile
+        entity: sensor.car_electric_heater_active_time
+        color: blue
+        # features_position: inline
+        features:
+          - type: "trend-graph"
+            hours_to_show: 10
+            detail: true
+
+      - type: tile
+        entity: sensor.car_webasto_heater_active_time
+        color: orange
+        # features_position: inline
+        features:
+          - type: "trend-graph"
+            hours_to_show: 10
+            detail: true
