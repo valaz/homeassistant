@@ -28,6 +28,12 @@ homekit: !include includes/homekit.yaml
 lovelace:
   resource_mode: yaml
   dashboards:
+    lovelace:
+      mode: yaml
+      title: Home
+      icon: mdi:home
+      show_in_sidebar: true
+      filename: ui-lovelace.yaml
     hass-ui:
       mode: yaml
       title: Hass
