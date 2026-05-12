@@ -13,10 +13,9 @@ hallway_ring_intercom:
 
         state: >
           {% set last_event = states('event.ring_intercom_ding') %}
-          {% set last_ts = state_attr('event.ring_intercom_ding','timestamp') %}
 
-          {% if last_ts is not none %}
-            {% set age = as_timestamp(now()) - as_timestamp(last_ts) %}
+          {% if last_event is not none %}
+            {% set age = as_timestamp(now()) - as_timestamp(last_event) %}
             {{ age < 120 }}
           {% else %}
             {{ this.state | default('off') }}

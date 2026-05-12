@@ -132,10 +132,10 @@ hallway_tedee_lock:
           target:
             entity_id: notify.tg_bot_valaz
           data:
-            message: "🔒 Замок разблокировался, так как Азат пришел"
+            message: "🔓 Замок разблокировался, так как Азат пришел"
         - service: script.send_sms_to_azat
           data:
-            message: "🔒 Замок разблокировался, так как Азат пришел"
+            message: "🔓 Замок разблокировался, так как Азат пришел"
 
     - alias: "[Main Door Lock] Auto Open for Azat"
       mode: restart
@@ -171,7 +171,7 @@ hallway_tedee_lock:
           target:
             entity_id: notify.tg_bot_valaz
           data:
-            message: "🔒 Замок разблокировался, так как Азат подошел"
+            message: "🔓 Замок разблокировался, так как Азат подошел"
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
