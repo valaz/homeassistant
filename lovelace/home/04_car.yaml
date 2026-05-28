@@ -433,6 +433,14 @@ sections:
             tap_action:
               action: more-info
             # color: gray
+          - type: entity
+            show_state: true
+            show_icon: true
+            icon: mdi:clock
+            entity: sensor.passat_gte_charging_finish_time
+            tap_action:
+              action: more-info
+            # color: gray
       - type: heading ### Reduced Charging ###
         # icon: mdi:cable-data
         heading: Reduced Charging
@@ -490,14 +498,32 @@ sections:
             entity: sensor.passat_gte_last_trip_average_electric_engine_consumption
             tap_action:
               action: more-info
-            # color: orange
+            color: blue
           - type: entity
             show_state: true
             show_icon: true
             entity: sensor.passat_gte_last_trip_average_fuel_consumption
             tap_action:
               action: more-info
-            # color: orange
+            color: orange
+      - type: heading ### Last Consumed ###
+        heading: Last Consumed
+        heading_style: subtitle
+        badges:
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_total_electric_consumption
+            tap_action:
+              action: more-info
+            color: blue
+          - type: entity
+            show_state: true
+            show_icon: true
+            entity: sensor.passat_gte_last_trip_total_fuel_consumption
+            tap_action:
+              action: more-info
+            color: orange
       - type: heading ### Parking Started ###
         heading: Parking Started
         heading_style: subtitle
