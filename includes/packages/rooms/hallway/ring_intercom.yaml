@@ -75,6 +75,27 @@ hallway_ring_intercom:
           target:
             entity_id: button.ring_intercom_open_door
 
+    - alias: "[Ring Intercom] Autoopen by Event"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: event
+          event_type: ring
+        - platform: event
+          event_type: Ring
+        - platform: event
+          event_type: ding
+        - platform: event
+          event_type: Ding
+      condition:
+        - condition: state
+          entity_id: lock.r_intercom
+          state: "unlocked"
+      action:
+        - service: button.press
+          target:
+            entity_id: button.ring_intercom_open_door
+
     - alias: "[Intercom Lock] Unlock from mobile"
       mode: restart
       initial_state: true

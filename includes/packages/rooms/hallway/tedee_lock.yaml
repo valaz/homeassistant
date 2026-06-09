@@ -19,6 +19,7 @@ hallway_tedee_lock:
             {% set r_last = as_timestamp(states.lock.r_intercom.last_changed) %}
 
             {{ is_state('person.azat','home') }}
+
         - name: "Intercom Changed Recently"
           default_entity_id: binary_sensor.c_intercom_changed_recently
           unique_id: c_intercom_changed_recently
@@ -108,8 +109,8 @@ hallway_tedee_lock:
           to: "home"
       condition:
         - condition: time
-          after: "08:00:00"
-          before: "22:00:00"
+          after: "07:00:00"
+          before: "23:00:00"
         # - condition: state
         #   entity_id: person.eliia
         #   state: "home"
@@ -147,8 +148,8 @@ hallway_tedee_lock:
           to: "home"
       condition:
         - condition: time
-          after: "08:00:00"
-          before: "22:00:00"
+          after: "07:00:00"
+          before: "23:00:00"
         - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
