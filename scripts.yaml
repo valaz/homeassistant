@@ -1,5 +1,5 @@
 "1679826687505":
-  alias: Checking for home keys
+  alias: "[Notification] Checking for Home Keys"
   use_blueprint:
     path: homeassistant/confirmable_notification.yaml
     input:
@@ -14,7 +14,7 @@
             message: Азат забыл кючи
 
 ask_to_unlock_main_door:
-  alias: Ask to unlock Main Door
+  alias: "[Notification] Ask to Unlock Main Door"
   use_blueprint:
     path: homeassistant/confirmable_notification.yaml
     input:
@@ -33,7 +33,7 @@ ask_to_unlock_main_door:
   icon: mdi:lock-open-alert-outline
 
 ask_to_lock_main_door:
-  alias: Ask to lock Main Door
+  alias: "[Notification] Ask to Lock Main Door"
   use_blueprint:
     path: homeassistant/confirmable_notification.yaml
     input:

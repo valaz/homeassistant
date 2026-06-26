@@ -1,4 +1,5 @@
 rm4_mini_learn_kidsroom_light:
+  alias: "[Kidsroom RM4] Learn Kidsroom Light"
   sequence:
     - service: remote.learn_command
       data:
@@ -14,6 +15,7 @@ rm4_mini_learn_kidsroom_light:
           - power
 
 livingroom_rm4_mini_learn_livingroom_philips_tv:
+  alias: "[Livingroom RM4] Learn Livingroom Philips TV"
   sequence:
     - service: remote.learn_command
       data:

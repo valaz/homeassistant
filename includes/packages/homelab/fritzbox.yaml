@@ -46,3 +46,53 @@ fritzbox:
         - service: switch.turn_on
           target:
             entity_id: switch.livingroom_router
+
+    - alias: "[Fritzbox] Nightly Restart"
+      trigger:
+        platform: time
+        at: "04:00:00"
+      condition:
+        condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+          - sat
+          - sun
+      action:
+        - service: button.press
+          target:
+            entity_id: button.fritz_box_6660_cable_reboot
+
+    - alias: "[Fritzbox] Switch Wi-Fi if unavailable"
+      trigger:
+        - platform: state
+          entity_id: binary_sensor.c_hass_wifi_connected
+          to: "off"
+          for: "00:00:05"
+      action:
+        - service: switch.turn_off
+          target:
+            entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_5ghz
+        - service: switch.turn_off
+          target:
+            entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
+        - service: switch.turn_on
+          target:
+            entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_5ghz
+        - service: switch.turn_on
+          target:
+            entity_id: switch.fritz_box_6660_cable_wi_fi_aeki_g
+
+    - alias: "[Fritzbox] Daily router cleanup"
+      mode: single
+      initial_state: true
+      trigger:
+        - platform: time
+          at: "05:00:00"
+      action:
+        - service: button.press
+          target:
+            entity_id: button.fritz_box_6660_cable_cleanup

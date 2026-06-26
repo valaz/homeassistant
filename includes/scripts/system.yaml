@@ -1,17 +1,17 @@
 host_reboot:
-  alias: Host Reboot
+  alias: "[System] Host Reboot"
   icon: mdi:restart-alert
   sequence:
     - service: hassio.host_reboot
 
 homeassistant_restart:
-  alias: Homeassistant Restart
+  alias: "[System] Restart Home Assistant"
   icon: mdi:restart
   sequence:
     - service: homeassistant.restart
 
 homeassistant_core_update:
-  alias: Run Homeassistant Core Update
+  alias: "[System] Home Assistant Core Update"
   icon: mdi:update
   sequence:
     - service: update.install
@@ -21,7 +21,7 @@ homeassistant_core_update:
         entity_id: update.home_assistant_core_update
 
 homeassistant_supervisor_update:
-  alias: Run Homeassistant Supervisor Update
+  alias: "[System] Supervisor Update"
   icon: mdi:update
   sequence:
     - service: update.install
@@ -32,14 +32,14 @@ homeassistant_supervisor_update:
 
 bluetooth_restart:
   icon: mdi:bluetooth
-  alias: "Restart Bluetooth"
+  alias: "[System] Restart Bluetooth"
   sequence:
     - service: shell_command.bluetooth_power_off
     - delay: "00:00:05"
     - service: shell_command.bluetooth_power_on
 
 automation_reload:
-  alias: Automation Reload
+  alias: "[System] Automation Reload"
   icon: mdi:reload
   sequence:
     - service: automation.reload

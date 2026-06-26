@@ -59,6 +59,7 @@ bedroom_cover_group:
 
   script:
     bedroom_cover_group:
+      alias: "[Bedroom Covers] Group Control"
       mode: restart
       sequence:
         - service: "cover.{{modus}}_cover"
@@ -68,6 +69,7 @@ bedroom_cover_group:
               - cover.bedroom_right_cover
 
     bedroom_cover_group_position:
+      alias: "[Bedroom Covers] Set Cover Position"
       mode: restart
       sequence:
         - service: cover.set_cover_position
@@ -79,6 +81,7 @@ bedroom_cover_group:
             position: "{{position}}"
 
     bedroom_cover_open_smoothly:
+      alias: "[Bedroom Covers] Open Smoothly"
       mode: restart
       variables:
         STEP: 10

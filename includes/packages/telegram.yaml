@@ -48,7 +48,7 @@ telegram:
 
   script:
     tg_simple_message:
-      alias: Отправка через сервис уведомлений
+      alias: "[Telegram] Simple Message"
       sequence:
         - action: notify.send_message
           target:
@@ -57,7 +57,7 @@ telegram:
             message: "Текущее время - {{ states('sensor.time') }} . Все в порядке"
 
     tg_system_report:
-      alias: Отправка отчета о состоянии системы
+      alias: "[Telegram] System Report"
       sequence:
         - action: notify.send_message
           target:
@@ -72,7 +72,7 @@ telegram:
               {{"\U0001F51F"}} Бинарных сенсоров недоступно - {{ states('sensor.unavailable_now_binary_sensor') }}
 
     tg_climate_report:
-      alias: Отправка отчета о состоянии климата
+      alias: "[Telegram] Climate Report"
       sequence:
         - action: notify.send_message
           target:
@@ -87,7 +87,7 @@ telegram:
               {{"\U0001F487"}} Ванная - {{ states('sensor.c_bathroom_temperature') }} °C, {{ states('sensor.c_bathroom_humidity') }} %
 
     tg_homelab_report:
-      alias: Отправка отчета о состоянии homelab
+      alias: "[Telegram] Homelab Report"
       sequence:
         - action: notify.send_message
           target:
@@ -99,7 +99,7 @@ telegram:
               {{"\U00002600"}} Hulk CPU Temp - {{ states('sensor.glances_package_id_0_temperature') }} °C
 
     tg_people_report:
-      alias: Отправка отчета о состоянии people
+      alias: "[Telegram] People Report"
       sequence:
         - action: notify.send_message
           target:
