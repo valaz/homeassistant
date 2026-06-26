@@ -457,6 +457,12 @@ sections:
                           secondary_info: last-triggered
                         sort:
                           method: name
+                      - domain: automation
+                        name: "*Fritzbox*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
                   exclude:
                     - state: "off"
           - attributes:
@@ -644,6 +650,7 @@ sections:
             - name: "*TV Time*"
             - name: "*Roborock*"
             - name: "*FRITZ!Box*"
+            - name: "*Fritzbox*"
             - name: "*Pi-hole*"
             - name: "*Pi-hole*"
             - name: "*SMS*"
