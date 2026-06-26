@@ -137,7 +137,7 @@ bedroom_cover_group:
       action:
         - service: "cover.open_cover"
           target:
-            entity_id: conver.bedroom_cover_group
+            entity_id: cover.bedroom_cover_group
 
     - alias: "[Bedroom Covers] Check Batteries"
       trigger:
