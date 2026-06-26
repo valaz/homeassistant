@@ -1,0 +1,273 @@
+title: Scripts
+path: scripts
+type: sections
+icon: mdi:code-braces
+cards: []
+max_columns: 3
+sections:
+  - type: grid ###   Door Locks    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Door Locks
+        icon: mdi:lock
+
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Main Door Lock
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*Door Lock*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+          - attributes:
+              label: Intercom Lock
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*Intercom Lock*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+
+  - type: grid ###   Roborock    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Roborock
+        icon: mdi:robot-vacuum
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              name: "*Roborock*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+  - type: grid ###   Bedroom Covers    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Bedroom Covers
+        icon: mdi:blinds
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              name: "*Bedroom Covers*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+  - type: grid ###   System    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: System Scripts
+        icon: mdi:server
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              name: "*System*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+  - type: grid ###   Notifications    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: SMS & Telegram
+        icon: mdi:message
+
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: SMS
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*SMS*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+          - attributes:
+              label: Car Telegram
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*Car Telegram*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+          - attributes:
+              label: Telegram Reports
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*Telegram*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                    exclude:
+                      - name: "*Car Telegram*"
+          - attributes:
+              label: Notifications
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: script
+                        name: "*Notification*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+
+  - type: grid ###   Livingroom    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Livingroom
+        icon: mdi:television
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              name: "*Livingroom TV*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+  - type: grid ###   RM4 Remote    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: RM4 Remote
+        icon: mdi:remote
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              name: "*RM4*"
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+
+  - type: grid ###   Other    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Other Scripts
+        icon: mdi:script
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: script
+              options:
+                secondary_info: last-triggered
+              sort:
+                method: name
+          exclude:
+            - name: "*Door Lock*"
+            - name: "*Intercom Lock*"
+            - name: "*Roborock*"
+            - name: "*Bedroom Covers*"
+            - name: "*System*"
+            - name: "*Notification*"
+            - name: "*SMS*"
+            - name: "*Car Telegram*"
+            - name: "*Telegram*"
+            - name: "*Livingroom TV*"
+            - name: "*RM4*"
