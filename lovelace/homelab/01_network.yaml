@@ -98,6 +98,18 @@ sections:
         vertical: false
         tap_action:
           action: toggle
+      - type: tile
+        entity: button.fritz_box_6660_cable_firmware_update
+        name: Firmware Update
+        vertical: false
+        tap_action:
+          action: toggle
+      - type: tile
+        entity: button.fritz_box_6660_cable_cleanup
+        name: Cleanup
+        vertical: false
+        tap_action:
+          action: toggle
 
       - type: custom:mini-graph-card
         name: "Download Speed"

@@ -63,6 +63,24 @@ cards:
           ulm_card_light_enable_slider: false
           ulm_card_light_enable_color: false
           ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: button.fritz_box_6660_cable_firmware_update
+        variables:
+          ulm_card_light_name: Firmware Update
+          ulm_card_light_icon: "mdi:update"
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
+      - type: "custom:button-card"
+        template: card_light
+        entity: button.fritz_box_6660_cable_cleanup
+        variables:
+          ulm_card_light_name: Cleanup
+          ulm_card_light_icon: "mdi:broom"
+          ulm_card_light_enable_slider: false
+          ulm_card_light_enable_color: false
+          ulm_card_light_force_background_color: true
 
   - type: "custom:button-card"
     template: card_title

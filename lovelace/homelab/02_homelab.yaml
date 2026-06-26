@@ -313,6 +313,7 @@ cards:
             entities:
               - button.fritz_box_6660_cable_restart
               - button.fritz_box_6660_cable_reconnect
+              - button.fritz_box_6660_cable_cleanup
 
           - type: glance
             show_name: false
