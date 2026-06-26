@@ -57,6 +57,17 @@ hallway_zigbee_intercom:
             entity_id: switch.hallway_button_pusher
         - delay: "00:00:03"
 
+    intercom_door_open_and_click_r:
+      alias: "[Intercom Lock] Open Z and click R"
+      sequence:
+        - service: lock.unlock
+          target:
+            entity_id: lock.z_intercom
+        - delay: "00:00:01"
+        - service: button.press
+          target:
+            entity_id: button.ring_intercom_open_door
+
   automation:
     - alias: "[Intercom Lock] Observe button push"
       mode: restart
