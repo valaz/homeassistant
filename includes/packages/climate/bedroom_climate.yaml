@@ -421,6 +421,23 @@ bedroom_climate:
           target:
             entity_id: fan.bedroom_turbine
 
+    - alias: "[Bedroom Climate] Notify to refresh air"
+      trigger:
+        - platform: template
+          value_template: >
+            {% set bedroom_temp = states('sensor.c_bedroom_temperature') | float(0) %}
+            {% set outdoor_temp = states('sensor.c_weather_temperature') | float(100) %}
+            {{ bedroom_temp > 24 and outdoor_temp < bedroom_temp }}
+      action:
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: |
+              {{"\U0001F321"}} В спальне жарко: {{ states('sensor.c_bedroom_temperature') }} °C.
+              {{"\U0001F32C"}} На улице прохладнее: {{ states('sensor.c_weather_temperature') }} °C.
+              {{"\U0001FA9F"}} Открой окна и включи вентиляторы, чтобы освежить воздух.
+
     - alias: "[Bedroom Climate] On Sleep Mode Started"
       trigger:
         - platform: state
