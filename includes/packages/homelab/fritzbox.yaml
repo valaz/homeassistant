@@ -31,7 +31,7 @@ fritzbox:
         - platform: state
           entity_id: binary_sensor.google_com
           to: "off"
-          for: "00:01:10"
+          for: "00:05:10"
       action:
         - service: script.send_sms_to_azat
           data:
