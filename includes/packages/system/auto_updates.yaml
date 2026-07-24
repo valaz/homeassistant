@@ -1,0 +1,61 @@
+auto_updates:
+  script:
+    auto_updates_notify_installed:
+      alias: "[Auto Updates] Notify Installed"
+      fields:
+        update_name:
+          description: "Update name"
+          example: "Dreo Smart Device Integration"
+        installed_version:
+          description: "Installed version before update"
+          example: "v1.9.20"
+        latest_version:
+          description: "Installed update version"
+          example: "v1.9.22"
+      sequence:
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: |
+              ✅ Auto update installed
+              {{ update_name }}: {{ installed_version }} -> {{ latest_version }}
+
+  automation:
+    - alias: "[Auto Updates] Dreo Minor Release"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: update.dreo_smart_device_integration_update
+          to: "on"
+        - platform: homeassistant
+          event: start
+      action:
+        - delay:
+            minutes: 5
+        - condition: state
+          entity_id: update.dreo_smart_device_integration_update
+          state: "on"
+        - condition: template
+          value_template: >
+            {% set installed = state_attr('update.dreo_smart_device_integration_update', 'installed_version') | default('', true) | replace('v', '') | replace('V', '') %}
+            {% set latest = state_attr('update.dreo_smart_device_integration_update', 'latest_version') | default('', true) | replace('v', '') | replace('V', '') %}
+            {% set installed_parts = installed.split('.') %}
+            {% set latest_parts = latest.split('.') %}
+            {{ installed_parts | count >= 2
+               and latest_parts | count >= 2
+               and installed_parts[0] == latest_parts[0]
+               and latest != installed }}
+        - variables:
+            update_name: "{{ state_attr('update.dreo_smart_device_integration_update', 'friendly_name') | default('Dreo Smart Device Integration', true) }}"
+            installed_version: "{{ state_attr('update.dreo_smart_device_integration_update', 'installed_version') }}"
+            latest_version: "{{ state_attr('update.dreo_smart_device_integration_update', 'latest_version') }}"
+        - action: update.install
+          target:
+            entity_id: update.dreo_smart_device_integration_update
+        - action: script.auto_updates_notify_installed
+          data:
+            update_name: "{{ update_name }}"
+            installed_version: "{{ installed_version }}"
+            latest_version: "{{ latest_version }}"
+      mode: single
