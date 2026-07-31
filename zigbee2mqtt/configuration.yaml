@@ -100,6 +100,8 @@ devices:
     friendly_name: Kidsroom Motion Sensor
   '0xa4c1387ee874ae6f':
     friendly_name: Bedroom Fan Plug
+  '0x1035970000852d8e':
+    friendly_name: Dreo Remote Control
 advanced:
   log_level: info
   log_syslog:
