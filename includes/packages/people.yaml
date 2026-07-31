@@ -1,4 +1,12 @@
 people:
+  input_select:
+    c_people_at_home_mode:
+      name: "People At Home Mode"
+      options:
+        - Azat
+        - Family
+        - Vacation
+
   template:
     - binary_sensor:
         - name: "People At Home"

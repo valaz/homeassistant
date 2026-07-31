@@ -141,6 +141,9 @@ kidsroom_lights:
         - platform: state
           entity_id: sensor.kidsroom_motion_sensor_illuminance
       condition:
+        - condition: state
+          entity_id: input_select.c_people_at_home_mode
+          state: "Azat"
         - condition: or
           conditions:
             - condition: numeric_state
@@ -170,6 +173,9 @@ kidsroom_lights:
           event_data:
             entity_id: timer.kidsroom_light_turn_off
       condition:
+        - condition: state
+          entity_id: input_select.c_people_at_home_mode
+          state: "Azat"
         - condition: state
           entity_id: binary_sensor.kidsroom_motion_sensor_occupancy
           state: "off"

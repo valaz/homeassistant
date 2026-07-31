@@ -5,6 +5,18 @@ type: sections
 cards: []
 max_columns: 3
 sections:
+  - type: grid #######   Household   #######
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Household
+        icon: mdi:home-account
+      - type: custom:mushroom-select-card
+        entity: input_select.c_people_at_home_mode
+        icon_color: blue
+        primary_info: name
+        secondary_info: last-changed
+
   - type: grid #######   Azat   #######
     cards:
       - type: heading
