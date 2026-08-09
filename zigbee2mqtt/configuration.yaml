@@ -92,16 +92,16 @@ devices:
     state_action: true
   '0xa4c138d49300e1b7':
     friendly_name: Hallway External Motion Sensor
-  '0x00158d0006bed661':
-    friendly_name: Bathroom Motion Sensor
-  '0x00158d0006ed6b85':
-    friendly_name: Kidsroom Air Sensor
   '0xa4c138aab1a4d1f6':
     friendly_name: Kidsroom Motion Sensor
   '0xa4c1387ee874ae6f':
     friendly_name: Bedroom Fan Plug
   '0x1035970000852d8e':
     friendly_name: Dreo Remote Control
+  '0x00158d0006bed661':
+    friendly_name: Bathroom Motion Sensor
+  '0x00158d0006ed6b85':
+    friendly_name: Kidsroom Air Sensor
 advanced:
   log_level: info
   log_syslog:
