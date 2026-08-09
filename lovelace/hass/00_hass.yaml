@@ -43,10 +43,35 @@ sections:
           - type: "update-actions"
             backup: "ask"
 
-      - type: history-graph
-        entities:
-          - entity: sensor.maria_db_size
-            name: Maria DB
+      - type: heading
+        heading: Updates
+        heading_style: subtitle
+        icon: mdi:clock
+        badges:
+          - type: entity
+            entity: sensor.count_update_on
+            color: blue
+          - type: entity
+            entity: sensor.count_update
+            color: green
+
+      - type: custom:auto-entities
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - domain: update
+              state: "on"
+              options:
+                type: custom:multiple-entity-row
+                show_state: false
+                secondary_info: last-changed
+                entities:
+                  - attribute: installed_version
+                    name: Установлено
+                  - attribute: latest_version
+                    name: Последняя
 
   - type: grid ###   Hardware    ###
     cards:
@@ -228,6 +253,11 @@ sections:
         heading_style: title
         heading: Objects
         icon: mdi:state-machine
+
+      - type: history-graph
+        entities:
+          - entity: sensor.maria_db_size
+            name: Maria DB
 
       - type: glance
         columns: 4
