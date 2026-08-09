@@ -148,7 +148,7 @@ kidsroom_lights:
           conditions:
             - condition: numeric_state
               entity_id: sensor.kidsroom_motion_sensor_illuminance
-              below: 50
+              below: 1200
             - condition: numeric_state
               entity_id: sensor.c_sun_elevation
               below: 3
