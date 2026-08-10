@@ -1,0 +1,20 @@
+notification:
+    automation:
+      - alias: "[Livingroom Dreame] Chimin Low Water Warning"
+        initial_state: true
+        trigger:
+          - platform: state
+            entity_id: sensor.chimin_low_water_warning
+        condition:
+          - condition: template
+            value_template: >
+              {% set warning = states('sensor.chimin_low_water_warning') %}
+              {{ warning not in ['Unavailable', 'unavailable', 'No warning', 'unknown', 'None', ''] }}
+        action:
+          - action: notify.send_message
+            target:
+              entity_id: notify.tg_bot_valaz
+            data:
+              message: |
+                🚰 Chimin: {{ states('sensor.chimin_low_water_warning') }}
+                Пожалуйста, проверьте уровень воды в роботе.
