@@ -27,17 +27,17 @@ sections:
           navigation_path: /nesthub-ui/vacuum
         badges:
           - type: entity
-            entity: sensor.c_roborock_s5_battery
+            entity: sensor.chimin_battery_level
             color: green
             tap_action:
               action: more-info
           - type: entity
-            entity: sensor.c_last_clean_custom
+            entity: sensor.chimin_cleaned_area
             color: blue
             tap_action:
               action: more-info
       - type: tile
-        entity: vacuum.roborock_s5
+        entity: vacuum.chimin
         vertical: true
         features:
           - type: "vacuum-commands"
@@ -49,8 +49,8 @@ sections:
         show_state: false
         show_name: false
         camera_view: live
-        entity: camera.roborock_s5
-        camera_image: camera.roborock_s5
+        entity: camera.chimin_map
+        camera_image: camera.chimin_map
         aspect_ratio: "1.22" #"135x115"
         layout_options:
           grid_columns: 2
