@@ -8,6 +8,11 @@ This repository is a Home Assistant configuration project.
 - Keep new code close to the existing package for the related feature, room, device, or integration.
 - Follow the surrounding YAML structure and indentation in the file being edited.
 
+## Home Assistant Identifiers
+
+- Before adding or changing scripts and automations, use the `.storage` registries to find the correct Home Assistant entity, device, and area identifiers.
+- Use `.storage/core.entity_registry` for entity IDs, `.storage/core.device_registry` for device IDs, and `.storage/core.area_registry` for area IDs.
+
 ## Script And Automation Aliases
 
 When adding or editing `script:` or `automation:` entries, use the alias format already used in `includes/packages/`:
