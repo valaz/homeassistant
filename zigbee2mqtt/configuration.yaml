@@ -24,8 +24,6 @@ devices:
     friendly_name: Livingroom Router
   '0x04cf8cdf3c764d02':
     friendly_name: Kitchen Sink Plug
-  '0x00158d00052fa079':
-    friendly_name: Bedroom Aqara Cube
   '0x00158d0007bf1dd5':
     friendly_name: Bathroom Water Leak Sensor
   '0x04cf8cdf3c8eb0f3':
@@ -102,6 +100,10 @@ devices:
     friendly_name: Bathroom Motion Sensor
   '0x00158d0006ed6b85':
     friendly_name: Kidsroom Air Sensor
+  '0x10359700001a3357':
+    friendly_name: '0x10359700001a3357'
+  '0x00158d00052fa079':
+    friendly_name: Bedroom Aqara Cube
 advanced:
   log_level: info
   log_syslog:
