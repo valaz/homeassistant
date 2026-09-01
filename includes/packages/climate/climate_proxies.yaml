@@ -38,9 +38,9 @@ climate_proxies:
           device_class: pm25
           icon: mdi:blur
           state: >-
-            {{ states('sensor.cgllc_cgd1st_c37c_pm25_density') }}
+            {{ states('sensor.air_monitor_lite_c37e_pm25') }}
           availability: >-
-            {{ is_number(states('sensor.cgllc_cgd1st_c37c_pm25_density')) }}
+            {{ is_number(states('sensor.air_monitor_lite_c37e_pm25')) }}
 
         - name: "Bedroom PM10 Density"
           default_entity_id: sensor.c_bedroom_pm10_density
@@ -48,9 +48,9 @@ climate_proxies:
           device_class: pm10
           icon: mdi:blur
           state: >-
-            {{ states('sensor.cgllc_cgd1st_c37c_pm10_density') }}
+            {{ states('sensor.air_monitor_lite_c37e_pm10') }}
           availability: >-
-            {{ is_number(states('sensor.cgllc_cgd1st_c37c_pm10_density')) }}
+            {{ is_number(states('sensor.air_monitor_lite_c37e_pm10')) }}
 
         - name: "Bedroom CO2 Density"
           default_entity_id: sensor.c_bedroom_co2_density
@@ -58,7 +58,7 @@ climate_proxies:
           device_class: carbon_dioxide
           icon: mdi:molecule-co2
           state: >-
-            {% set val = states('sensor.cgllc_cgd1st_c37c_co2_density') %}
+            {% set val = states('sensor.air_monitor_lite_c37e_carbon_dioxide') %}
             {{ val if is_number(val) else this.state }}
 
         # KIDSROOM CLIMATE
