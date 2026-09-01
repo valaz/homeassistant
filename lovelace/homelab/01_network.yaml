@@ -28,24 +28,6 @@ sections:
         badges:
           - type: entity
             entity: sensor.fritz_box_6660_cable_last_restart
-
-      - type: heading
-        heading: Speedtest
-        heading_style: subtitle
-        icon: mdi:speedometer
-        badges:
-          - type: entity
-            entity: sensor.speedtest_ping
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.speedtest_download
-            color: green
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.speedtest_upload
-            color: orange
             tap_action:
               action: more-info
 
@@ -76,7 +58,7 @@ sections:
       - type: tile
         entity: switch.fritz_box_6660_cable_wi_fi_aeki_g
         name: AEKI_G
-        color: blue
+        color: red
         vertical: true
         tap_action:
           action: toggle
@@ -150,6 +132,159 @@ sections:
           grid_columns: 2
           grid_rows: 3
 
+      - type: heading
+        heading: Ping History
+        heading_style: subtitle
+        icon: mdi:table-tennis
+        badges:
+          - type: entity
+            entity: binary_sensor.fritzbox_6660
+            state_content: last_changed
+            tap_action:
+              action: more-info
+      - type: "custom:logbook-card"
+        entity: binary_sensor.fritzbox_6660
+        title: ""
+        # hidden_state:
+        #   - "off"
+        #   - "unknown"
+        #   - "unavailable"
+        #   - ""
+        max_items: 4
+        show:
+          end_date: false
+          start_date: true
+        layout_options:
+          grid_columns: 4
+          grid_rows: 4
+
+  - type: grid ###   Flint 2    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Flint 2
+        icon: mdi:router-wireless
+        tap_action:
+          action: url
+          url_path: http://10.60.10.1
+        badges:
+          - type: entity
+            entity: sensor.gl_inet_mt6000_cpu_temperature
+            color: orange
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading_style: subtitle
+        heading: Hardware
+        icon: mdi:cpu-64-bit
+        badges:
+          - type: entity
+            show_icon: true
+            color: blue
+            entity: sensor.gl_inet_mt6000_memory_usage
+            tap_action:
+              action: more-info
+          - type: entity
+            show_icon: true
+            color: green
+            entity: sensor.gl_inet_mt6000_flash_usage
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Load 1m/5m/15m
+        heading_style: subtitle
+        icon: mdi:server-network
+        badges:
+          - type: entity
+            entity: sensor.gl_inet_mt6000_load_avg_1m
+            show_icon: false
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.gl_inet_mt6000_load_avg_5m
+            show_icon: false
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.gl_inet_mt6000_load_avg_15m
+            show_icon: false
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Uptime
+        heading_style: subtitle
+        icon: mdi:restart-alert
+        badges:
+          - type: entity
+            entity: sensor.gl_inet_mt6000_uptime
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki
+        name: AEKI
+        color: green
+        vertical: true
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki_2
+        name: AEKI_2
+        color: green
+        vertical: true
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki_h
+        name: AEKI_H
+        color: blue
+        vertical: true
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki_g
+        name: AEKI_G
+        color: red
+        vertical: true
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+        layout_options:
+          grid_columns: 1
+          grid_rows: 2
+
+      - type: tile
+        entity: button.gl_inet_mt6000_reboot
+        name: Reboot
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: switch.gl_inet_mt6000_tailscale
+        name: Tailscale
+        vertical: false
+        tap_action:
+          action: toggle
+
   - type: grid ###   SMS Gateway    ###
     cards:
       - type: heading
@@ -191,63 +326,63 @@ sections:
         tap_action:
           action: script.sms_emoji_test
 
-  - type: grid ###   Pi-hole    ###
-    cards:
-      - type: heading
-        heading_style: title
-        heading: Pi-hole
-        icon: mdi:pi-hole
+  # - type: grid ###   Pi-hole    ###
+  #   cards:
+  #     - type: heading
+  #       heading_style: title
+  #       heading: Pi-hole
+  #       icon: mdi:pi-hole
 
-      - type: tile
-        entity: switch.pi_hole
-        name: Ad Blocker
-        vertical: false
-        tap_action:
-          action: toggle
-      - type: tile
-        entity: timer.pihole
-        name: Ad Timer
-        color: red
-        vertical: false
-        tap_action:
-          action: more-info
+  #     - type: tile
+  #       entity: switch.pi_hole
+  #       name: Ad Blocker
+  #       vertical: false
+  #       tap_action:
+  #         action: toggle
+  #     - type: tile
+  #       entity: timer.pihole
+  #       name: Ad Timer
+  #       color: red
+  #       vertical: false
+  #       tap_action:
+  #         action: more-info
 
-      - type: tile
-        entity: sensor.pi_hole_dns_queries_today
-        icon: mdi:earth
-        name: Total Queries
-        vertical: true
-        color: green
-        layout_options:
-          grid_columns: 1
-          grid_rows: 2
-      - type: tile
-        entity: sensor.pi_hole_ads_blocked_today
-        icon: mdi:hand-back-right
-        name: Queries Blocked
-        vertical: true
-        color: red
-        layout_options:
-          grid_columns: 1
-          grid_rows: 2
-      - type: tile
-        entity: sensor.pi_hole_ads_percentage_blocked_today
-        icon: mdi:chart-pie
-        name: Percentage Blocked
-        vertical: true
-        color: red
-        layout_options:
-          grid_columns: 1
-          grid_rows: 2
-      - type: tile
-        entity: sensor.pi_hole_domains_blocked
-        icon: mdi:list-box-outline
-        name: Domains on Adlists
-        vertical: true
-        color: blue
-        layout_options:
-          grid_columns: 1
-          grid_rows: 2
+  #     - type: tile
+  #       entity: sensor.pi_hole_dns_queries_today
+  #       icon: mdi:earth
+  #       name: Total Queries
+  #       vertical: true
+  #       color: green
+  #       layout_options:
+  #         grid_columns: 1
+  #         grid_rows: 2
+  #     - type: tile
+  #       entity: sensor.pi_hole_ads_blocked_today
+  #       icon: mdi:hand-back-right
+  #       name: Queries Blocked
+  #       vertical: true
+  #       color: red
+  #       layout_options:
+  #         grid_columns: 1
+  #         grid_rows: 2
+  #     - type: tile
+  #       entity: sensor.pi_hole_ads_percentage_blocked_today
+  #       icon: mdi:chart-pie
+  #       name: Percentage Blocked
+  #       vertical: true
+  #       color: red
+  #       layout_options:
+  #         grid_columns: 1
+  #         grid_rows: 2
+  #     - type: tile
+  #       entity: sensor.pi_hole_domains_blocked
+  #       icon: mdi:list-box-outline
+  #       name: Domains on Adlists
+  #       vertical: true
+  #       color: blue
+  #       layout_options:
+  #         grid_columns: 1
+  #         grid_rows: 2
 
   - type: grid ###   Uptime    ###
     cards:
@@ -255,6 +390,27 @@ sections:
         heading_style: title
         heading: Devices
         icon: mdi:devices
+
+      - type: heading
+        heading: Speedtest
+        heading_style: subtitle
+        icon: mdi:speedometer
+        badges:
+          - type: entity
+            entity: sensor.speedtest_ping
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_download
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_upload
+            color: orange
+            tap_action:
+              action: more-info
+
       - type: custom:auto-entities
         show_empty: false
         card:

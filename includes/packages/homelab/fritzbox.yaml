@@ -29,9 +29,9 @@ fritzbox:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: binary_sensor.google_com
+          entity_id: binary_sensor.fritzbox_6660
           to: "off"
-          for: "00:05:10"
+          for: "00:05:00"
       action:
         - service: script.send_sms_to_azat
           data:
