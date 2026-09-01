@@ -410,18 +410,3 @@ sections:
             color: orange
             tap_action:
               action: more-info
-
-      - type: custom:auto-entities
-        show_empty: false
-        card:
-          type: entities
-          show_header_toggle: false
-        filter:
-          include:
-            - entity_id: "sensor.uptimekuma_*_status"
-              sort:
-                method: name
-          exclude:
-            - entity_id: "sensor.uptimekuma_smarthome_*"
-              sort:
-                method: name
