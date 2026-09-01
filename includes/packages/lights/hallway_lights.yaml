@@ -23,6 +23,8 @@ hallway_lights:
               230
             {% elif 21 <= hour < 23 %}
               192
+            {% elif 0 <= hour < 5 %}
+              3
             {% else %}
               123
             {% endif %}
@@ -51,7 +53,6 @@ hallway_lights:
   automation:
     - alias: "[Hallway Lights] Fix Main Light"
       mode: restart
-      initial_state: true
       trigger:
         - platform: state
           entity_id: input_select.c_livingroom_light_mode
