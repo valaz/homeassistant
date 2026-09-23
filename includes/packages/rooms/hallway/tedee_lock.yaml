@@ -111,21 +111,12 @@ hallway_tedee_lock:
         - condition: time
           after: "07:00:00"
           before: "23:00:00"
-        # - condition: state
-        #   entity_id: person.eliia
-        #   state: "home"
         - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
-        - condition: state
-          entity_id: binary_sensor.c_intercom_changed_recently
-          state: "on"
         - condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
       action:
-        # - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
-        #   timeout: 10
-        #   continue_on_timeout: false
         - service: lock.unlock
           target:
             entity_id: lock.lock_febb
@@ -137,6 +128,36 @@ hallway_tedee_lock:
         - service: script.send_sms_to_azat
           data:
             message: "🔓 Замок разблокировался, так как Азат пришел"
+
+    - alias: "[Main Door Lock] Auto Unlock for Eliia"
+      mode: restart
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: person.eliia
+          from: "not_home"
+          to: "home"
+      condition:
+        - condition: time
+          after: "07:00:00"
+          before: "23:00:00"
+        - condition: state
+          entity_id: binary_sensor.hallway_door_sensor_contact
+          state: "off"
+        - condition: template
+          value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
+      action:
+        - service: lock.unlock
+          target:
+            entity_id: lock.lock_febb
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: "🔓 Замок разблокировался, так как Элия пришла"
+        - service: script.send_sms_to_azat
+          data:
+            message: "🔓 Замок разблокировался, так как Элия пришла"
 
     - alias: "[Main Door Lock] Auto Open for Azat"
       mode: restart
@@ -151,28 +172,25 @@ hallway_tedee_lock:
           after: "07:00:00"
           before: "23:00:00"
         - condition: state
+          entity_id: person.eliia
+          state: "home"
+        - condition: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           state: "off"
-        - condition: state
-          entity_id: binary_sensor.c_intercom_changed_recently
-          state: "on"
         - condition: template
           value_template: "{{ (as_timestamp(now()) - as_timestamp(states.lock.main_door.last_changed)) > 60 }}"
-        - condition: state
-          entity_id: timer.hallway_door_azat_auto_open
-          state: "active"
       action:
         - wait_template: "{{ is_state('binary_sensor.hallway_external_motion_sensor_occupancy', 'on') }}"
-          timeout: 10
+          timeout: 30
           continue_on_timeout: false
-        - service: lock.unlock
+        - service: lock.open
           target:
             entity_id: lock.lock_febb
         - action: notify.send_message
           target:
             entity_id: notify.tg_bot_valaz
           data:
-            message: "🔓 Замок разблокировался, так как Азат подошел"
+            message: "🔓 Замок открылся, так как Азат подошел"
 
     - alias: "[Main Door Lock] Autolock if no people at home"
       mode: restart
