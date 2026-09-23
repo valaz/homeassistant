@@ -53,11 +53,11 @@ bedroom_remote:
         - service: light.turn_off
           data: {}
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
         - service: light.turn_off
           data: {}
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+            entity_id: light.yeelight_screen_light_bar_ambilight
         - service: switch.turn_off
           data: {}
           target:
@@ -75,7 +75,7 @@ bedroom_remote:
         - service: light.toggle
           data: {}
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
 
     - alias: "[Bedroom Remote] Toggle Monitor Ambilight"
       mode: restart
@@ -88,7 +88,7 @@ bedroom_remote:
         - service: light.toggle
           data: {}
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+            entity_id: light.yeelight_screen_light_bar_ambilight
 
     - alias: "[Bedroom Remote] Toggle Monitor Plug"
       mode: restart

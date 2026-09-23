@@ -1,11 +1,11 @@
 bedroom_lights:
   homeassistant:
     customize:
-      light.yeelight_lamp15_0x1c03268c:
+      light.yeelight_screen_light_bar:
         friendly_name: "[Bedroom] Monitor Lamp"
         icon: mdi:desk-lamp
 
-      light.yeelight_lamp15_0x1c03268c_ambilight:
+      light.yeelight_screen_light_bar_ambilight:
         friendly_name: "[Bedroom] Monitor Ambilight"
         icon: mdi:television-ambient-light
 
@@ -41,8 +41,8 @@ bedroom_lights:
           state: >-
             {% set hour = now().hour %}
             {# Kelvin logic: Lower is warmer (red), Higher is cooler (blue) #}
-            {% set min_k = state_attr('light.yeelight_lamp15_0x1c03268c', 'min_color_temp_kelvin') | float(2700) %}
-            {% set max_k = state_attr('light.yeelight_lamp15_0x1c03268c', 'max_color_temp_kelvin') | float(6500) %}
+            {% set min_k = state_attr('light.yeelight_screen_light_bar', 'min_color_temp_kelvin') | float(2700) %}
+            {% set max_k = state_attr('light.yeelight_screen_light_bar', 'max_color_temp_kelvin') | float(6500) %}
             {% set base = max_k - min_k %}
 
             {% if 5 <= hour < 20 %}
@@ -121,7 +121,7 @@ bedroom_lights:
       action:
         - action: light.toggle
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
 
     - alias: "[Bedroom Lights] Turn Off Monitor Lamp"
       mode: restart
@@ -134,10 +134,10 @@ bedroom_lights:
       action:
         - action: light.turn_off
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
         - action: light.turn_off
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+            entity_id: light.yeelight_screen_light_bar_ambilight
 
     - alias: "[Bedroom Lights] Turn On Monitor Lamp"
       mode: restart
@@ -149,14 +149,14 @@ bedroom_lights:
       action:
         - action: light.turn_on
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
 
     - alias: "[Bedroom Lights] Turn On Monitor Ambilight"
       mode: restart
       initial_state: true
       trigger:
         - platform: state
-          entity_id: light.yeelight_lamp15_0x1c03268c
+          entity_id: light.yeelight_screen_light_bar
           to: "on"
       condition:
         - condition: numeric_state
@@ -166,14 +166,14 @@ bedroom_lights:
       action:
         - action: light.turn_on
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+            entity_id: light.yeelight_screen_light_bar_ambilight
 
     - alias: "[Bedroom Lights] Fix Monitor Lamp Light"
       mode: restart
       initial_state: true
       trigger:
         - platform: state
-          entity_id: light.yeelight_lamp15_0x1c03268c
+          entity_id: light.yeelight_screen_light_bar
           to: "on"
         - platform: state
           entity_id: sensor.c_bedroom_monitor_light_brightness_schedule
@@ -183,12 +183,12 @@ bedroom_lights:
           minutes: "/5"
       condition:
         - condition: state
-          entity_id: light.yeelight_lamp15_0x1c03268c
+          entity_id: light.yeelight_screen_light_bar
           state: "on"
       action:
         - action: light.turn_on
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c
+            entity_id: light.yeelight_screen_light_bar
           data:
             brightness: "{{ states('sensor.c_bedroom_monitor_light_brightness_schedule') }}"
             # Fixed: updated to color_temp_kelvin
@@ -200,7 +200,7 @@ bedroom_lights:
       initial_state: true
       trigger:
         - platform: state
-          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          entity_id: light.yeelight_screen_light_bar_ambilight
           to: "on"
         - platform: state
           entity_id: sensor.c_bedroom_monitor_ambilight_brightness_schedule
@@ -210,12 +210,12 @@ bedroom_lights:
           minutes: "/5"
       condition:
         - condition: state
-          entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+          entity_id: light.yeelight_screen_light_bar_ambilight
           state: "on"
       action:
         - action: light.turn_on
           target:
-            entity_id: light.yeelight_lamp15_0x1c03268c_ambilight
+            entity_id: light.yeelight_screen_light_bar_ambilight
           data:
             brightness: "{{ states('sensor.c_bedroom_monitor_ambilight_brightness_schedule') }}"
             rgb_color: "{{ states('sensor.c_bedroom_monitor_ambilight_rgb_calc') }}"

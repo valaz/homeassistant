@@ -89,9 +89,6 @@ hallway_lights:
         - platform: state
           entity_id: binary_sensor.hallway_door_sensor_contact
           to: "on"
-        - platform: state
-          entity_id: sensor.c_hallway_carpet_usage
-          to: "on"
       condition:
         - condition: state
           entity_id: light.hallway
@@ -182,9 +179,6 @@ hallway_lights:
       mode: restart
       initial_state: true
       trigger:
-        - platform: state
-          entity_id: sensor.hallway_button_action
-          to: "single"
         - platform: state
           entity_id: sensor.hallway_light_switch_action
           to: "single"

@@ -90,9 +90,9 @@
       name: "Люстра"
     light.c_kitchen:
       name: "Люстра"
-    light.yeelight_lamp15_0x1c03268c:
+    light.yeelight_screen_light_bar:
       name: "Лампа для мониора"
-    light.yeelight_lamp15_0x1c03268c_ambilight:
+    light.yeelight_screen_light_bar_ambilight:
       name: "Подсветка для мониора"
     vacuum.roborock_s5:
       name: "Пылесос"

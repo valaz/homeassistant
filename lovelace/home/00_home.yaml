@@ -39,10 +39,10 @@ sections:
         name: Монитор
 
       - type: tile
-        entity: light.yeelight_lamp15_0x1c03268c
+        entity: light.yeelight_screen_light_bar
         name: Лампа
       - type: tile
-        entity: light.yeelight_lamp15_0x1c03268c_ambilight
+        entity: light.yeelight_screen_light_bar_ambilight
         name: Подсветка
       - type: heading
         heading: Турбина
