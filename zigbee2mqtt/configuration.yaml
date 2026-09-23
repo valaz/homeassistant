@@ -7,8 +7,7 @@ mqtt:
   user: mqtt
   password: ttmq
 serial:
-  port: >-
-    /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c01ed14910b6ed11a16bd40ea8669f5d-if00-port0
+  port: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c01ed14910b6ed11a16bd40ea8669f5d-if00-port0
   adapter: zstack
 frontend:
   enabled: true
@@ -29,8 +28,6 @@ devices:
   '0x04cf8cdf3c8eb0f3':
     friendly_name: Bathroom Light Switch
     state_action: true
-  '0x00158d0008a9e22e':
-    friendly_name: Hallway Door Sensor
   '0x54ef4410006ba559':
     friendly_name: Bedroom Left Cover
   '0x54ef4410006b96f2':
@@ -64,9 +61,9 @@ devices:
   '0xa4c138756ba0746d':
     friendly_name: Livingroom Thanos Plug
   '0xa4c1381eddafd03a':
-    friendly_name: Kitchen Button
+    friendly_name: Kitchen Water Pump Button
   '0xa4c1384d2b081bbd':
-    friendly_name: Hallway Button
+    friendly_name: Kitchen Button
   '0xa4c1383084092912':
     friendly_name: Hallway Button Pusher
     state_action: true
@@ -104,6 +101,10 @@ devices:
     friendly_name: '0x10359700001a3357'
   '0x00158d00052fa079':
     friendly_name: Bedroom Aqara Cube
+  '0xa4c138cbbf56ea45':
+    friendly_name: Kitchen Water Pump USB Switch
+  '0x00158d0008a9e22e':
+    friendly_name: Hallway Door Sensor
 advanced:
   log_level: info
   log_syslog:

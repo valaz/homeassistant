@@ -1,0 +1,22 @@
+kitchen_water_pump:
+  automation:
+    - alias: "[Kitchen Water Pump] Toggle Water Pump"
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: sensor.kitchen_water_pump_button_action
+          to: "single"
+      action:
+        - service: switch.toggle
+          entity_id: switch.kitchen_water_pump_usb_switch
+
+    - alias: "[Kitchen Water Pump] Auto Off"
+      mode: restart
+      trigger:
+        - platform: state
+          entity_id: switch.kitchen_water_pump_usb_switch
+          to: "on"
+          for: "00:00:40"
+      action:
+        - service: switch.turn_off
+          entity_id: switch.kitchen_water_pump_usb_switch
