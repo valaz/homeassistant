@@ -5,16 +5,6 @@ icon: mdi:server
 cards: []
 max_columns: 3
 sections:
-  # - type: grid ###   Thanos    ###
-  #   cards:
-  #     - type: heading
-  #       heading_style: title
-  #       heading: Thanos
-  #       icon: mdi:server
-  #       tap_action:
-  #         action: url
-  #         url_path: http://192.168.178.11
-
   - type: grid ###   Thanos Hardware    ###
     cards:
       - type: heading
@@ -23,7 +13,7 @@ sections:
         icon: mdi:cpu-64-bit
         tap_action:
           action: url
-          url_path: http://192.168.178.11:61208/
+          url_path: http://10.60.10.11:61208/
         badges:
           - type: entity
             show_icon: true
@@ -310,7 +300,7 @@ sections:
         heading_style: title
         tap_action:
           action: url
-          url_path: http://192.168.178.11
+          url_path: http://10.60.10.11
         badges:
           - type: entity
             show_state: true
@@ -517,7 +507,7 @@ sections:
         icon: mdi:remote-desktop
         tap_action:
           action: url
-          url_path: "http://192.168.178.12"
+          url_path: "http://10.60.10.12"
 
       - type: heading
         heading_style: subtitle
