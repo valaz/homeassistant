@@ -1,0 +1,1351 @@
+title: Syncthing
+path: syncthing
+type: sections
+icon: mdi:sync
+cards: []
+max_columns: 3
+sections:
+  - type: grid ###   Syncthing Overview    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Syncthing
+        icon: mdi:sync
+        badges:
+          - type: entity
+            entity: binary_sensor.syncthing_running
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: tile
+        entity: button.syncthing_scan_all_folders
+        name: Scan All Folders
+        icon: mdi:folder-sync
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: perform-action
+          perform_action: button.press
+          target:
+            entity_id: button.syncthing_scan_all_folders
+
+      - type: heading
+        heading_style: title
+        heading: Ultron
+        icon: mdi:server
+        badges:
+          - type: entity
+            entity: binary_sensor.syncthing_device_ultron_connected
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_device_ultron_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_device_ultron_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: tile
+        entity: button.syncthing_device_ultron_pause
+        name: Pause
+        # icon: mdi:folder-sync
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_device_ultron_resume
+        name: Resume
+        # icon: mdi:folder-sync
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: sensor.syncthing_device_ultron_downloaded
+        features_position: bottom
+        vertical: false
+        name: Downloaded
+        icon: mdi:download
+        color: green
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+      - type: tile
+        entity: sensor.syncthing_device_ultron_uploaded
+        features_position: bottom
+        vertical: false
+        name: Uploaded
+        icon: mdi:upload
+        color: blue
+        show_entity_picture: false
+        features:
+          - type: "trend-graph"
+            hours_to_show: 24
+            detail: true
+
+  - type: grid ###   Media-Downloads-Movies    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Media-Downloads-Movies
+        icon: mdi:movie
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_downloads_movies_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_downloads_movies_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_downloads_movies_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_downloads_movies_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_movies_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_movies_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_movies_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_movies_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Media-Downloads-Series    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Media-Downloads-Series
+        icon: mdi:television
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_downloads_series_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_downloads_series_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_downloads_series_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_downloads_series_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_series_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_series_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_downloads_series_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_downloads_series_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Media Youtube    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Media Youtube
+        icon: mdi:youtube
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_youtube_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_youtube_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_media_youtube_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_media_youtube_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_youtube_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_media_youtube_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_media_youtube_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_media_youtube_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   aza_tube    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: aza_tube
+        icon: mdi:youtube-studio
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_aza_tube_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_aza_tube_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_aza_tube_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_aza_tube_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_aza_tube_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_aza_tube_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+
+      - type: tile
+        entity: button.syncthing_folder_aza_tube_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_aza_tube_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Thanos mnt-user-backups    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Thanos mnt-user-backups
+        icon: mdi:backup-restore
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_thanos_mnt_user_backups_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_thanos_mnt_user_backups_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_thanos_mnt_user_backups_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_thanos_mnt_user_backups_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: tile
+        entity: button.syncthing_folder_thanos_mnt_user_backups_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_thanos_mnt_user_backups_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_thanos_mnt_user_backups_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_thanos_mnt_user_backups_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Ultron mnt-user-backups    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Ultron mnt-user-backups
+        icon: mdi:backup-restore
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_backups_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_backups_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_backups_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_backups_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_backups_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_backups_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_backups_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_backups_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Ultron mnt-user-valaz_data    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Ultron mnt-user-valaz_data
+        icon: mdi:database
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_valaz_data_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_valaz_data_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_valaz_data_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_valaz_data_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_valaz_data_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_valaz_data_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_valaz_data_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Ultron mnt-user-nextcloud-valaz-files    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Ultron mnt-user-nextcloud-valaz-files
+        icon: mdi:cloud
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_state
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_completion
+            show_icon: false
+            color: green
+            tap_action:
+              action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_paused
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_paused
+          name: Paused
+          color: grey
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: conditional
+        conditions:
+          - entity: binary_sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_error
+            state: "on"
+        card:
+          type: tile
+          entity: binary_sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_error
+          name: Error
+          color: red
+          vertical: false
+          tap_action:
+            action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_pause
+        name: Pause
+        color: red
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_resume
+        name: Resume
+        color: green
+        vertical: false
+        tap_action:
+          action: more-info
+      - type: tile
+        entity: button.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_scan
+        name: Scan
+        color: blue
+        vertical: false
+        layout_options:
+          grid_columns: full
+        tap_action:
+          action: more-info
+      - type: heading
+        heading: Need Files
+        icon: mdi:folder-arrow-down-outline
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_files_needed
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_bytes_needed
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Local
+        icon: mdi:harddisk
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_local_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_local_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Synced
+        icon: mdi:sync
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_in_sync_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_in_sync_size
+            tap_action:
+              action: more-info
+      - type: heading
+        heading: Total
+        icon: mdi:folder-multiple
+        heading_style: subtitle
+        badges:
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_total_files
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_total_size
+            tap_action:
+              action: more-info
+
+  - type: grid ###   Syncthing Folders    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Folders
+        icon: mdi:folder-multiple
+
+      - type: tile
+        entity: sensor.syncthing_folder_aza_tube_completion
+        name: AzaTube
+        icon: mdi:folder-music
+        color: purple
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_common_share_completion
+        name: Common Share
+        icon: mdi:folder-account
+        color: blue
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_media_downloads_movies_completion
+        name: Downloads / Movies
+        icon: mdi:movie-open
+        color: red
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_media_downloads_series_completion
+        name: Downloads / Series
+        icon: mdi:television-classic
+        color: orange
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_media_youtube_completion
+        name: YouTube
+        icon: mdi:youtube
+        color: red
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_ultron_mnt_user_backups_completion
+        name: Backups
+        icon: mdi:backup-restore
+        color: green
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_completion
+        name: Nextcloud Files
+        icon: mdi:cloud-sync
+        color: light-blue
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+      - type: tile
+        entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_completion
+        name: Valaz Data
+        icon: mdi:database-sync
+        color: teal
+        features_position: bottom
+        vertical: false
+        features:
+          - type: bar-gauge
+            min: 0
+            max: 100
+
+  - type: grid ###   Syncthing Inventory    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Folder Inventory
+        icon: mdi:folder-multiple
+
+      - type: entities
+        title: Files & Storage
+        show_header_toggle: false
+        entities:
+          - entity: sensor.syncthing_folder_aza_tube_total_size
+            type: custom:multiple-entity-row
+            name: AzaTube
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_aza_tube_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_aza_tube_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_aza_tube_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_common_share_total_size
+            type: custom:multiple-entity-row
+            name: Common Share
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_common_share_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_common_share_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_common_share_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_media_downloads_movies_total_size
+            type: custom:multiple-entity-row
+            name: Downloads / Movies
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_media_downloads_movies_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_media_downloads_movies_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_media_downloads_movies_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_media_downloads_series_total_size
+            type: custom:multiple-entity-row
+            name: Downloads / Series
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_media_downloads_series_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_media_downloads_series_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_media_downloads_series_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_media_youtube_total_size
+            type: custom:multiple-entity-row
+            name: YouTube
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_media_youtube_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_media_youtube_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_media_youtube_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_ultron_mnt_user_backups_total_size
+            type: custom:multiple-entity-row
+            name: Backups
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_backups_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_ultron_mnt_user_backups_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_backups_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_total_size
+            type: custom:multiple-entity-row
+            name: Nextcloud Files
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_in_sync_files
+                name: Synced Files
+          - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_total_size
+            type: custom:multiple-entity-row
+            name: Valaz Data
+            state_header: Total
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_in_sync_size
+                name: Synced
+              - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_total_files
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_in_sync_files
+                name: Synced Files
+
+  - type: grid ###   Syncthing Queue    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: Remaining To Sync
+        icon: mdi:folder-arrow-down-outline
+
+      - type: entities
+        title: Pending Files & Data
+        show_header_toggle: false
+        entities:
+          - entity: sensor.syncthing_folder_aza_tube_bytes_needed
+            type: custom:multiple-entity-row
+            name: AzaTube
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_aza_tube_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_aza_tube_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_common_share_bytes_needed
+            type: custom:multiple-entity-row
+            name: Common Share
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_common_share_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_common_share_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_media_downloads_movies_bytes_needed
+            type: custom:multiple-entity-row
+            name: Downloads / Movies
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_media_downloads_movies_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_media_downloads_movies_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_media_downloads_series_bytes_needed
+            type: custom:multiple-entity-row
+            name: Downloads / Series
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_media_downloads_series_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_media_downloads_series_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_media_youtube_bytes_needed
+            type: custom:multiple-entity-row
+            name: YouTube
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_media_youtube_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_media_youtube_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_ultron_mnt_user_backups_bytes_needed
+            type: custom:multiple-entity-row
+            name: Backups
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_backups_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_backups_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_bytes_needed
+            type: custom:multiple-entity-row
+            name: Nextcloud Files
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_nextcloud_valaz_files_last_scan
+                name: Last Scan
+          - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_bytes_needed
+            type: custom:multiple-entity-row
+            name: Valaz Data
+            state_header: Data
+            entities:
+              - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_files_needed
+                name: Files
+              - entity: sensor.syncthing_folder_ultron_mnt_user_valaz_data_last_scan
+                name: Last Scan
