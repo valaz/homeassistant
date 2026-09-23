@@ -326,6 +326,38 @@ sections:
         tap_action:
           action: script.sms_emoji_test
 
+      - type: heading
+        heading_style: title
+        heading: Internet
+        icon: mdi:earth
+        badges:
+          - type: entity
+            entity: sensor.public_ipv4
+            icon: mdi:ip
+            color: blue
+            tap_action:
+              action: more-info
+
+      - type: heading
+        heading: Speedtest
+        heading_style: subtitle
+        icon: mdi:speedometer
+        badges:
+          - type: entity
+            entity: sensor.speedtest_ping
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_download
+            color: green
+            tap_action:
+              action: more-info
+          - type: entity
+            entity: sensor.speedtest_upload
+            color: orange
+            tap_action:
+              action: more-info
+
   # - type: grid ###   Pi-hole    ###
   #   cards:
   #     - type: heading
@@ -388,25 +420,44 @@ sections:
     cards:
       - type: heading
         heading_style: title
+        heading: Sevices
+        icon: mdi:toolbox-outline
+
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "sensor.*_status"
+              name: "*]*"
+              sort:
+                method: name
+          exclude:
+            - entity_id: "sensor.smarthome_*_status"
+              sort:
+                method: name
+
+  - type: grid ###   Uptime    ###
+    cards:
+      - type: heading
+        heading_style: title
         heading: Devices
         icon: mdi:devices
 
-      - type: heading
-        heading: Speedtest
-        heading_style: subtitle
-        icon: mdi:speedometer
-        badges:
-          - type: entity
-            entity: sensor.speedtest_ping
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.speedtest_download
-            color: green
-            tap_action:
-              action: more-info
-          - type: entity
-            entity: sensor.speedtest_upload
-            color: orange
-            tap_action:
-              action: more-info
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: entities
+          show_header_toggle: false
+        filter:
+          include:
+            - entity_id: "sensor.smarthome_*_status"
+              name: "*]*"
+              sort:
+                method: name
+          exclude:
+            - entity_id: "sensor.uptimekuma_smarthome_*"
+              sort:
+                method: name

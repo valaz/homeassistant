@@ -27,17 +27,27 @@ fritzbox:
     - alias: "[Fritzbox] Repower router if connection lost"
       mode: single
       initial_state: true
+      variables:
+        expected_public_ipv4: !secret expected_public_ipv4
       trigger:
         - platform: state
+          id: connection_lost
           entity_id: binary_sensor.fritzbox_6660
           to: "off"
           for: "00:05:00"
+        - platform: state
+          id: unexpected_public_ipv4
+          entity_id: sensor.public_ipv4
+          not_to: !secret expected_public_ipv4
+          for: "00:05:00"
+      condition:
+        - condition: template
+          value_template: >-
+            {{ trigger.id != 'unexpected_public_ipv4'
+               or states('sensor.public_ipv4') not in ['unknown', 'unavailable', 'Unknown', 'Unavailable'] }}
       action:
-        - service: script.send_sms_to_azat
-          data:
-            message: "🔄 Роутер в гостиной будет перезагружен, так как пропала связь"
         - delay:
-            seconds: 60
+            seconds: 30
         - service: switch.turn_off
           target:
             entity_id: switch.livingroom_router
@@ -46,6 +56,23 @@ fritzbox:
         - service: switch.turn_on
           target:
             entity_id: switch.livingroom_router
+        - choose:
+            - conditions:
+                - condition: trigger
+                  id: connection_lost
+              sequence:
+                - service: script.send_sms_to_azat
+                  data:
+                    message: "🔄 Роутер в гостиной был перезагружен. Причина: пропала связь."
+            - conditions:
+                - condition: trigger
+                  id: unexpected_public_ipv4
+              sequence:
+                - service: script.send_sms_to_azat
+                  data:
+                    message: >-
+                      🔄 Роутер в гостиной был перезагружен. Причина: текущий публичный IPv4
+                      {{ states('sensor.public_ipv4') }} не соответствует ожидаемому {{ expected_public_ipv4 }}.
 
     - alias: "[Fritzbox] Nightly Restart"
       trigger:
