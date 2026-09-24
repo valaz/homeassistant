@@ -236,9 +236,9 @@ sections:
           grid_columns: 1
           grid_rows: 2
       - type: tile
-        entity: switch.gl_inet_mt6000_aeki_2
-        name: AEKI_2
-        color: green
+        entity: switch.gl_inet_mt6000_aeki_y
+        name: AEKI_Y
+        color: orange
         vertical: true
         tap_action:
           action: toggle
@@ -248,9 +248,9 @@ sections:
           grid_columns: 1
           grid_rows: 2
       - type: tile
-        entity: switch.gl_inet_mt6000_aeki_h
-        name: AEKI_H
-        color: blue
+        entity: switch.gl_inet_mt6000_aeki_r
+        name: AEKI_R
+        color: red
         vertical: true
         tap_action:
           action: toggle
@@ -262,7 +262,7 @@ sections:
       - type: tile
         entity: switch.gl_inet_mt6000_aeki_g
         name: AEKI_G
-        color: red
+        color: purple
         vertical: true
         tap_action:
           action: toggle
@@ -271,6 +271,25 @@ sections:
         layout_options:
           grid_columns: 1
           grid_rows: 2
+
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki_2
+        name: AEKI_2
+        color: green
+        vertical: false
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
+      - type: tile
+        entity: switch.gl_inet_mt6000_aeki_h
+        name: AEKI_H
+        color: blue
+        vertical: false
+        tap_action:
+          action: toggle
+        hold_action:
+          action: more-info
 
       - type: tile
         entity: button.gl_inet_mt6000_reboot
