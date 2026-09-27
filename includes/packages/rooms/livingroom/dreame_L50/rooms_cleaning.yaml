@@ -1,0 +1,48 @@
+chimin_rooms_cleaning:
+  template:
+    - sensor:
+        - name: "Chimin Cleaning Areas"
+          default_entity_id: sensor.chimin_cleaning_areas
+          unique_id: chimin_cleaning_areas
+          icon: mdi:robot-vacuum
+          state: >
+            {% set areas = namespace(ids=[]) %}
+            {% for entity in states.input_boolean %}
+              {% if entity.attributes.area is defined and is_state(entity.entity_id, 'on') %}
+                {% set areas.ids = areas.ids + [entity.attributes.area] %}
+              {% endif %}
+            {% endfor %}
+            {{ areas.ids | join(', ') }}
+          attributes:
+            area_ids: >
+              {% set areas = namespace(ids=[]) %}
+              {% for entity in states.input_boolean %}
+                {% if entity.attributes.area is defined and is_state(entity.entity_id, 'on') %}
+                  {% set areas.ids = areas.ids + [entity.attributes.area] %}
+                {% endif %}
+              {% endfor %}
+              {{ areas.ids }}
+
+  script:
+    chimin_start_room_cleaning:
+      alias: "[Chimin] Start Selected Room Cleaning"
+      icon: mdi:play-box-outline
+      mode: restart
+      sequence:
+        - action: select.select_option
+          target:
+            entity_id: select.chimin_cleaning_mode
+          data:
+            option: sweeping
+        - variables:
+            area_ids: "{{ state_attr('sensor.chimin_cleaning_areas', 'area_ids') | default([], true) }}"
+        - condition: template
+          value_template: "{{ area_ids | count > 0 }}"
+        - action: vacuum.clean_area
+          target:
+            entity_id: vacuum.chimin
+          data:
+            cleaning_area_id: "{{ area_ids }}"
+        - action: swtich.turn_on
+          target:
+            entity_id: switch.chimin_max_suction_power

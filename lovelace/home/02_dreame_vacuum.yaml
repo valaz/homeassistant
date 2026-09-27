@@ -176,11 +176,6 @@ sections:
         heading: Zones
         heading_style: subtitle
       - type: tile
-        entity: input_boolean.clean_saloon
-        color: green
-        tap_action:
-          action: toggle
-      - type: tile
         entity: input_boolean.clean_bathroom
         color: green
         tap_action:
@@ -201,17 +196,7 @@ sections:
         tap_action:
           action: toggle
       - type: tile
-        entity: input_boolean.clean_kitchen_table
-        color: green
-        tap_action:
-          action: toggle
-      - type: tile
         entity: input_boolean.clean_livingroom
-        color: green
-        tap_action:
-          action: toggle
-      - type: tile
-        entity: input_boolean.clean_livingroom_entrance
         color: green
         tap_action:
           action: toggle
@@ -237,7 +222,7 @@ sections:
         tap_action:
           action: toggle
       - type: tile
-        entity: script.roborock_start_zone_cleaning
+        entity: script.chimin_start_room_cleaning
         name: Start
         color: green
         vertical: true
@@ -283,4 +268,124 @@ sections:
         aspect_ratio: "135x130"
         layout_options:
           grid_columns: full
+
+      - type: custom:xiaomi-vacuum-map-card
+        entity: vacuum.chimin
+        vendor: xiaomi
+        map_source:
+          camera: camera.chimin_map
+        calibration_source:
+          camera: true
+        vacuum_platform: Tasshack/dreame-vacuum
+        map_modes:
+          - template: vacuum_clean_zone
+          - template: vacuum_clean_point
+          - template: vacuum_goto
+          - template: vacuum_clean_segment
+            predefined_selections:
+              - id: 2
+                outline:
+                  - - -1550
+                    - 1900
+                  - - -1550
+                    - 5350
+                  - - 2550
+                    - 5350
+                  - - 2550
+                    - 1900
+                label:
+                  text: Kitchen
+                  x: 500
+                  y: 3625
+                  offset_y: 35
+                icon:
+                  name: "mdi:table-chair"
+                  x: 500
+                  y: 3625
+              - id: 3
+                outline:
+                  - - 2200
+                    - 1850
+                  - - 2200
+                    - 5850
+                  - - 6100
+                    - 5850
+                  - - 6100
+                    - 1850
+                label:
+                  text: Bedroom
+                  x: 4150
+                  y: 3850
+                  offset_y: 35
+                icon:
+                  name: "mdi:bed-king-outline"
+                  x: 4150
+                  y: 3850
+              - id: 4
+                outline:
+                  - - 3050
+                    - -350
+                  - - 3050
+                    - 1400
+                  - - 5400
+                    - 1400
+                  - - 5400
+                    - -350
+                label:
+                  text: Bathroom
+                  x: 4225
+                  y: 525
+                  offset_y: 35
+                icon:
+                  name: "mdi:shower-head"
+                  x: 4225
+                  y: 525
+              - id: 5
+                outline:
+                  - - -3150
+                    - -750
+                  - - -3150
+                    - 1900
+                  - - 3050
+                    - 1900
+                  - - 3050
+                    - -750
+                label:
+                  text: Livingroom
+                  x: -50
+                  y: 575
+                  offset_y: 35
+                icon:
+                  name: "mdi:sofa-outline"
+                  x: -50
+                  y: 575
+              - id: 6
+                outline:
+                  - - -2300
+                    - -3400
+                  - - -2300
+                    - -750
+                  - - 1250
+                    - -750
+                  - - 1250
+                    - -3400
+                label:
+                  text: Kidsroom
+                  x: -525
+                  y: -2075
+                  offset_y: 35
+                icon:
+                  name: "mdi:human-child"
+                  x: -525
+                  y: -2075
+        tiles:
+          - label: Status
+            entity: sensor.chimin_status
+          - label: Mode
+            entity: select.chimin_cleaning_mode
+          - label: Battery
+            entity: sensor.chimin_battery_level
+          - label: Max Power
+            entity: switch.chimin_max_suction_power
+
     column_span: 1

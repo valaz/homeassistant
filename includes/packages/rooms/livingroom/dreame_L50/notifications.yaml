@@ -1,67 +1,69 @@
-notification:
-    automation:
-      - alias: "[Livingroom Dreame] Chimin Low Water Warning"
-        initial_state: true
-        trigger:
-          - platform: state
-            entity_id: sensor.chimin_low_water_warning
-        condition:
-          - condition: template
-            value_template: >
-              {% set warning = states('sensor.chimin_low_water_warning') %}
-              {{ warning not in ['Unavailable', 'unavailable', 'no_warning', 'unknown', 'None', ''] }}
-        action:
-          - action: notify.send_message
-            target:
-              entity_id: notify.tg_bot_valaz
-            data:
-              message: |
-                {% if is_state('sensor.chimin_low_water_warning', 'no_water_left') %}
-                  🚰 У Чимина закончилась вода.
-                  Наполните бак для чистой воды, чтобы продолжить уборку.
-                {% else %}
-                  🚰 Чимину требуется внимание.
-                  Проверьте уровень воды в роботе.
-                {% endif %}
+chimin_notifications:
+  automation:
+    - alias: "[Chimin] Chimin Low Water Warning"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.chimin_low_water_warning
+      condition:
+        - condition: template
+          value_template: >
+            {% set warning = states('sensor.chimin_low_water_warning') %}
+            {{ warning not in ['Unavailable', 'unavailable', 'no_warning', 'unknown', 'None', ''] }}
+      action:
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: |
+              {% if is_state('sensor.chimin_low_water_warning', 'no_water_left') %}
+                🚰 У Чимина закончилась вода.
+                Наполните бак для чистой воды, чтобы продолжить уборку.
+              {% else %}
+                🚰 Чимину требуется внимание.
+                Проверьте уровень воды в роботе.
+              {% endif %}
 
-      - alias: "[Livingroom Dreame] Chimin Low Water Restored"
-        initial_state: true
-        trigger:
-          - platform: state
-            entity_id: sensor.chimin_low_water_warning
-            to: "no_warning"
-        condition:
-          - condition: template
-            value_template: >
-              {{ trigger.from_state is not none and
-                 trigger.from_state.state not in ['Unavailable', 'unavailable', 'no_warning', 'unknown', 'None', ''] }}
-        action:
-          - action: notify.send_message
-            target:
-              entity_id: notify.tg_bot_valaz
-            data:
-              message: "🚰 Chimin: проблема с уровнем воды устранена."
+    - alias: "[Chimin] Chimin Low Water Restored"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: sensor.chimin_low_water_warning
+          to: "no_warning"
+      condition:
+        - condition: template
+          value_template: >
+            {{ trigger.from_state is not none and
+               trigger.from_state.state not in ['Unavailable', 'unavailable', 'no_warning', 'unknown', 'None', ''] }}
+      action:
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: "🚰 Chimin: проблема с уровнем воды устранена."
 
-      - alias: "[Livingroom Dreame] Send Chimin Map After Cleaning"
-        initial_state: true
-        trigger:
-          - platform: state
-            entity_id: vacuum.chimin
-            from: "returning"
-            to: "docked"
-        action:
-          - service: camera.snapshot
-            data:
-              entity_id: camera.chimin_map
-              filename: "/config/www/cam_captures/chimin_map.jpg"
-          - delay: "00:00:03"
-          - service: telegram_bot.send_photo
-            data:
-              entity_id:
-                - notify.tg_bot_valaz
-              file: "/config/www/cam_captures/chimin_map.jpg"
-              caption: |
-                🧹 Чимин завершил уборку.
-                🏠 Площадь уборки: {{ states('sensor.chimin_cleaned_area') }} м².
-                ⏱️ Время уборки: {{ states('sensor.chimin_cleaning_time') }} мин.
-                🔋 Уровень заряда: {{ states('sensor.chimin_battery_level') }}%.
+    - alias: "[Chimin] Send Chimin Map After Cleaning"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: vacuum.chimin
+          from: "returning"
+          to: "docked"
+          for: "00:00:10"
+      action:
+        - service: camera.snapshot
+          data:
+            entity_id: camera.chimin_map
+            filename: "/config/www/cam_captures/chimin_map.jpg"
+        - delay: "00:00:03"
+        - service: telegram_bot.send_photo
+          data:
+            entity_id:
+              - notify.tg_bot_valaz
+            file: "/config/www/cam_captures/chimin_map.jpg"
+            caption: |
+              🧹 Чимин завершил уборку.
+              🏠 Площадь уборки: {{ states('sensor.chimin_cleaned_area') }} м².
+              ⏱️ Время уборки: {{ states('sensor.chimin_cleaning_time') }} мин.
+              🔋 Уровень заряда: {{ states('sensor.chimin_battery_level') }}%.
+        - service: script.reset_zone_selection
