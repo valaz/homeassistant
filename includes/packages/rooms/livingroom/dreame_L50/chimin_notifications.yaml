@@ -42,6 +42,32 @@ chimin_notifications:
           data:
             message: "🚰 Chimin: проблема с уровнем воды устранена."
 
+    - alias: "[Telegram] Chimin Started Cleaning"
+      initial_state: true
+      trigger:
+        - platform: state
+          entity_id: vacuum.chimin
+          from: "docked"
+          to: "cleaning"
+      action:
+        - delay: "00:00:05"
+        - action: notify.send_message
+          target:
+            entity_id: notify.tg_bot_valaz
+          data:
+            message: >-
+              {%- set room_names = {'bathroom': 'Ванная', 'bedroom': 'Спальня', 'kidsroom': 'Детская', 'kitchen': 'Кухня', 'livingroom': 'Гостиная'} -%}
+              {%- set area_ids = state_attr('sensor.chimin_cleaning_areas', 'area_ids') | default([], true) -%}
+              {%- set rooms = namespace(names=[]) -%}
+              {%- for area_id in area_ids -%}
+                {%- set rooms.names = rooms.names + [room_names[area_id]] -%}
+              {%- endfor -%}
+              {%- if is_state('sensor.chimin_status', 'room_cleaning') and rooms.names -%}
+                🧹 Чимин начал уборку: {{ rooms.names | join(', ') }}.
+              {%- else -%}
+                🧹 Чимин начал общую уборку.
+              {%- endif -%}
+
     - alias: "[Chimin] Send Chimin Map After Cleaning"
       initial_state: true
       trigger:
