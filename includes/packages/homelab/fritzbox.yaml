@@ -24,55 +24,40 @@ fritzbox:
             {{ is_number(states('sensor.fritz_box_6660_cable_download_throughput')) }}
 
   automation:
-    - alias: "[Fritzbox] Repower router if connection lost"
+    - alias: "[Fritzbox] Repower Router If Connection Lost"
       mode: single
       initial_state: true
-      variables:
-        expected_public_ipv4: !secret expected_public_ipv4
       trigger:
         - platform: state
-          id: connection_lost
           entity_id: binary_sensor.fritzbox_6660
           to: "off"
           for: "00:05:00"
+      action:
+        - service: script.repower_fritzbox_router
+          data:
+            message: "🔄 Роутер в гостиной был перезагружен. Причина: пропала связь."
+
+    - alias: "[Fritzbox] Repower Router If Public IP Is Incorrect"
+      mode: single
+      initial_state: true
+      variables:
+        expected_public_ipv4_prefix: !secret expected_public_ipv4_prefix
+      trigger:
         - platform: state
-          id: unexpected_public_ipv4
           entity_id: sensor.public_ipv4
-          not_to: !secret expected_public_ipv4
           for: "00:05:00"
       condition:
         - condition: template
           value_template: >-
-            {{ trigger.id != 'unexpected_public_ipv4'
-               or states('sensor.public_ipv4') not in ['unknown', 'unavailable', 'Unknown', 'Unavailable'] }}
+            {% set expected_prefix = expected_public_ipv4_prefix | default('', true) %}
+            {{ expected_prefix | length > 0 and
+               not states('sensor.public_ipv4').startswith(expected_prefix) }}
       action:
-        - delay:
-            seconds: 30
-        - service: switch.turn_off
-          target:
-            entity_id: switch.livingroom_router
-        - delay:
-            seconds: 5
-        - service: switch.turn_on
-          target:
-            entity_id: switch.livingroom_router
-        - choose:
-            - conditions:
-                - condition: trigger
-                  id: connection_lost
-              sequence:
-                - service: script.send_sms_to_azat
-                  data:
-                    message: "🔄 Роутер в гостиной был перезагружен. Причина: пропала связь."
-            - conditions:
-                - condition: trigger
-                  id: unexpected_public_ipv4
-              sequence:
-                - service: script.send_sms_to_azat
-                  data:
-                    message: >-
-                      🔄 Роутер в гостиной был перезагружен. Причина: текущий публичный IPv4
-                      {{ states('sensor.public_ipv4') }} не соответствует ожидаемому {{ expected_public_ipv4 }}.
+        - service: script.repower_fritzbox_router
+          data:
+            message: >-
+              🔄 Роутер в гостиной был перезагружен. Причина: текущий публичный IPv4
+              {{ states('sensor.public_ipv4') }} не начинается с {{ expected_public_ipv4_prefix }}.
 
     - alias: "[Fritzbox] Nightly Restart"
       trigger:
@@ -123,3 +108,28 @@ fritzbox:
         - service: button.press
           target:
             entity_id: button.fritz_box_6660_cable_cleanup
+
+  script:
+    repower_fritzbox_router:
+      alias: "[Fritzbox] Repower Router"
+      mode: single
+      fields:
+        message:
+          description: "Reason for the router repower"
+          required: true
+          selector:
+            text:
+      sequence:
+        - delay:
+            seconds: 30
+        - service: switch.turn_off
+          target:
+            entity_id: switch.livingroom_router
+        - delay:
+            seconds: 5
+        - service: switch.turn_on
+          target:
+            entity_id: switch.livingroom_router
+        - service: script.send_sms_to_azat
+          data:
+            message: "{{ message }}"

@@ -431,12 +431,12 @@ sections:
                   exclude:
                     - state: "off"
 
-  - type: grid ###   System    ###
+  - type: grid ###   Connectivity    ###
     cards:
       - type: heading
         heading_style: title
-        heading: System Automations
-        icon: mdi:server
+        heading: Connectivity Automations
+        icon: mdi:router-wireless
       - type: custom:tabbed-card
         tabs:
           - attributes:
@@ -466,26 +466,6 @@ sections:
                   exclude:
                     - state: "off"
           - attributes:
-              label: Pi-hole
-            card:
-              type: vertical-stack
-              cards:
-                - type: custom:auto-entities
-                  show_empty: false
-                  card:
-                    type: entities
-                    show_header_toggle: false
-                  filter:
-                    include:
-                      - domain: automation
-                        name: "*Pi-hole*"
-                        options:
-                          secondary_info: last-triggered
-                        sort:
-                          method: name
-                  exclude:
-                    - state: "off"
-          - attributes:
               label: SMS
             card:
               type: vertical-stack
@@ -499,6 +479,55 @@ sections:
                     include:
                       - domain: automation
                         name: "*SMS*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+          - attributes:
+              label: Flint 2
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Flint 2*"
+                        options:
+                          secondary_info: last-triggered
+                        sort:
+                          method: name
+                  exclude:
+                    - state: "off"
+
+  - type: grid ###   System    ###
+    cards:
+      - type: heading
+        heading_style: title
+        heading: System Automations
+        icon: mdi:server
+      - type: custom:tabbed-card
+        tabs:
+          - attributes:
+              label: Pi-hole
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:auto-entities
+                  show_empty: false
+                  card:
+                    type: entities
+                    show_header_toggle: false
+                  filter:
+                    include:
+                      - domain: automation
+                        name: "*Pi-hole*"
                         options:
                           secondary_info: last-triggered
                         sort:
@@ -654,6 +683,7 @@ sections:
             - name: "*Pi-hole*"
             - name: "*Pi-hole*"
             - name: "*SMS*"
+            - name: "*Flint 2*"
             - name: "*Telegram*"
             - name: "*System]*"
             - name: "*People]*"
