@@ -1,0 +1,33 @@
+flint2:
+  script:
+    flint_2_reload_wifi_networks:
+      alias: "[Flint 2] Reload Wi-Fi Networks"
+      icon: mdi:wifi-refresh
+      mode: single
+      variables:
+        wifi_networks:
+          - switch.gl_inet_mt6000_aeki_y
+          - switch.gl_inet_mt6000_aeki_r
+          - switch.gl_inet_mt6000_aeki_2
+          - switch.gl_inet_mt6000_aeki_h
+          - switch.gl_inet_mt6000_aeki
+          # - switch.gl_inet_mt6000_aeki_g
+      sequence:
+        - repeat:
+            for_each: "{{ wifi_networks }}"
+            sequence:
+              - choose:
+                  - conditions:
+                      - condition: template
+                        value_template: "{{ is_state(repeat.item, 'on') }}"
+                    sequence:
+                      - action: switch.turn_off
+                        target:
+                          entity_id: "{{ repeat.item }}"
+                      - delay:
+                          seconds: 5
+                      - action: switch.turn_on
+                        target:
+                          entity_id: "{{ repeat.item }}"
+                      - delay:
+                          seconds: 5

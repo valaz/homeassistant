@@ -292,6 +292,14 @@ sections:
           action: more-info
 
       - type: tile
+        entity: script.flint_2_reload_wifi_networks
+        name: Reload Wi-Fi
+        color: orange
+        vertical: false
+        tap_action:
+          action: toggle
+
+      - type: tile
         entity: button.gl_inet_mt6000_reboot
         name: Reboot
         vertical: false
