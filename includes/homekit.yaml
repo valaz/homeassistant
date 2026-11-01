@@ -39,7 +39,7 @@
       - sensor.c_bedroom_pm25_density
       - binary_sensor.c_bedroom_closet_usage
       - binary_sensor.kitchen_motion_sensor_occupancy
-      - sensor.kitchen_motion_sensor_illuminance_lux
+      - sensor.kitchen_motion_sensor_illuminance
       - binary_sensor.c_hallway_carpet_usage
       - switch.c_65oled936_12_screen_state
       - switch.c_65oled936_12_ambilight_hue
@@ -51,7 +51,6 @@
       - switch.bedroom_monitor_lamp
       - switch.air_circulator_horizontally_oscillating
       - scene.tv_gaming
-      - scene.movies
     include_entity_globs:
       - binary_sensor.*_water_leak
       - binary_sensor.*_door_sensor_contact
@@ -66,9 +65,7 @@
       - cover.bedroom_left_cover
       - cover.bedroom_right_cover
       - light.bathroom_lamp
-      - light.gostinaia
       - light.65oled936_12_ambilight
-      - switch.livingroom_pc_plug
   entity_config:
     cover.bedroom_cover_group:
       name: "Шторы"
@@ -130,7 +127,7 @@
       name: "Шкаф"
     binary_sensor.kitchen_motion_sensor_occupancy:
       name: "Движение"
-    sensor.kitchen_motion_sensor_illuminance_lux:
+    sensor.kitchen_motion_sensor_illuminance:
       name: "Освещенность"
     binary_sensor.bathroom_window_sensor_contact:
       name: "Окно"
@@ -155,7 +152,7 @@
     binary_sensor.c_hallway_carpet_usage:
       name: "Ковёр"
     switch.c_kidsroom_sleep_mode:
-      name: "Лунный свет"
+      name: "Лунный режим"
     switch.bedroom_recuperator_plug:
       name: "Рекуператор"
     switch.bedroom_charging_dock_plug:
